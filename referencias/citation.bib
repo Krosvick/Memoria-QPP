@@ -1,0 +1,221 @@
+@InProceedings{preretrieval-idf,
+author="Zhao, Ying
+and Scholer, Falk
+and Tsegay, Yohannes",
+editor="Macdonald, Craig
+and Ounis, Iadh
+and Plachouras, Vassilis
+and Ruthven, Ian
+and White, Ryen W.",
+title="Effective Pre-retrieval Query Performance Prediction Using Similarity and Variability Evidence",
+booktitle="Advances in Information Retrieval",
+year="2008",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="52--64",
+abstract="Query performance prediction aims to estimate the quality of answers that a search system will return in response to a particular query. In this paper we propose a new family of pre-retrieval predictors based on information at both the collection and document level. Pre-retrieval predictors are important because they can be calculated from information that is available at indexing time; they are therefore more efficient than predictors that incorporate information obtained from actual search results. Experimental evaluation of our approach shows that the new predictors give more consistent performance than previously proposed pre-retrieval methods across a variety of data types and search tasks.",
+isbn="978-3-540-78646-7"
+}
+﻿@Article{idf-understanding,
+author={Robertson, Stephen},
+title={Understanding inverse document frequency: on theoretical arguments for IDF},
+journal={Journal of Documentation},
+year={2004},
+month={Jan},
+day={01},
+publisher={Emerald Group Publishing Limited},
+volume={60},
+number={5},
+pages={503-520},
+abstract={The term‐weighting function known as IDF was proposed in 1972, and has since been extremely widely used, usually as part of a TF*IDF function. It is often described as a heuristic, and many papers have been written (some based on Shannon's Information Theory) seeking to establish some theoretical basis for it. Some of these attempts are reviewed, and it is shown that the Information Theory approaches are problematic, but that there are good theoretical justifications of both IDF and TF*IDF in the traditional probabilistic model of information retrieval.},
+issn={0022-0418},
+doi={10.1108/00220410410560582},
+url={https://doi.org/10.1108/00220410410560582}
+}
+@inproceedings{predicting-performance,
+author = {Cronen-Townsend, Steve and Zhou, Yun and Croft, W. Bruce},
+title = {Predicting query performance},
+year = {2002},
+isbn = {1581135610},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/564376.564429},
+doi = {10.1145/564376.564429},
+abstract = {We develop a method for predicting query performance by computing the relative entropy between a query language model and the corresponding collection language model. The resulting clarity score measures the coherence of the language usage in documents whose models are likely to generate the query. We suggest that clarity scores measure the ambiguity of a query with respect to a collection of documents and show that they correlate positively with average precision in a variety of TREC test sets. Thus, the clarity score may be used to identify ineffective queries, on average, without relevance information. We develop an algorithm for automatically setting the clarity score threshold between predicted poorly-performing queries and acceptable queries and validate it using TREC data. In particular, we compare the automatic thresholds to optimum thresholds and also check how frequently results as good are achieved in sampling experiments that randomly assign queries to the two classes.},
+booktitle = {Proceedings of the 25th Annual International ACM SIGIR Conference on Research and Development in Information Retrieval},
+pages = {299–306},
+numpages = {8},
+keywords = {ambiguity, clarity, information theory, language models},
+location = {Tampere, Finland},
+series = {SIGIR '02}
+}
+@article{query-drift,
+author = {Shtok, Anna and Kurland, Oren and Carmel, David and Raiber, Fiana and Markovits, Gad},
+title = {Predicting Query Performance by Query-Drift Estimation},
+year = {2012},
+issue_date = {May 2012},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {30},
+number = {2},
+issn = {1046-8188},
+url = {https://doi.org/10.1145/2180868.2180873},
+doi = {10.1145/2180868.2180873},
+abstract = {Predicting query performance, that is, the effectiveness of a search performed in response to a query, is a highly important and challenging problem. We present a novel approach to this task that is based on measuring the standard deviation of retrieval scores in the result list of the documents most highly ranked. We argue that for retrieval methods that are based on document-query surface-level similarities, the standard deviation can serve as a surrogate for estimating the presumed amount of query drift in the result list, that is, the presence (and dominance) of aspects or topics not related to the query in documents in the list. Empirical evaluation demonstrates the prediction effectiveness of our approach for several retrieval models. Specifically, the prediction quality often transcends that of current state-of-the-art prediction methods.},
+journal = {ACM Trans. Inf. Syst.},
+month = may,
+articleno = {11},
+numpages = {35},
+keywords = {score distribution, query drift, Query-performance prediction}
+}
+@inproceedings{web-search-qpp,
+author = {Zhou, Yun and Croft, W. Bruce},
+title = {Query performance prediction in web search environments},
+year = {2007},
+isbn = {9781595935977},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/1277741.1277835},
+doi = {10.1145/1277741.1277835},
+abstract = {Current prediction techniques, which are generally designed for content-based queries and are typically evaluated on relatively homogenous test collections of small sizes, face serious challenges in web search environments where collections are significantly more heterogeneous and different types of retrieval tasks exist. In this paper, we present three techniques to address these challenges. We focus on performance prediction for two types of queries in web search environments: content-based and Named-Page finding. Our evaluation is mainly performed on the GOV2 collection. In addition to evaluating our models for the two types of queries separately, we consider a more challenging and realistic situation that the two types of queries are mixed together without prior information on query types. To assist prediction under the mixed-query situation, a novel query classifier is adopted. Results show that our prediction of web query performance is substantially more accurate than the current state-of-the-art prediction techniques. Consequently, our paper provides a practical approach to performance prediction in real-world web settings.},
+booktitle = {Proceedings of the 30th Annual International ACM SIGIR Conference on Research and Development in Information Retrieval},
+pages = {543–550},
+numpages = {8},
+keywords = {query classification, query performance prediction, web search},
+location = {Amsterdam, The Netherlands},
+series = {SIGIR '07}
+}
+@inproceedings{statistical-decision-theory-uef,
+author = {Shtok, Anna and Kurland, Oren and Carmel, David},
+title = {Using statistical decision theory and relevance models for query-performance prediction},
+year = {2010},
+isbn = {9781450301534},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/1835449.1835494},
+doi = {10.1145/1835449.1835494},
+abstract = {We present a novel framework for the query-performance prediction task. That is, estimating the effectiveness of a search performed in response to a query in lack of relevance judgments. Our approach is based on using statistical decision theory for estimating the utility that a document ranking provides with respect to an information need expressed by the query. To address the uncertainty in inferring the information need, we estimate utility by the expected similarity between the given ranking and those induced by relevance models; the impact of a relevance model is based on its presumed representativeness of the information need. Specific query-performance predictors instantiated from the framework substantially outperform state-of-the-art predictors over five TREC corpora.},
+booktitle = {Proceedings of the 33rd International ACM SIGIR Conference on Research and Development in Information Retrieval},
+pages = {259–266},
+numpages = {8},
+keywords = {statistical decision theory, relevance models, rank correlation, query-performance prediction},
+location = {Geneva, Switzerland},
+series = {SIGIR '10}
+}
+@article{zendel2024qpptk,
+  title={QPPTK@ TIREx: Simplified Query Performance Prediction for Ad-Hoc Retrieval Experiments},
+  author={Zendel, Oleg and Fr{\"o}be, Maik and Faggioli, Guglielmo},
+  journal={WOWS 2024},
+  pages={50},
+  year={2024}
+}
+@InProceedings{enhanced-evaluation,
+author="Faggioli, Guglielmo
+and Zendel, Oleg
+and Culpepper, J. Shane
+and Ferro, Nicola
+and Scholer, Falk",
+editor="Hiemstra, Djoerd
+and Moens, Marie-Francine
+and Mothe, Josiane
+and Perego, Raffaele
+and Potthast, Martin
+and Sebastiani, Fabrizio",
+title="An Enhanced Evaluation Framework for Query Performance Prediction",
+booktitle="Advances in  Information Retrieval",
+year="2021",
+publisher="Springer International Publishing",
+address="Cham",
+pages="115--129",
+abstract="Query Performance Prediction (QPP) has been studied extensively in the IR community over the last two decades. A by-product of this research is a methodology to evaluate the effectiveness of QPP techniques. In this paper, we re-examine the existing evaluation methodology commonly used for QPP, and propose a new approach. Our key idea is to model QPP performance as a distribution instead of relying on point estimates. Our work demonstrates important statistical implications, and overcomes key limitations imposed by the currently used correlation-based point-estimate evaluation approaches. We also explore the potential benefits of using multiple query formulations and ANalysis Of VAriance (ANOVA) modeling in order to measure interactions between multiple factors. The resulting statistical analysis combined with a novel evaluation framework demonstrates the merits of modeling QPP performance as distributions, and enables detailed statistical ANOVA models for comparative analyses to be created.",
+isbn="978-3-030-72113-8"
+}
+@inproceedings{Meng2023QPP,
+author = {Meng, Chuan and Arabzadeh, Negar and Aliannejadi, Mohammad and de Rijke, Maarten},
+title = {Query Performance Prediction: From Ad-hoc to Conversational Search},
+year = {2023},
+isbn = {9781450394086},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3539618.3591919},
+doi = {10.1145/3539618.3591919},
+abstract = {Query performance prediction (QPP) is a core task in information retrieval. The QPP task is to predict the retrieval quality of a search system for a query without relevance judgments. Research has shown the effectiveness and usefulness of QPP for ad-hoc search. Recent years have witnessed considerable progress in conversational search (CS). Effective QPP could help a CS system to decide an appropriate action to be taken at the next turn. Despite its potential, QPP for CS has been little studied. We address this research gap by reproducing and studying the effectiveness of existing QPP methods in the context of CS. While the task of passage retrieval remains the same in the two settings, a user query in CS depends on the conversational history, introducing novel QPP challenges. In particular, we seek to explore to what extent findings from QPP methods for ad-hoc search generalize to three CS settings: (i) estimating the retrieval quality of different query rewriting-based retrieval methods, (ii) estimating the retrieval quality of a conversational dense retrieval method, and (iii) estimating the retrieval quality for top ranks vs. deeper-ranked lists. Our findings can be summarized as follows: (i) supervised QPP methods distinctly outperform unsupervised counterparts only when a large-scale training set is available; (ii) point-wise supervised QPP methods outperform their list-wise counterparts in most cases; and (iii) retrieval score-based unsupervised QPP methods show high effectiveness in assessing the conversational dense retrieval method, ConvDR.},
+booktitle = {Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval},
+pages = {2583–2593},
+numpages = {11},
+keywords = {ad-hoc search, conversational search, query performance prediction},
+location = {Taipei, Taiwan},
+series = {SIGIR '23}
+}
+@INPROCEEDINGS{Query-difficulty-definition,
+  author={Mothe, Josiane and Laporte, Léa and Chifu, Adrian-Gabriel},
+  booktitle={2019 11th International Conference on Knowledge and Systems Engineering (KSE)}, 
+  title={Predicting Query Difficulty in IR: Impact of Difficulty Definition}, 
+  year={2019},
+  volume={},
+  number={},
+  pages={1-6},
+  abstract={While it exists information on about any topic on the web, we know from information retrieval (IR) evaluation programs that search systems fail to answer to some queries in an effective manner. System failure is associated to query difficulty in the IR literature. However, there is no clear definition of query difficulty. This paper investigates several ways of defining query difficulty and analyses the impact of these definitions on query difficulty prediction results. Our experiments show that the most stable definition across collections is a threshold-based definition of query difficulty classes.},
+  keywords={Q measurement;Information retrieval;Machine learning algorithms;Gain measurement;Weight measurement;Robustness;Correlation;Information retrieval;Query difficulty prediction;Query features},
+  doi={10.1109/KSE.2019.8919433},
+  ISSN={2164-2508},
+  month={Oct},
+}
+@inproceedings{humans-cant-predict,
+  title={Human-based query difficulty prediction},
+  author={Chifu, Adrian-Gabriel and D{\'e}jean, S{\'e}bastien and Mizzaro, Stefano and Mothe, Josiane},
+  booktitle={Advances in Information Retrieval: 39th European Conference on IR Research, ECIR 2017, Aberdeen, UK, April 8-13, 2017, Proceedings 39},
+  pages={343--356},
+  year={2017},
+  organization={Springer}
+}
+@inproceedings{microsoft-preretrieval,
+author = {Thomas, Paul and Scholer, Falk and Bailey, Peter and Moffat, Alistair},
+title = {Tasks, Queries, and Rankers in Pre-Retrieval Performance Prediction},
+year = {2017},
+isbn = {9781450363914},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3166072.3166079},
+doi = {10.1145/3166072.3166079},
+abstract = {Query performance prediction estimates the effectiveness of a query in advance of human judgements. Accurate prediction could be used, for example, to trigger special processing, select query variants, or choose whether to search at all.Prediction evaluations have not distinguished effects due to query wording from effects due to the underlying information need, nor from effects due to performance of the retrieval system itself. Here we use five rankers, 100 tasks, and 28,869 queries to distinguish these three effects over six pre-retrieval predictors. We see that task effects dominate those due to query or ranker; that many "query performance predictors" are in fact predicting task difficulty; and that this makes it difficult to use these algorithms.},
+booktitle = {Proceedings of the 22nd Australasian Document Computing Symposium},
+articleno = {11},
+numpages = {4},
+location = {Brisbane, QLD, Australia},
+series = {ADCS '17}
+}
+@InProceedings{correlation-depends-on-quality-of-dataset,
+author="Hauff, Claudia
+and Azzopardi, Leif
+and Hiemstra, Djoerd",
+editor="Boughanem, Mohand
+and Berrut, Catherine
+and Mothe, Josiane
+and Soule-Dupuy, Chantal",
+title="The Combination and Evaluation of Query Performance Prediction Methods",
+booktitle="Advances in Information Retrieval",
+year="2009",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="301--312",
+abstract="In this paper, we examine a number of newly applied methods for combining pre-retrieval query performance predictors in order to obtain a better prediction of the query's performance. However, in order to adequately and appropriately compare such techniques, we critically examine the current evaluation methodology and show how using linear correlation coefficients (i) do not provide an intuitive measure indicative of a method's quality, (ii) can provide a misleading indication of performance, and (iii) overstate the performance of combined methods. To address this, we extend the current evaluation methodology to include cross validation, report a more intuitive and descriptive statistic, and apply statistical testing to determine significant differences. During the course of a comprehensive empirical study over several TREC collections, we evaluate nineteen pre-retrieval predictors and three combination methods.",
+isbn="978-3-642-00958-7"
+}
+@inproceedings{wig-nqc-scored-configuration,
+author = {Tao, Yongquan and Wu, Shengli},
+title = {Query Performance Prediction By Considering Score Magnitude and Variance Together},
+year = {2014},
+isbn = {9781450325981},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/2661829.2661906},
+doi = {10.1145/2661829.2661906},
+abstract = {Query Performance prediction aims to evaluate the effectiveness of the results returned by a search system in response to a query without any relevance information. In this paper, we propose a method that considers both magnitude and variance of scores of the ranked list of results to measure the performance of a query. Using six different TREC test sets, we compare our predictor with three of the state-of-the-art techniques. The experimental results show that our method is very competitive. Pairwise comparisons with each of the three other methods show that our predictor performs better in more data sets.},
+booktitle = {Proceedings of the 23rd ACM International Conference on Conference on Information and Knowledge Management},
+pages = {1891–1894},
+numpages = {4},
+keywords = {query difficulty, query performance prediction, score distribution},
+location = {Shanghai, China},
+series = {CIKM '14}
+}
