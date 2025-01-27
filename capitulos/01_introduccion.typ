@@ -11,9 +11,11 @@
 
 == Contexto del proyecto
 \
-La predicción del rendimiento de consultas (QPP) ha emergido como una herramienta prometedora en los sistemas de recuperación de información (IR). La capacidad de predecir la calidad de los resultados de búsqueda antes de la ejecución de la consulta permite tanto optimizar los recursos como al mismo tiempo mejorar la experiencia de los usuarios. Sin embargo, la eficacia de los métodos QPP varía significativamente según el dominio, el tipo de consulta, e incluso los modelos de recuperación de información utilizados, algo que se evidencia especialmente en búsquedas ad-hoc. Esta variabilidad subraya la necesidad de evaluaciones robustas y reproducibles, que permitan comparar y contrastar diferentes enfoques de tal forma que se pueda establecer una línea base clara para futuras investigaciones. 
+La predicción del rendimiento de consultas (QPP) ha emergido como una herramienta prometedora en los sistemas de recuperación de información (IR). La capacidad de predecir la calidad de los resultados de búsqueda antes de la ejecución de la consulta permite tanto optimizar los recursos como al mismo tiempo mejorar la experiencia de los usuarios. Sin embargo, la eficacia de los métodos QPP varía significativamente según el dominio, el tipo de consulta, e incluso los modelos de recuperación de información utilizados, algo que se evidencia especialmente en búsquedas ad-hoc. Esta variabilidad subraya la necesidad de evaluaciones robustas y reproducibles, que permitan comparar y contrastar diferentes enfoques de tal forma que se pueda establecer una línea base clara para futuras investigaciones.
 
-La motivación sobre el campo de Query Performance Prediction (QPP) a aumentado  en los últimos años debido a los avances en el campo de la inteligencia artificial, específicamente en el área del procesado de lenguaje natural (NLP), donde nuevos modelos de lenguaje como BERT, GPT entre otros han demostrado ser muy efectivos en tareas de recuperación de información mediante el uso de técnicas especializadas como RAG (Retrieval augmented generation). Bajo esta premisa se abre un nuevo paradigma de métodos QPP basados en consultas conversacionales, donde la interacción entre el usuario y el sistema de recuperación de información se da de forma más natural. Es por esto por lo que es importante establecer una línea base sobre los enfoques tradicionales para asegurar un avance en las futuras investigaciones de métodos QPP basados en inteligencia artificial.
+La complejidad del problema de QPP se magnifica por la diversidad de escenarios de aplicación y la heterogeneidad de los datos en diferentes dominios. Los sistemas de recuperación de información modernos deben manejar consultas que varían desde preguntas simples hasta construcciones complejas en lenguaje natural, cada una con sus propios desafíos de predicción de rendimiento. Además, la calidad de los resultados puede verse afectada por factores como la ambigüedad del lenguaje, la especificidad de la consulta, y la cobertura del tema en la colección de documentos.
+
+La motivación sobre el campo de Query Performance Prediction (QPP) ha aumentado en los últimos años debido a los avances en el campo de la inteligencia artificial, específicamente en el área del procesado de lenguaje natural (NLP), donde nuevos modelos de lenguaje como BERT, GPT entre otros han demostrado ser muy efectivos en tareas de recuperación de información mediante el uso de técnicas especializadas como RAG (Retrieval augmented generation). Bajo esta premisa se abre un nuevo paradigma de métodos QPP basados en consultas conversacionales, donde la interacción entre el usuario y el sistema de recuperación de información se da de forma más natural. Es por esto por lo que es relevante establecer una línea base sobre los enfoques tradicionales para asegurar un avance en las futuras investigaciones de métodos QPP basados en inteligencia artificial.
 
 \
 == Objetivo General
@@ -31,3 +33,22 @@ Evaluar comparativamente métodos de Query Performance Prediction (QPP) para bú
 
 \
 == Estructura del trabajo de titulo
+\
+El presente trabajo está organizado en siete capítulos, además de incluir las referencias bibliográficas que detallan todos los documentos citados y utilizados en su elaboración. Los capítulos son los siguientes:
+
+*Capítulo I: Introducción.* Presenta el contexto y motivación del proyecto, junto con los objetivos general y específicos planteados para su realización. Se describe la importancia de la predicción del rendimiento de consultas (QPP) en sistemas de recuperación de información y la necesidad de una evaluación comparativa robusta.
+
+*Capítulo II: Antecedentes.* Proporciona el marco teórico necesario para comprender el trabajo, incluyendo conceptos fundamentales sobre sistemas de recuperación de información, predicción del rendimiento de consultas, métricas de evaluación y las herramientas utilizadas en el proyecto.
+
+*Capítulo III: Trabajos Relacionados.* Revisa y analiza los principales métodos QPP desarrollados en la literatura, enfocándose en aquellos no basados en inteligencia artificial. Se examinan sus características, fortalezas y limitaciones, estableciendo el estado del arte en el campo.
+
+*Capítulo IV: Diseño de la Evaluación Comparativa.* Define la metodología experimental, incluyendo la selección de métodos QPP, datasets, métricas de evaluación y el entorno experimental. Se detalla la configuración técnica y los procedimientos para garantizar la reproducibilidad de los experimentos.
+
+*Capítulo V: Implementación.* Describe en detalle la implementación de los métodos QPP seleccionados, la configuración del entorno experimental y los procesos de validación. Se incluyen aspectos técnicos sobre la integración de herramientas y la ejecución de experimentos.
+
+*Capítulo VI: Análisis de Resultados.* Presenta y analiza los resultados obtenidos en la evaluación comparativa, examinando el rendimiento de cada método QPP en diferentes escenarios y datasets. Se discuten las implicaciones de los hallazgos y se comparan con resultados previos de la literatura.
+
+*Capítulo VII: Conclusiones y Trabajo Futuro.* Resume los principales hallazgos y contribuciones del proyecto, estableciendo la línea base para futuras investigaciones en QPP. Se identifican limitaciones del estudio y se proponen direcciones para investigaciones futuras.
+
+Finalmente, se incluyen las referencias bibliográficas que sustentan el trabajo realizado, asegurando la trazabilidad y reproducibilidad de la investigación.
+

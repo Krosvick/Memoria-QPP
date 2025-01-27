@@ -38,7 +38,8 @@
 ) = {
   // Configuración de página para la parte pretextual
   set page(
-    paper: "us-oficio",
+    width: 21.5cm,
+    height: 33cm,
     margin: (
       top: 2.8cm,
       bottom: 2.8cm,
@@ -64,6 +65,10 @@
   // Configuración de índice de materias
   set outline(
     indent: 1em,
+  )
+
+  set list(
+    indent: 20pt,
   )
   
   // Configuración de encabezados
@@ -122,7 +127,7 @@
           gutter: 1em,
           par(justify: true, leading: 0.5em)[#set text(hyphenate: false); #text(titulo, weight: "bold", size: 14pt)],
           v(5em),
-          align(center)[#text("Trabajo de memoria para obtener el título de:", weight: "bold")],
+          align(left)[#text("Trabajo de memoria para obtener el título de:", weight: "bold")],
           align(center)[#text(tipo_ingeniero, weight: "bold")],
           v(10em),
           {
@@ -188,7 +193,12 @@
 #let pretextual-heading(body, is_center: false) = {
   set heading(
     numbering: none,
-    outlined: false
+    outlined: false,
+    bookmarked: true
+  )
+  set text(
+    size: 0.714em,
+    weight: "bold"
   )
   if is_center {
     align(center)[#heading(body)]

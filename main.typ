@@ -10,6 +10,7 @@
   header: none,
   numbering: ("i", "1", "i")
 )
+
 // Empezamos sin numeración para la portada
 
 #show: proyecto.with(
@@ -46,6 +47,7 @@
 #show outline.entry.where(
   level: 1
 ): it => {
+  set text(size: 12pt, weight: "bold")
   v(12pt, weak: true)
   it
 }
