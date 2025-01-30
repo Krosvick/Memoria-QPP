@@ -99,7 +99,9 @@ Finalmente el rango intermedio tenemos la ocurrencia de algunos _outliers_, como
 
 Los metodos QPP evaluados en está sección fueron contrastados directamente con los resultados de la evaluación de la sección anterior realizada en el dataset _antique test_ utilizando el coeficiente de correlación tau de Kendall.
 
-La @fig:Correlacion_qpp_kendall muestra el resultado general de la correlación de los métodos QPP a traves de las dos metricas nDCG\@10 y AP. Empezando por el lado izquierdo del mapa de correlación tenemos los dos métodos pre-retrieval IDF y SCQ en sus variantes promedio y máximo, a posteriori, el resto de los métodos son de tipo post-retrieval, terminando por las variantes UEF de estos.
+La @fig:Correlacion_qpp_kendall muestra el resultado general de la correlación en el tau de Kendall para los métodos QPP a traves de las dos metricas nDCG\@10 y AP. Empezando por el lado izquierdo del mapa de correlación tenemos los dos métodos pre-retrieval IDF y SCQ en sus variantes promedio y máximo, a posteriori, el resto de los métodos son de tipo post-retrieval, terminando por las variantes UEF de estos.
+
+También fueron computadas las correlaciones con el coeficiente de Pearson y Spearman, pero no se presentan en esta sección debido a que no presentan resultados significativamente distintos a los obtenidos en el tau de Kendall. Estos resultados se encuentran en el Anexo.
 
 Se observa que la menor de las correlaciones la presenta el método IDF, el cual presenta una correlación no mayor de 0.05 en todas sus variantes. Este resultado viene fuertemente ligado al preprocesado tanto de los documentos como de las consultas, puesto que anteriormente el pipeline de procesado utilizaba el _stemmer_ incorporado por pyterrier, el cual es el clasico _Porter Stemmer_.
 Los resultados de este fueron puestos bajo la lupa para corroborar su buen funcionamiento dando los siguientes resultados:

@@ -1,3 +1,44 @@
+@inproceedings{web-search-qpp,
+author = {Zhou, Yun and Croft, W. Bruce},
+title = {Query performance prediction in web search environments},
+year = {2007},
+isbn = {9781595935977},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/1277741.1277835},
+doi = {10.1145/1277741.1277835},
+abstract = {Current prediction techniques, which are generally designed for content-based queries and are typically evaluated on relatively homogenous test collections of small sizes, face serious challenges in web search environments where collections are significantly more heterogeneous and different types of retrieval tasks exist. In this paper, we present three techniques to address these challenges. We focus on performance prediction for two types of queries in web search environments: content-based and Named-Page finding. Our evaluation is mainly performed on the GOV2 collection. In addition to evaluating our models for the two types of queries separately, we consider a more challenging and realistic situation that the two types of queries are mixed together without prior information on query types. To assist prediction under the mixed-query situation, a novel query classifier is adopted. Results show that our prediction of web query performance is substantially more accurate than the current state-of-the-art prediction techniques. Consequently, our paper provides a practical approach to performance prediction in real-world web settings.},
+booktitle = {Proceedings of the 30th Annual International ACM SIGIR Conference on Research and Development in Information Retrieval},
+pages = {543–550},
+numpages = {8},
+keywords = {query classification, query performance prediction, web search},
+location = {Amsterdam, The Netherlands},
+series = {SIGIR '07}
+}
+@inproceedings{Meng2023QPP,
+author = {Meng, Chuan and Arabzadeh, Negar and Aliannejadi, Mohammad and de Rijke, Maarten},
+title = {Query Performance Prediction: From Ad-hoc to Conversational Search},
+year = {2023},
+isbn = {9781450394086},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3539618.3591919},
+doi = {10.1145/3539618.3591919},
+abstract = {Query performance prediction (QPP) is a core task in information retrieval. The QPP task is to predict the retrieval quality of a search system for a query without relevance judgments. Research has shown the effectiveness and usefulness of QPP for ad-hoc search. Recent years have witnessed considerable progress in conversational search (CS). Effective QPP could help a CS system to decide an appropriate action to be taken at the next turn. Despite its potential, QPP for CS has been little studied. We address this research gap by reproducing and studying the effectiveness of existing QPP methods in the context of CS. While the task of passage retrieval remains the same in the two settings, a user query in CS depends on the conversational history, introducing novel QPP challenges. In particular, we seek to explore to what extent findings from QPP methods for ad-hoc search generalize to three CS settings: (i) estimating the retrieval quality of different query rewriting-based retrieval methods, (ii) estimating the retrieval quality of a conversational dense retrieval method, and (iii) estimating the retrieval quality for top ranks vs. deeper-ranked lists. Our findings can be summarized as follows: (i) supervised QPP methods distinctly outperform unsupervised counterparts only when a large-scale training set is available; (ii) point-wise supervised QPP methods outperform their list-wise counterparts in most cases; and (iii) retrieval score-based unsupervised QPP methods show high effectiveness in assessing the conversational dense retrieval method, ConvDR.},
+booktitle = {Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval},
+pages = {2583–2593},
+numpages = {11},
+keywords = {ad-hoc search, conversational search, query performance prediction},
+location = {Taipei, Taiwan},
+series = {SIGIR '23}
+}
+@article{zendel2024qpptk,
+  title={QPPTK@ TIREx: Simplified Query Performance Prediction for Ad-Hoc Retrieval Experiments},
+  author={Zendel, Oleg and Fr{\"o}be, Maik and Faggioli, Guglielmo},
+  journal={WOWS 2024},
+  pages={50},
+  year={2024}
+}
 @InProceedings{preretrieval-idf,
 author="Zhao, Ying
 and Scholer, Falk
@@ -68,23 +109,6 @@ articleno = {11},
 numpages = {35},
 keywords = {score distribution, query drift, Query-performance prediction}
 }
-@inproceedings{web-search-qpp,
-author = {Zhou, Yun and Croft, W. Bruce},
-title = {Query performance prediction in web search environments},
-year = {2007},
-isbn = {9781595935977},
-publisher = {Association for Computing Machinery},
-address = {New York, NY, USA},
-url = {https://doi.org/10.1145/1277741.1277835},
-doi = {10.1145/1277741.1277835},
-abstract = {Current prediction techniques, which are generally designed for content-based queries and are typically evaluated on relatively homogenous test collections of small sizes, face serious challenges in web search environments where collections are significantly more heterogeneous and different types of retrieval tasks exist. In this paper, we present three techniques to address these challenges. We focus on performance prediction for two types of queries in web search environments: content-based and Named-Page finding. Our evaluation is mainly performed on the GOV2 collection. In addition to evaluating our models for the two types of queries separately, we consider a more challenging and realistic situation that the two types of queries are mixed together without prior information on query types. To assist prediction under the mixed-query situation, a novel query classifier is adopted. Results show that our prediction of web query performance is substantially more accurate than the current state-of-the-art prediction techniques. Consequently, our paper provides a practical approach to performance prediction in real-world web settings.},
-booktitle = {Proceedings of the 30th Annual International ACM SIGIR Conference on Research and Development in Information Retrieval},
-pages = {543–550},
-numpages = {8},
-keywords = {query classification, query performance prediction, web search},
-location = {Amsterdam, The Netherlands},
-series = {SIGIR '07}
-}
 @inproceedings{statistical-decision-theory-uef,
 author = {Shtok, Anna and Kurland, Oren and Carmel, David},
 title = {Using statistical decision theory and relevance models for query-performance prediction},
@@ -102,12 +126,22 @@ keywords = {statistical decision theory, relevance models, rank correlation, que
 location = {Geneva, Switzerland},
 series = {SIGIR '10}
 }
-@article{zendel2024qpptk,
-  title={QPPTK@ TIREx: Simplified Query Performance Prediction for Ad-Hoc Retrieval Experiments},
-  author={Zendel, Oleg and Fr{\"o}be, Maik and Faggioli, Guglielmo},
-  journal={WOWS 2024},
-  pages={50},
-  year={2024}
+@inproceedings{pyterrier,
+author = {Macdonald, Craig and Tonellotto, Nicola and MacAvaney, Sean and Ounis, Iadh},
+title = {PyTerrier: Declarative Experimentation in Python from BM25 to Dense Retrieval},
+year = {2021},
+isbn = {9781450384469},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3459637.3482013},
+doi = {10.1145/3459637.3482013},
+abstract = {PyTerrier is a Python-based retrieval framework for expressing simple and complex information retrieval (IR) pipelines in a declarative manner. While making use of the long-established Terrier IR platform for basic text indexing and retrieval, its salient utility comes from its expressive Python operators, which allow for individual IR operations to be pipelined and combined in different flexible manners as requested by the search application. Each operation applies a transformation upon a dataframe, while operators are defined with clear semantics in relational algebra. Going further, we have recently expanded the PyTerrier framework to include additional support for state-of-the-art BERT-based text re-rankers (such as EPIC) and dense retrieval implementations (such as ANCE and ColBERT). Transformer pipelines can be tuned and evaluated in a declarative manner. To increase the reusability of this framework as a resource for the IR community, PyTerrier provides easy access to a variety of standard benchmark datasets, including pre-built indices. Finally, we highlight the advantages of such a framework for information retrieval researchers and educators.},
+booktitle = {Proceedings of the 30th ACM International Conference on Information \& Knowledge Management},
+pages = {4526–4533},
+numpages = {8},
+keywords = {dense retrieval, experimentation, neural ranking},
+location = {Virtual Event, Queensland, Australia},
+series = {CIKM '21}
 }
 @InProceedings{enhanced-evaluation,
 author="Faggioli, Guglielmo
@@ -129,23 +163,6 @@ address="Cham",
 pages="115--129",
 abstract="Query Performance Prediction (QPP) has been studied extensively in the IR community over the last two decades. A by-product of this research is a methodology to evaluate the effectiveness of QPP techniques. In this paper, we re-examine the existing evaluation methodology commonly used for QPP, and propose a new approach. Our key idea is to model QPP performance as a distribution instead of relying on point estimates. Our work demonstrates important statistical implications, and overcomes key limitations imposed by the currently used correlation-based point-estimate evaluation approaches. We also explore the potential benefits of using multiple query formulations and ANalysis Of VAriance (ANOVA) modeling in order to measure interactions between multiple factors. The resulting statistical analysis combined with a novel evaluation framework demonstrates the merits of modeling QPP performance as distributions, and enables detailed statistical ANOVA models for comparative analyses to be created.",
 isbn="978-3-030-72113-8"
-}
-@inproceedings{Meng2023QPP,
-author = {Meng, Chuan and Arabzadeh, Negar and Aliannejadi, Mohammad and de Rijke, Maarten},
-title = {Query Performance Prediction: From Ad-hoc to Conversational Search},
-year = {2023},
-isbn = {9781450394086},
-publisher = {Association for Computing Machinery},
-address = {New York, NY, USA},
-url = {https://doi.org/10.1145/3539618.3591919},
-doi = {10.1145/3539618.3591919},
-abstract = {Query performance prediction (QPP) is a core task in information retrieval. The QPP task is to predict the retrieval quality of a search system for a query without relevance judgments. Research has shown the effectiveness and usefulness of QPP for ad-hoc search. Recent years have witnessed considerable progress in conversational search (CS). Effective QPP could help a CS system to decide an appropriate action to be taken at the next turn. Despite its potential, QPP for CS has been little studied. We address this research gap by reproducing and studying the effectiveness of existing QPP methods in the context of CS. While the task of passage retrieval remains the same in the two settings, a user query in CS depends on the conversational history, introducing novel QPP challenges. In particular, we seek to explore to what extent findings from QPP methods for ad-hoc search generalize to three CS settings: (i) estimating the retrieval quality of different query rewriting-based retrieval methods, (ii) estimating the retrieval quality of a conversational dense retrieval method, and (iii) estimating the retrieval quality for top ranks vs. deeper-ranked lists. Our findings can be summarized as follows: (i) supervised QPP methods distinctly outperform unsupervised counterparts only when a large-scale training set is available; (ii) point-wise supervised QPP methods outperform their list-wise counterparts in most cases; and (iii) retrieval score-based unsupervised QPP methods show high effectiveness in assessing the conversational dense retrieval method, ConvDR.},
-booktitle = {Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval},
-pages = {2583–2593},
-numpages = {11},
-keywords = {ad-hoc search, conversational search, query performance prediction},
-location = {Taipei, Taiwan},
-series = {SIGIR '23}
 }
 @INPROCEEDINGS{Query-difficulty-definition,
   author={Mothe, Josiane and Laporte, Léa and Chifu, Adrian-Gabriel},
@@ -327,6 +344,25 @@ numpages = {10},
 keywords = {query performance prediction, query suggestions, user ratings},
 location = {Toronto, ON, Canada},
 series = {CIKM '10}
+}
+@article{bm25,
+author = {Whissell, John S. and Clarke, Charles L. A.},
+title = {Improving document clustering using Okapi BM25 feature weighting},
+year = {2011},
+issue_date = {Oct 2011},
+publisher = {Kluwer Academic Publishers},
+address = {USA},
+volume = {14},
+number = {5},
+issn = {1386-4564},
+url = {https://doi.org/10.1007/s10791-011-9163-y},
+doi = {10.1007/s10791-011-9163-y},
+abstract = {We investigate the effect of feature weighting on document clustering, including a novel investigation of Okapi BM25 feature weighting. Using eight document datasets and 17 well-established clustering algorithms we show that the benefit of tf-idf weighting over tf weighting is heavily dependent on both the dataset being clustered and the algorithm used. In addition, binary weighting is shown to be consistently inferior to both tf-idf weighting and tf weighting. We investigate clustering using both BM25 term saturation in isolation and BM25 term saturation with idf, confirming that both are superior to their non-BM25 counterparts under several common clustering quality measures. Finally, we investigate estimation of the k1 BM25 parameter when clustering. Our results indicate that typical values of k1 from other IR tasks are not appropriate for clustering; k1 needs to be higher.},
+journal = {Inf. Retr.},
+month = oct,
+pages = {466–487},
+numpages = {22},
+keywords = {Document clustering, Feature weighting, Okapi BM25}
 }
 @Inbook{correlation-methods,
 author="Forthofer, Ron N.

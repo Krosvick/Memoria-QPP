@@ -10,15 +10,62 @@
 = IMPLEMENTACIÓN
 
 \
-Para iniciar la implementación del entorno de evaluación se precisa de una serie de componentes para realizar tanto el procesado de consultas como el manejo de documentos que respondan y tengan relevancia ante estas. Tradicionalmente esto se ha realizado mediante el uso de sistemas de recuperación de información (IR) que permiten la recuperación de documentos relevantes para una consulta de manera eficiente.
+La implementación del entorno de evaluación representa la materialización del diseño experimental previamente descrito. Este capítulo detalla los aspectos técnicos y prácticos del desarrollo, abordando desde la configuración del entorno hasta la implementación específica de cada componente del sistema.
 
-Sin embargo, y debido a la antiguedad del campo, existe una amplia gama de metodos que varian en su grado de complejidad y en su rendimiento, por ende, se opto implementar un sistema de recuperación de información basado en el algoritmo BM25, que es un algoritmo de recuperación de información que se basa en la teoría de la probabilidad, el cual cuenta con un amplio historial, no solo en el campo de la recuperación de información, sino que tambien en la evaluación de métodos de rendimiento de consultas (QPP).
+El desarrollo se fundamenta en tres pilares principales: el sistema de recuperación de información, la implementación de los métodos QPP, y el framework de evaluación. Como se puede observar en la @tbl:tabla-componentes, cada uno de estos componentes requiere consideraciones técnicas específicas y se integran para formar un sistema cohesivo y reproducible.
 
-Adicionalmente, y de manera separada se encuentra la necesidad de implementar un sistema de indexación de documentos, que permita la recuperación de documentos relevantes para una consulta de manera eficiente. Estos dos ultimos prerequisitos, justifican la utilización de la libreria Pyterrier, la cual permite la implementación de sistemas de recuperación de información y de indexación de documentos, en un solo entorno unificado e integrado. 
+#figure(
+  table(
+    columns: (auto, 1fr),
+    inset: 10pt,
+    stroke: (x: none),
+    align: left + horizon,
+    
+    [*Componente*], [*Consideraciones principales*],
+    
+    [Sistema de recuperación], [
+      - Implementación de BM25 como algoritmo base
+      - Indexación eficiente de documentos
+      - Procesamiento de consultas
+    ],
+    
+    [Métodos QPP], [
+      - Implementación de predictores pre y post-retrieval
+      - Manejo de dependencias entre componentes
+      - Cálculo eficiente de estadísticas
+    ],
+    
+    [Framework de evaluación], [
+      - Procesamiento de juicios de relevancia
+      - Cálculo de métricas de evaluación
+      - Análisis de correlaciones
+      - Generación de visualizaciones
+    ],
+  ),
+  caption: "Componentes principales del sistema implementado",
+) <tabla-componentes>
 
-En la se puede observar el diagrama de componentes general del entorno de evaluación propuesto, en el cual se puede apreciar la interacción entre los distintos componentes de recuperación de información clasicos como el BM25, indexación de documentos, procesamiento de consultas y evaluación de métodos de QPP. Es relevante resaltar que el acceso a los conjuntos de datos tambien es realizado mediante la libreria pyTerrier, la cual cuenta con una integración con otra libreria, IR-datasets, la cual permite el acceso a una amplia gama de conjuntos de datos clasicos de recuperación de información junto a sus consultas y respectivos juicios de relevancia.
+La implementación se realizó priorizando la modularidad y la reproducibilidad, utilizando herramientas y bibliotecas ampliamente reconocidas en el campo de la recuperación de información. El sistema se desarrolló completamente en Python, aprovechando un conjunto de bibliotecas especializadas cuyas funciones principales se detallan en la @tbl:tabla-tecnologias. Estas herramientas fueron seleccionadas por su madurez, documentación y amplia adopción en la comunidad de recuperación de información.
 
-En si, el protocolo estandar de evaluación de métodos de QPP, como se puede apreciar en la, cuenta de una relativa complejidad, con muchas partes sujetas a modificaciones y ajustes que pueden repercutir en los resultados finales de la evaluación.
+#figure(
+  table(
+    columns: (auto, auto, auto),
+    inset: 10pt,
+    stroke: (x: none),
+    align: left + horizon,
+    
+    [*Aspecto*], [*Herramienta/Biblioteca*], [*Propósito*],
+    
+    [Recuperación], [PyTerrier], [Indexación y búsqueda de documentos],
+    [Datasets], [ir_datasets], [Acceso a colecciones estándar],
+    [Evaluación], [ir_measures], [Cálculo de métricas IR],
+    [Estadísticas], [scipy, numpy], [Análisis de correlaciones],
+    [Visualización], [matplotlib, seaborn], [Generación de gráficos],
+  ),
+  caption: "Stack tecnológico principal",
+) <tabla-tecnologias>
+
+A continuación, se detallan los aspectos específicos de la implementación, comenzando con la configuración del entorno experimental y continuando con la implementación de cada componente del sistema.
 
 \
 == Configuración del entorno experimental
@@ -129,10 +176,10 @@ DATASET_FORMATS = {
         },
         "binary_threshold": 3,  # Puntajes >= 3 son considerados relevantes para las metricas binarias
         "gain_values": {  # Valores de ganancia para nDCG
-            1: 0.0,
-            2: 0.0,
-            3: 0.5,
-            4: 1.0
+            1: 0,
+            2: 1,
+            3: 2,
+            4: 3
         }
     }
     ```
@@ -215,7 +262,7 @@ En esta categoria se considuro una mayor gama de predictores, desde metodos semi
 ) <codigo_wig>
 
 La @fig:codigo_wig muestra la implementación del método post-retrieval WIG, en este podemos identificar tanto el uso del indice invertido como el resultado de el puntaje del modelo de recuperación de información frente a toda la colección como se puede apreciar en la @eqt:wig-equation. 
-Adicionalmente se puede observar parametros como el tamaño de la lista de documentos a considerar, el cual fue definido como 10 para WIG y en 100 para NQC bajo la recomendación de la literatura. @web-search-qpp @wig-nqc-scored-configuration @query-drift Para finalizar, tambien cabe mencionar que todas los puntajes fueron considerando el puntaje promedio de los 1000 primeros documentos de la lista de resultados.
+Adicionalmente se puede observar parametros como el tamaño de la lista de documentos a considerar, el cual fue definido como 5 para WIG y en 200 para NQC bajo la recomendación de la literatura y nuestros propios experimentos. @web-search-qpp @wig-nqc-scored-configuration @query-drift Para finalizar, tambien cabe mencionar que todas los puntajes fueron considerando el puntaje promedio de los 1000 primeros documentos de la lista de resultados.
 
 
 \
@@ -255,4 +302,70 @@ Para facilitar la interpretación de los resultados, se implementaron tres tipos
 
 \
 == Pruebas de validación
+
+La validación exhaustiva del sistema implementado se realizó mediante una suite completa de pruebas unitarias, diseñada para verificar el correcto funcionamiento de cada componente del entorno de evaluación. Se desarrolló un framework de pruebas automatizado que permite la ejecución sistemática de casos de prueba y la generación de informes detallados.
+
+=== Estructura de las pruebas
+
+Las pruebas unitarias se organizaron en siete módulos principales, cada uno enfocado en un componente específico del sistema:
+
+#figure(
+  table(
+    columns: (auto, 1fr),
+    inset: 10pt,
+    stroke: (x: none),
+    align: left + horizon,
+    
+    [*Módulo de prueba*], [*Aspectos evaluados*],
+    
+    [QPPCorrelationAnalyzer], [Análisis de correlaciones, generación de visualizaciones y reportes estadísticos],
+    [Evaluator], [Cálculo de métricas de evaluación (nDCG, AP)],
+    [Clarity], [Implementación del predictor Clarity, incluyendo cálculos de KL-divergence],
+    [NQC], [Funcionalidad del predictor NQC y cálculos de scores normalizados],
+    [WIG], [Implementación del predictor WIG y procesamiento de scores],
+    [IDF], [Cálculos de IDF y variantes de agregación],
+    [SCQ], [Implementación del predictor SCQ y manejo de términos],
+  ),
+  caption: "Módulos principales de pruebas unitarias",
+) <tabla-modulos-prueba>
+
 \
+
+=== Metodología de validación
+
+La validación se realizó mediante un enfoque sistemático que incluye:
+
+- *Pruebas de casos límite*: Verificación del comportamiento del sistema ante consultas vacías, términos desconocidos y valores extremos.
+- *Validación de consistencia*: Comprobación de la coherencia en el procesamiento de términos y el stemming.
+- *Pruebas de integración*: Verificación de la correcta interacción entre componentes, especialmente en el análisis de correlaciones.
+- *Validación de métricas*: Comprobación de cálculos de nDCG y AP contra valores conocidos.
+
+=== Resultados de la validación
+
+La ejecución completa de la suite de pruebas, que comprende 50 casos de prueba distribuidos entre los diferentes módulos, demostró la robustez del sistema implementado. Como se evidencia en los resultados:
+
+- Tasa de éxito del 100% en todos los módulos de prueba
+- Tiempo total de ejecución de 11.27 segundos
+- Cobertura completa de todos los componentes críticos del sistema
+
+#figure(
+  table(
+    columns: (auto, auto, auto),
+    inset: 10pt,
+    stroke: (x: none),
+    align: left + horizon,
+    
+    [*Componente*], [*Pruebas ejecutadas*], [*Tiempo de ejecución (s)*],
+    
+    [QPPCorrelationAnalyzer], [10], [8.25],
+    [Evaluator], [6], [0.05],
+    [Clarity], [8], [0.03],
+    [NQC], [6], [0.01],
+    [WIG], [7], [0.01],
+    [IDF], [7], [0.01],
+    [SCQ], [6], [0.01],
+  ),
+  caption: "Resultados de ejecución por componente",
+) <tabla-resultados-pruebas>
+
+La validación exhaustiva realizada confirma la fiabilidad y precisión del entorno de evaluación implementado, proporcionando una base sólida para los experimentos subsiguientes. El sistema demostró ser robusto ante diversos escenarios de prueba, manteniendo la consistencia en el procesamiento de consultas y el cálculo de métricas de evaluación.

@@ -254,7 +254,7 @@ De esta forma, la selección de datasets con características bien definidas ase
 \
 En esta sección se describe la configuración del entorno experimental desarrollado para llevar a cabo la evaluación comparativa de los métodos de Query Performance Prediction (QPP), incluyendo el flujo de los experimentos, las configuraciones técnicas específicas, y las métricas empleadas para la evaluación.
 
-El entorno experimental está diseñado para garantizar la reproducibilidad, flexibilidad y transparencia. Para lograrlo, se ha implementado un entorno basado en Docker, que permite ejecutar los experimentos de manera consistente y controlada, sin depender de configuraciones específicas de hardware o software.
+El entorno experimental está diseñado para garantizar la reproducibilidad, flexibilidad y transparencia. Para lograrlo, se ha implementado un entorno basado en capas, y reproducible en Docker, que permite ejecutar los experimentos de manera consistente y controlada, sin depender de configuraciones específicas de hardware o software.
 
 \
 === Flujo del sistema
@@ -303,13 +303,15 @@ Como se puede apreciar en la @fig:diagrama_general, el diseño experimental sigu
 
 \
 -	*Preparación de Datasets:* Los datasets seleccionados, como Cranfield o Antique, se descargan utilizando la librería ir_datasets y se preprocesan en el entorno Docker, este proceso incluye la extracción de consultas, preparación de los juicios de relevancia (qrels) y el formateo adecuado para su uso con PyTerrier.
--	*Indexado de Datasets:* Los datasets se indexan utilizando PyTerrier, creando estructuras de datos eficientes para la recuperación de información. Es también en este paso donde se guardan metadatos de los datasets, como la frecuencia de los términos en los documentos como la frecuencia de estos en la colección. Además, se hace uso del ‟Stemmer” de Snowball sobre los documentos y consultas, para conseguir resultados más precisos en la evaluación.
+-	*Indexado de Datasets:* Los datasets se indexan utilizando PyTerrier, creando estructuras de datos eficientes para la recuperación de información. Es también en este paso donde se guardan metadatos de los datasets, como la frecuencia de los términos en los documentos como la frecuencia de estos en la colección. Además, se hace uso del ‟Stemmer" de Snowball sobre los documentos y consultas, para conseguir resultados más precisos en la evaluación.
 -	*Configuración de Modelos de Recuperación:* Configuración de modelos de recuperación como estándar como BM25 en PyTerrier con parámetros predefinidos, asegurando una base consistente para la evaluación de los métodos QPP.
 -	*Implementación de los métodos QPP:* Los métodos seleccionados, como, por ejemplo, IDF, SCQ o NQC, se implementan mediante scripts en Python dentro del contenedor Docker, todos estos utilizan una interfaz similar dentro del sistema, permitiendo una ejecución estandarizada de los métodos.
 -	*Ejecución de los métodos de predicción:* Los experimentos se realizan mediante un script principal que realiza múltiples iteraciones por método y dataset, asegurando estabilidad y fiabilidad de los resultados.
--	*Evaluación utilizando juicios de relevancia (qrels):* Se realiza una evaluación del rendimiento de las consultas utilizando la librería de ir_measures sobre el sistema de recuperación implementado, esto es el ‟ground truth” o "verdadero valor" del rendimiento de la consulta en el sistema de recuperación implementado. Posteriormente los resultados se almacenan en formato estructurado para su posterior análisis.
--	*Evaluación utilizando metricas de correlación:* Se realiza una evaluación de la correlación entre los puntajes de los predictores y las métricas IR, utilizando la librería de Scipy, para obtener una medida de la efectividad de los predictores QPP con relación al ‟ground truth”.
+-	*Evaluación utilizando juicios de relevancia (qrels):* Se realiza una evaluación del rendimiento de las consultas utilizando la librería de ir_measures sobre el sistema de recuperación implementado, esto es el ‟ground truth" o "verdadero valor" del rendimiento de la consulta en el sistema de recuperación implementado. Posteriormente los resultados se almacenan en formato estructurado para su posterior análisis.
+-	*Evaluación utilizando metricas de correlación:* Se realiza una evaluación de la correlación entre los puntajes de los predictores y las métricas IR, utilizando la librería de Scipy, para obtener una medida de la efectividad de los predictores QPP con relación al ‟ground truth".
 -	*Documentación y Almacenamiento:* Los resultados, configuraciones y scripts de ejecución se almacenan en directorios organizados dentro del contenedor Docker, garantizando su fácil acceso y análisis.
+
+Entre los componentes de la @fig:diagrama_general, se puede discernir la capa de datos, de indexación y recuperación. Estos componentes funcionan completamente dentro de la libreria Pyterrier, el cual funciona como un "wrapper" para la libreria Terrier, la cual es ampliamente utilizada en la literatura de recuperación de información para la realización de experimentos similares. @pyterrier
 
 \
 === Configuración técnica
@@ -320,7 +322,7 @@ Como se puede apreciar en la @fig:diagrama_general, el diseño experimental sigu
   El sistema utiliza una imagen base de Python 3.9 con Java 11 instalado para soportar PyTerrier. 
 
 -	*Párametros del Modelo de Recuperación*:
-El sistema utiliza el modelo de recuperación BM25 (Best Match 25) como método principal de recuperación. Los parámetros han sido cuidadosamente seleccionados basándose en la literatura y experimentación previa. Su definición se puede observar en la @tbl:tabla_de_parametros
+El sistema utiliza el modelo de recuperación BM25 (Best Match 25) como método principal de recuperación. Los parámetros han sido mantenidos en su configuración por defecto . Su definición se puede observar en la @tbl:tabla_de_parametros
 
 \
 #figure(
@@ -345,6 +347,8 @@ El sistema utiliza el modelo de recuperación BM25 (Best Match 25) como método 
 ) <tabla_de_parametros>
 
 \
+Otros estudios han propuesto la utilización de otros parámetros para BM25, como el parámetro k1, el cual controla la saturación de términos en los documentos, sobretodo al utilizar métodos de clustering, tales experimentos han demostrado que un valor de k1 mayor a 1.2 puede mejorar el rendimiento de la recuperación. Sin embargo, en este estudio se mantendrán los parámetros por defecto de PyTerrier, ya que se ha demostrado que estos proporcionan un rendimiento adecuado para la mayoría de las tareas de recuperación de información, pero se puede realizar un estudio futuro sobre la utilización de estos parámetros en la evaluación de métodos QPP. @bm25
+
 -	*Ejecución de los metodos y scripts de evaluación*:
 El sistema permite una configuración flexible de la ejecución de la evaluación a través de diversos parámetros que controlan tanto el proceso de recuperación como la evaluación QPP. La configuración se realiza principalmente mediante argumentos de línea de comandos y variables de entorno.
 
@@ -381,6 +385,10 @@ La evaluación final integra estos resultados mediante un análisis bidimensiona
 -	*Métricas Utilizadas*:
 Para el desarollo de esta evaluación se decanto por el uso de métricas de evaluación que cuentan con una presencia amplia en la literatura, por un lado se decantó por el uso nDCG y AP, las cuales son ampliamente utilizadas en tareas de ranking y precisión proporcionan una medida del rendimiento del sistema de recuperación. Por otro lado, se decantó por el uso de métricas de correlación para la predicción de rendimiento de consultas, como el coeficiente de correlación de Kendall y Spearman, las cuales son ampliamente utilizadas en la literatura y proporcionan una medida de la efectividad de los predictores QPP. @correlation-methods
 
+En el contexto de la evaluación de sistemas de recuperación de información, las métricas binarias como Average Precision (*AP*) requieren una distinción clara entre documentos relevantes y no relevantes. Para lograr esto, se establece un umbral binario sobre los niveles de relevancia originales del dataset, donde los documentos con un nivel de relevancia igual o superior al umbral se consideran relevantes, mientras que aquellos por debajo se consideran no relevantes. Este enfoque permite evaluar el rendimiento del sistema en términos de su capacidad para distinguir entre documentos relevantes y no relevantes.
+
+Por otro lado, las métricas graduadas como el Normalized Discounted Cumulative Gain (nDCG) aprovechan la naturaleza multi-nivel de los juicios de relevancia mediante valores de ganancia. Estos valores representan la utilidad o importancia relativa de cada nivel de relevancia, donde un valor más alto indica una mayor relevancia del documento. La asignación de valores de ganancia es crucial ya que influye directamente en cómo la métrica evalúa la calidad del ranking, penalizando más severamente cuando documentos altamente relevantes (con mayor valor de ganancia) aparecen en posiciones más bajas del ranking. A continuación, se detalla la configuración específica de relevancia y valores de ganancia para cada dataset:
+
 #figure(
   table(
     columns: (auto, auto, auto),
@@ -391,14 +399,21 @@ Para el desarollo de esta evaluación se decanto por el uso de métricas de eval
     [*Dataset*], [*Configuración*], [*Justificación*],
     [ANTIQUE],
     [- Relevancia: 4 niveles (1-4)
-     - Binary threshold: ≥3
-     - Gain values: {1:0, 2:0, 3:0.5, 4:1.0}],
+     - Umbral binario: ≥3
+     - Valores de ganancia:
+       - Nivel 1: 0.0
+       - Nivel 2: 0.0  
+       - Nivel 3: 0.5
+       - Nivel 4: 1.0],
     [Escala más granular que permite distinguir entre documentos marginalmente relevantes (3) y altamente relevantes (4). Los niveles 1-2 se consideran no relevantes para métricas binarias.],
     
     [Iquique Dataset],
     [- Relevancia: 3 niveles (0-2)
-     - Binary threshold: ≥1
-     - Gain values: {0:0, 1:1, 2:2}],
+     - Umbral binario: ≥1
+     - Valores de ganancia:
+        - Nivel 0: 0.0
+        - Nivel 1: 1.0
+        - Nivel 2: 2.0],
     [Escala más simple que diferencia entre no relevante (0), relevante (1) y altamente relevante (2). Utiliza una escala lineal para el cálculo de nDCG.],
   ),
   caption: "Configuración de métricas por dataset"
@@ -479,7 +494,7 @@ El primer objetivo específico del proyecto corresponde a:
 
    d) *Evaluar los resultados obtenidos de los métodos QPP implementados, determinando su efectividad en función de los resultados descritos en el estado del arte.*
    
-   La evaluación se realiza comparando las predicciones generadas por los métodos seleccionados con los juicios de relevancia (qrels) asociados a cada dataset, utilizando métricas de correlación como Kendall’s Tau. Este análisis permite determinar las fortalezas y limitaciones de cada método en contextos específicos.
+   La evaluación se realiza comparando las predicciones generadas por los métodos seleccionados con los juicios de relevancia (qrels) asociados a cada dataset, utilizando métricas de correlación como Kendall's Tau. Este análisis permite determinar las fortalezas y limitaciones de cada método en contextos específicos.
   
   El quinto y último objetivo corresponde a:
 
