@@ -147,6 +147,7 @@
     )
   ]
   pagebreak()
+  show heading: i-figured.reset-counters
   show figure: i-figured.show-figure
   show math.equation: i-figured.show-equation.with(zero-fill: false)
 

@@ -3,17 +3,17 @@
   set text(size: 12pt, weight: "bold")
   it
 }
-= TRABAJOS RELACIONADOS
+= TRABAJOS RELACIONADOS <capitulo-3>
 \
 
-Como se ha mencionado anteriormente, la predicción del rendimiento de consultas (QPP) es un área importante dentro de los sistemas de recuperación de información, ya que permite anticipar la calidad de los resultados de una consulta sin necesidad de ejecutarla de forma completa. Es así, que a lo largo de los años se han desarrollado numerosos métodos QPP con diferentes características y aptos para distintas situaciones, los que han sido evaluados exhaustivamente en una larga cantidad de estudios. Estos estudios no solo han definido métricas y herramientas para medir la efectividad de los métodos QPP, sino que también han desarrollado análisis comparativos (benchmarks) que sirven como referencia en el estado del arte dentro del área.
+La predicción del rendimiento de consultas (QPP) es un área de investigación importante dentro de los sistemas de recuperación de información, puesto que permite anticipar la calidad de los resultados de una consulta sin necesariamente ejecutarla de forma completa. Es así, que a lo largo de los años se han desarrollado numerosos métodos QPP con diferentes características y aptos para distintas situaciones, los que han sido evaluados exhaustivamente en una larga cantidad de estudios. Estos estudios no solo han definido métricas y herramientas para medir la efectividad de los métodos QPP, sino que también han desarrollado análisis comparativos (benchmarks) que sirven como referencia en el estado del arte dentro del área.
 
 \
 A continuación, se revisan estudios relevantes relacionados con la predicción del rendimiento de consultas, presentando los principales métodos utilizados en la literatura, para posteriormente, analizar el uso de datasets y entornos de experimentación para la comparación de métodos, destacando investigaciones previas que han servido como base para el diseño experimental de este proyecto.
 
 \
 
-== Metodos de Query Performance Prediction (QPP)
+== Métodos de Predicción de Rendimiento de Consultas (QPP)
 
 \
 En el contexto de este proyecto, se priorizó la revisión de métodos de Query Performance Prediction que no dependen de enfoques basados en inteligencia artificial (IA), los cuales, clasificados como pre-retrieval y post-retrieval, son altamente valorados por su simplicidad y robustez en la predicción del rendimiento de consulta sirviendo como base para métodos QPP más complejos.
@@ -22,37 +22,38 @@ En el contexto de este proyecto, se priorizó la revisión de métodos de Query 
 Es así como, durante la revisión de la literatura, se identificaron trabajos claves que evaluaron y desarrollaron diferentes métodos QPP en diferentes contextos, como búsquedas ad-hoc y benchmarks de recuperación de información, proporcionando métricas importantes para evaluar la calidad de las consultas, los cuales se presentan a continuación.
 
 \
-=== IDF (Inverse Document Frequency)
+=== IDF (Frecuencia Inversa de Documentos)
 
 \
-El término Inverse Document Frequency (IDF), ampliamente utilizado como predictor pre-retrieval en sistemas de recuperación de información, mide la especificidad de un término dentro de un corpus. En el documento @preretrieval-idf, se profundiza su relevancia como un componente clave en la predicción del rendimiento de consultas (QPP), específicamente su capacidad para identificar términos altamente selectivos, es decir, aquellos que aparecen en pocos documentos (menos comunes) y, por ende, aportan mayor discriminación en la búsqueda. El IDF también es empleado en modelos como MaxIDF, donde el término con la mayor frecuencia inversa dentro de una consulta sirve como indicador principal de su efectividad. Esta metodología, que se basa en heurísticas, se adoptó rápidamente como una herramienta esencial en la predicción del rendimiento de consultas (QPP) pre-retrieval en los sistemas de recuperación de información, siendo incorporada en otros esquemas y modelos probabilísticos de búsqueda. 
+El predictor Inverse Document Frequency (IDF), ampliamente utilizado en el área, puede de igual manera funcionar como predictor pre-retrieval en sistemas de recuperación de información, este mide que tan especificos son los términos de una consulta dentro de un corpus. En el documento @preretrieval-idf, se profundiza su relevancia como un componente clave en la predicción del rendimiento de consultas (QPP), específicamente su capacidad para identificar términos altamente selectivos, es decir, aquellos que aparecen en pocos documentos (menos comunes) y, por ende, aportan mayor discriminación en la búsqueda. El IDF también puede ser utilizado en su variante IDF-Max, donde el término con la mayor frecuencia inversa dentro de una consulta sirve como indicador principal de su efectividad. Este indicador, que se basa en estadística, se adoptó rápidamente como una herramienta esencial en la predicción del rendimiento de consultas (QPP) pre-retrieval, siendo incorporada en otros esquemas y modelos probabilísticos de búsqueda. 
 
+\
 La fórmula comúnmente utilizada del IDF en sistemas modernos, debido a su suavizado y estabilidad matemática, se define como:
 
 $ I D F(t) = ln(1 + N/f_t) $ <idf-equation>
 
-Donde N es el número total de documentos en el corpus y f_t es el número de documentos que contienen el término t, y se añade 1 para evitar divisiones por cero o valores indefinidos.
+Donde $N$ es el número total de documentos en el corpus y $f_t$ es el número de documentos que contienen el término $t$, y se añade 1 para evitar divisiones por cero o valores indefinidos.
 
 En el artículo @idf-understanding, el autor señala que el IDF asigna pesos más bajos a los términos frecuentes debido a su limitado poder discriminatorio, mientras que otorga pesos más altos a los términos menos comunes, los cuales poseen mayor capacidad para distinguir documentos relevantes, asegurando que los términos poco frecuentes, pero informativos, tengan un mayor impacto en el cálculo de relevancia. Además, se destaca que, aunque la formulación exacta del algoritmo puede variar según los autores, su utilidad general permanece sólida en una amplia gama de aplicaciones prácticas, incluyendo la recuperación de información y otros contextos relacionados con el análisis de datos.
 
 De esta forma, el IDF ha sido ampliamente utilizado debido a su robustez y simplicidad. En el artículo @idf-understanding, el autor argumenta que el IDF equilibra de forma eficaz la especificidad y la relevancia, permitiendo su aplicación en diferentes contextos, tales como recuperación de textos, análisis de lenguaje natural e incluso en recuperación de medios no textuales.
 
-En cuanto a su relevancia para el presente proyecto de evaluación de métodos de QPP, el IDF resulta crucial, ya que su capacidad para capturar la especificidad de los términos es clave para analizar la predictibilidad de las consultas y, además, como se menciona en el artículo @predicting-performance, su integración en distintas métricas proporciona una línea base confiable para la comparación con métodos más avanzados, validando su referencia tanto de forma heurística como de herramienta teórica sólida y bien fundamentada.
+En cuanto a su relevancia para el presente proyecto de evaluación de métodos de QPP, el IDF resulta relevante, ya que su capacidad para capturar la especificidad de los términos yace de manera tacita en otros predictores QPP, además, como se menciona en el artículo @predicting-performance, su integración en distintas métricas proporciona una línea base confiable para la comparación con métodos más avanzados, validando su referencia tanto de forma heurística como de herramienta teórica sólida y bien fundamentada.
 
-=== SCQ (Similarity Between Query and Collection)
+=== SCQ (Similitud entre consulta y colección)
 
 \
-El método SCQ (Similarity Between a Query and a Collection), es un predictor pre-retrieval propuesto por Ying Zhao, Falk Scholer y Yohannes Tsegay. En el artículo @preretrieval-idf los autores explican que el SCQ calcula un puntaje de similitud entre una consulta y la colección de documentos, utilizando la frecuencia de términos y la frecuencia inversa de documentos como evidencias para determinar la relevancia. Siendo una de sus principales ventajas que se basa en estadísticas disponibles durante el proceso de indexado, eliminando la necesidad de realizar búsquedas previas.
+El método SCQ (Similarity Between a Query and a Collection), es un predictor pre-retrieval propuesto por Ying Zhao, Falk Scholer y Yohannes Tsegay. En el artículo @preretrieval-idf los autores explican que el SCQ calcula un puntaje de similitud entre una consulta y la colección de documentos, utilizando la frecuencia de términos en la colección y la frecuencia inversa de documentos (IDF) como evidencias para determinar la relevancia. Siendo una de sus principales ventajas que se basa en estadísticas disponibles durante el proceso de indexado, eliminando la necesidad de realizar búsquedas previas.
 
 La fórmula matemática que define al SCQ es la siguiente:
 
-$ S C Q = sum_(t in Q) (1+ln(f_(c,t)) dot ln(1+N/f_(t)))  $ <scq-equation>
+$ S C Q = sum_(t in Q) ((1+ln(f_(c,t))) dot ln(1+N/f_(t)))  $ <scq-equation>
 
 Donde $Q$ es el conjunto de términos de la consulta, $f_(c,t)$ corresponde a la frecuencia del término $t$ en la colección, $f_t$ es el número de documentos en los que aparece el término $t$, y finalmente $N$ es el número total de documentos de la colección.
 
 Como se menciona, el SCQ mide la similitud mediante una representación vectorial, donde tanto las consultas como los documentos son tratados como vectores. La proximidad entre estos vectores se interpreta como un indicador de relevancia que permite identificar consultas que potencialmente obtendrán un mejor rendimiento en la recuperación de información. Además, este predictor puede ajustarse mediante la normalización por longitud de la consulta o evaluarse en  función del valor máximo de SCQ alcanzado por los términos individuales.
 
-Es así como, gracias a su balance entre la simplicidad y precisión, el SCQ se ha consolidado como una herramienta útil para sistemas de recuperación de información que manejan grandes volúmenes de datos en tiempo real, en donde su capacidad para establecer relaciones entre las características de las consultas y su rendimiento lo convierte en una contribución importante para tareas que involucran una alta variabilidad en las consultas, posicionándose como un estándar en evaluaciones pre-retrieval.
+Es así como, gracias a su balance entre la simplicidad y precisión, el SCQ promete ser una herramienta útil para sistemas de recuperación de información que manejan grandes volúmenes de datos en tiempo real, en donde su capacidad para establecer relaciones entre las características de las consultas y su rendimiento lo convierte en una contribución importante para tareas que involucran una alta variabilidad en las consultas, posicionándose como un estándar en evaluaciones pre-retrieval.
 
 Por lo tanto, para el presente proyecto, el SCQ es particularmente relevante porque permite analizar consultas en dominios complejos y heterogéneos, estableciendo una relación clara entre las características de las consultas y su rendimiento esperado, lo que facilita una evaluación comparativa de métodos.
 
@@ -60,7 +61,7 @@ Por lo tanto, para el presente proyecto, el SCQ es particularmente relevante por
 === NQC (Normalized Query Commitment)
 
 \
-El método NQC (Normalized Query Commitment) fue propuesto por Anna Shtok, Oren Kurland y David Carmel como un predictor post-retrieval que evalúa la efectividad de una consulta midiendo la dispersión de los puntajes de recuperación entre los documentos más relevantes. En el artículo @query-drift, los autores destacan que una menor dispersión temática en los documentos recuperados está asociada con una mayor efectividad de las consultas, lo cual se refleja en la distribución de los puntajes de recuperación.
+El método NQC (‟Normalized Query Commitment”) fue propuesto por Anna Shtok, Oren Kurland y David Carmel como un predictor post-retrieval que evalúa la efectividad de una consulta midiendo la dispersión de los puntajes de recuperación entre los documentos más relevantes. En el artículo @query-drift, los autores destacan que una menor dispersión temática en los documentos recuperados está asociada con una mayor efectividad de las consultas, lo cual se refleja en la distribución de los puntajes de recuperación.
 
 Por lo tanto, el enfoque de NQC se centra en medir la desviación estándar de los puntajes de recuperación normalizados por el promedio del corpus, lo que permite identificar consultas cuyos documentos recuperados son consistentes en términos de relevancia, sugiriendo un buen desempeño de la consulta. Además, los autores explican que los documentos con puntajes significativamente superiores al promedio son menos propensos a exhibir desviaciones temáticas, lo que se traduce en un menor grado de “query drift” y un mejor rendimiento de recuperación.
 
@@ -71,7 +72,7 @@ El método NQC se define matemáticamente como:
 $ N Q C(q, M)= (sqrt(1/k sum_(d in D[k]_q)(S c o r e(d) - mu)^2))/(S c o r e(D)) $
 
 \
-En donde $q$ corresponde a la consulta, $M$ al modelo de recuperación, $D[k]_q$ a la lista de los k documentos mejor rankeados, μ al promedio de los puntajes de recuperación en $D[k]_q$ y $S c o r e[D]$ al puntaje de recuperación del corpus considerado como un único documento.
+En donde $q$ corresponde a la consulta, $M$ al modelo de recuperación, $D[k]_q$ a la lista de los k documentos mejor rankeados, μ al promedio de los puntajes de recuperación en $D[k]_q$ y $S c o r e[D]$ al puntaje de recuperación del corpus considerado como un único documento concatenado.
 
 NQC resulta especialmente útil en el ámbito de la recuperación de información debido a su capacidad para capturar la consistencia en documentos relevantes y su adaptabilidad a diferentes modelos de recuperación, siendo su diseño simple lo que permite aplicarlo de manera eficiente, incluso en escenarios complejos donde se requiere alta precisión en los resultados.
 
@@ -82,9 +83,7 @@ Para el presente proyecto, NQC es relevante al proporcionar una métrica que per
 \
 El método Clarity Score (CS) fue desarrollado por Steve Cronen-Townsend, Yun Zhou y W. Bruce Croft como un predictor post-retrieval que analiza la claridad o coherencia de las consultas en sistemas de recuperación de información. En el artículo @predicting-performance, los autores explican que el CS se basa en la comparación entre un modelo de lenguaje generado a partir de una consulta y el modelo de lenguaje global del corpus, utilizando la divergencia de Kullback-Leibler como herramienta matemática que permite calcular la distancia entre ambos modelos. 
 
-Este enfoque permite evaluar la calidad de las consultas antes de realizar una recuperación completa de documentos, lo que es particularmente útil para identificar consultas que podrían resultar problemáticas debido a su ambigüedad.
-
-El cálculo del CS implica que consultas con términos más claros y específicos generarán modelos de lenguaje que se alinean mejor con el modelo del corpus, obteniendo puntajes más altos, estos términos, al estar menos expuestos a interpretraciones ambiguas, tienden a recuperar documentos más relevantes y precisos. Por otro lado, las consultas con puntajes más bajos suelen reflejar una mayor ambigüedad o dispersión temática, lo que puede afectar negativamente la precisión de los resultados recuperados.
+La lógica detrás de CS implica que consultas con términos más claros y específicos generarán modelos de lenguaje que se diferencian significativamente del modelo del corpus, obteniendo puntajes más altos. Estos términos, al estar menos expuestos a interpretaciones ambiguas, tienden a recuperar documentos más relevantes y precisos. Por otro lado, las consultas con puntajes más bajos suelen reflejar una mayor ambigüedad o dispersión temática, lo que puede afectar negativamente la precisión de los resultados recuperados.
 
 Como se menciona, el CS se calcula como la divergencia de Kullback-Leibler entre el modelo de lenguaje de la consulta y el modelo de lenguaje de la colección:
 
@@ -94,7 +93,7 @@ $ C S(Q)= sum_(w in V)(P(w | Q)log 2(P(w | Q))/(P c o l l(w))) $
 \
 En donde $w$ es un término en el vocabulario $V, P(w | Q)$ es la probabilidad del término $w$ en el modelo de lenguaje de la consulta y $P c o l l(w)$ es la probabilidad del término $w$ en el modelo de lenguaje de la colección.
 
-Es así que, en términos prácticos, el CS demuestra ser una herramienta eficaz para predecir el rendimiento de consultas en diversos dominios, desde búsquedas de texto hasta tareas más complejas como recuperación de información en grandes volúmenes de datos. Además, su capacidad para identificar consultas problemáticas antes de que se ejecute la búsqueda completa lo convierte en una solución eficiente y adaptable para optimizar los sistemas de recuperación de información.
+En términos prácticos, el CS demuestra ser una herramienta valiosa en el campo de la Recuperación de Información por varias razones fundamentales. En primer lugar, su capacidad para cuantificar la claridad de una consulta a través de la divergencia KL proporciona una medida objetiva de la especificidad de los términos de búsqueda. Además, al basarse en la comparación con el modelo de lenguaje de la colección completa, el método captura efectivamente las peculiaridades y la distribución del vocabulario en el dominio específico. Sin embargo, es importante señalar que su efectividad puede variar según las características del corpus y la naturaleza de las consultas, siendo particularmente útil en colecciones donde la ambigüedad terminológica representa un desafío significativo para la recuperación de información.
 
 Finalmente, en el contexto del presente proyecto, el Clarity Score es relevante por su capacidad para proporcionar un indicador temprano sobre la calidad de las consultas, permitiendo evaluar cómo estas interactúan con el corpus y qué tan bien pueden desempeñarse en términos de recuperación efectiva, resultando crucial en escenarios donde la variabilidad y complejidad de las consultas pueden influir significativamente en los resultados esperados.
 
@@ -117,20 +116,17 @@ Es así que, WIG es especialmente relevante debido a su capacidad para adaptarse
 === UEF (Utility Estimation Framework)
 
 \
-El Utility Estimation Framework (UEF) fue desarrollado por Anna Shtok, Oren Kurland y David Carmel como un enfoque post-retrieval que utiliza principios de la teoría estadística de decisiones para predecir el rendimiento de consultas. En el artículo @statistical-decision-theory-uef los autores explican que este método evalúa la calidad de un ranking de documentos basándose en su utilidad estimada con respecto a la necesidad de información representada en la consulta, proceso que se realiza al medir la similitud esperada entre el ranking generado y los rankings incluidos por modelos de relevancia.
+El Utility Estimation Framework (UEF) fue desarrollado por Anna Shtok, Oren Kurland y David Carmel como un enfoque post-retrieval que utiliza principios de la teoría estadística de decisiones para predecir el rendimiento de consultas. En el artículo @statistical-decision-theory-uef los autores explican que este método evalúa la calidad de un ranking de documentos basándose en su utilidad estimada con respecto a la necesidad de información representada en la consulta, proceso que se realiza al medir la similitud esperada entre el ranking generado y los rankings inducidos por modelos de relevancia.
 
-El marco UEF permite una gran flexibilidad al emplear diferentes métricas de similitud, como el coeficiente de Pearson, y al estimar modelos de relevancia utilizando pseudo-feedback, lo que proporciona una base sólida para predecir el rendimiento de consultas, ya que combina la precisión de los modelos de relevancia con un enfoque estructurado que captura las características del ranking generado por la consulta.
-	
+El marco UEF permite una gran flexibilidad al emplear diferentes métricas de similitud, como el coeficiente de correlación de Pearson, y al estimar modelos de relevancia utilizando pseudo-relevance feedback. Esta combinación proporciona una base teórica sólida para predecir el rendimiento de consultas, ya que integra la precisión de los modelos de relevancia con un enfoque estructurado que captura las características del ranking generado por la consulta.
+
 A continuación se observa la fórmula general del UEF:
-
 $ U(pi_M (q;D))= integral_(R_q)S i m(pi_M (R_q ;D))p(R_q | I_q)d R_q $
+En donde, $pi_M (q;D)$ corresponde al ranking generado por el modelo $M, R_q$ al modelo de relevancia estimado basado en la consulta $q, S i m$ es la medida de similitud entre rankings y $p(R_q ∣I q)$ a la probabilidad de que $R_q$ represente la necesidad de información subyacente $I q$.
 
-\
-En donde, $pi_M (q;D)$ corresponde al ranking generado por el modelo $M, R_q$ al modelo de relevancia estimado basado en la consulta $q, S i m$ es la medida de similitud entre ranking y $p(R_q ∣I q)$ a la probabilidad de que $R_q$ represente la necesidad de información subyacente $I q$.
+El UEF destaca por su fundamentación teórica en la teoría estadística de decisiones, lo que le permite estimar de manera robusta la utilidad esperada de un ranking. Su diseño matemático incorpora explícitamente la incertidumbre inherente en la estimación de relevancia a través de la distribución de probabilidad $p(R_q ∣I q)$, mientras que la función de similitud $S i m$ cuantifica la concordancia entre el ranking original y los rankings generados por los modelos de relevancia estimados.
 
-El UEF es particularmente útil porque permite integrar diversos paradigmas de predicción, lo que mejora la adaptabilidad a diferentes dominios y tareas específicas, además, enfocarse en la utilidad de los documentos mejor clasificados, permite a este método ofrecer una perspectiva precisa sobre cómo las consultas interactúan con el corpus y qué tan efectivas podrían ser en términos de recuperación de información.
-
-Es así que, finalmente, para este proyecto el UEF es fundamental para analizar y comparar la efectividad de diferentes métodos de predicción del rendimiento de consultas, en donde su diseño flexible y su capacidad para adaptarse a múltiples escenarios lo posicionan como una herramienta clave en la evaluación de consultas en dominios complejos y heterogéneos.
+Es así que el UEF representa un avance significativo en la predicción del rendimiento de consultas al proporcionar un marco teórico sólido que unifica diferentes aspectos de la recuperación de información. Su formulación matemática rigurosa, basada en principios estadísticos, permite una evaluación sistemática de la calidad de los rankings, considerando tanto la estructura de los resultados como la incertidumbre en la estimación de relevancia.
 
 \
 == Estudios comparativos similares
@@ -158,12 +154,15 @@ En resumen, este estudio no solo se destaca por la profundidad de su análisis, 
 === An Enhanced Evaluation Framework for Query Performance Prediction (2021)
 
 \
-Otro estudio destacado y relevante para el presente proyecto es el realizado por Guglielmo Faggioli et al. en 2021, quienes desarrollaron un marco de evaluación mejorado para la predicción del rendimiento de consultas (QPP), el cual aborda limitaciones clave de los enfoques tradicionales mediante la integración de análisis estadísticos avanzados y métricas diseñadas para evaluar, no solo la precisión, sino también la variabilidad y robustez de los métodos QPP en diferentes escenarios.
+Otro estudio destacado y relevante para el presente proyecto es el realizado por Guglielmo Faggioli et al. en 2021, quienes desarrollaron un marco de evaluación mejorado para la predicción del rendimiento de consultas (QPP), el cual aborda limitaciones clave de los enfoques tradicionales mediante la integración de análisis estadísticos avanzados y métricas diseñadas para evaluar, no solo la precisión, sino también la variabilidad y robustez de los métodos QPP en diferentes escenarios. Este marco supera las limitaciones de las evaluaciones basadas únicamente en correlaciones, como la dificultad para interpretar valores agregados únicos y la incapacidad para identificar consultas específicas donde los métodos fallan.
 
-Es así que, en el artículo @enhanced-evaluation, los autores proponen un enfoque innovador que incluye métricas basadas en errores, análisis de varianza y pruebas post hoc para evaluar las diferencias entre métodos con mayor detalle.
+Es así que, en el artículo @enhanced-evaluation, los autores proponen un enfoque innovador que incluye métricas basadas en errores, como el Scaled Absolute Rank Error (SARE) y el Scaled Mean Absolute Rank Error (sMARE), las cuales permiten medir el error de predicción de manera distribuida por consulta. Además, incorporan técnicas estadísticas avanzadas, como el análisis de varianza (ANOVA) y pruebas post hoc para evaluar las diferencias entre métodos con mayor detalle. Estas herramientas permiten no solo comparar la precisión de los predictores, sino también analizar la influencia de factores como el tema de la consulta, el método de recuperación y la configuración de stemming en el rendimiento del QPP.
 
-Como se menciona, el artículo se destaca por su enfoque en la medición de errores distribuidos por consulta, lo que permite un análisis más granular del desempeño de los métodos, en donde se realizaron experimentos en conjuntos de datos estándar como TREC Robust-04, utilizando métodos pre-retrieval, como MaxIDF y SCQ, y post-retrieval, como NQC y Clarity Score, cuyos resultados revelaron que factores como el modelo de recuperación, la configuración y otros factores influyen significativamente en el rendimiento del QPP, proporcionando información valiosa para optimizar estos sistemas.
+Como se menciona, el artículo se destaca por su enfoque en la medición de errores distribuidos por consulta, lo que permite un análisis más granular del desempeño de los métodos, en donde se realizaron experimentos en conjuntos de datos estándar como TREC Robust-04, utilizando métodos pre-retrieval, como MaxIDF y SCQ, y post-retrieval, como NQC y Clarity Score, cuyos resultados revelaron que factores como el modelo de recuperación, la configuración de stemming y stoplists, y la naturaleza de las consultas influyen significativamente en el rendimiento del QPP. Por ejemplo, se observó que los métodos post-retrieval, como NQC y Clarity, tienden a tener una correlación más alta con la precisión promedio (AP), mientras que los métodos pre-retrieval, como MaxIDF, pueden ser más robustos en ciertos escenarios. Estos hallazgos proporcionan información valiosa para optimizar estos sistemas y seleccionar el método más adecuado según la situación.
 
-En el contexto del presente proyecto, el marco propuesto por los autores es importante, ya que introduce prácticas de evaluación reproducibles y detalladas, alineadas con estándares modernos, además de que, sus hallazgos sobre la interacción de factores experimentales y el rendimiento del QPP sirven como guía directa para configurar experimentos que sean estadísticamente sólidos y representativos en escenarios reales.
+En el contexto del presente proyecto, el marco propuesto por los autores es importante, ya que introduce prácticas de evaluación reproducibles y detalladas, alineadas con estándares modernos, además de que, sus hallazgos sobre la interacción de factores experimentales y el rendimiento del QPP sirven como guía directa para configurar experimentos que sean estadísticamente sólidos y representativos en escenarios reales. Por ejemplo, el uso de ANOVA y pruebas post hoc permite identificar no solo qué métodos son superiores en general, sino también en qué condiciones específicas (como ciertos tipos de consultas o configuraciones) un método puede ser mejor que otro, lo que es particularmente útil en aplicaciones prácticas donde la variabilidad de las consultas y los documentos es alta, como en motores de búsqueda web y sistemas de recomendación.
+
+En resumen, el trabajo de los autores, no solo proporciona un marco metodológico avanzado para la evaluación de QPP, sino que también ofrece insights prácticos sobre cómo optimizar estos sistemas en función de factores contextuales, lo que lo convierte en una referencia clave para el presente proyecto, especialmente en la fase de diseño experimental y evaluación de métodos de predicción de rendimiento de consultas.
+
 
 

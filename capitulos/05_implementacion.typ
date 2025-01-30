@@ -3,19 +3,9 @@
   set text(size: 12pt, weight: "bold")
   it
 }
-#import "@preview/fletcher:0.5.4" as fletcher: diagram, node, edge
+
 #import "@preview/codly:1.2.0": *
 #import "@preview/codly-languages:0.1.1": *
-
-#let component(pos, label, tint: white, ..args) = node(
-  pos,
-  align(center, label),
-  width: 35mm,
-  fill: tint.lighten(90%),
-  stroke: 1pt + tint.darken(10%),
-  corner-radius: 5pt,
-  ..args,
-)
 
 = IMPLEMENTACIÓN
 
@@ -26,50 +16,9 @@ Sin embargo, y debido a la antiguedad del campo, existe una amplia gama de metod
 
 Adicionalmente, y de manera separada se encuentra la necesidad de implementar un sistema de indexación de documentos, que permita la recuperación de documentos relevantes para una consulta de manera eficiente. Estos dos ultimos prerequisitos, justifican la utilización de la libreria Pyterrier, la cual permite la implementación de sistemas de recuperación de información y de indexación de documentos, en un solo entorno unificado e integrado. 
 
+En la se puede observar el diagrama de componentes general del entorno de evaluación propuesto, en el cual se puede apreciar la interacción entre los distintos componentes de recuperación de información clasicos como el BM25, indexación de documentos, procesamiento de consultas y evaluación de métodos de QPP. Es relevante resaltar que el acceso a los conjuntos de datos tambien es realizado mediante la libreria pyTerrier, la cual cuenta con una integración con otra libreria, IR-datasets, la cual permite el acceso a una amplia gama de conjuntos de datos clasicos de recuperación de información junto a sus consultas y respectivos juicios de relevancia.
 
-\
-#figure(
-  diagram(
-  spacing: 1pt,
-  cell-size: (8mm, 8mm),
-  edge-stroke: .8pt,
-  
-  // Left column - Analysis components
-  component((2.5,0), [Capa de \ Evaluación], tint: red, name: "corr"),
-  component((0,0), [Evaluación con Qrels], tint: red, name: "metr"),
-  component((5,0), [Resultado de \ correlación], tint: red, name: "puntajes"),
-  
-  // Middle - QPP Methods
-  component((3.7,3), [Métodos \
-  Pre-retrieval], tint: blue, name: "pre"),
-  component((1.2,3), [Métodos \
-  Post-Retrieval], tint: blue, name: "post"),
-  
-  // Right side components
-  component((0,6), [Sistema de \ recuperación BM25], tint: purple, name: "IR"),
-  component((2.5,6), [Capa de \ Indexado], tint: purple, name: "index"),
-  component((5,6), [IR-datasets], tint: gray, name: "datasets"),
-  component((5,8), [Procesador de \ datos], tint: gray, name: "proc"),
-  
-  // Connections
-  edge(<corr>, <pre>, "->", $"Puntajes"$),
-  edge( <IR>, <metr>, "->"),
-  edge(<corr>, <puntajes>,  "->", $"Guarda"$),
-  edge(<corr>, <post>, "->", $"Puntajes"$),
-  edge(<IR>, <index>, "->", $"Utiliza"$),
-  edge(<IR>, <post>, "->", $"Resultados"$, label-pos:0, label-angle: 90deg ),
-  edge(<metr>, <corr>, "->"),
-  edge(<pre>, <index>, "->", $"Utilizan"$),
-  edge(<post>, <index>, "->"),
-  edge(<index>, <datasets>, "->", $"Utiliza"$),
-  edge(<datasets>, <proc>, "--"),
-),
-caption: "Diagrama de componentes del entorno de evaluación",
-) <diagrama_general>
-
-En la @fig:diagrama_general se puede observar el diagrama de componentes general del entorno de evaluación propuesto, en el cual se puede apreciar la interacción entre los distintos componentes de recuperación de información clasicos como el BM25, indexación de documentos, procesamiento de consultas y evaluación de métodos de QPP. Es relevante resaltar que el acceso a los conjuntos de datos tambien es realizado mediante la libreria pyTerrier, la cual cuenta con una integración con otra libreria, IR-datasets, la cual permite el acceso a una amplia gama de conjuntos de datos clasicos de recuperación de información junto a sus consultas y respectivos juicios de relevancia.
-
-En si, el protocolo estandar de evaluación de métodos de QPP, como se puede apreciar en la @fig:diagrama_general, cuenta de una relativa complejidad, con muchas partes sujetas a modificaciones y ajustes que pueden repercutir en los resultados finales de la evaluación.
+En si, el protocolo estandar de evaluación de métodos de QPP, como se puede apreciar en la, cuenta de una relativa complejidad, con muchas partes sujetas a modificaciones y ajustes que pueden repercutir en los resultados finales de la evaluación.
 
 \
 == Configuración del entorno experimental
@@ -79,10 +28,11 @@ El entorno experimental se encuentra configurado para ser ejecutado en un varied
 
 #figure(
   table(
-    columns: (auto, 1fr, 1fr),
+    columns: (0.6fr, 1.2fr, 1fr),
     rows: (auto, auto, auto, auto),
+    inset:10pt,
     stroke: (x: none),
-    align: center + horizon,
+    align: left + horizon,
 
     [*Componente*], [*Descripción*], [*Versión*],
 
@@ -94,6 +44,7 @@ El entorno experimental se encuentra configurado para ser ejecutado en un varied
   caption: "Configuración del entorno experimental",
 ) <configuracion>
 
+\
 Como se puede apreciar en la @tbl:configuracion, se ha optado por implementar el entorno experimental en componentes de software con versiones especificas y estables, esperando lograr la mayor reproducibilidad posible de los resultados. La ejecución tambien es posible en sistemas operativos Windows y MacOS, pero estas cuentan con procesos de instalación y configuración mas complejos.
 
 \
@@ -128,6 +79,7 @@ Docker es la principal herramienta que permite la ejecución del entorno experim
   caption: "Dockerfile para la configuración del entorno experimental",
 ) <dockerfile>
 
+\
 La @fig:dockerfile muestra el archivo Docker utilizado para la configuración del entorno experimental, este Dockerfile se encuentra disponible en el repositorio de GitHub del proyecto. En este se especifican las principales dependencies y configuraciones de entorno necesarias para la ejecución del entorno experimental. 
 
 #figure(
@@ -135,6 +87,7 @@ La @fig:dockerfile muestra el archivo Docker utilizado para la configuración de
     columns: (auto, 1fr),
     rows: auto,
     stroke: (x: none),
+    inset:10pt,
     align: left + horizon,
     
     [*Componente*], [*Descripción*],

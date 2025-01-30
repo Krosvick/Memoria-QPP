@@ -21,7 +21,7 @@ A traves de la literatura se ha establecido de manera casi unanime el análisis 
 
 El campo de la predicción del rendimiento de consultas se ha desarrollado a lo largo de los años, y se ha establecido el uso de juicios de relevancia y métricas como el tau de Kendall para la evaluación de los predictores. En este sentido, se encuentran dos puntos de interes, por un lado la evaluación del sistema de recuperación subyacente, y por otro la evaluación de los predictores utilizando como pre-requisito la evaluación del sistema de recuperación.
 
-La configuración utilizada para el experimento se presenta en el diagrama @fig:Diagrama_evaluación_resultados
+La configuración utilizada para el experimento se presenta en la @fig:Diagrama_evaluación_resultados
 #figure(
     diagram(
         spacing: 1pt,
@@ -68,6 +68,7 @@ Donde se puede observar que el proceso de evaluación involucra métricas de eva
 Como se menciono anteriormente, previo a la evaluación de los métodos QPP, es necesario evaluar el sistema de recuperación subyacente, en este caso BM25 utilizando el conjunto de datos _antique test_ y sus 4 nivele de juicios de relevancia en sus 200 consultas proporcionadas.
 #figure(image("../assets/imagenes/resultados/boxplot_metricas.png"), caption: [Boxplot de las métricas nDCG y AP]) <Boxplot_metricas>
 
+\
 En un primer vistazo a los resultados del experimento tenemos que la @fig:Boxplot_metricas muestra que el sistema de recuperación BM-25 presenta un rendimiento mayor en la métrica nDCG\@10 frente a las métrica AP. Ambos experimentos presentan un rango de resultados similar, desde el 0 y sin sobrepasar el 0.8 en ninguno de los casos.
 
 Es posible observar la existencia de _outliers_ en los resultados de la métrica AP, los cuales sobresalen muy por encima en comparación del ultimo cuartil de los resultados. Esto se puede interpretar a que ciertas consultas consiguen resultados muy altos en comparación a las demás, debido a ser frecuentemente representadas en los juicios de relevancia y en la colección de documentos.
@@ -140,7 +141,7 @@ Si bien una correlación de aproximadamente 0.26 no podría considerarse extrema
 La @fig:Correlaciones_qpp_boxplot_kendall muestra el boxplot asociado a cada correlación, como se menciono anteriormente, el método IDF es el que presenta una menor correlación, mientras que el método UEF-NQC es el que presenta la mayor correlación del grupo con un valor de 0.42 con respecto a nDCG\@10. Se puede apreciar que pese a que la mayoría de los métodos presentan cajas relativamente planas, lo que indica una estabilidad en sus correlaciones, algunos métodos como WIG y UEF-NQC muestran una mayor variabilidad en sus resultados. Particularmente, UEF-NQC exhibe un rango más amplio de correlaciones, con un valor promedio de 0.4 y un mínimo cercano a 0.39, lo que sugiere que su rendimiento, aunque superior, puede ser menos consistente que otros métodos. Esta variabilidad podría atribuirse a la naturaleza más compleja del método, que al incorporar más factores en su cálculo, puede ser más sensible a las características específicas de las consultas.
 
 \
-#figure(image("../assets/imagenes/resultados/correlaciones_qpp_boxplot_kendall.png"), caption: [Boxplot de las correlaciones de los métodos QPP vs nDCG\@10 - tau de Kendall]) <Correlaciones_qpp_boxplot_kendall>
+#figure(image("../assets/imagenes/resultados/correlaciones_qpp_boxplot_kendall.png"), caption: [Boxplot de correlaciones métodos QPP vs nDCG\@10 en tau de Kendall]) <Correlaciones_qpp_boxplot_kendall>
 \
 
 Los niveles de significancia presentados en la @tbl:Correlaciones_qpp_kendall_table muestran un patrón interesante en cuanto a la confiabilidad estadística de las correlaciones obtenidas. El método IDF, tanto en su variante promedio como máxima, presenta un nivel de significancia $p >= 0.05$, lo que indica que no podemos rechazar la hipótesis nula de que no existe correlación entre las predicciones de IDF y las métricas de rendimiento. Este resultado es consistente con las bajas correlaciones observadas anteriormente y refuerza la conclusión de que IDF, en su implementación actual, no es un predictor confiable del rendimiento de las consultas en nuestro sistema.
@@ -206,9 +207,11 @@ Es notable cómo UEF-NQC maneja mejor los casos extremos, particularmente en el 
   caption: [Graficos de dispersión de nDCG\@10 vs IDF]
 ) <Scatter_ndcg10_idf>
 \
-La @fig:Scatter_ndcg10_idf presenta los gráficos de dispersión para las dos variantes del predictor IDF: promedio y máximo. Ambos gráficos revelan correlaciones extremadamente débiles con los valores de nDCG\@10, con $τ = 0.0451$ para IDF promedio y $τ = -0.0100$ para IDF máximo. Estos resultados son consistentes con los niveles de significancia previamente discutidos ($p >= 0.05$) y refuerzan visualmente la limitada capacidad predictiva del método IDF en nuestro experimento.
+La @fig:Scatter_ndcg10_idf presenta los gráficos de dispersión para las dos variantes del predictor IDF: promedio y máximo, los cuales presentan la mayor anomalía dentro de los resultados. Ambos gráficos revelan correlaciones extremadamente débiles con los valores de nDCG\@10, con $τ = 0.0451$ para IDF promedio y $τ = -0.0100$ para IDF máximo. Estos resultados son consistentes con los niveles de significancia previamente discutidos ($p >= 0.05$) y refuerzan visualmente la limitada capacidad predictiva del método IDF en nuestro experimento.
 
-IDF máximo siendo el predictor más pobre exhibe una correlación negativa muy débil, con una línea de regresión prácticamente plana y una ligera pendiente negativa. La dispersión de puntos muestra una alta varianza, con puntuaciones IDF que abarcan desde 0 hasta 0.8, y una notable heteroscedasticidad en el rango medio de la puntuación del predictor. Este patrón sugiere que la utilización del valor máximo de IDF podría estar capturando ruido en lugar de señales significativas sobre el rendimiento de las consultas.
+Un aspecto notable en ambas variantes es la presencia de heterocedasticidad, es decir, una variación no constante en la dispersión de los valores nDCG\@10 a lo largo del rango de puntuaciones IDF. En el caso de IDF máximo, esta heterogeneidad es particularmente pronunciada en el rango medio (6-8), donde se observa una dispersión en forma de abanico que sugiere una mayor incertidumbre en las predicciones. La variante de IDF promedio muestra un patrón de varianza más estable en el rango medio (4.5-6.5), pero exhibe un incremento notable en la variabilidad alrededor de las puntuaciones 6-7.
+
+Esta variabilidad no uniforme tiene implicaciones importantes para la fiabilidad de las predicciones: sugiere que la capacidad predictiva de IDF no es consistente a través de diferentes tipos de consultas y que la confianza en las predicciones debería ajustarse según el rango de puntuación IDF en que se encuentre la consulta. La presencia de estas regiones de alta incertidumbre, junto con las correlaciones cercanas a cero, indica que el uso directo de IDF como predictor de rendimiento podría no ser apropiado sin modificaciones sustanciales o la incorporación de características adicionales.
 
 Estos resultados apuntan que, a pesar de ser un concepto fundamental en recuperación de información, el uso directo de IDF para la predicción del rendimiento de consultas podría requerir ser complementado con características adicionales o transformado de manera que capture mejor los aspectos cualitativos de las consultas. Esta observación se alinea con el mejor rendimiento observado en SCQ, que extiende el concepto de IDF incorporando estadísticas adicionales de la colección.
 

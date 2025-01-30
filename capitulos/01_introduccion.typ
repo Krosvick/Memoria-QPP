@@ -11,7 +11,7 @@
 
 == Contexto del proyecto
 \
-La predicción del rendimiento de consultas (QPP) ha emergido como una herramienta prometedora en los sistemas de recuperación de información (IR). La capacidad de predecir la calidad de los resultados de búsqueda antes de la ejecución de la consulta permite tanto optimizar los recursos como al mismo tiempo mejorar la experiencia de los usuarios. Sin embargo, la eficacia de los métodos QPP varía significativamente según el dominio, el tipo de consulta, e incluso los modelos de recuperación de información utilizados, algo que se evidencia especialmente en búsquedas ad-hoc. Esta variabilidad subraya la necesidad de evaluaciones robustas y reproducibles, que permitan comparar y contrastar diferentes enfoques de tal forma que se pueda establecer una línea base clara para futuras investigaciones.
+La predicción del rendimiento de consultas (QPP) ha emergido como una herramienta prometedora en los sistemas de recuperación de información (IR). La capacidad de predecir la calidad de los resultados de búsqueda antes de la ejecución de la consulta permite tanto optimizar los recursos como al mismo tiempo mejorar la experiencia de los usuarios. Sin embargo, la eficacia de los métodos QPP varía significativamente según el dominio, el tipo de consulta, e incluso los modelos de recuperación utilizados, algo que se evidencia especialmente en búsquedas ad-hoc. Esta variabilidad subraya la necesidad de evaluaciones robustas y reproducibles, que permitan comparar y contrastar diferentes enfoques de tal forma que se pueda establecer una línea base clara para futuras investigaciones.
 
 La complejidad del problema de QPP se magnifica por la diversidad de escenarios de aplicación y la heterogeneidad de los datos en diferentes dominios. Los sistemas de recuperación de información modernos deben manejar consultas que varían desde preguntas simples hasta construcciones complejas en lenguaje natural, cada una con sus propios desafíos de predicción de rendimiento. Además, la calidad de los resultados puede verse afectada por factores como la ambigüedad del lenguaje, la especificidad de la consulta, y la cobertura del tema en la colección de documentos.
 
@@ -44,7 +44,7 @@ El presente trabajo está organizado en siete capítulos, además de incluir las
 
 *Capítulo IV: Diseño de la Evaluación Comparativa.* Define la metodología experimental, incluyendo la selección de métodos QPP, datasets, métricas de evaluación y el entorno experimental. Se detalla la configuración técnica y los procedimientos para garantizar la reproducibilidad de los experimentos.
 
-*Capítulo V: Implementación.* Describe en detalle la implementación de los métodos QPP seleccionados, la configuración del entorno experimental y los procesos de validación. Se incluyen aspectos técnicos sobre la integración de herramientas y la ejecución de experimentos.
+*Capítulo V: Implementación.* Describe en detalle la implementación del sistema, la configuración del entorno experimental y los procesos de validación. Se incluyen aspectos técnicos sobre la integración de herramientas y la ejecución de experimentos.
 
 *Capítulo VI: Análisis de Resultados.* Presenta y analiza los resultados obtenidos en la evaluación comparativa, examinando el rendimiento de cada método QPP en diferentes escenarios y datasets. Se discuten las implicaciones de los hallazgos y se comparan con resultados previos de la literatura.
 

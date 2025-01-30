@@ -47,8 +47,8 @@
 #show outline.entry.where(
   level: 1
 ): it => {
-  set text(size: 12pt, weight: "bold")
-  v(12pt, weak: true)
+  set text(size: 12pt)
+  v(10pt, weak: true)
   it
 }
 #par(leading:1em)[
@@ -60,7 +60,7 @@
 #pagebreak()
 
 #pretextual-heading("ÍNDICE DE TABLAS", is_center: true)
-#v(2em)
+#v(2.5em)
 #i-figured.outline(target-kind: table, title: none)
 
 #pagebreak()
@@ -72,7 +72,7 @@
 #pagebreak()
 
 #pretextual-heading("NOMENCLATURA", is_center: true)
-#v(2em)
+#v(2.5em)
 // Lista de símbolos y abreviaturas en orden alfabético
 
 #pagebreak()
