@@ -9,7 +9,7 @@
 Conceptos básicos y principios fundamentales...
 === Sistemas de Information Retrieval (IR)
 === Predicción de Rendimiento de Consultas (QPP)
-=== Métricas Clasicas de Evaluación en IR
+=== Métricas Clásicas de Evaluación en IR
 === Métricas de Correlación para Evaluar Métodos QPP
 
 == Herramientas utilizadas

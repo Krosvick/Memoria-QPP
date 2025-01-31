@@ -73,7 +73,7 @@
 
 #pretextual-heading("NOMENCLATURA", is_center: true)
 #v(2.5em)
-// Lista de símbolos y abreviaturas en orden alfabético
+#include "capitulos/nomenclatura.typ"
 
 #pagebreak()
 

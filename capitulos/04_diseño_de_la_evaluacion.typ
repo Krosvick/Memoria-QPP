@@ -38,7 +38,7 @@ Para garantizar que los enfoques evaluados sean representativos y estén alinead
 
 A continuación, se describen los criterios aplicados en el proceso de selección, así como los métodos QPP finalmente escogidos para la posterior evaluación comparativa.
 
-\
+#v(13pt)
 === Criterios de selección
 \
 Como se ha mencionado, la selección de métodos de Query Performance Prediction (QPP) es un proceso fundamental para garantizar que los métodos evaluados sean representativos, robustos y relevantes en el contexto de los sistemas de recuperación de información. Con este propósito, se definieron criterios específicos que permiten abordar el problema desde una perspectiva teórica sólida y práctica aplicable, los que aseguran la validez de la evaluación comparativa y su alineación con los objetivos del proyecto.
@@ -84,7 +84,7 @@ La @tbl:tabla-criterios resume los criterios definidos para la selección de los
 
 Por otra parte, la decisión de priorizar métodos no basados en inteligencia artificial tiene varias razones claves:
 
--	*Transparencia y simplicidad*: Los métodos no basados en inteligencia artificial, ofrecen interpretraciones claras de cómo se calculan y qué factores influyen en su desempeño, esto contrasta con los métodos supervisados, cuya complejidad en ocasiones dificulta la comprensión de su funcionamiento interno.
+-	*Transparencia y simplicidad*: Los métodos no basados en inteligencia artificial, ofrecen interpretaciones claras de cómo se calculan y qué factores influyen en su desempeño, esto contrasta con los métodos supervisados, cuya complejidad en ocasiones dificulta la comprensión de su funcionamiento interno.
 -	*Reproducibilidad*: Al no depender de datasets de entrenamiento o modelos complejos, los métodos no basados en IA pueden ser implementados en cualquier entorno sin necesidad de recursos adicionales, lo que asegura que los experimentos realizados sean replicables por otros investigadores.
 -	*Independencia del contexto*: Los métodos seleccionados son independientes de los dominios específicos y los cambios en las colecciones de datos, mientras que los métodos supervisados tienden a ser altamente sensibles a las características del dataset de entrenamiento.
 -	*Contribución al estado del arte*: Este enfoque se alinea con el objetivo de establecer líneas base sólidas para evaluar nuevos métodos, permitiendo que futuros desarrollos en QPP se comparen con estándares bien establecidos.
@@ -128,12 +128,13 @@ Siguiendo los criterios establecidos en la sección anterior y tras un análisis
   caption: "Métodos de QPP seleccionados",
 ) <tabla-metodos>
 
+\
 En cuanto al análisis de las fortalezas y debilidades de cada método seleccionado en la @tbl:tabla-metodos:
 
 -	IDF (Inverse Document Frequency): Es un método simple, eficiente y ampliamente utilizado, su capacidad para medir la especificidad de los términos lo convierte en una herramienta básica para estimar la calidad de las consultas. Por otra parte, depende exclusivamente de estadísticas del corpus, lo que limita su precisión en escenarios donde la calidad de los documentos recuperados influye de forma significativa.
 -	SCQ (Similarity between a Query and a Collection): Proporciona una evaluación más detallada al considerar la similitud entre la consulta y la colección en su conjunto, lo que resulta útil en contextos con consultas de longitud variada. Por otra lado, puede ser menos efectivo en colecciones con alta heterogeneidad temática debido a su dependencia de estadísticas globales.
 -	NQC (Normalized Query Commitment): Evalúa la consistencia de los puntajes de relevancia en los documentos recuperados, lo que lo hace efectivo para identificar consultas problemáticas, pero requiere ejecutar consultas y recuperar documentos, lo que implica un costo computacional más alto en comparación con métodos pre-retrieval.
--	Clarity Score (CS): Mide la coherencia del lenguaje de los documentos recuperados, lo que lo hace efectivo en consutlas específicas con temas bien definidos, pero es sensible a consultas cortas o ambiguas, donde la divergencia entre el modelo de lenguaje y el corpus puede ser menos clara.
+-	Clarity Score (CS): Mide la coherencia del lenguaje de los documentos recuperados, lo que lo hace efectivo en consultas específicas con temas bien definidos, pero es sensible a consultas cortas o ambiguas, donde la divergencia entre el modelo de lenguaje y el corpus puede ser menos clara.
 -	WIG (Weighted Information Gain): Integra múltiples características de los documentos recuperados, como términos y proximidad, proporcionando una evaluación integral, aunque puede ser afectado por colecciones con sesgos en los documentos más relevantes, disminuyendo su precisión en escenarios específicos.
 -	UEF (Utility Estimation Framework): Ofrece un marco flexible y adaptable, utilizando modelos de relevancia para capturar tanto la utilidad como la precisión de los rankings generados, pero su complejidad estadística puede dificultar su implementación en sistemas con recursos limitados o en contextos donde se prioriza la simplicidad.
 
@@ -143,15 +144,16 @@ Los métodos seleccionados abarcan una gama de enfoques y fundamentos teóricos,
 \
 == Selección de conjuntos de datos
 \
-La selección de datasetes es parte fundamental para garantizar una evaluación comparativa robusta y representativa de los métodos de Query Performance Prediction (QPP), es por ello, que se seleccionaron datasets reconocidos en la literatura, priorizando los que ofrecen juicios de relevancia (qrels) y métricas estandarizadas, permitiendo así validar el desempeño de los métodos seleccionados en escenarios variados.
+La selección de datasets es parte fundamental para garantizar una evaluación comparativa robusta y representativa de los métodos de Query Performance Prediction (QPP), es por ello, que se seleccionaron datasets reconocidos en la literatura, priorizando los que ofrecen juicios de relevancia (Qrels) y métricas estandarizadas, permitiendo así validar el desempeño de los métodos seleccionados en escenarios variados.
 
 Estos datasets fueron cuidadosamente seleccionados para abarcar una amplia diversidad de tipos de consultas y dominios, asegurando que los resultados obtenidos sean aplicables y relevantes para diferentes contextos de recuperación de información. Este enfoque garantiza no solo la robustez de los resultados, sino también su generalización a futuros trabajos relacionados con QPP.
 
 \
 === Criterios de inclusión
 \
-A continuación, se presentan los criterios aplicados en la selección de datasets, detallando su importancia en el contexto del proyecto.
+En la @tbl:tabla-criterios-datasets se presentan los criterios aplicados en la selección de datasets, detallando su importancia en el contexto del proyecto.
 
+\
 #show figure: set block(breakable: true)
 #figure(
   table(
@@ -177,18 +179,19 @@ A continuación, se presentan los criterios aplicados en la selección de datase
   [Tamaño adecuado],
   [Incluye tanto datasets pequeños como grandes.],
   [Permite evaluar el comportamiento de los métodos en diferentes escalas de datos.],
-  [Relevancias conocidas (qrels)],
+  [Relevancias conocidas (Qrels)],
   [Incluyen juicios de relevancia establecidos previamente.],
   [Facilitan la evaluación precisa y objetiva del desempeño de los métodos QPP.]
   ),
   caption: "Criterios de inclusión de datasets",
-)
+) <tabla-criterios-datasets>
+\
 
 -	Disponibilidad pública: Es fundamental seleccionar datasets de acceso abierto que estén bien documentados, ya que esto garantiza la transparencia y la reproducibilidad de los experimentos, la disponibilidad pública también asegura que los resultados puedan ser validados por otros investigadores, fomentando la colaboración y el avance en el campo del QPP.
--	Diversidad de escenarios: Incluir datasets con diferentes tipos de consultas es crucial para evaluar cómo se desempeñan los métodos QPP en escenarios reales, por ejemplo de consultas informacionales: preguntas abiertas donde el usuario busca adquirir cnocimiento general; consultas navegacionales: consultas donde el objetivo es encontrar una página específica; y consultas transaccionales: consultas orientadas a completar una acción. Esta diversidad asegura que los métodos sean efectivos en una variedad de tareas de recuperación, desde búsquedas generales hasta necesidades específicas.
+-	Diversidad de escenarios: Incluir datasets con diferentes tipos de consultas es crucial para evaluar cómo se desempeñan los métodos QPP en escenarios reales, por ejemplo de consultas informacionales: preguntas abiertas donde el usuario busca adquirir conocimiento general; consultas navegacionales: consultas donde el objetivo es encontrar una página específica; y consultas transaccionales: consultas orientadas a completar una acción. Esta diversidad asegura que los métodos sean efectivos en una variedad de tareas de recuperación, desde búsquedas generales hasta necesidades específicas.
 -	Uso en el estado del arte: Seleccionar datasets ampliamente utilizados en investigaciones previas permite que los resultados del proyecto sean comparables con estudios existentes, lo que refuerza la validez del análisis comparativo y asegura que las metodologías empleadas cumplan con estándares científicos.
 -	Tamaño adecuado: La inclusión de datasets de diferentes tamaños permite evaluar el comportamiento de los métodos en escenarios con distintos volúmenes de datos, en donde los datasets pequeños son ideales para pruebas controladas y rápidas, mientras que los grandes, son útiles para analizar la escalabilidad y robustez de los métodos. Este enfoque asegura que los métodos QPP seleccionados sean evaluados en condiciones que reflejen tanto la simplicidad como la complejidad de los sistemas de recuperación de información modernos.
--	Relevancias conocidas (qrels): Los juicios de relevancia son esenciales para evaluar el desempeño de los métodos de manera objetiva, al incluir datasets con qrels bien establecidos, se garantiza que los resultados estén basados en un marco estandarizado, facilitando su interpretración y comparación
+-	Relevancias conocidas (qrels): Los juicios de relevancia son esenciales para evaluar el desempeño de los métodos de manera objetiva, al incluir datasets con qrels bien establecidos, se garantiza que los resultados estén basados en un marco estandarizado, facilitando su interpretación y comparación
 
 \
 Es así como la aplicación de estos criterios garantiza que los datasets seleccionados sean adecuados para el análisis comparativo de los métodos QPP, de igual forma, al priorizar la diversidad, relevancia y representatividad, este proyecto establece una base sólida para evaluar el desempeño de los métodos en diferentes contextos y escalas, contribuyendo al avance del estado del arte en predicción del rendimiento de consultas.
@@ -199,7 +202,7 @@ Es así como la aplicación de estos criterios garantiza que los datasets selecc
 \
 Como se ha mencionado, los datasets seleccionados para el proyecto fueron escogidos cuidadosamente para garantizar que cubran una amplia gama de escenarios y dominios representativos, por lo que se alinean con los criterios de inclusión previamente establecidos, aportando características únicas que permiten evaluar el rendimiento de QPP en contextos diversos, asegurando resultados generalizables y relevantes para investigaciones futuras, además de contribuir al avance del estado del arte.
 
-A continuación, se presenta una tabla con los datasets seleccionados, seguida de un análisis más detallado de su contribución al presente proyecto.
+A continuación, se presenta la @tbl:tabla-datasets con los datasets seleccionados, seguida de un análisis más detallado de su contribución al presente proyecto.
 
 \
 #figure(
@@ -237,13 +240,14 @@ A continuación, se presenta una tabla con los datasets seleccionados, seguida d
 
   ),
   caption: "Tabla de datasets y sus criterios de inclusión",
-)
+) <tabla-datasets>
 
+\
 -	*Cranfield*: Este dataset es ideal para experimentos iniciales debido a su tamaño reducido y estructura sencilla, al contener resúmenes científicos y consultas predeterminadas, facilita una evaluación controlada de los métodos QPP, permitiendo identificar rápidamente patrones de comportamiento y limitaciones. Su simplicidad permite analizar la precisión básica de los métodos y sirve como línea base para experimentos más complejos.
 -	*MS MARCO (Passage)*: Proporciona un entorno realista donde las consultas derivan de necesidades cotidianas de usuarios reales, sus relevancias asignadas por evaluadores humanos lo convierten en un recurso clave para probar la aplicabilidad práctica de los métodos QPP. Evalúa la capacidad de los métodos para manejar consultas informacionales y transaccionales en contextos cotidianos. @ms-marco-dataset.
 -	*Antique/Test*: Este dataset introduce complejidad al centrarse en preguntas y respuestas subjetivas basadas en opiniones, lo que plantea un desafío adicional para los métodos QPP al modelar consultas no factuales. Analiza cómo los métodos manejan preguntas subjetivas y abiertas, evaluando su capacidad para predecir el rendimiento en dominios con alta variabilidad semántica @antique-dataset.
 -	*BEIR-TREC-COVID*: Su enfoque en consultas científicas relacionadas con COVID-19 lo hace altamente relevante para escenarios especializados donde la precisión y la especificidad son esenciales. Evalúa el rendimiento de los métodos en un dominio crítico donde la información relevante es escasa y de alta relevancia. @trec-covid-dataset.
--	*CAR (Complex Answer Retrieval)*: Al estar enfocado en consultas complejas derivadas de la estructura de Wikipedia, este dataset permite analizar cómo los métodos QPP manejan escenarios con alta complejidad semántica. Mide la capacidad de los métodos para predecir el rendimiento en consultas que requieren una interpretración profunda y modelado avanzado. @TREC-CAR-dataset.
+-	*CAR (Complex Answer Retrieval)*: Al estar enfocado en consultas complejas derivadas de la estructura de Wikipedia, este dataset permite analizar cómo los métodos QPP manejan escenarios con alta complejidad semántica. Mide la capacidad de los métodos para predecir el rendimiento en consultas que requieren una interpretación profunda y modelado avanzado. @TREC-CAR-dataset.
 
 Además, todos los datasets utilizados son de acceso abierto en repositorios públicos y están bien documentados debido a que son ampliamente reconocidos en la comunidad de recuperación de información, lo que asegura que cualquier investigador pueda acceder a ellos sin restricciones para replicar los experimentos. Es así que, la utilización de datasets de acceso abierto garantiza que los resultados del proyecto sean reproducibles y accesibles para futuras investigaciones, fomentando el entorno colaborativo y transparente, evitando problemas legales o éticos relacionados con el uso de datos restringidos o privados.
 
@@ -311,7 +315,7 @@ Como se puede apreciar en la @fig:diagrama_general, el diseño experimental sigu
 -	*Evaluación utilizando metricas de correlación:* Se realiza una evaluación de la correlación entre los puntajes de los predictores y las métricas IR, utilizando la librería de Scipy, para obtener una medida de la efectividad de los predictores QPP con relación al ‟ground truth".
 -	*Documentación y Almacenamiento:* Los resultados, configuraciones y scripts de ejecución se almacenan en directorios organizados dentro del contenedor Docker, garantizando su fácil acceso y análisis.
 
-Entre los componentes de la @fig:diagrama_general, se puede discernir la capa de datos, de indexación y recuperación. Estos componentes funcionan completamente dentro de la libreria Pyterrier, el cual funciona como un "wrapper" para la libreria Terrier, la cual es ampliamente utilizada en la literatura de recuperación de información para la realización de experimentos similares. @pyterrier
+Entre los componentes de la @fig:diagrama_general, se puede discernir la capa de datos, de indexación y recuperación. Estos componentes funcionan completamente dentro de la librería Pyterrier, el cual funciona como un "wrapper" para la librería Terrier, la cual es ampliamente utilizada en la literatura de recuperación de información para la realización de experimentos similares. @pyterrier
 
 \
 === Configuración técnica
@@ -321,7 +325,7 @@ Entre los componentes de la @fig:diagrama_general, se puede discernir la capa de
 
   El sistema utiliza una imagen base de Python 3.9 con Java 11 instalado para soportar PyTerrier. 
 
--	*Párametros del Modelo de Recuperación*:
+-	*Parámetros del Modelo de Recuperación*:
 El sistema utiliza el modelo de recuperación BM25 (Best Match 25) como método principal de recuperación. Los parámetros han sido mantenidos en su configuración por defecto . Su definición se puede observar en la @tbl:tabla_de_parametros
 
 \
@@ -349,9 +353,10 @@ El sistema utiliza el modelo de recuperación BM25 (Best Match 25) como método 
 \
 Otros estudios han propuesto la utilización de otros parámetros para BM25, como el parámetro k1, el cual controla la saturación de términos en los documentos, sobretodo al utilizar métodos de clustering, tales experimentos han demostrado que un valor de k1 mayor a 1.2 puede mejorar el rendimiento de la recuperación. Sin embargo, en este estudio se mantendrán los parámetros por defecto de PyTerrier, ya que se ha demostrado que estos proporcionan un rendimiento adecuado para la mayoría de las tareas de recuperación de información, pero se puede realizar un estudio futuro sobre la utilización de estos parámetros en la evaluación de métodos QPP. @bm25
 
--	*Ejecución de los metodos y scripts de evaluación*:
-El sistema permite una configuración flexible de la ejecución de la evaluación a través de diversos parámetros que controlan tanto el proceso de recuperación como la evaluación QPP. La configuración se realiza principalmente mediante argumentos de línea de comandos y variables de entorno.
+-	*Ejecución de los métodos y scripts de evaluación*:
+La @tbl:tabla-argumentos sistema permite una configuración flexible de la ejecución de la evaluación a través de diversos parámetros que controlan tanto el proceso de recuperación como la evaluación QPP. La configuración se realiza principalmente mediante argumentos de línea de comandos y variables de entorno.
 
+\
 #figure(
   table(
     columns: (auto, auto,auto, ),
@@ -373,22 +378,25 @@ El sistema permite una configuración flexible de la ejecución de la evaluació
     [--output-dir], [Directorio de salida para los resultados], [None],
   ),
   caption: "Parámetros principales de configuración"
-)
+) <tabla-argumentos>
+
+\
 La ejecución se puede realizar tanto directamente a través de Python como mediante contenedores Docker, donde los parámetros se configuran a través de variables de entorno. El sistema utiliza valores por defecto seleccionados para garantizar una evaluación robusta incluso con configuración mínima.
 
 -	*Almacenamiento de Resultados*:
-Los resultados de la evaluación se almacenan en una estructura organizada dentro del directorio del proyecto. Las métricas de IR (nDCG, AP) se guardan por consulta en archivos de texto plano, mientras que las correlaciones entre predictores QPP y métricas se almacenan en formato tabular, acompañadas de visualizaciones (boxplots y diagramas de dispersión) generadas automáticamente.
+Los resultados de la evaluación se almacenan en una estructura organizada dentro del directorio del proyecto. Las métricas de IR (nDCG, AP) se guardan por consulta en archivos de texto plano, mientras que las correlaciones entre predictores QPP y métricas se almacenan en formato tabular, acompañadas de visualizaciones (diagramas de caja y de dispersión) generadas automáticamente.
 
 La evaluación final integra estos resultados mediante un análisis bidimensional: (1), midiendo la efectividad del sistema de recuperación base, medida a través de las métricas IR por consulta, y (2), midiendo la capacidad predictiva de los métodos QPP, cuantificada mediante coeficientes de correlación por rangos entre los puntajes de los predictores y las métricas IR. Una mayor correlación significa que los puntajes de los predictores son confiables para predecir el rendimiento del sistema de recuperación.
 
 \
 -	*Métricas Utilizadas*:
-Para el desarollo de esta evaluación se decanto por el uso de métricas de evaluación que cuentan con una presencia amplia en la literatura, por un lado se decantó por el uso nDCG y AP, las cuales son ampliamente utilizadas en tareas de ranking y precisión proporcionan una medida del rendimiento del sistema de recuperación. Por otro lado, se decantó por el uso de métricas de correlación para la predicción de rendimiento de consultas, como el coeficiente de correlación de Kendall y Spearman, las cuales son ampliamente utilizadas en la literatura y proporcionan una medida de la efectividad de los predictores QPP. @correlation-methods
+Para el desarrollo de esta evaluación se decanto por el uso de métricas de evaluación que cuentan con una presencia amplia en la literatura, por un lado se decantó por el uso nDCG y AP, las cuales son ampliamente utilizadas en tareas de ranking y precisión proporcionan una medida del rendimiento del sistema de recuperación. Por otro lado, se decantó por el uso de métricas de correlación para la predicción de rendimiento de consultas, como el coeficiente de correlación de Kendall y Spearman, las cuales son ampliamente utilizadas en la literatura y proporcionan una medida de la efectividad de los predictores QPP. @correlation-methods
 
 En el contexto de la evaluación de sistemas de recuperación de información, las métricas binarias como Average Precision (*AP*) requieren una distinción clara entre documentos relevantes y no relevantes. Para lograr esto, se establece un umbral binario sobre los niveles de relevancia originales del dataset, donde los documentos con un nivel de relevancia igual o superior al umbral se consideran relevantes, mientras que aquellos por debajo se consideran no relevantes. Este enfoque permite evaluar el rendimiento del sistema en términos de su capacidad para distinguir entre documentos relevantes y no relevantes.
 
-Por otro lado, las métricas graduadas como el Normalized Discounted Cumulative Gain (nDCG) aprovechan la naturaleza multi-nivel de los juicios de relevancia mediante valores de ganancia. Estos valores representan la utilidad o importancia relativa de cada nivel de relevancia, donde un valor más alto indica una mayor relevancia del documento. La asignación de valores de ganancia es crucial ya que influye directamente en cómo la métrica evalúa la calidad del ranking, penalizando más severamente cuando documentos altamente relevantes (con mayor valor de ganancia) aparecen en posiciones más bajas del ranking. A continuación, se detalla la configuración específica de relevancia y valores de ganancia para cada dataset:
+Por otro lado, las métricas graduadas como el Normalized Discounted Cumulative Gain (nDCG) aprovechan la naturaleza multi-nivel de los juicios de relevancia mediante valores de ganancia. Estos valores representan la utilidad o importancia relativa de cada nivel de relevancia, donde un valor más alto indica una mayor relevancia del documento. La asignación de valores de ganancia es crucial ya que influye directamente en cómo la métrica evalúa la calidad del ranking, penalizando más severamente cuando documentos altamente relevantes (con mayor valor de ganancia) aparecen en posiciones más bajas del ranking. En la @tbl:tabla-metricas-datasets se detalla la configuración específica de relevancia y valores de ganancia para cada dataset:
 
+\
 #figure(
   table(
     columns: (auto, auto, auto),
@@ -417,8 +425,9 @@ Por otro lado, las métricas graduadas como el Normalized Discounted Cumulative 
     [Escala más simple que diferencia entre no relevante (0), relevante (1) y altamente relevante (2). Utiliza una escala lineal para el cálculo de nDCG.],
   ),
   caption: "Configuración de métricas por dataset"
-)
+) <tabla-metricas-datasets>
 
+\
 Para el análisis de correlación, el sistema implementa tres coeficientes (τ-Kendall, ρ-Spearman, r-Pearson), pero prioriza τ-Kendall por:
 
 - *Interpretabilidad*: Mide directamente la proporción de pares concordantes vs discordantes
@@ -428,7 +437,7 @@ Para el análisis de correlación, el sistema implementa tres coeficientes (τ-K
 
 Además dentro de la literatura se ha discutido sobre el rendimiento e interpretabilidad de otros coeficientes, como el coeficiente de correlación de Pearson, el cual es menos robusto que τ-Kendall y Spearman, y su uso ha sido desestimado en favor de las anteriormente mencionadas. @correlation-depends-on-quality-of-dataset
 
-La implementación utilizara la libreria ir_measures para garantizar cálculos estandarizados de las métricas IR, mientras que Scipy proporciona implementaciones eficientes de los coeficientes de correlación. El sistema maneja automáticamente casos especiales como queries sin resultados o scores QPP indefinidos, asegurando una evaluación robusta incluso en condiciones no ideales.  
+La implementación utilizara la librería ir_measures para garantizar cálculos estandarizados de las métricas IR, mientras que Scipy proporciona implementaciones eficientes de los coeficientes de correlación. El sistema maneja automáticamente casos especiales como queries sin resultados o scores QPP indefinidos, asegurando una evaluación robusta incluso en condiciones no ideales.  
 
 
 == Relación entre diseño experimental y objetivos
@@ -444,7 +453,7 @@ Como se ha mencionado en capítulos anteriores, el objetivo general del proyecto
 - Implementación y Evaluación: Los métodos QPP se implementan en un entorno controlado utilizando herramientas como PyTerrier, Docker e ir_datasets, por lo que la evaluación se realiza mediante métricas de correlación y juicios de relevancia.
 - Análisis de Resultados: Los resultados obtenidos se comparan con estudios previos para determinar la efectividad de los métodos y establecer una línea base para futuras investigaciones.
 
-La siguiente tabla resume la relación entre el diseño experimental y cómo contribuye al objetivo general.
+La @tbl:tabla-relacion-objetivos resume la relación entre el diseño experimental y cómo contribuye al objetivo general.
 
 \
 #figure(
@@ -461,7 +470,7 @@ La siguiente tabla resume la relación entre el diseño experimental y cómo con
     [*Análisis de Resultados*], [Establece una línea base para futuras comparaciones con nuevos enfoques.],
   ),
   caption: "Relación entre diseño experimental y objetivos"
-)
+) <tabla-relacion-objetivos>
 
 \
 === Alineación con los Objetivos Específicos
@@ -504,8 +513,7 @@ El primer objetivo específico del proyecto corresponde a:
   ]
   
 }
-
-\
+#pagebreak()
 #figure(
   table(
     columns: (auto, auto),
@@ -521,8 +529,9 @@ El primer objetivo específico del proyecto corresponde a:
     [e)], [Documentación y análisis de resultados en función de los objetivos del proyecto.],
   ),
   caption: "Relación entre diseño experimental y objetivos"
-)
+) <tabla-relacion-resumen>
 
 \
-De esta forma, el diseño experimental del proyecto está cuidadosamente alineado con los objetivos del proyecto, en donde la selección de métodos QPP, la elección de datasets, la implementación en un entorno controlado y el uso de métricas de correlación estandarizadas garantizan que los resultados sean robustos, reproducibles y relevantes para el campo de la predicción del rendimiento de consultas, resultando en un enfoque que no solo cumple con los objetivos del proyecto, sino que también establece una base sólida para futuras investigaciones en QPP.
+Como se observa en la @tbl:tabla-relacion-resumen, el diseño experimental del proyecto está cuidadosamente alineado con los objetivos del proyecto, en donde la selección de métodos QPP, la elección de datasets, la implementación en un entorno controlado y el uso de métricas de correlación estandarizadas garantizan que los resultados sean robustos, reproducibles y relevantes para el campo de la predicción del rendimiento de consultas, resultando en un enfoque que no solo cumple con los objetivos del proyecto, sino que también establece una base sólida para futuras investigaciones en QPP.
+
 

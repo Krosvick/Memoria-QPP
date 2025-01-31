@@ -25,13 +25,15 @@ Es así como, durante la revisión de la literatura, se identificaron trabajos c
 === IDF (Frecuencia Inversa de Documentos)
 
 \
-El predictor Inverse Document Frequency (IDF), ampliamente utilizado en el área, puede de igual manera funcionar como predictor pre-retrieval en sistemas de recuperación de información, este mide que tan especificos son los términos de una consulta dentro de un corpus. En el documento @preretrieval-idf, se profundiza su relevancia como un componente clave en la predicción del rendimiento de consultas (QPP), específicamente su capacidad para identificar términos altamente selectivos, es decir, aquellos que aparecen en pocos documentos (menos comunes) y, por ende, aportan mayor discriminación en la búsqueda. El IDF también puede ser utilizado en su variante IDF-Max, donde el término con la mayor frecuencia inversa dentro de una consulta sirve como indicador principal de su efectividad. Este indicador, que se basa en estadística, se adoptó rápidamente como una herramienta esencial en la predicción del rendimiento de consultas (QPP) pre-retrieval, siendo incorporada en otros esquemas y modelos probabilísticos de búsqueda. 
+El predictor Inverse Document Frequency (IDF), ampliamente utilizado en el área, puede de igual manera funcionar como predictor pre-retrieval en sistemas de recuperación de información, este mide que tan específicos son los términos de una consulta dentro de un corpus. En el documento @preretrieval-idf, se profundiza su relevancia como un componente clave en la predicción del rendimiento de consultas (QPP), específicamente su capacidad para identificar términos altamente selectivos, es decir, aquellos que aparecen en pocos documentos (menos comunes) y, por ende, aportan mayor discriminación en la búsqueda. El IDF también puede ser utilizado en su variante IDF-Max, donde el término con la mayor frecuencia inversa dentro de una consulta sirve como indicador principal de su efectividad. Este indicador, que se basa en estadística, se adoptó rápidamente como una herramienta esencial en la predicción del rendimiento de consultas (QPP) pre-retrieval, siendo incorporada en otros esquemas y modelos probabilísticos de búsqueda. 
 
 \
 La fórmula comúnmente utilizada del IDF en sistemas modernos, debido a su suavizado y estabilidad matemática, se define como:
 
+\
 $ I D F(t) = ln(1 + N/f_t) $ <idf-equation>
 
+\
 Donde $N$ es el número total de documentos en el corpus y $f_t$ es el número de documentos que contienen el término $t$, y se añade 1 para evitar divisiones por cero o valores indefinidos.
 
 En el artículo @idf-understanding, el autor señala que el IDF asigna pesos más bajos a los términos frecuentes debido a su limitado poder discriminatorio, mientras que otorga pesos más altos a los términos menos comunes, los cuales poseen mayor capacidad para distinguir documentos relevantes, asegurando que los términos poco frecuentes, pero informativos, tengan un mayor impacto en el cálculo de relevancia. Además, se destaca que, aunque la formulación exacta del algoritmo puede variar según los autores, su utilidad general permanece sólida en una amplia gama de aplicaciones prácticas, incluyendo la recuperación de información y otros contextos relacionados con el análisis de datos.
@@ -40,6 +42,8 @@ De esta forma, el IDF ha sido ampliamente utilizado debido a su robustez y simpl
 
 En cuanto a su relevancia para el presente proyecto de evaluación de métodos de QPP, el IDF resulta relevante, ya que su capacidad para capturar la especificidad de los términos yace de manera tacita en otros predictores QPP, además, como se menciona en el artículo @predicting-performance, su integración en distintas métricas proporciona una línea base confiable para la comparación con métodos más avanzados, validando su referencia tanto de forma heurística como de herramienta teórica sólida y bien fundamentada.
 
+\
+
 === SCQ (Similitud entre consulta y colección)
 
 \
@@ -47,7 +51,9 @@ El método SCQ (Similarity Between a Query and a Collection), es un predictor pr
 
 La fórmula matemática que define al SCQ es la siguiente:
 
+\
 $ S C Q = sum_(t in Q) ((1+ln(f_(c,t))) dot ln(1+N/f_(t)))  $ <scq-equation>
+\
 
 Donde $Q$ es el conjunto de términos de la consulta, $f_(c,t)$ corresponde a la frecuencia del término $t$ en la colección, $f_t$ es el número de documentos en los que aparece el término $t$, y finalmente $N$ es el número total de documentos de la colección.
 
@@ -106,7 +112,9 @@ El cálculo de WIG se realiza comparando el cambio en la información entre un e
 
 En cuanto a su fórmula, WIG se define como la diferencia entre la entropía ponderada de los documentos mejor clasificados y la entropía del modelo de lenguaje de la colección, lo que es igual a:
 
+\
 $ W I G(Q)= 1/k sum_(d in D k)(P(Q | d)log (P(Q | d))/(P(Q | C))) $ <wig-equation>
+\
 
 En donde $Q$ es la consulta, $D k$ es el conjunto de los $k$ documentos mejor clasificados, $P(Q ∣ d)$ es la probabilidad de la consulta Q dado el documento d, y $P(Q ∣ C)$ es la probabilidad de la consulta Q dado el modelo de lenguaje de la colección.
 
@@ -121,7 +129,11 @@ El Utility Estimation Framework (UEF) fue desarrollado por Anna Shtok, Oren Kurl
 El marco UEF permite una gran flexibilidad al emplear diferentes métricas de similitud, como el coeficiente de correlación de Pearson, y al estimar modelos de relevancia utilizando pseudo-relevance feedback. Esta combinación proporciona una base teórica sólida para predecir el rendimiento de consultas, ya que integra la precisión de los modelos de relevancia con un enfoque estructurado que captura las características del ranking generado por la consulta.
 
 A continuación se observa la fórmula general del UEF:
+
+\
 $ U(pi_M (q;D))= integral_(R_q)S i m(pi_M (R_q ;D))p(R_q | I_q)d R_q $
+
+\
 En donde, $pi_M (q;D)$ corresponde al ranking generado por el modelo $M, R_q$ al modelo de relevancia estimado basado en la consulta $q, S i m$ es la medida de similitud entre rankings y $p(R_q ∣I q)$ a la probabilidad de que $R_q$ represente la necesidad de información subyacente $I q$.
 
 El UEF destaca por su fundamentación teórica en la teoría estadística de decisiones, lo que le permite estimar de manera robusta la utilidad esperada de un ranking. Su diseño matemático incorpora explícitamente la incertidumbre inherente en la estimación de relevancia a través de la distribución de probabilidad $p(R_q ∣I q)$, mientras que la función de similitud $S i m$ cuantifica la concordancia entre el ranking original y los rankings generados por los modelos de relevancia estimados.
@@ -135,6 +147,7 @@ En cuanto a la investigación de trabajos relacionados, también se identificaro
 
 A continuación, se presentan los estudios relevantes que evaluaron métodos QPP como IDF, SCQ, Clarity Score, entre otros, destacando sus aportes al estado del arte del área y su influencia en el diseño de este proyecto.
 
+\
 === QPPTK en TIREx
 \
 Un reciente estudio relevante para el presente proyecto es el desarrollado por Zendel, Fröbe y Faggioli en 2024, que proporciona una referencia fundamental al implementar y evaluar un marco de predicción del rendimiento de consultas (QPP) utilizando el Query Performance Prediction Toolkit (QPPTK) dentro de la plataforma TIREx. En este trabajo @zendel2024qpptk, los autores analizaron el desempeño de 12 métodos de predicción en combinación con diversos modelos de recuperación de información y 23 conjuntos de datos, incluyendo benchmarks reconocidos como TREC Robust04 y MS MARCO, por lo que, la amplitud de la evaluación y su enfoque en la reproducibilidad de los experimentos lo convierten en un recurso valioso para este proyecto.
@@ -151,6 +164,7 @@ Es así que, los hallazgos de los autores, proporcionan métricas clave, como co
 \
 En resumen, este estudio no solo se destaca por la profundidad de su análisis, sino también por su contribución al establecimiento de prácticas experimentales reproducibles, que es en donde radica su relevancia para el proyecto presentado, ya que propone un diseño experimental y proporciona un marco sólido para evaluar métodos de predicción del rendimiento de consultas en entornos complejos.
 
+\
 === An Enhanced Evaluation Framework for Query Performance Prediction (2021)
 
 \
@@ -158,7 +172,7 @@ Otro estudio destacado y relevante para el presente proyecto es el realizado por
 
 Es así que, en el artículo @enhanced-evaluation, los autores proponen un enfoque innovador que incluye métricas basadas en errores, como el Scaled Absolute Rank Error (SARE) y el Scaled Mean Absolute Rank Error (sMARE), las cuales permiten medir el error de predicción de manera distribuida por consulta. Además, incorporan técnicas estadísticas avanzadas, como el análisis de varianza (ANOVA) y pruebas post hoc para evaluar las diferencias entre métodos con mayor detalle. Estas herramientas permiten no solo comparar la precisión de los predictores, sino también analizar la influencia de factores como el tema de la consulta, el método de recuperación y la configuración de stemming en el rendimiento del QPP.
 
-Como se menciona, el artículo se destaca por su enfoque en la medición de errores distribuidos por consulta, lo que permite un análisis más granular del desempeño de los métodos, en donde se realizaron experimentos en conjuntos de datos estándar como TREC Robust-04, utilizando métodos pre-retrieval, como MaxIDF y SCQ, y post-retrieval, como NQC y Clarity Score, cuyos resultados revelaron que factores como el modelo de recuperación, la configuración de stemming y stoplists, y la naturaleza de las consultas influyen significativamente en el rendimiento del QPP. Por ejemplo, se observó que los métodos post-retrieval, como NQC y Clarity, tienden a tener una correlación más alta con la precisión promedio (AP), mientras que los métodos pre-retrieval, como MaxIDF, pueden ser más robustos en ciertos escenarios. Estos hallazgos proporcionan información valiosa para optimizar estos sistemas y seleccionar el método más adecuado según la situación.
+Como se menciona, el artículo se destaca por su enfoque en la medición de errores distribuidos por consulta, lo que permite un análisis más granular del desempeño de los métodos, en donde se realizaron experimentos en conjuntos de datos estándar como TREC Robust-04, utilizando métodos pre-retrieval, como MaxIDF y SCQ, y post-retrieval, como NQC y Clarity Score, cuyos resultados revelaron que factores como el modelo de recuperación, la configuración de stemming y ‟stoplists”, y la naturaleza de las consultas influyen significativamente en el rendimiento del QPP. Por ejemplo, se observó que los métodos post-retrieval, como NQC y Clarity, tienden a tener una correlación más alta con la precisión promedio (AP), mientras que los métodos pre-retrieval, como MaxIDF, pueden ser más robustos en ciertos escenarios. Estos hallazgos proporcionan información valiosa para optimizar estos sistemas y seleccionar el método más adecuado según la situación.
 
 En el contexto del presente proyecto, el marco propuesto por los autores es importante, ya que introduce prácticas de evaluación reproducibles y detalladas, alineadas con estándares modernos, además de que, sus hallazgos sobre la interacción de factores experimentales y el rendimiento del QPP sirven como guía directa para configurar experimentos que sean estadísticamente sólidos y representativos en escenarios reales. Por ejemplo, el uso de ANOVA y pruebas post hoc permite identificar no solo qué métodos son superiores en general, sino también en qué condiciones específicas (como ciertos tipos de consultas o configuraciones) un método puede ser mejor que otro, lo que es particularmente útil en aplicaciones prácticas donde la variabilidad de las consultas y los documentos es alta, como en motores de búsqueda web y sistemas de recomendación.
 
