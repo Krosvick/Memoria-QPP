@@ -113,5 +113,9 @@
 
 #pagebreak()
 
+#include "capitulos/anexos.typ"
+
+#pagebreak()
+
 #include "capitulos/referencias.typ"
 #fence()

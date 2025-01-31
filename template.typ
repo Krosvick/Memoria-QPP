@@ -147,8 +147,9 @@
     )
   ]
   pagebreak()
-  show heading: i-figured.reset-counters
+  show heading: i-figured.reset-counters.with(extra-kinds: ("Anexo",))
   show figure: i-figured.show-figure
+  show figure: i-figured.show-figure.with(extra-prefixes: (Anexo: "Anexo:"))
   show math.equation: i-figured.show-equation.with(zero-fill: false)
 
   body
