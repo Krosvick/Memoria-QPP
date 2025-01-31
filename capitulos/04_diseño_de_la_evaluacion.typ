@@ -100,6 +100,8 @@ Siguiendo los criterios establecidos en la sección anterior y tras un análisis
   table(
   columns: (auto, auto, auto),
   inset: 10pt,
+  stroke: (x: none),
+  row-gutter: (2.2pt, auto),
   align: horizon,
   table.header(
     [*Método QPP*], [*Clasificación*], [*Descripción*],
@@ -311,8 +313,8 @@ Como se puede apreciar en la @fig:diagrama_general, el diseño experimental sigu
 -	*Configuración de Modelos de Recuperación:* Configuración de modelos de recuperación como estándar como BM25 en PyTerrier con parámetros predefinidos, asegurando una base consistente para la evaluación de los métodos QPP.
 -	*Implementación de los métodos QPP:* Los métodos seleccionados, como, por ejemplo, IDF, SCQ o NQC, se implementan mediante scripts en Python dentro del contenedor Docker, todos estos utilizan una interfaz similar dentro del sistema, permitiendo una ejecución estandarizada de los métodos.
 -	*Ejecución de los métodos de predicción:* Los experimentos se realizan mediante un script principal que realiza múltiples iteraciones por método y dataset, asegurando estabilidad y fiabilidad de los resultados.
--	*Evaluación utilizando juicios de relevancia (qrels):* Se realiza una evaluación del rendimiento de las consultas utilizando la librería de ir_measures sobre el sistema de recuperación implementado, esto es el ‟ground truth" o "verdadero valor" del rendimiento de la consulta en el sistema de recuperación implementado. Posteriormente los resultados se almacenan en formato estructurado para su posterior análisis.
--	*Evaluación utilizando metricas de correlación:* Se realiza una evaluación de la correlación entre los puntajes de los predictores y las métricas IR, utilizando la librería de Scipy, para obtener una medida de la efectividad de los predictores QPP con relación al ‟ground truth".
+-	*Evaluación utilizando juicios de relevancia (qrels):* Se realiza una evaluación del rendimiento de las consultas utilizando la librería de ir_measures sobre el sistema de recuperación implementado, esto es el ‟ground truth” o "verdadero valor" del rendimiento de la consulta en el sistema de recuperación implementado. Posteriormente los resultados se almacenan en formato estructurado para su posterior análisis.
+-	*Evaluación utilizando métricas de correlación:* Se realiza una evaluación de la correlación entre los puntajes de los predictores y las métricas IR, utilizando la librería de Scipy, para obtener una medida de la efectividad de los predictores QPP con relación al ‟ground truth”.
 -	*Documentación y Almacenamiento:* Los resultados, configuraciones y scripts de ejecución se almacenan en directorios organizados dentro del contenedor Docker, garantizando su fácil acceso y análisis.
 
 Entre los componentes de la @fig:diagrama_general, se puede discernir la capa de datos, de indexación y recuperación. Estos componentes funcionan completamente dentro de la librería Pyterrier, el cual funciona como un "wrapper" para la librería Terrier, la cual es ampliamente utilizada en la literatura de recuperación de información para la realización de experimentos similares. @pyterrier
@@ -326,7 +328,7 @@ Entre los componentes de la @fig:diagrama_general, se puede discernir la capa de
   El sistema utiliza una imagen base de Python 3.9 con Java 11 instalado para soportar PyTerrier. 
 
 -	*Parámetros del Modelo de Recuperación*:
-El sistema utiliza el modelo de recuperación BM25 (Best Match 25) como método principal de recuperación. Los parámetros han sido mantenidos en su configuración por defecto . Su definición se puede observar en la @tbl:tabla_de_parametros
+El sistema utiliza el modelo de recuperación BM25 (Best Match 25) como método principal de recuperación. Los parámetros han sido mantenidos en su configuración por defecto. Su definición se puede observar en la @tbl:tabla_de_parametros
 
 \
 #figure(
@@ -390,7 +392,7 @@ La evaluación final integra estos resultados mediante un análisis bidimensiona
 
 \
 -	*Métricas Utilizadas*:
-Para el desarrollo de esta evaluación se decanto por el uso de métricas de evaluación que cuentan con una presencia amplia en la literatura, por un lado se decantó por el uso nDCG y AP, las cuales son ampliamente utilizadas en tareas de ranking y precisión proporcionan una medida del rendimiento del sistema de recuperación. Por otro lado, se decantó por el uso de métricas de correlación para la predicción de rendimiento de consultas, como el coeficiente de correlación de Kendall y Spearman, las cuales son ampliamente utilizadas en la literatura y proporcionan una medida de la efectividad de los predictores QPP. @correlation-methods
+Para el desarrollo de esta evaluación se optó por el uso de métricas de evaluación que cuentan con una presencia amplia en la literatura, por un lado se decantó por el uso nDCG y AP, las cuales son ampliamente utilizadas en tareas de ranking y precisión proporcionan una medida del rendimiento del sistema de recuperación. Por otro lado, se decantó por el uso de métricas de correlación para la predicción de rendimiento de consultas, como el coeficiente de correlación de Kendall y Spearman, las cuales son ampliamente utilizadas en la literatura y proporcionan una medida de la efectividad de los predictores QPP. @correlation-methods
 
 En el contexto de la evaluación de sistemas de recuperación de información, las métricas binarias como Average Precision (*AP*) requieren una distinción clara entre documentos relevantes y no relevantes. Para lograr esto, se establece un umbral binario sobre los niveles de relevancia originales del dataset, donde los documentos con un nivel de relevancia igual o superior al umbral se consideran relevantes, mientras que aquellos por debajo se consideran no relevantes. Este enfoque permite evaluar el rendimiento del sistema en términos de su capacidad para distinguir entre documentos relevantes y no relevantes.
 
@@ -437,7 +439,7 @@ Para el análisis de correlación, el sistema implementa tres coeficientes (τ-K
 
 Además dentro de la literatura se ha discutido sobre el rendimiento e interpretabilidad de otros coeficientes, como el coeficiente de correlación de Pearson, el cual es menos robusto que τ-Kendall y Spearman, y su uso ha sido desestimado en favor de las anteriormente mencionadas. @correlation-depends-on-quality-of-dataset
 
-La implementación utilizara la librería ir_measures para garantizar cálculos estandarizados de las métricas IR, mientras que Scipy proporciona implementaciones eficientes de los coeficientes de correlación. El sistema maneja automáticamente casos especiales como queries sin resultados o scores QPP indefinidos, asegurando una evaluación robusta incluso en condiciones no ideales.  
+La implementación utilizará la librería ir_measures para garantizar cálculos estandarizados de las métricas IR, mientras que Scipy proporciona implementaciones eficientes de los coeficientes de correlación. El sistema maneja automáticamente casos especiales como queries sin resultados o scores QPP indefinidos, asegurando una evaluación robusta incluso en condiciones no ideales.  
 
 
 == Relación entre diseño experimental y objetivos

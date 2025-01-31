@@ -128,7 +128,7 @@ Docker es la principal herramienta que permite la ejecución del entorno experim
 ) <dockerfile>
 
 \
-La @fig:dockerfile muestra el archivo Docker utilizado para la configuración del entorno experimental, este Dockerfile se encuentra disponible en el repositorio de GitHub del proyecto. En este se especifican las principales dependencies y configuraciones de entorno necesarias para la ejecución del entorno experimental. 
+La @fig:dockerfile muestra el archivo Docker utilizado para la configuración del entorno experimental, este Dockerfile se encuentra disponible en el repositorio de GitHub del proyecto. En este se especifican las principales dependencias y configuraciones de entorno necesarias para la ejecución del entorno experimental. 
 
 \
 #figure(
@@ -159,11 +159,11 @@ La @tbl:tabla_docker muestra los componentes esenciales para la configuración y
 \
 === Integración de conjuntos de datos
 \
-Como se explico anteriormente, los conjuntos de datos utilizados en este trabajo se encuentran disponibles en la librería IR-datasets, la cual cuenta con una amplia gama de conjuntos de datos tanto clásicos como modernos de recuperación de información junto a sus consultas y respectivos juicios de relevancia.
+Como se explicó anteriormente, los conjuntos de datos utilizados en este trabajo se encuentran disponibles en la librería IR-datasets, la cual cuenta con una amplia gama de conjuntos de datos tanto clásicos como modernos de recuperación de información junto a sus consultas y respectivos juicios de relevancia.
 
 Cada dataset cuenta con una cantidad de documentos y consultas disponibles para realizar la evaluación, por otro lado los juicios de relevancia o ‟Qrels” suponen un desafío extra para la implementación de la evaluación, puesto que cada dataset cuenta con distintos niveles de relevancia para las consultas, lo cual si no se maneja adecuadamente puede alterar drásticamente los resultados de la correlación.
 
-Esto es asi puesto a que la evaluación clásica de métodos IR se basa en el calculo de métricas como nDCG, AP, MAP, etc, las cuales dependen de los juicios de relevancia actuando como _ground truth_ para su calculo.
+Esto es así puesto a que la evaluación clásica de métodos IR se basa en el cálculo de métricas como nDCG, AP, MAP, etc, las cuales dependen de los juicios de relevancia actuando como _ground truth_ para su cálculo.
 
 \
 #figure(
@@ -236,7 +236,7 @@ La implementación de los métodos QPP difiere en las dos categorías en la que 
 
 Para cumplir con los requisitos de los métodos QPP, se ha implementado un factory, el cual se encarga de la creación y computo de los puntajes de los métodos QPP. Este factory se encarga de tomar las dependencias necesarias y entregarlas a los métodos QPP, para que estos puedan ser computados.
 
-Para la implementación de los métodos QPP, se ha utilizado un enfoque mixto, tanto utilizando código abierto como propio, para la satisfacer las necesidades de la evaluación a realizar. Todo el código utilizado se encuentra disponible en el repositorio de GitHub de este trabajo, el cual se puede encontrar en el repositorio #footnote[https://github.com/Zendelo/QPP-EnhancedEval/tree/qpptk-dev] de el usuario *Zendelo* en GitHub.
+Para la implementación de los métodos QPP, se ha utilizado como base código abierto pero con mejoras y modificaciones propias para satisfacer las necesidades de la evaluación a realizar. Todo el código externo utilizado se encuentra disponible en el repositorio de GitHub de el usuario *Zendelo*. #footnote[https://github.com/Zendelo/QPP-EnhancedEval/tree/qpptk-dev]
 
 \
 === Métodos pre-retrieval
@@ -244,7 +244,7 @@ Para la implementación de los métodos QPP, se ha utilizado un enfoque mixto, t
 \
 En esta categoría se implementaron dos de los métodos más utilizados en las evaluaciones de la literatura, por un lado se encuentra el método IDF, el cual se basa en la frecuencia de los términos en los documentos, y por otro lado se encuentra el método SCQ, el cual se basa en la similitud de la consulta a los documentos de la colección.
 
-Ambos métodos cuentan con variaciones, ya sea el valor promedio de los términos de la consulta, o alternativamente el valor máximo de los términos de la consulta. Estás variaciones son utilizadas en diferentes evaluaciones y se ha optado por implementar ambas en el entorno experimental.
+Ambos métodos cuentan con variaciones, ya sea el valor promedio de los términos de la consulta, o alternativamente el valor máximo de los términos de la consulta. Estas variaciones son utilizadas en diferentes evaluaciones y se ha optado por implementar ambas en el entorno experimental.
 
 
 \

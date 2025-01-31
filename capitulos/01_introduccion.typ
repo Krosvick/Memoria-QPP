@@ -34,7 +34,7 @@ Evaluar comparativamente métodos de Query Performance Prediction (QPP) para bú
 5. Identificar fortalezas y debilidades de diferentes enfoques, proporcionando ideas para futuras investigaciones en métodos QPP.
 
 \
-== Estructura del trabajo de titulo
+== Estructura del trabajo de título
 \
 El presente trabajo está organizado en siete capítulos, además de incluir las referencias bibliográficas que detallan todos los documentos citados y utilizados en su elaboración. Los capítulos son los siguientes:
 

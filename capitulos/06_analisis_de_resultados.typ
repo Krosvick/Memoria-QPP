@@ -134,7 +134,7 @@ Los resultados de este fueron puestos bajo la lupa para corroborar su buen funci
       [0001], [16], [believ], [12362],
 
     ),
-    caption: [Muestra de terminos Porter vs Snowball Stemmers]
+    caption: [Muestra de términos Porter vs Snowball Stemmers]
   ) <Stemmers_Porter_vs_Snowball> ]
 } 
 \
@@ -253,7 +253,7 @@ Por ultimo cabe mencionar que el método SCQ presenta mejores resultados en su v
 \
 Los resultados demuestran consistentemente que los métodos post-retrieval, particularmente en sus variantes UEF, superan a los métodos pre-retrieval. El método UEF-NQC, con una correlación de τ = 0.4245, representa una mejora significativa sobre los métodos pre-retrieval más efectivos. Esta superioridad sugiere que la información adicional disponible después de la recuperación proporciona señales más confiables para la predicción del rendimiento.
 
-En cuanto a la comparación con otras evaluaciones en la literatura, los métodos se encuentran generalmente en linea o un poco por encima de los resultados de Zendel et al. @zendel2024qpptk, con la única excepción de Clarity, el cual presenta un rendimiento inferior probablemente debido a su enfoque de lenguaje natural y el preprocesado utilizado.
+En cuanto a la comparación con otras evaluaciones en la literatura, los métodos se encuentran generalmente en línea o un poco por encima de los resultados de Zendel et al. @zendel2024qpptk, con la única excepción de Clarity, el cual presenta un rendimiento inferior probablemente debido a su enfoque de lenguaje natural y el preprocesado utilizado.
 
 \
 === Complejidad Inherente de la Tarea
@@ -261,7 +261,7 @@ En cuanto a la comparación con otras evaluaciones en la literatura, los método
 La dificultad fundamental de predecir el rendimiento de las consultas se evidencia en estudios previos con expertos humanos @humans-cant-predict @user-ratings-vs-system-predictions, donde incluso profesionales con conocimiento profundo de la terminología y sus ambigüedades mostraron una capacidad limitada para predecir el rendimiento de las consultas. Este contexto hace que los resultados obtenidos por los métodos automáticos, particularmente UEF-NQC, sean más apreciables, ya que logran correlaciones moderadas en una tarea inherentemente compleja.
 
 \
-=== Implicaciones sobre una linea base experimental
+=== Implicaciones sobre una línea base experimental
 \
 Los resultados sugieren varias implicaciones importantes. Primero, la elección entre métodos pre y post-retrieval debe considerar el balance entre eficiencia y efectividad. Mientras que SCQ ofrece un compromiso razonable, logrando correlaciones moderadas sin el costo computacional de la recuperación, los métodos post-retrieval como UEF-NQC proporcionan predicciones significativamente más confiables cuando el tiempo de procesamiento no es una limitación crítica.
 
