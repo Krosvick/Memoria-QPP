@@ -68,7 +68,7 @@ Donde se puede observar que el proceso de evaluación involucra métricas de eva
 \
 == Resultados obtenidos en conjuntos de datos
 \
-Como se menciono anteriormente, previo a la evaluación de los métodos QPP, es necesario evaluar el sistema de recuperación subyacente, en este caso BM25 utilizando el conjunto de datos _antique test_ y sus 4 niveles de relevancia para sus cerca de 200 consultas proporcionadas.
+Como se mencionó anteriormente, previo a la evaluación de los métodos QPP, es necesario evaluar el sistema de recuperación subyacente, en este caso BM25 utilizando el conjunto de datos _antique test_ y sus 4 niveles de relevancia para sus cerca de 200 consultas proporcionadas.
 
 \
 #figure(image("../assets/imagenes/resultados/boxplot_metricas.png"), caption: [Diagrama de caja para las métricas nDCG y AP]) <Boxplot_metricas>
@@ -90,12 +90,12 @@ La @fig:Histogramas_metricas sirve para complementar la información anterior da
 #figure(image("../assets/imagenes/resultados/histogramas_metricas.png"), caption: [Histogramas de las métricas nDCG y AP]) <Histogramas_metricas>
 
 \
-La @fig:Scatter_ndcg10_vs_ap muestra el gráfico de dispersión de los valores de nDCG\@10 y AP, donde principalmente se puede apreciar la fuerte correlación (r=0.84) que existe entre ambas métricas, lo cual sugiere una calidad de recuperación similar entre ambos experimentos. Sin embargo algo interesante a tener en cuenta es el patrón "palo de hockey" que se forma entre las dos métricas. Esto apunta a que:
+La @fig:Scatter_ndcg10_vs_ap muestra el gráfico de dispersión de los valores de nDCG\@10 y AP, donde principalmente se puede apreciar la fuerte correlación (r=0.84) que existe entre ambas métricas, lo cual sugiere una calidad de recuperación similar entre ambos experimentos. Por otra parte, algo interesante a tener en cuenta es el patrón "palo de hockey" que se forma entre las dos métricas. Esto apunta a que:
 
 - En el rango inferior(nDCG\@10 < 0.4) tenemos rendimientos mas dispersos, donde una valor de nDCG\@10 alto no necesariamente implica un valor de AP alto.
 - En el rango superior(nDCG\@10 > 0.6) la relación se vuelve mas predecible. Cuando nuestro sistema de recuperación presenta un rendimiento alto en nDCG\@10, el rendimiento en AP tiende a ser alto igualmente.
 
-Finalmente el rango intermedio tenemos la ocurrencia de algunos _outliers_, como se menciono anteriormente, nDCG\@10 presenta resultados mayores a AP, y en algunos casos estos pueden llegar a contar una diferencia significativa (0.6 vs 0.1).
+Finalmente el rango intermedio tenemos la ocurrencia de algunos _outliers_, como se mencionó anteriormente, nDCG\@10 presenta resultados mayores a AP, y en algunos casos estos pueden llegar a contar una diferencia significativa (0.6 vs 0.1).
 \
 #figure(image("../assets/imagenes/resultados/scatter_ndcg@10_vs_ap.png"), caption: [Gráfico de dispersión de nDCG\@10 vs AP]) <Scatter_ndcg10_vs_ap>
 
@@ -139,7 +139,7 @@ Los resultados de este fueron puestos bajo la lupa para corroborar su buen funci
 } 
 \
 
-Los resultados encontrados en la @tbl:Stemmers_Porter_vs_Snowball muestran que el stemmer de Snowball presenta un rendimiento mayor en la frecuencia de los términos, esto se puede atribuir a que el stemmer de Snowball es más agresivo en la eliminación de sufijos y prefijos, lo cual puede llevar a una mayor cantidad de términos que son relevantes para la recuperación de información. Sin embargo la pobre calidad en el procesado entregado por el stemmer de porter justifico su reemplazo por el de Snowball. Sin embargo, este cambio tuvo como consecuencia un impacto directo a la correlación del método IDF en nDCG\@10, con una disminución de 0.146 a 0.05. La causa principal de este efecto no ha sido investigada profundamente, pero puede deberse a que el _Stemmer_ original procesaba una mayor gamma de tokens comunes en el dataset pero que no se correspondían con ninguna palabra, sino con números o caracteres especiales, que podrían ser abundantes en el corpus. Un estudio mas profundo sobre la calidad de los conjuntos de datos podría ayudar a comprender este efecto de mejor forma.
+Los resultados encontrados en la @tbl:Stemmers_Porter_vs_Snowball muestran que el stemmer de Snowball presenta un rendimiento mayor en la frecuencia de los términos, esto se puede atribuir a que el stemmer de Snowball es más agresivo en la eliminación de sufijos y prefijos, lo cual puede llevar a una mayor cantidad de términos que son relevantes para la recuperación de información. Por otra parte, la pobre calidad en el procesado entregado por el stemmer de porter justifico su reemplazo por el de Snowball. En consecuencia, este cambio tuvo un impacto directo a la correlación del método IDF en nDCG\@10, con una disminución de 0.146 a 0.05. La causa principal de este efecto no ha sido investigada profundamente, pero puede deberse a que el _Stemmer_ original procesaba una mayor gamma de tokens comunes en el dataset pero que no se correspondían con ninguna palabra, sino con números o caracteres especiales, que podrían ser abundantes en el corpus. Un estudio mas profundo sobre la calidad de los conjuntos de datos podría ayudar a comprender este efecto de mejor forma.
 
 #figure(image("../assets/imagenes/resultados/scatter_ndcg@10_scq_max.png"), caption: [Correlación de los métodos QPP - tau de Kendall]) <Correlacion_scq>
 
@@ -149,7 +149,7 @@ La superioridad de SCQ se hace más evidente en su variante máxima, alcanzando 
 
 Si bien una correlación de aproximadamente 0.26 no podría considerarse extremadamente fuerte, representa una mejora significativa sobre el método IDF y sugiere que SCQ captura señales más significativas sobre el potencial rendimiento de las consultas. Este hallazgo tiene implicaciones relevantes para el diseño de sistemas de predicción de rendimiento de consultas, indicando que la incorporación de estadísticas más completas de la colección puede conducir a predicciones más confiables.
 
-La @fig:Correlaciones_qpp_boxplot_kendall muestra el diagrama de caja asociado a cada correlación, como se menciono anteriormente, el método IDF es el que presenta una menor correlación, mientras que el método UEF-NQC es el que presenta la mayor correlación del grupo con un valor de 0.42 con respecto a nDCG\@10. Se puede apreciar que pese a que la mayoría de los métodos presentan cajas relativamente planas, lo que indica una estabilidad en sus correlaciones, algunos métodos como WIG y UEF-NQC muestran una mayor variabilidad en sus resultados. Particularmente, UEF-NQC exhibe un rango más amplio de correlaciones, con un valor promedio de 0.4 y un mínimo cercano a 0.39, lo que sugiere que su rendimiento, aunque superior, puede ser menos consistente que otros métodos. Esta variabilidad podría atribuirse a la naturaleza más compleja del método, que al incorporar más factores en su cálculo, puede ser más sensible a las características específicas de las consultas.
+La @fig:Correlaciones_qpp_boxplot_kendall muestra el diagrama de caja asociado a cada correlación, como se mencionó anteriormente, el método IDF es el que presenta una menor correlación, mientras que el método UEF-NQC es el que presenta la mayor correlación del grupo con un valor de 0.42 con respecto a nDCG\@10. Se puede apreciar que pese a que la mayoría de los métodos presentan cajas relativamente planas, lo que indica una estabilidad en sus correlaciones, algunos métodos como WIG y UEF-NQC muestran una mayor variabilidad en sus resultados. Particularmente, UEF-NQC exhibe un rango más amplio de correlaciones, con un valor promedio de 0.4 y un mínimo cercano a 0.39, lo que sugiere que su rendimiento, aunque superior, puede ser menos consistente que otros métodos. Esta variabilidad podría atribuirse a la naturaleza más compleja del método, que al incorporar más factores en su cálculo, puede ser más sensible a las características específicas de las consultas.
 
 \
 #figure(image("../assets/imagenes/resultados/correlaciones_qpp_boxplot_kendall.png"), caption: [Diagrama de caja de correlaciones métodos QPP vs nDCG\@10 en tau de Kendall]) <Correlaciones_qpp_boxplot_kendall>

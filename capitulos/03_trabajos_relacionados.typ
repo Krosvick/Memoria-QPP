@@ -67,7 +67,7 @@ Por lo tanto, para el presente proyecto, el SCQ es particularmente relevante por
 === NQC (Normalized Query Commitment)
 
 \
-El método NQC (‟Normalized Query Commitment”) fue propuesto por Anna Shtok, Oren Kurland y David Carmel como un predictor post-retrieval que evalúa la efectividad de una consulta midiendo la dispersión de los puntajes de recuperación entre los documentos más relevantes. En el artículo @query-drift, los autores destacan que una menor dispersión temática en los documentos recuperados está asociada con una mayor efectividad de las consultas, lo cual se refleja en la distribución de los puntajes de recuperación.
+El método NQC (‟Normalized Query Commitment”) fue propuesto por Anna Shtok, Oren Kurland y David Carmel como un predictor post-retrieval que evalúa la efectividad de una consulta midiendo la dispersión de los puntajes de recuperación entre los documentos más relevantes. En el artículo @query-drift, los autores destacan que una menor dispersión temática en los documentos recuperados está directamente asociada con una mayor efectividad de las consultas, lo cual se refleja en la distribución de los puntajes de recuperación.
 
 Por lo tanto, el enfoque de NQC se centra en medir la desviación estándar de los puntajes de recuperación normalizados por el promedio del corpus, lo que permite identificar consultas cuyos documentos recuperados son consistentes en términos de relevancia, sugiriendo un buen desempeño de la consulta. Además, los autores explican que los documentos con puntajes significativamente superiores al promedio son menos propensos a exhibir desviaciones temáticas, lo que se traduce en un menor grado de “query drift” y un mejor rendimiento de recuperación.
 

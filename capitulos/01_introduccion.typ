@@ -11,7 +11,7 @@
 
 == Contexto del proyecto
 \
-La predicción del rendimiento de consultas (QPP) ha emergido como una herramienta prometedora en los sistemas de recuperación de información (IR). La capacidad de predecir la calidad de los resultados de búsqueda antes de la ejecución de la consulta permite tanto optimizar los recursos como al mismo tiempo mejorar la experiencia de los usuarios. Sin embargo, la eficacia de los métodos QPP varía significativamente según el dominio, el tipo de consulta, e incluso los modelos de recuperación utilizados, algo que se evidencia especialmente en búsquedas ad-hoc. Esta variabilidad subraya la necesidad de evaluaciones robustas y reproducibles, que permitan comparar y contrastar diferentes enfoques de tal forma que se pueda establecer una línea base clara para futuras investigaciones.
+La predicción del rendimiento de consultas (QPP) ha emergido como una herramienta prometedora en los sistemas de recuperación de información (IR). La capacidad de predecir la calidad de los resultados de búsqueda antes de la ejecución de la consulta permite tanto optimizar los recursos como al mismo tiempo mejorar la experiencia de los usuarios. No obstante, la eficacia de los métodos QPP varía significativamente según el dominio, el tipo de consulta, e incluso los modelos de recuperación utilizados, algo que se evidencia especialmente en búsquedas ad-hoc. Esta variabilidad subraya la necesidad de evaluaciones robustas y reproducibles, que permitan comparar y contrastar diferentes enfoques de tal forma que se pueda establecer una línea base clara para futuras investigaciones.
 
 La complejidad del problema de QPP se magnifica por la diversidad de escenarios de aplicación y la heterogeneidad de los datos en diferentes dominios. Los sistemas de recuperación de información modernos deben manejar consultas que varían desde preguntas simples hasta construcciones complejas en lenguaje natural, cada una con sus propios desafíos de predicción de rendimiento. Además, la calidad de los resultados puede verse afectada por factores como la ambigüedad del lenguaje, la especificidad de la consulta, y la cobertura del tema en la colección de documentos.
 
@@ -36,7 +36,7 @@ Evaluar comparativamente métodos de Query Performance Prediction (QPP) para bú
 \
 == Estructura del trabajo de título
 \
-El presente trabajo está organizado en siete capítulos, además de incluir las referencias bibliográficas que detallan todos los documentos citados y utilizados en su elaboración. Los capítulos son los siguientes:
+El presente trabajo se compone de siete capítulos, además de incluir las referencias bibliográficas que detallan todos los documentos citados y utilizados en su elaboración. Los capítulos son los siguientes:
 
 *Capítulo I: Introducción.* Presenta el contexto y motivación del proyecto, junto con los objetivos general y específicos planteados para su realización. Se describe la importancia de la predicción del rendimiento de consultas (QPP) en sistemas de recuperación de información y la necesidad de una evaluación comparativa robusta.
 
