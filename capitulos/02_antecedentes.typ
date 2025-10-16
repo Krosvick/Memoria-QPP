@@ -7,15 +7,13 @@
 \
 Conceptos básicos y principios fundamentales...
 == Sistemas de Recuperación de Información (IR)
-=== Definición y alcance de los sistemas de recuperación de información: qué es un sistema IR, cuál es su función principal y en dónde se aplica.
-=== Definición y alcance de los sistemas de recuperación de información: qué es un sistema IR, cuál es su función principal y en dónde se aplica.
-=== Modelos de recuperación de información: los distintos tipos de modelos como el bm25.
+=== Modelos de recuperación de información
 === Consultas, tópicos y búsquedas Ad-hoc
 
 
 == Predicción de Rendimiento de Consultas (QPP)
-=== Variabilidad y dificultad de las consultas
-=== Formulación formal del problema
+=== Dificultad y rendimiento de las consultas
+=== Soluciones al problema de la dificultad de las consultas
 === Taxonomías en QPP
 \
 La literatura distingue dos categorías principales de predictores de rendimiento de consulta según el momento en que extraen información: métodos pre-retrieval y post-retrieval. Los primeros formalmente se caracterizan por actuar antes de ejecutar la búsqueda utilizando únicamente la consulta y estadísticas del índice; los segundos explotan señales observadas en la lista recuperada a partir de un modelo de recuperación de información (p. ej., patrones en las puntuaciones y funciones de ranking	).@wig-nqc-scored-configuration
