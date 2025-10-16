@@ -201,7 +201,7 @@ Un aspecto notable es la dispersión de los puntos alrededor de la línea de ten
 
 Los valores de nDCG\@10 se concentran principalmente entre 0.2 y 0.6, con algunos casos excepcionales que alcanzan hasta 0.8. Esta distribución refleja la diversidad en la dificultad de las consultas en nuestra colección de prueba. Es importante notar la presencia de puntos con nDCG\@10 = 0, que corresponden a consultas donde no se recuperaron documentos relevantes en las primeras 10 posiciones, casos que el método NQC maneja adecuadamente en su implementación.
 
-#figure(image("../assets/imagenes/resultados/scatter_ndcg@10_uef_NQC.png"), caption: [Gráfico de dispersión de nDCG\@10 vs UEF-NQC - tau de Kendall]) <Scatter_ndcg10_uef_nqc_kendall>
+#figure(image("../assets/imagenes/resultados/scatter_ndcg@10_uef_nqc.png"), caption: [Gráfico de dispersión de nDCG\@10 vs UEF-NQC - tau de Kendall]) <Scatter_ndcg10_uef_nqc_kendall>
 
 \
 La @fig:Scatter_ndcg10_uef_nqc_kendall presenta la versión mejorada del predictor NQC mediante el marco UEF, mostrando un incremento en la correlación ($τ = 0.4245$) respecto a su versión base ($τ = 0.4007$). Esta mejora es particularmente significativa ya que refleja un patrón consistente observado en casi todos los predictores post-retrieval al aplicar el marco UEF, con la notable excepción del método WIG, el cual mostró ser más sensible a la cantidad de documentos recuperados.

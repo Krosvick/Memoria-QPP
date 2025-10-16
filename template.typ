@@ -1,4 +1,4 @@
-#import "@preview/anti-matter:0.1.1": anti-matter, fence, set-numbering, step
+#import "custom_anti_matter/lib.typ": anti-matter, fence, set-numbering, step
 #import "@preview/i-figured:0.2.4"
 
 #let to-roman(num) = {
