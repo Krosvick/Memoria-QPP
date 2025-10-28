@@ -43,23 +43,74 @@ Los factores que contribuyen a la dificultad de una consulta son variados y comp
 
 La "generalidad" de la dificultad de una consulta es un aspecto clave a considerar. Una consulta puede ser difícil para un sistema de recuperación particular, pero no para otros, o puede ser consistentemente difícil a través de una variedad de sistemas y colecciones. Esta generalidad se mide a menudo promediando el rendimiento predicho de la consulta a través de múltiples métodos de recuperación y diversas colecciones de documentos. Comprender esta variabilidad es esencial para desarrollar predictores que sean robustos y aplicables en diferentes escenarios de búsqueda, más allá de un único contexto sistema-colección.
 
-En la literatura de IR, a menudo se enfoca en la correlación entre la efectividad real y la predicha, lo que no siempre requiere una definición explícita y precisa de la dificultad de la consulta. Sin embargo, cuando se aborda la predicción de dificultad como un problema de clasificación, es indispensable una definición clara y operativa. Las clasificaciones pueden ser binarias (una consulta es difícil o no) o graduadas (muy fácil, fácil, difícil, muy difícil), permitiendo una evaluación más matizada de la complejidad de la consulta.
+#import "@preview/fletcher:0.5.4" as fletcher: diagram, node, edge
+#import fletcher.shapes: *
+#let blob(pos, label, tint: white, ..args) = node(
+    pos, align(center, label),
+    width: 27mm,
+    fill: tint.lighten(65%),
+    stroke: 1pt + tint.darken(20%),
+    corner-radius: 5pt,
+    ..args,
+)
+#let component(pos, label, tint: white, ..args) = node(
+  pos,
+  align(center, label),
+  width: 40mm,
+  fill: tint.lighten(80%),
+  stroke: 1pt + tint.darken(10%),
+  corner-radius: 5pt,
+  ..args,
+)
+#v(10pt)
+=== Soluciones al Problema de la Dificultad de las Consultas
+\
+La dificultad inherente de ciertas consultas ha impulsado el desarrollo de técnicas robustas para mejorar la efectividad de los sistemas de recuperación de información. A lo largo del tiempo, las soluciones han evolucionado desde métodos estadísticos clásicos hasta arquitecturas neuronales avanzadas, buscando siempre mitigar los fallos de recuperación asociados a consultas ambiguas, complejas o con desajuste de vocabulario.
 
-Para definir la dificultad de una consulta con fines de clasificación, se utilizan comúnmente dos tipos de estrategias: basadas en percentiles y basadas en umbrales. Las estrategias basadas en percentiles clasifican una consulta como difícil si su medida de efectividad cae por debajo de un determinado percentil del rendimiento general de las consultas. Por ejemplo, las consultas en el cuartil inferior de rendimiento podrían considerarse "muy difíciles". Las estrategias basadas en umbrales, por otro lado, establecen un valor de efectividad fijo, por debajo del cual una consulta se etiqueta como difícil. También existen enfoques combinados que integran ambas metodologías para una definición más robusta (@Query-difficulty-definition). La elección de la estrategia de definición tiene un impacto directo en la evaluación y la precisión de los métodos de QPP.
+Una de las primeras y más influyentes soluciones fue el desarrollo de *modelos de relevancia*. En lugar de depender exclusivamente de los términos de la consulta original, esta técnica utiliza un proceso de dos etapas para refinar la búsqueda. 
 
-=== Soluciones al problema de la dificultad de las consultas
-La dificultad inherente de las consultas plantea desafíos significativos para los sistemas de recuperación de información. Una solución fundamental para abordar este problema se encuentra en el desarrollo de modelos de relevancia, que permiten capturar la incertidumbre sobre la necesidad de información subyacente a una consulta.
+Primero, se realiza una recuperación inicial y se asume que los documentos mejor clasificados son relevantes (un concepto conocido como _pseudo-relevance feedback_). A partir de este conjunto de documentos, se construye un modelo probabilístico que estima la distribución de términos que probablemente aparecerían en documentos verdaderamente relevantes. Los términos con alta probabilidad en este modelo, que pueden no haber estado en la consulta original, se utilizan para expandir o reestructurar la consulta. 
 
-Los modelos de relevancia constituyen representaciones probabilísticas que estiman los términos y conceptos más relevantes para satisfacer una necesidad de información específica. Estos modelos se construyen típicamente mediante técnicas que infieren la distribución de términos que probablemente aparezcan en documentos relevantes, abordando así la ambigüedad y vaguedad que caracterizan a las consultas difíciles. Esta aproximación permite crear modelos de consulta más precisos que capturan aspectos léxicos y semánticos de la relevancia, mejorando la robustez de los sistemas de recuperación de información.
+Finalmente, esta nueva "consulta expandida" se utiliza para realizar una segunda recuperación, que a menudo produce un ranking de resultados mucho más preciso, abordando eficazmente problemas de sinonimia y polisemia @relevance-models.
 
-La aplicación de estos modelos busca mejorar la adaptabilidad de los sistemas de IR, volviéndolos más sensibles a la complejidad inherente de las necesidades de información de los usuarios. Esta capacidad de modelar la relevancia se convierte en la base de la Predicción del Rendimiento de Consultas (QPP), un campo dedicado específicamente a cuantificar y anticipar la dificultad de las consultas en sistemas de recuperación de información.
+#figure(
+  diagram(
+    spacing: 5pt,
+    cell-size: (8mm, 8mm),
+    edge-stroke: .8pt,
 
-En este marco, la predicción del rendimiento de consultas (QPP) actúa como la estrategia predictiva complementaria: estima de antemano la efectividad esperada de un sistema para una consulta, sin juicios humanos de relevancia, con el fin de habilitar decisiones proactivas que eviten o mitiguen fallos (@query-difficulty-book @qpp-llm).
+    component((2,0), [Consulta \ Inicial], tint: purple, name: "query"),
+    blob((5,0), [Recuperación \ Inicial (BM25)], shape: hexagon, tint: yellow, name: "retrieval1", width: 40mm, height: 20mm),
+    component((8,0), [Top-K \ Documentos], tint: blue, name: "topk"),
+    component((8,2), [Estimación del \ Modelo \ de Relevancia], tint: blue, name: "rm"),
+    component((8,4), [Consulta \ Expandida], tint: purple, name: "new_query"),
+    blob((5,4), [Recuperación \ Final], shape: hexagon, tint: yellow, name: "retrieval2", width: 40mm, height: 20mm),
+    component((2,4), [Ranking Final \ de  Documentos], tint: green, name: "final_list"),
 
-La tarea fundamental de QPP se formaliza como la predicción de un valor escalar que estima el rendimiento esperado de una consulta. Este valor predicho se correlaciona con métricas de efectividad como la Precisión Media (AP), el nDCG o el Reciprocal Rank, las cuales se obtienen de experimentos de recuperación que utilizan juicios de relevancia humanos (qrels). La calidad de un predictor se mide típicamente mediante correlaciones estadísticas como Pearson, Kendall o Spearman entre los valores predichos por el predictor y las métricas de efectividad reales (@correlation-methods). Sin embargo, la evaluación basada únicamente en correlación presenta limitaciones, ya que predictores con correlaciones similares pueden tener impactos muy diferentes en aplicaciones prácticas como la expansión selectiva de consultas o meta-búsqueda (@how-much-correlation-is-good). Un predictor efectivo debe demostrar alta correlación con el rendimiento real, permitiendo así decisiones informadas sobre estrategias adaptativas de recuperación (@enhanced-evaluation).
+    edge(<query>, <retrieval1>, "->"),
+    edge(<retrieval1>, <topk>, "->"),
+    edge(<topk>, <rm>, "->"),
+    edge(<rm>, <new_query>, "->", $"Nuevos términos y pesos"$, label-pos: 0.6, label-side: center),
+    edge(<new_query>, <retrieval2>, "->"),
+    edge(<retrieval2>, <final_list>, "->"),
+  ),
+  caption: "Flujo de un sistema de recuperación basado en Modelos de Relevancia.",
+) <fig:relevance-model-flow>
 
-Existen enfoques y estrategias variadas para llevar a cabo QPP dependiendo del tipo de evidencia disponible y de los compromisos de costo/latencia del sistema. El detalle metodológico y taxonómico se aborda más adelante; aquí basta remarcar que su foco es anticipar la dificultad con la mejor evidencia disponible, y que su utilidad práctica se valida correlacionando predicciones con la efectividad observada.
+\
 
+Más recientemente, la llegada de los *Modelos de Lenguaje Grandes* (LLMs) ha supuesto un avance significativo en el panorama de la recuperación de información. Sin embargo, uno de sus mayores problemas es que su conocimiento se "congela" en el momento del entrenamiento, lo que limita su acceso a información reciente y los hace propensos a "alucinar" o generar contenido incorrecto. 
+
+Para superar estas limitaciones, ha surgido el paradigma de la *Generación Aumentada por Recuperación* (RAG). Los modelos RAG combinan un recuperador de información con un LLM generativo en un proceso de dos fases:
+
+1.  *Recuperación*: Un sistema de recuperación busca en una base de conocimiento (por ejemplo, una colección de documentos) para encontrar fragmentos de texto relevantes para la consulta.
+2.  *Generación*: Estos fragmentos recuperados se proporcionan como contexto a un LLM junto con la consulta original. El LLM sintetiza una respuesta coherente y factual, fundamentada en la evidencia extraída.
+
+Este enfoque ancla las respuestas del LLM en información verificable, reduciendo las alucinaciones y permitiendo que el conocimiento del sistema se actualice simplemente actualizando la base de conocimiento documental. Es una técnica especialmente poderosa para consultas de conocimiento intensivo que demandan respuestas precisas y actualizadas @RAG.
+
+A pesar de su efectividad, estas soluciones avanzadas—desde la expansión de consultas hasta los complejos _pipelines_ de RAG—suelen tener un costo computacional elevado. No es eficiente ni necesario aplicarlas a todas las consultas, especialmente a aquellas que son simples y pueden ser respondidas adecuadamente por un sistema de recuperación estándar.
+
+Aquí es donde la *Predicción del Rendimiento de Consultas* (QPP) adquiere un rol crucial. QPP funciona como una herramienta de diagnóstico que estima de antemano la efectividad esperada de un sistema para una consulta dada, sin necesidad de juicios de relevancia humanos. Al predecir si una consulta será "fácil" o "difícil", un sistema de IR puede tomar decisiones proactivas y selectivas. Para una consulta predicha como "fácil", se puede utilizar un método de recuperación rápido y eficiente. En cambio, si una consulta se predice como "difícil", el sistema puede activar mecanismos más potentes y costosos, como la expansión de consultas, el uso de modelos de relevancia o la activación de un _pipeline_ de RAG para garantizar una respuesta de alta calidad. De este modo, QPP permite a los sistemas de IR gestionar sus recursos de manera inteligente, mejorando la robustez y la eficiencia general al tiempo que se mitigan los fallos en las consultas más desafiantes @query-difficulty-book.
 
 === Taxonomías en QPP
 \
@@ -77,9 +128,34 @@ Los enfoques post-retrieval pueden ser no supervisados (agregan señales derivad
 
 === Aplicaciones de QPP en IR
 
+La capacidad de predecir el rendimiento de una consulta abre un amplio abanico de aplicaciones prácticas que permiten a los sistemas de recuperación de información (IR) operar de manera más inteligente, robusta y eficiente. En lugar de tratar todas las consultas de la misma manera, los sistemas pueden utilizar los predictores de QPP para adaptar dinámicamente su comportamiento. Sin embargo, la utilidad de estas aplicaciones depende críticamente de la calidad del predictor: se requiere una correlación moderadamente alta entre el rendimiento predicho y el real para que estas estrategias mejoren de manera fiable la efectividad del sistema @how-much-correlation-is-good.
+
+==== Activación Selectiva de Mecanismos Avanzados
+Como se mencionó anteriormente, técnicas como la expansión de consultas mediante modelos de relevancia o el uso de arquitecturas complejas como RAG son computacionalmente costosas. Sobre este punto, QPP funciona como una herramienta de diagnóstico que estima de antemano la efectividad esperada. Si una consulta se predice como "difícil", el sistema puede activar estos mecanismos más potentes para garantizar una respuesta de alta calidad. En cambio, para una consulta predicha como "fácil", se puede utilizar un método de recuperación estándar, optimizando así el uso de recursos sin sacrificar la calidad en los casos necesarios @query-difficulty-book.
+
+==== Expansión Selectiva de Consultas
+La retroalimentación de pseudo-relevancia (_pseudo-relevance feedback_, PRF) es una técnica común para expandir consultas, pero su aplicación indiscriminada tiene consecuencias negativas. Si los documentos mejor clasificados iniciales no son relevantes, los términos añadidos pueden desviar el enfoque de la consulta original, un fenómeno conocido como _query drift_. Este desvío a menudo degrada el rendimiento en lugar de mejorarlo.
+
+Los predictores QPP permiten una aplicación más segura de esta técnica. Si se predice que una consulta tendrá un bajo rendimiento, se considera como una buena candidata para la expansión, ya que el potencial de mejora es elevado y el riesgo de empeorar un resultado ya pobre es negligible. Por el contrario, si se predice que una consulta ya es efectiva, aplicar la expansión podría ser innecesario o incluso perjudicial. De este modo, la predicción actúa como un guardián, aplicando la expansión solo cuando es probable que sea beneficiosa @query-drift.
+
+==== Búsqueda Federada y Metabúsqueda
+En entornos donde los resultados provienen de múltiples colecciones o motores de búsqueda, la QPP es fundamental para la fusión inteligente de resultados. En la *metabúsqueda*, se consultan varios motores de búsqueda, mientras que en la *búsqueda federada*, se busca en múltiples colecciones con un solo motor. En ambos casos, en lugar de combinar los rankings basándose únicamente en los puntajes de cada fuente, se puede predecir el rendimiento de la consulta en cada una de ellas de forma independiente. Los resultados de las fuentes donde se predice un alto rendimiento pueden recibir una mayor ponderación en el ranking final. Esta estrategia ha demostrado mejorar significativamente la calidad de los resultados combinados, aunque su éxito también depende de la fiabilidad del predictor utilizado @query-difficulty-book, @how-much-correlation-is-good.
+
+==== Retroalimentación al Usuario y al Sistema
+La QPP también se utiliza para proporcionar retroalimentación directa. Un sistema puede informar al usuario que su consulta es probablemente "difícil" y que los resultados pueden ser de baja calidad, sugiriendo reformulaciones o términos alternativos. A nivel de administración del sistema, el análisis de las consultas predichas como difíciles en los registros de búsqueda (_query logs_) puede ayudar a identificar *contenido faltante* en la colección, guiando así los esfuerzos para enriquecer la base de conocimiento y cubrir las brechas de información detectadas @query-difficulty-book.
+
 === Supuestos, limitaciones y amenazas a la validez
 
+A pesar de su potencial, la efectividad y la evaluación de los métodos de QPP se basan en un conjunto de supuestos y están sujetas a limitaciones importantes que deben ser consideradas para interpretar correctamente sus resultados.
 
+==== Supuestos Fundamentales
+La evaluación y la aplicación de los métodos de QPP descansan sobre varios supuestos centrales. Un supuesto extendido sostiene que una alta correlación (e.g., Pearson, Kendall, Spearman) entre las predicciones y una métrica de efectividad (e.g., AP, nDCG) se traduce en utilidad práctica; sin embargo, la evidencia empírica muestra que la correlación, aun siendo estadísticamente significativa, no garantiza por sí sola una mejora operativa, pues la utilidad real depende de cómo la predicción informa decisiones concretas dentro del sistema @how-much-correlation-is-good. A ello se suma la dependencia de los juicios de relevancia (qrels) como “suelo de verdad”, cuya incompletitud y variabilidad derivadas del pooling pueden introducir ruido y sesgos en la evaluación. Finalmente, muchos predictores—especialmente los post‑retrieval—presuponen un entorno relativamente estable: cambios en el algoritmo de ranking, en las políticas de indexación o en la propia colección pueden alterar distribuciones de puntuaciones y patrones de resultados, erosionando modelos ajustados bajo condiciones previas.
+
+==== Limitaciones Inherentes
+Más allá de los supuestos, la aplicabilidad de los predictores de QPP está condicionada por limitaciones estructurales. La principal se relaciona con su marcada dependencia del contexto: un predictor optimizado para una colección de noticias puede no transferirse con igual eficacia a un corpus de patentes o a un motor de búsqueda web, dada la variación en dominios, distribuciones léxicas y estilos documentales. Por su parte, los enfoques post‑retrieval—si bien suelen ofrecer señales más informadas—introducen un coste computacional no despreciable, pues requieren ejecutar una recuperación previa y analizar la lista resultante, lo que añade latencia y puede tensionar presupuestos de tiempo de respuesta en escenarios interactivos. En un plano conceptual, persiste además la ambigüedad de la propia noción de “dificultad”: su operacionalización mediante umbrales, percentiles o esquemas híbridos impacta la selección de datos de entrenamiento y la interpretación de resultados, condicionando la comparación entre estudios y la generalización de hallazgos.
+
+==== Amenazas a la Validez
+La validez de las evaluaciones también está modulada por las características de los conjuntos de datos y de las muestras de consulta empleados. El rendimiento observado de un predictor depende en gran medida del tipo de colección: resultados alentadores en corpora limpios y homogéneos (p. ej., noticias) no necesariamente se sostienen en colecciones web más ruidosas y heterogéneas; por ello, las conclusiones de benchmarks deben interpretarse con cautela y no extrapolarse sin verificación a contextos productivos @correlation-depends-on-quality-of-dataset. A ello se añade la sensibilidad a tamaños muestrales reducidos de consultas, frecuentes en campañas de evaluación: con pocas consultas, las estimaciones son más inestables y los intervalos de confianza se amplían, dificultando discernir si las diferencias entre predictores reflejan efectos genuinos o artefactos de muestreo. La composición de la muestra (por ejemplo, una sobre‑representación de consultas fáciles o difíciles) puede, además, sesgar las métricas y favorecer ciertas familias de predictores, por lo que resulta recomendable complementar el análisis con particiones, validación cruzada y estudios de sensibilidad.
 
 == Métricas de Evaluación de Rendimiento y Correlación
 === Juicios de relevancia (Qrels)
