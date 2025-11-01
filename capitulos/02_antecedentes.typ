@@ -102,7 +102,7 @@ Finalmente, esta nueva "consulta expandida" se utiliza para realizar una segunda
   caption: "Flujo de un sistema de recuperación basado en Modelos de Relevancia.",
 ) <relevance-model-flow>
 #v(15pt)
-En la figura @relevance-model-flow se ilustra el flujo típico de expansión mediante modelos de relevancia: una consulta inicial se ejecuta con un ranker léxico (BM25) para obtener los top‑K documentos; a partir de ese conjunto pseudo‑relevante se estima un modelo que induce nuevos términos y pesos; con la consulta expandida resultante se realiza una segunda recuperación, cuyo objetivo es reordenar con mayor precisión y producir un ranking final de documentos más alineado con la intención informativa.
+En la @relevance-model-flow se ilustra el flujo típico de expansión mediante modelos de relevancia: una consulta inicial se ejecuta con un ranker léxico (BM25) para obtener los top‑K documentos; a partir de ese conjunto pseudo‑relevante se estima un modelo que induce nuevos términos y pesos; con la consulta expandida resultante se realiza una segunda recuperación, cuyo objetivo es reordenar con mayor precisión y producir un ranking final de documentos más alineado con la intención informativa.
 
 Más recientemente, la llegada de los *Modelos de Lenguaje Grandes* (LLMs) ha supuesto un avance significativo en el panorama de la recuperación de información. Sin embargo, uno de sus mayores problemas es que su conocimiento se "congela" en el momento del entrenamiento, lo que limita su acceso a información reciente y los hace propensos a "alucinar" o generar contenido incorrecto. 
 
