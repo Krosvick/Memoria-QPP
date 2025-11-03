@@ -9,14 +9,25 @@
 \
 El campo de la Recuperación de Información (IR) se centra en el estudio de métodos y sistemas que permiten localizar, dentro de grandes colecciones de documentos, aquellos que respondan de mejor forma a una necesidad informativa expresada por el usuario a través de una consulta o query. Este proceso implica identificar, clasificar y ordenar documentos según su grado de relevancia, apoyándose en modelos matemáticos y estadísticos que describen la relación entre las palabras de la consulta y el contenido del corpus. En la práctica, los sistemas de recuperación de información sustentan desde buscadores web hasta repositorios científicos y bases de datos digitales. @Query-difficulty-definition.
 
-De esta forma, el propósito fundamental de un sistema IR consiste en maximizar la relevancia de los resultados y minimizar el ruido, es decir, la cantidad de documentos menos pertinentes dentro del conjunto de datos recuperado. Esta función se ha vuelto crítica frente al crecimiento exponencial de la información que disponemos en formato digital, donde la eficiencia en las búsquedas y la organización del conocimiento determinan la calidad de la experiencia informativa. Además, como se menciona en el artículo @microsoft-preretrieval, la efectividad de un sistema IR no depende únicamente del modelo de recuperación utilizado, sino también de la formulación de la consulta y de la naturaleza del corpus.
+Cabe mencionar que, en el contexto de IR se entiende por documento cualquier unidad de información almacenada en el sistema, como puede ser un artículo científico, una página web o un informe técnico. 
 
-El desarrollo de la Recuperación de Información se remonta a mediados del siglo XX, con los primeros sistemas booleanos aplicados en bibliotecas digitales. Con el avance de la informática y el Internet, el volumen de datos textuales creció de forma exponencial, lo que impulsó el surgimiento de modelos estadísticos y probabilísticos capaces de manejar grandes colecciones de documentos.
+El conjunto completo de documentos disponibles para ser buscados se denomina corpus o colección. Por otra parte, la consulta o query corresponde a la expresión, generalmente breve, con la que el usuario comunica su necesidad de información, esta puede estar compuesta por palabras clave, frases o descripciones más amplias.
 
-Actualmente, el campo ha evolucionado hacia el uso de modelos híbridos, que integran principios clásicos de IR con técnicas de aprendizaje automático y modelos de lenguaje, permitiendo una comprensión más profunda de la intención del usuario.
+En los sistemas de evaluación, estas consultas se agrupan junto con sus documentos y juicios de relevancia en lo que se conoce como colecciones de referencia o query logs, las cuales permiten medir objetivamente el rendimiento de distintos modelos de recuperación.
+
+Así mismo, en este trabajo la relevancia se entenderá como el grado en que un documento satisface la necesidad informativa planteada en la consulta. De forma complementaria, se denomina ruido a los documentos que, aun siendo recuperados, no aportan información útil respecto al tema consultado. Por lo tanto, un sistema de recuperación efectivo es aquel que maximiza los documentos relevantes y minimiza el ruido, priorizando la calidad de los resultados.
+
+El propósito fundamental de un sistema IR consiste en maximizar la relevancia de los resultados y minimizar el ruido, es decir, la cantidad de documentos menos pertinentes dentro del conjunto de datos recuperado. Esta función se ha vuelto crítica frente al crecimiento exponencial de la información que disponemos en formato digital, donde la eficiencia en las búsquedas y la organización del conocimiento determinan la calidad de la experiencia informativa. Además, como se menciona en el artículo @microsoft-preretrieval, la efectividad de un sistema IR no depende únicamente del modelo de recuperación utilizado, sino también de la formulación de la consulta y de la naturaleza del corpus.
+
+El desarrollo de la Recuperación de Información se remonta a mediados del siglo XX, con los primeros sistemas booleanos aplicados en bibliotecas digitales. Con el avance de la informática y el Internet, el volumen de datos textuales creció de forma exponencial, impulsando el surgimiento de modelos estadísticos y probabilísticos capaces de manejar grandes colecciones de documentos.
+
+Actualmente, el campo ha evolucionado hacia el uso de modelos híbridos, que integran principios clásicos de IR con técnicas de aprendizaje automático y modelos de lenguaje, permitiendo una comprensión más profunda de la intención del usuario @RAG.
+
+En la actualidad, estos modelos se utilizan en motores de búsqueda, asistentes conversacionales y sistemas de recomendación, demostrando que la IR se ha convertido en un componente transversal dentro del procesamiento de la información digital.
 
 En este sentido, la Recuperación de Información no solo constituye la base de los sistemas de búsqueda automatizada, sino también establece un punto de partida para la comprensión del comportamiento de las consultas, el análisis de su dificultad y la estimación del rendimiento, siendo estos los aspectos centrales para la presente investigación, cuyo objetivo se orienta en evaluar distintos métodos de predicción sobre el desempeño de consultas en modelos clásicos de recuperación de información.
 #v(10pt)
+
 === Modelos de recuperación de información.
 \
 Los modelos de recuperación de información constituyen el núcleo de un sistema IR, ya que estos definen cómo se mide la relevancia entre una consulta y los documentos del corpus. Estos modelos, además de definir formalmente la manera en que los términos de una consulta se comparan con las representaciones internas de los documentos, permiten calcular una puntuación o ranking de relevancia. Es así que, a lo largo de los años, se han desarrollado tres enfoques principales: el modelo booleano, el modelo vectorial y el modelo probabilístico, cada uno con sus propias ventajas y limitaciones. @microsoft-preretrieval @zendel2024qpptk.
@@ -27,34 +38,122 @@ Por otra parte, el modelo vectorial introdujo una representación algebraica tan
 
 Por último, el modelo probabilístico se basa en estimar la probabilidad de relevancia de un documento a través de una consulta, en donde su versión más consolidada, el BM25, calcula dicha probabilidad a partir de la frecuencia de los términos en el documento y su frecuencia inversa en el corpus, normalizando además por la longitud del texto. En este aspecto, BM25 ofrece equilibrio entre simplicidad, interpretabilidad y desempeño, razón por la cual es el modelo base en la mayoría de los experimentos y benchmarks actuales de IR. @zendel2024qpptk.
 
-Además de los modelos clásicos, se han desarrollado extensiones que buscan optimizar la precisión y la capacidad de generalización. Entre ellas, el BM25F incorpora información estructural de los documentos, el RM3 introduce retroalimentación mediante expansión de consultas, y los modelos neuronales de recuperación (Neural IR) utilizan representaciones distribuidas del texto para capturar relaciones semánticas más complejas. Estas variantes reflejan la evolución del campo hacia un paradigma híbrido, en el que los modelos tradicionales siguen siendo la base para experimentos controlados y reproducibles.
+Además de los modelos clásicos, se han desarrollado extensiones que buscan optimizar la precisión y la capacidad de generalización. Entre ellas, el BM25F incorpora información estructural de los documentos, el RM3 introduce retroalimentación mediante expansión de consultas, y los modelos neuronales de recuperación (Neural IR) utilizan representaciones distribuidas del texto para capturar relaciones semánticas más complejas @RAG. Estas variantes reflejan la evolución del campo hacia un paradigma híbrido, en el que los modelos tradicionales siguen siendo la base para experimentos controlados y reproducibles.
+
+\
+#show figure: set block(breakable: true)
+#figure(
+  table(
+    columns: (auto, auto, auto, auto),
+    inset: 15pt,
+    stroke: (x: none),
+    row-gutter: (2.5pt, auto),
+    align: left + horizon,
+    table.header(
+      [*Modelo*], [*Principio de funcionamiento*], [*Ventajas*], [*Limitaciones / uso típico*],
+    ),
+    [Booleano],
+    [Recupera documentos que cumplen exactamente la condición lógica (AND, OR, NOT).],
+    [Simple, interpretable, útil en colecciones controladas.],
+    [No entrega ranking ni grados de relevancia; poca flexibilidad en consultas reales.],
+    [Vectorial],
+    [Representa documentos y consultas como vectores ponderados y mide similitud.],
+    [Permite ranking, ponderación de términos (TF-IDF) y mejora de precisión.],
+    [Sensible al vocabulario y sinónimos; requiere buen preprocesamiento.],
+    [Probabilístico / BM25],
+    [Estima probabilidad de relevancia según frecuencia de término, rareza en el corpus y longitud del documento.],
+    [Equilibrio entre desempeño y simplicidad; estándar en benchmarks.],
+    [Requiere calibración de parámetros; asume independencia de términos.],
+    [Extensiones (BM25F, RM3, Neural IR)],
+    [Incorporan estructura del documento, retroalimentación o representaciones distribuidas.],
+    [Mejoran recuperación en dominios complejos o semánticos.],
+    [Mayor costo computacional; suelen usarse como capa superior o en escenarios específicos.],
+  ),
+  caption: "Modelos de recuperación de información y su propósito dentro de un sistema IR.",
+) <modelos-ir>
+
+\
+El resultado final que entrega un sistema IR se presenta como un ranking de documentos, es decir, una lista ordenada de mayor a menor relevancia estimada. Este refleja la manera en que los usuarios perciben la utilidad del sistema, ya que la mayoría solo revisa los primeros resultados, lo que convierte la posición del documento en un factor crítico de evaluación.
+
+En este trabajo se adopta principalmente el escenario de recuperación clásica, basado en BM25 y colecciones estándar, dado que la mayoría de los métodos de predicción de rendimiento han sido propuestos y validad en este contexto, y porque permite la comparación directa con estudios previos como los reportados en QPP-TK y benchmarks recientes de QPP @zendel2024qpptk.
 
 #v(10pt)
 === Componentes de un sistema de recuperación de información.
 \
-Un sistema de recuperación de información se compone de diversas etapas que trabajan de forma conjunta para transformar documentos sin estructura en resultados relevantes para el usuario. En términos generales, estas etapas son la *indexación*, la *representación de los documentos y consultas*, el *modelo de recuperación* y la *evaluación del sistema*.
+Para que la búsqueda sea eficiente en colecciones grandes, los sistemas IR no recorren todos los documentos cada vez que se hace una consulta, sino que utilizan estructuras de datos especializadas, siendo la más común el índice invertido, que almacena, para cada término, la lista de documentos en los que aparece. De esta forma, el sistema puede ir directamente a los documentos candidatos sin revisar toda la colección.
+
+Es así que un sistema de recuperación de información se compone de diversas etapas que trabajan de forma conjunta para transformar documentos sin estructura en resultados relevantes para el usuario. En términos generales, estas etapas son la *indexación*, la *representación de los documentos y consultas*, el *modelo de recuperación* y la *evaluación del sistema* @query-difficulty-book @predicting-performance.
 
 La *indexación* constituye el proceso inicial, encargado de convertir los documentos en representación internas que se puedan manipular. Para ello, se aplican distintas técnicas de *preprocesamiento*, como la tokenización, eliminación de palabras vacías o stopwords, stemming o lematización y ponderación de términos. El resultado es una estructura conocida como *índice invertido*, que permite localizar rápidamente qué documentos contienen un término específico y con qué frecuencia. Este componente es esencial para la eficiencia del sistema, ya que permite búsquedas rápidas en grandes volúmenes de información.
 
-Por otra parte, la *representación de documentos y consultas* determina cómo se describen los textos dentro del sistema. Generalmente, se utiliza el *modelo de espacio vectorial*, en el que tanto los documentos como las consultas se representan mediante vectores de pesos que reflejan la importancia de cada término. El cálculo de estos pesos puede basarse en medidas como la *frecuencia del término (TF)* y la *frecuencia inversa de documento (IDF)*, lo que permite resaltar los términos distintivos dentro del corpus.
+La eficiencia de estas estructuras es fundamental para la escalabilidad del sistema, especialmente cuando el corpus crece hasta millones de documentos como ocurre en los benchmarks modernos.
 
-Posteriormente, el *modelo de recuperación* se encarga de comparar las representaciones de las consultas con las de los documentos, generando así una puntuación de similitud o probabilidad de relevancia. Es a partir de estas puntuaciones que el sistema construye un *ranking de resultados*, donde los documentos se ordenan de mayor a menor relevancia, siendo este ranking la salida final que recibe el usuario.
+Por otra parte, la *representación de documentos y consultas* determina cómo se describen los textos dentro del sistema. Generalmente, se utiliza el *modelo de espacio vectorial*, en el que tanto los documentos como las consultas se representan mediante vectores de pesos que reflejan la importancia de cada término. El cálculo de estos pesos puede basarse en medidas como la *frecuencia del término (TF)* y la *frecuencia inversa de documento (IDF)*, lo que permite resaltar los términos distintivos dentro del corpus @query-difficulty-book.
 
-Por último, la *evaluación del sistema* mide el desempeño del proceso de recuperación. En esta etapa, se utilizan *juicios de relevancia (qrels)* para determinar si los documentos recuperados son pertinentes o no, aplicando métricas clásicas como Precision, Recall, nDCG o Mean Average Precision (MAP). En la actualidad, las métricas han evolucionado hacia enfoques de relevancia graduada, donde se asignan distintos niveles de importancia a los documentos según su grado de pertinencia, lo que permite reflejar mejor la percepción humana de relevancia. Así mismo, métricas de correlación como Kendall's o Pearson son utilizadas para evaluar el grado de consistencia entre los valores predichos por métodos de QPP y el rendimiento real obtenido en la recuperación.
+Posteriormente, el *modelo de recuperación* se encarga de comparar las representaciones de las consultas con las de los documentos, generando así una puntuación de similitud o probabilidad de relevancia. Es a partir de estas puntuaciones que el sistema construye un *ranking de resultados*, donde los documentos se ordenan de mayor a menor relevancia, siendo este ranking la salida final que recibe el usuario @zendel2024qpptk.
+
+Por último, la *evaluación del sistema* mide el desempeño del proceso de recuperación. En esta etapa, se utilizan *juicios de relevancia (qrels)* para determinar si los documentos recuperados son pertinentes o no. Los qrels son listas que asocian cada consulta con los identificadores de los documentos que fueron marcados como relevantes por evaluadores humanos, funcionando como estándar de comparación para medir la efectividad de un modelo.
+
+\
+#show figure: set block(breakable: true)
+#figure(
+  table(
+    columns: (auto, auto, auto, auto),
+    inset: 15pt,
+    stroke: (x: none),
+    row-gutter: (2.5pt, auto),
+    align: left + horizon,
+    table.header(
+      [*Recurso / métrica*], [*Qué mide*], [*Cuándo se usa*], [*Notas*],
+    ),
+    [Qrels (juicios de relevancia)],
+    [Listado de documentos marcados como relevantes para cada consulta.],
+    [Base de toda evaluación offline (TREC, Cranfield, Antique).],
+    [Pueden ser binarios o graduados; dependen de evaluador humano.],
+    [Precision / Recall],
+    [Exactitud y cobertura de los documentos recuperados.],
+    [Tareas simples o colecciones pequeñas.],
+    [No consideran orden del ranking.],
+    [MAP (Mean Average Precision)],
+    [Precisión promedio sobre todas las posiciones relevantes.],
+    [Comparar sistemas en búsqueda Ad-hoc.],
+    [Promedia sobre consultas; sensible a consultas difíciles.],
+    [nDCG],
+    [Relevancia graduada ponderada por la posición en el ranking.],
+    [Cuando hay distintos niveles de relevancia o se valora el orden.],
+    [Muy usada en benchmarks modernos.],
+    [Kendall’s τ / Pearson r],
+    [Asociación entre valores predichos y rendimiento real.],
+    [Evaluar métodos de QPP.],
+    [Necesitan pares (predicho, observado) por consulta.],
+  ),
+  caption: "Recursos y métricas comunes para la evaluación de sistemas IR y de métodos de predicción de rendimiento.",
+) <metricas-ir>
+
+\
+En la evaluación de sistemas IR suele asumirse que los juicios de relevancia son correctos y completos, sin embargo, distintos estudios demuestran que la calidad de estos juicios depende en gran medida de la experticia del evaluador y del dominio temático de la colección. Cuando los evaluadores no son especialistas en el área o cuando la tarea es muy abierta, pueden aparecer discrepancias entre jueces, lo que introduce ruido en las métricas obtenidas y, por extensión, en la evaluación de los métodos de predicción de rendimiento @evaluator-domain-expertise @correlation-depends-on-quality-of-dataset.
+
+Esta situación es particularmente relevante para trabajos como el presente, donde el objetivo es correlacionar el valor entregado por un predictor con la efectividad real de la consulta, por ende, si los juicios de relevancia son incompletos o poco consistentes, la correlación observada puede reflejar las limitaciones de la colección más que las del método evaluado.
 
 De esta forma, los componentes de un sistema de recuperación de información funcionan como partes de un ciclo continuo, la indexación estructura, la representación abstrae, el modelo de recuperación calcula y la evaluación retroalimenta el proceso.
 #v(10pt)
 === Consultas, tópicos y búsquedas Ad-hoc
 \
-Las consultas son la forma en la cual los usuarios expresan su necesidad de información dentro de un sistema IR. Por lo general, estas son breves, ambiguas o incompletas, lo que genera variabilidad en el rendimiento de los sistemas.
+Es importante distinguir entre consulta y tópico, la primera es la expresión que el usuario introduce en el sistema, mientras que el tópico representa la necesidad informativa completa, que puede incluir una descripción y una narrativa que detalla qué se considera relevante.
 
-A cada consulta se le asocia un tópico, entendido como el contexto o tema subyacente que representa la intención informativa del usuario. En los benchmarks tradicionales, como los de TREC, cada tópico incluye una descripción breve de la necesidad informativa y una lista de documentos considerados relevantes. Esta estructura permite establecer condiciones experimentales controladas para evaluar el rendimiento de distintos sistemas y analizar la variabilidad entre consultas.
+Las consultas son la forma en la cual los usuarios expresan su necesidad de información dentro de un sistema IR. Por lo general, estas son *breves, ambiguas o incompletas*, lo que genera variabilidad en el rendimiento de los sistemas @Meng2023QPP.
 
-Dentro del campo de IR, el término búsqueda Ad-hoc hace referencia a una tarea en la que se intenta recuperar los documentos más relevantes de un corpus dado una consulta única y sin contexto previo. A diferencia de otras búsquedas, como la interactiva o conversacional, la búsqueda Ad-hoc no cuenta con realimentación del usuario ni refinamiento iterativo. Por ello, el desempeño del sistema depende en gran medida de qué tan bien logra interpretar lso términos de la consulta y lacionarlos con los documentos del corpus.
+A cada consulta se le asocia un *tópico*, entendido como el contexto o tema subyacente que representa la intención informativa del usuario. En los benchmarks tradicionales, cada tópico incluye una descripción breve de la necesidad informativa y una lista de documentos considerados relevantes. Esta estructura permite establecer condiciones experimentales controladas para evaluar el rendimiento de distintos sistemas y analizar la variabilidad entre consultas.
 
-Los estudios sobre rendimiento en sistemas IR han demostrado que la dificultad de una consulta está estrechamente vinculada con su capacidad de discriminar documentos relevantes, por ejemplo, las consultas cortas o con términos frecuentes en el corpus tienden a recuperar documentos menos específicos, reduciendo la efectividad. En contraste, las consultas con términos raros o especializados suelen dar resultados más concentrados y relevantes. Este comportamiento explica la necesidad de métricas y métodos de predicción de la dificultad, que permitan estimar la calidad esperada de la recuperación antes de disponer de juicios humanos.
+Este esquema responde al denominado paradigma Cranfield, en el cual se define un conjunto fijo de consultas, se construye un conjunto de documentos candidatos y se recolectan juicios de relevancia humanos para cada consulta. A partir de esta configuración es posible comparar distintos modelos de recuperación bajo las mismas condiciones y, sobre todo, repetir los experimentos en el tiempo, lo que explica por qué colecciones como TREC, Cranfield o Antique se utilizan de forma recurrente en trabajos de evaluación y en investigaciones sobre QPP @Meng2023QPP @how-much-correlation-is-good.
 
-En los últimos años, el concepto de búsqueda Ad-hoc se ha extendido hacia escenarios más complejos, como la búsqueda conversacional o multiturno, en los que la consulta forma parte de un diálogo progresivo con el sistema. Estas nuevas modalidades introducen desafíos adicionales, como el seguimiento de contexto o la reformulación dinámica de la intención informativa. Sin embargo, el marco Ad-hoc sigue siendo el punto de partida fundamental para el análisis del rendimiento de los modelos de recuperación y de los métodos de predicción QPP.
+Dentro del campo de IR, el término *búsqueda Ad-hoc* hace referencia a una tarea en la que se intenta recuperar los documentos más relevantes de un corpus dado una consulta única y sin contexto previo. A diferencia de otras búsquedas, como la interactiva o conversacional, la búsqueda Ad-hoc no cuenta con realimentación del usuario ni refinamiento iterativo. Por ello, el desempeño del sistema depende en gran medida de *qué tan bien logra interpretar los términos de la consulta y relacionarlos con los documentos del corpus* @predicting-performance.
+
+Los estudios sobre rendimiento en sistemas IR han demostrado que *la dificultad de una consulta* está estrechamente vinculada con su capacidad de discriminar documentos relevantes, por ejemplo, las consultas cortas o con términos frecuentes en el corpus tienden a recuperar documentos menos específicos, reduciendo la efectividad. En contraste, las consultas con términos raros o especializados suelen dar resultados más concentrados y relevantes @query-difficulty-book. Este comportamiento explica la necesidad de métricas y *métodos de predicción de la dificultad*, que permitan estimar la calidad esperada de la recuperación antes de disponer de juicios humanos.
+
+En los últimos años, el concepto de búsqueda Ad-hoc se ha extendido hacia escenarios más complejos, como la búsqueda conversacional o multiturno, en los que la consulta forma parte de un diálogo progresivo con el sistema. Estas nuevas modalidades introducen desafíos adicionales, como el seguimiento de contexto o la reformulación dinámica de la intención informativa @Meng2023QPP.
+
+No obstante, el paradigma Ad-hoc sigue siendo el marco experimental más utilizado para la evaluación de métodos QPP, ya que permite controlar las variables de consulta y corpus, proporcionando resultados comparables entre diferentes modelos de recuperación.
 
 #v(10pt)
 
