@@ -441,13 +441,15 @@ Además dentro de la literatura se ha discutido sobre el rendimiento e interpret
 
 La implementación utilizará la librería ir_measures para garantizar cálculos estandarizados de las métricas IR, mientras que Scipy proporciona implementaciones eficientes de los coeficientes de correlación. El sistema maneja automáticamente casos especiales como queries sin resultados o scores QPP indefinidos, asegurando una evaluación robusta incluso en condiciones no ideales.  
 
-
+\
 == Relación entre diseño experimental y objetivos
 
+\
 El diseño experimental anteriormente expuesto se encuentra directamente alineado con los objetivos planteados, garantizando que cada etapa contribuya de forma directa al cumplimiento de las metas establecidas. Es por ello que, en esta sección, se describe la relación entre los elementos del diseño experimental y los objetivos general y específicos, resaltando cómo estos interactúan entre sí para alcanzar los resultados de análisis buscados.
 
 === Relación con el objetivo general
 
+\
 Como se ha mencionado en capítulos anteriores, el objetivo general del proyecto consiste en evaluar comparativamente métodos de Query Performance Prediction (QPP) para búsquedas Ad-hoc utilizando métricas de correlación. En alineación con este objetivo, el diseño se ha organizado en las siguientes etapas:
 
 - Selección de Métodos QPP: Se han seleccionado seis métodos QPP no basados en inteligencia artificial (IDF, SCQ, NQC, Clarity Score, WIG y UEF) que son ampliamente reconocidos en la literatura y representan enfoques tanto pre-retrieval como post-retrieval.
