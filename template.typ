@@ -51,8 +51,8 @@
   // Configuración de texto
   set text(
     font: "Times New Roman",
-    size: 13pt,
-    lang: "es"
+    size: 12pt,
+    lang: "mx"
   )
   
   // Configuración de párrafos
