@@ -35,7 +35,7 @@ La configuración general utilizada para el experimento se presenta en la @fig:D
 
     // Input Data (named nodes)
     blob((-2,4), [Qrels], shape: chevron, tint: yellow, name: "qrels"),
-    blob((-2,2), [Resultados de la recuperación], shape: chevron, tint: yellow, name: "run"),
+    blob((-2,2), [Resultados de la\ recuperación], shape: chevron, tint: yellow, name: "run"),
     blob((-2,0), [Puntuaciones QPP], shape: chevron, tint: yellow, name: "qpp"),
 
     // Processing Steps
