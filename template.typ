@@ -52,7 +52,8 @@
   set text(
     font: "Times New Roman",
     size: 12pt,
-    lang: "mx"
+    lang: "es",
+    region: "mx"
   )
   
   // Configuración de párrafos
