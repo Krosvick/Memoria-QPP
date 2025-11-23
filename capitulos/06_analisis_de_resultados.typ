@@ -319,4 +319,131 @@ En tercer lugar, aun con los resultados prometedores obtenidos en ciertos casos 
 
 Finalmente, la evaluación multi-dataset realizada en este estudio subraya la importancia de no generalizar conclusiones basadas en un único corpus. La variabilidad en el rendimiento de los predictores entre datasets refuerza la necesidad de desarrollar métodos más robustos que puedan adaptarse a diferentes características de corpus, o de establecer estrategias de selección de predictores basadas en las propiedades del dataset en cuestión.
 
+\
+#{
+  // Encabezados en negrita para la primera fila de la tabla
+  show table.cell.where(y: 0): set text(style: "normal", weight: "bold")
 
+  // Estilo local de la tabla para replicar el diseño del artículo
+  set table(
+    align: (x, y) => if x > 0 { left } else { center },
+    inset: (x: 3pt, y: 5pt),
+    // Solo línea gruesa entre cabecera y cuerpo; sin líneas internas en métodos/puntajes
+    stroke: (x, y) => if y < 3 { none } else if y == 3 { (top: 1pt) } else { none },
+    column-gutter: 6pt,
+    row-gutter: (2pt, auto),
+  )
+
+  [
+    #figure(
+      rotate(
+        -90deg,
+        reflow: true,
+        table(
+          columns: 16,
+
+          // Líneas superior e inferior de la tabla
+          table.hline(y: 0, position: top, stroke: 1pt),
+          // Línea fina justo debajo del título de la tabla
+          table.hline(y: 0, position: bottom, stroke: 0.5pt),
+          // Pequeñas líneas bajo cada dataset
+          table.hline(y: 1, start: 1, end: 4, position: bottom, stroke: 0.5pt),
+          table.hline(y: 1, start: 4, end: 7, position: bottom, stroke: 0.5pt),
+          table.hline(y: 1, start: 7, end: 10, position: bottom, stroke: 0.5pt),
+          table.hline(y: 1, start: 10, end: 13, position: bottom, stroke: 0.5pt),
+          table.hline(y: 1, start: 13, end: 16, position: bottom, stroke: 0.5pt),
+          table.hline(y: 12, position: bottom, stroke: 1pt),
+
+          // Cabecera multinivel: datasets y tipos de correlación
+          table.header(
+            table.cell(colspan: 16)[Correlaciones entre métodos QPP y nDCG\@10 en múltiples datasets],
+
+            table.cell(rowspan: 2)[*Método*],
+            table.cell(colspan: 3)[*antique test*],
+            table.cell(colspan: 3)[*cranfield*],
+            table.cell(colspan: 3)[*trec_covid*],
+            table.cell(colspan: 3)[*msmarco_dl20_judged*],
+            table.cell(colspan: 3)[*car_v15_trec_y1_manual*],
+
+            [P-ρ], [S-ρ], [K-τ],
+            [P-ρ], [S-ρ], [K-τ],
+            [P-ρ], [S-ρ], [K-τ],
+            [P-ρ], [S-ρ], [K-τ],
+            [P-ρ], [S-ρ], [K-τ],
+          ),
+
+          // Métodos QPP (pre y post-retrieval)
+          [IDF Promedio],
+          [$0.164$], [$0.139$], [$0.096$],
+          [$0.249$], [$0.186$], [$0.133$],
+          [$0.123$], [$0.005$], [$-0.006$],
+          [$0.265$], [$0.291$], [$0.209$],
+          [$-0.019$], [$-0.007$], [$-0.004$],
+
+          [IDF Máximo],
+          [$0.092$], [$0.076$], [$0.051$],
+          [$0.117$], [$0.087$], [$0.060$],
+          [$0.083$], [$0.030$], [$0.017$],
+          [$0.251$], [$0.253$], [$0.168$],
+          [$0.018$], [$0.009$], [$0.006$],
+
+          [SCQ Promedio],
+          [$0.324$], [$0.266$], [$0.186$],
+          [$0.284$], [$0.235$], [$0.162$],
+          [$0.074$], [$0.053$], [$0.032$],
+          [$0.178$], [$0.182$], [$0.127$],
+          [$0.039$], [$0.014$], [$0.010$],
+
+          [SCQ Máximo],
+          [$0.379$], [$0.383$], [$0.260$],
+          [$0.310$], [$0.276$], [$0.196$],
+          [$0.062$], [$0.089$], [$0.055$],
+          [$-0.035$], [$0.012$], [$0.030$],
+          [$0.065$], [$0.074$], [$0.051$],
+
+          [WIG],
+          [$0.436$], [$0.450$], [$0.306$],
+          [$0.295$], [$0.324$], [$0.231$],
+          [$0.320$], [$0.278$], [$0.201$],
+          [$0.552$], [$0.560$], [$0.406$],
+          [$0.079$], [$0.099$], [$0.068$],
+
+          [NQC],
+          [$0.524$], [$0.567$], [$0.401$],
+          [$0.297$], [$0.384$], [$0.269$],
+          [$0.192$], [$0.147$], [$0.093$],
+          [$0.553$], [$0.585$], [$0.408$],
+          [$0.125$], [$0.166$], [$0.114$],
+
+          [Clarity],
+          [$0.452$], [$0.430$], [$0.296$],
+          [$-0.025$], [$-0.018$], [$-0.015$],
+          [$0.477$], [$0.461$], [$0.310$],
+          [$0.093$], [$0.068$], [$0.053$],
+          [$0.110$], [$0.146$], [$0.101$],
+
+          [UEF-WIG],
+          [$0.333$], [$0.377$], [$0.253$],
+          [$0.388$], [$0.390$], [$0.272$],
+          [$0.170$], [$0.192$], [$0.134$],
+          [$0.343$], [$0.380$], [$0.253$],
+          [$0.121$], [$0.124$], [$0.085$],
+
+          [UEF-NQC],
+          [$0.553$], [$0.596$], [$0.424$],
+          [$0.359$], [$0.458$], [$0.326$],
+          [$0.182$], [$0.146$], [$0.108$],
+          [$0.552$], [$0.560$], [$0.408$],
+          [$0.131$], [$0.182$], [$0.126$],
+
+          [UEF-Clarity],
+          [$0.463$], [$0.448$], [$0.307$],
+          [$0.161$], [$0.181$], [$0.120$],
+          [$0.496$], [$0.468$], [$0.328$],
+          [$0.190$], [$0.186$], [$0.126$],
+          [$0.113$], [$0.152$], [$0.105$],
+        ),
+      ),
+      caption: [Correlaciones (P-ρ, S-ρ y K-τ) entre métodos QPP y nDCG\@10 en los distintos datasets evaluados]
+    ) <Resultados_qpp_ndcg10_multidataset>]
+}
