@@ -46,7 +46,7 @@ Como se ha mencionado, la selección de métodos de Query Performance Prediction
 \
 #figure(
   table(
-    columns: (2fr, 3fr, 3fr),
+    columns: (auto, auto, auto),
     inset: 10pt,
     stroke: (x: none),
     row-gutter: (2.2pt, auto),
@@ -209,7 +209,7 @@ A continuación, se presenta la @tbl:tabla-datasets con los datasets seleccionad
 \
 #figure(
   table(
-    columns: (2fr, 3fr, 3fr, 3fr),
+    columns: (auto, auto, auto, auto),
     inset: 10pt,
     stroke: (x: none),
     row-gutter: (2.2pt, auto),
@@ -267,47 +267,41 @@ El entorno experimental está diseñado para garantizar la reproducibilidad, fle
 \
 #figure(
   diagram(
-    spacing: 2pt,
-    cell-size: (8mm, 8mm),
-    edge-stroke: .8pt,
-
-    // Capa de datos e indexación (fila superior)
-    component((0,0), [Capa de \ datasets], tint: gray, name: "datasets"),
-    component((3,0), [Capa de \ Indexado], tint: purple, name: "index"),
-    component((6,0), [Sistema de \ recuperación \ "BM25"], tint: purple, name: "IR"),
-
-    // Métodos QPP (fila intermedia)
-    component((2,3), [Métodos \
-    Pre-retrieval], tint: blue, name: "pre"),
-    component((4,3), [Métodos \
-    Post-retrieval], tint: blue, name: "post"),
-
-    // Capa de evaluación (fila inferior)
-    component((6,6), [Evaluación \ con Qrels], tint: red, name: "metr"),
-    component((3,6), [Capa de \ Evaluación], tint: red, name: "corr"),
-    component((0,6), [Resultado de \ correlación], tint: red, name: "puntajes"),
-
-    // Flujo de datos principal: datasets → índice → sistema de recuperación
-    edge(<datasets>, <index>, "->", $"Se indexan"$),
-    edge(<index>, <IR>, "->", $"Utiliza índice"$),
-
-    // Métodos QPP: entradas desde índice / sistema de recuperación
-    edge(<index>, <pre>, "->", $"Estadísticas de colección"$, label-pos: 0.4, label-side: center),
-    edge(<IR>, <post>, "->", $"Ranking BM25"$, label-pos: 0.45, label-side: center),
-    edge(<index>, <post>, "->"),
-
-    // Evaluación con qrels (métricas IR)
-    edge(<IR>, <metr>, "->", $"Resultados BM25"$, label-pos: 0.55, label-side: center),
-
-    // Capa de evaluación: recibe métricas IR y puntajes QPP
-    edge(<metr>, <corr>, "->", $"Métricas de efectividad"$),
-    edge(<pre>, <corr>, "->", $"Puntajes pre-retrieval"$, label-side: right, label-pos: 0.25),
-    edge(<post>, <corr>, "->", $"Puntajes post-retrieval"$,label-side: left, label-pos: 0.25),
-
-    // Resultado final
-    edge(<corr>, <puntajes>, "->", $"Guarda correlaciones"$),
-  ),
-  caption: "Diagrama de componentes del entorno de evaluación",
+  spacing: 1pt,
+  cell-size: (8mm, 8mm),
+  edge-stroke: .8pt,
+  
+  // Left column - Analysis components
+  component((2.5,0), [Capa de \ Evaluación], tint: red, name: "corr"),
+  component((0,0), [Evaluación con Qrels], tint: red, name: "metr"),
+  component((5,0), [Resultado de \ correlación], tint: red, name: "puntajes"),
+  
+  // Middle - QPP Methods
+  component((3.7,3), [Métodos \
+  Pre-retrieval], tint: blue, name: "pre"),
+  component((1.2,3), [Métodos \
+  Post-Retrieval], tint: blue, name: "post"),
+  
+  // Right side components
+  component((0,6), [Sistema de \ recuperación "BM25"], tint: purple, name: "IR"),
+  component((2.5,6), [Capa de \ Indexado], tint: purple, name: "index"),
+  component((5,6), [Capa de datasets], tint: gray, name: "datasets"),
+  component((5,8), [Procesador de \ datos], tint: gray, name: "proc"),
+  
+  // Connections
+  edge(<corr>, <pre>, "->", $"Puntajes"$),
+  edge( <IR>, <metr>, "->"),
+  edge(<corr>, <puntajes>,  "->", $"Guarda"$),
+  edge(<corr>, <post>, "->", $"Puntajes"$),
+  edge(<IR>, <index>, "->", $"Utiliza"$),
+  edge(<IR>, <post>, "->", $"Resultados"$, label-pos:0, label-angle: 90deg ),
+  edge(<metr>, <corr>, "->"),
+  edge(<pre>, <index>, "->", $"Utilizan"$),
+  edge(<post>, <index>, "->"),
+  edge(<index>, <datasets>, "->", $"Utiliza"$),
+  edge(<datasets>, <proc>, "--"),
+),
+caption: "Diagrama de componentes del entorno de evaluación",
 ) <diagrama_general>
 \
 
@@ -333,7 +327,8 @@ Entre los componentes de la @fig:diagrama_general, se puede discernir la capa de
 
   El sistema utiliza una imagen base de Python 3.9 con Java 11 instalado para soportar PyTerrier. 
 
--	*Parámetros del Modelo de Recuperación*: El sistema utiliza el modelo de recuperación BM25 (Best Match 25) como método principal de recuperación. Los parámetros han sido mantenidos en su configuración por defecto. Su definición se puede observar en la @tbl:tabla_de_parametros
+-	*Parámetros del Modelo de Recuperación*:
+El sistema utiliza el modelo de recuperación BM25 (Best Match 25) como método principal de recuperación. Los parámetros han sido mantenidos en su configuración por defecto. Su definición se puede observar en la @tbl:tabla_de_parametros
 
 \
 #figure(
@@ -360,8 +355,8 @@ Entre los componentes de la @fig:diagrama_general, se puede discernir la capa de
 \
 Otros estudios han propuesto la utilización de otros parámetros para BM25, como el parámetro k1, el cual controla la saturación de términos en los documentos, sobretodo al utilizar métodos de clustering, tales experimentos han demostrado que un valor de k1 mayor a 1.2 puede mejorar el rendimiento de la recuperación. Sin embargo, en este estudio se mantendrán los parámetros por defecto de PyTerrier, ya que se ha demostrado que estos proporcionan un rendimiento adecuado para la mayoría de las tareas de recuperación de información, pero se puede realizar un estudio futuro sobre la utilización de estos parámetros en la evaluación de métodos QPP. @bm25
 
-\
--	*Ejecución de los métodos y scripts de evaluación*:La @tbl:tabla-argumentos sistema permite una configuración flexible de la ejecución de la evaluación a través de diversos parámetros que controlan tanto el proceso de recuperación como la evaluación QPP. La configuración se realiza principalmente mediante argumentos de línea de comandos y variables de entorno.
+-	*Ejecución de los métodos y scripts de evaluación*:
+La @tbl:tabla-argumentos sistema permite una configuración flexible de la ejecución de la evaluación a través de diversos parámetros que controlan tanto el proceso de recuperación como la evaluación QPP. La configuración se realiza principalmente mediante argumentos de línea de comandos y variables de entorno.
 
 \
 #figure(
