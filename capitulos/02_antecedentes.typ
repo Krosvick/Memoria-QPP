@@ -34,9 +34,116 @@ Los modelos de recuperación de información constituyen el núcleo de un sistem
 
 El modelo booleano fue el primero en ser implementado y se basa en la lógica clásica de operadores como AND, OR y NOT. En este enfoque, un documento es recuperado únicamente si cumple con las condiciones lógicas impuestas por la consulta realizada, sin establecer grados intermedios de relevancia. Si bien, este modelo es eficiente en contextos cerrados debido a su simplicidad, carece de una capacidad para ordenar los resultados, lo que limita su utilidad en escenarios de búsquedas más complejos @Query-difficulty-definition.
 
-Por otra parte, el modelo vectorial introdujo una representación algebraica tanto para los documentos como para las consultas, tratándolos como vectores en un espacio multidimensional, en el que cada dimensión corresponde a un término y los pesos asignados reflejan su importancia relativa. La similitud entre consulta y documento se mide, por lo general, mediante el coseno entre los vectores. Este particular enfoque permitió establecer rankings de relevancia y representó un avance significativo en la precisión de los sistemas IR @zendel2024qpptk.
+#v(20pt)
+#import "@preview/cetz:0.3.1" as cetz
 
-Por último, el modelo probabilístico se basa en estimar la probabilidad de relevancia de un documento a través de una consulta, en donde su versión más consolidada, el BM25, calcula dicha probabilidad a partir de la frecuencia de los términos en el documento y su frecuencia inversa en el corpus, normalizando además por la longitud del texto. En este aspecto, BM25 ofrece equilibrio entre simplicidad, interpretabilidad y desempeño, razón por la cual es el modelo base en la mayoría de los experimentos y benchmarks actuales de IR @zendel2024qpptk.
+#figure(
+  cetz.canvas({
+    import cetz.draw: *
+    
+    let r = 2
+    let d = 1.2
+    
+    circle((-d, 0), radius: r, fill: blue.transparentize(50%), stroke: blue)
+    
+    circle((d, 0), radius: r, fill: green.transparentize(50%), stroke: green)
+    
+    content((0, 0), [$A and B$], frame: "rect", fill: white.transparentize(40%), stroke: none, padding: 3pt)
+    
+    content((-d - 0.5, 0), [Término A])
+    content((d + 0.5, 0), [Término B])
+  }),
+  caption: "Diagrama de Venn del Modelo Booleano.",
+)
+
+#v(20pt)
+Por otra parte, el modelo vectorial introdujo una representación algebraica tanto para los documentos como para las consultas, tratándolos como vectores en un espacio multidimensional, en el que cada dimensión corresponde a un término y los pesos asignados reflejan su importancia relativa. La similitud entre consulta y documento se mide, por lo general, mediante el coseno entre los vectores. Este particular enfoque permitió establecer rankings de relevancia y representó un avance significativo en la precisión de los sistemas IR @zendel2024qpptk.
+#v(20pt)
+#import "@preview/cetz:0.3.1" as cetz
+
+#figure(
+  cetz.canvas({
+    import cetz.draw: *
+
+    let axis-len = 4.5
+    let origin = (0,0)
+
+    line(origin, (axis-len, 0), mark: (end: "stealth"), name: "x")
+    line(origin, (0, axis-len), mark: (end: "stealth"), name: "y")
+
+    content("x.end", anchor: "west", padding: .2)[Término 1]
+    content("y.end", anchor: "south", padding: .2)[Término 2]
+
+    let vec-d = (3, 3.5)
+    line(origin, vec-d, stroke: (paint: blue, thickness: 1.5pt), mark: (end: "stealth", fill: blue), name: "d")
+    
+    let vec-q = (4, 1.5)
+    line(origin, vec-q, stroke: (paint: orange, thickness: 1.5pt), mark: (end: "stealth", fill: orange), name: "q")
+
+    content("d.end", anchor: "south-west", padding: .2)[Documento]
+    content("q.end", anchor: "west", padding: .2)[Consulta]
+
+    arc(origin, radius: 1.5, start: 20deg, stop: 49deg, stroke: (dash: "densely-dashed"))
+    
+    let mid-angle = (20deg + 49deg)/2
+    content((mid-angle, 1.8), [$theta$])
+
+  }),
+  caption: "Representación geométrica del Modelo Vectorial.",
+) <vectorial-diagrama>
+#v(20pt)
+
+Por último, el modelo probabilístico se basa en estimar la probabilidad de relevancia de un documento a través de una consulta, en donde su versión más consolidada, el BM25 (abreviatura de "Best Match 25", refiriéndose a la iteración número 25 de la función de ranking), calcula dicha probabilidad a partir de la frecuencia de los términos en el documento y su frecuencia inversa en el corpus, normalizando además por la longitud del texto, como se puede ver en la @bm25-final. En este aspecto, BM25 ofrece equilibrio entre simplicidad, interpretabilidad y desempeño, razón por la cual es el modelo base en la mayoría de los experimentos y benchmarks actuales de IR @zendel2024qpptk.
+#v(20pt)
+
+// Importaciones y Definiciones (SOLO UNA VEZ)
+#import "@preview/fletcher:0.5.4" as fletcher: diagram, node, edge
+#import fletcher.shapes: *
+
+#let component(pos, label, tint: white, ..args) = node(
+  pos,
+  align(center, label),
+  width: 35mm,
+  fill: tint.lighten(80%),
+  stroke: 1pt + tint.darken(10%),
+  corner-radius: 5pt,
+  ..args,
+)
+
+#figure(
+  diagram(
+    spacing: 5pt,
+    cell-size: (20mm, 12mm), 
+    edge-stroke: .8pt,
+
+    // Nodos
+    component((0,0), [Consulta], tint: purple, name: "query"),
+    component((0,2), [Frecuencia \ Inversa \ *(IDF)*], tint: blue, name: "idf"),
+
+    component((3,0), [Documento], tint: purple, name: "doc"),
+
+    component((2.2, 2), [Frecuencia \ del Término \ *(TF)*], tint: blue, name: "tf"),
+    component((3.8, 2), [Normalización \ de Longitud], tint: blue, name: "len"),
+
+    component((1.5, 4), text(1.1em)[*Modelo BM25*], tint: yellow, width: 50mm, name: "bm25"),
+    component((1.5, 5.5), [Score de \ Relevancia], tint: green, name: "score"),
+
+    // Conexiones
+    edge(<query>, <idf>, "->"),
+    edge(<idf>, <bm25>, "->"),
+
+    edge(<doc>, <tf>, "->"),
+    edge(<doc>, <len>, "->"),
+    
+    edge(<tf>, <bm25>, "->"),
+    edge(<len>, <bm25>, "->"),
+
+    edge(<bm25>, <score>, "->"),
+  ),
+  caption: "Componentes estructurales del modelo BM25.",
+) <bm25-final>
+
+#v(20pt)
 
 Además de los modelos clásicos, se han desarrollado extensiones que buscan optimizar la precisión y la capacidad de generalización. Entre ellas, el BM25F incorpora información estructural de los documentos, el RM3 introduce retroalimentación mediante expansión de consultas, y los modelos neuronales de recuperación (Neural IR) utilizan representaciones distribuidas del texto para capturar relaciones semánticas más complejas @RAG. Estas variantes reflejan la evolución del campo hacia un paradigma híbrido, en el que los modelos tradicionales siguen siendo la base para experimentos controlados y reproducibles.
 
@@ -87,8 +194,6 @@ Es así que un sistema de recuperación de información se compone de diversas e
 La indexación constituye el proceso inicial, encargado de convertir los documentos en representación internas que se puedan manipular. Para ello, se aplican distintas técnicas de preprocesamiento, como la #emph[tokenización], que consiste en dividir el texto en unidades mínimas llamadas #emph[tokens;] la eliminación de palabras vacías o #emph[stopwords], es decir, términos muy frecuentes que aportan poca información; y el #emph[stemming] o lematización, que reduce las palabras a su forma canónica con el objetivo de unificar variantes morfológicas. El resultado es una estructura conocida como índice invertido, que permite localizar rápidamente qué documentos contienen un término específico y con qué frecuencia. Este componente es esencial para la eficiencia del sistema, ya que permite búsquedas rápidas en grandes volúmenes de información.
 
 La eficiencia de estas estructuras es fundamental para la escalabilidad del sistema, especialmente cuando el corpus crece hasta millones de documentos como ocurre en los benchmarks modernos.
-
-A modo de síntesis, la figura @ir-components-diagram ilustra cómo estos procesos se articulan dentro de un sistema de Recuperación de Información, mostrando el flujo que existe desde la colección de documentos y la consulta del usuario hasta la obtención del ranking final y su posterior evaluación.
 
 #import "@preview/fletcher:0.5.4" as fletcher: diagram, node, edge
 #import fletcher.shapes: *
