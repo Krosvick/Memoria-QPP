@@ -611,7 +611,7 @@ La @tbl:tabla-relacion-objetivos resume la relación entre el diseño experiment
 \
 #figure(
   table(
-    columns: (1fr, auto),
+    columns: (auto, auto),
     inset: 10pt,
     stroke: (x: none),
     row-gutter: (2.2pt, auto),
