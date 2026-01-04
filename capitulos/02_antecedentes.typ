@@ -589,7 +589,7 @@ La obtención humana de _Qrels_ suele realizarse mediante campañas de evaluaci�
 #v(10pt)
 === Métricas de evaluación clásicas en IR
 \
-En términos formales, una métrica de evaluación asigna a cada consulta un valor escalar que resume el rendimiento de un sistema a partir del ranking devuelto y de los juicios de relevancia (_Qrels_) asociados a sus documentos. A partir de estas puntuaciones por consulta se definen luego versiones agregadas a nivel de sistema, promediando sobre un conjunto de consultas: por ejemplo, *$"Precision"@n(R)$* corresponde a la media de las precisiones por consulta al corte $n$ para el sistema $R$. 
+En términos formales, una métrica de evaluación asigna a cada consulta un valor escalar que resume el rendimiento de un sistema a partir del ranking devuelto y de los juicios de relevancia (_Qrels_) asociados a sus documentos. A partir de estas puntuaciones por consulta se definen luego versiones agregadas a nivel de sistema, promediando sobre un conjunto de consultas: por ejemplo, _Precision\@n(R)_ corresponde a la media de las precisiones por consulta al corte $n$ para el sistema $R$. 
 
 Entre las métricas más utilizadas se encuentran la *_Precision_* y la *_Exhaustividad_* (_Recall_), sobre las cuales se construyen medidas más complejas como la *_Precisión Media_* (_AP_), su promedio sobre consultas (_MAP_) y la *_Ganancia Acumulada Descontada Normalizada_* (_nDCG_), que difieren en si asumen relevancia binaria o graduada y en la forma en que penalizan posiciones más profundas en el ranking @metrics-sensitivity.
 
