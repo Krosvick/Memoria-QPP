@@ -36,7 +36,6 @@ El entorno experimental está diseñado para garantizar la reproducibilidad, fle
 
 \
 === Paradigma de evaluación de métodos QPP
-#set math.equation(numbering: "(1)")
 \
 Antes de describir el flujo del sistema, es fundamental formalizar el paradigma de evaluación estándar utilizado en la literatura para cuantificar la calidad de los métodos de Query Performance Prediction (QPP). Este marco conceptual constituye la base teórica del diseño experimental.
 
