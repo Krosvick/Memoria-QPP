@@ -368,7 +368,7 @@ $
      D_i"," forall_i = 2"," ... "," N-2 ü ü"si" P_(i-1) < m_s_i \\ (q) <= P_i,
      D_N ü ü ü ü ü ü ü ü ü ü ü \\ \\ "si" m_s_i \\(q) > P_(N-1)
   )
-$<dificultad-percentil-graduada>) 
+$<dificultad-percentil-graduada>
 #pad(left:15pt)[
   En el caso graduado @eqt:dificultad-percentil-graduada, los símbolos $D_1, ..., D_N$ representa *clases ordenadas de dificultad* (por ejemplo, *muy difícil*, *difícil*, *fácil*, *muy fácil*), mientras que $P_1, ..., P_{N-1}$ son percentiles crecientes que dividen la distribución de $M$ en $N$ segmentos. Cada consulta $q$ se asigna a una clase $D_k$ en función del intervalo en el que cae su valor $m_{S_i}(q)$ con respecto a estos cortes percentilares.    
 ]
@@ -380,8 +380,10 @@ Generalmente existen dos configuraciones típicas:
   
 En la definición por umbrales, $T$ es un *corte absoluto* fijado directamente sobre la escala de la métrica $M$. De nuevo, $"dificultad"(q)$ es una función indicadora que vale 1 si el rendimiento $m_{S_i}(q)$ de la consulta cae por debajo o en el propio umbral $T$ (es decir, si la consulta no alcanza un mínimo de efectividad considerado aceptable) y 0 en caso contrario. 
 ]
+ #pad(left:10pt)[
   - *Umbral único:* Se define un solo punto de corte. Por ejemplo, las consultas con $P@10 <= 0.1$ se consideran *difíciles* y el resto *no difíciles*, creando una clasificación binaria.
   - *Pares de umbrales:* Se usan dos umbrales para aislar los extremos. Por ejemplo, con el par $(0.1, 0.9)$, las consultas con $A P <= 0.1$ son *muy difíciles* y aquellas con $A P >= 0.9$ son *muy fáciles*. Las consultas intermedias se ignoran o se les asigna una clase intermedia, creando un margen que facilita la predicción al enfocarse solo en los casos más claros @Query-difficulty-definition.
+ ]
   #pad(left:15pt)[
   En la versión graduada, una secuencia ordenada de umbrales $T_1 < ... < T_{N-1}$ permite definir varias clases de dificultad a partir de rangos absolutos de $M$: por ejemplo, *muy difícil* para $m_{S_i}(q) <= T_1$, *difícil* para $T_1 < m_{S_i}(q) <= T_2$, y así sucesivamente, hasta una última clase que agrupa las consultas con mejores valores de la métrica.
   ]
