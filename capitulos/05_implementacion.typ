@@ -13,7 +13,7 @@
 La implementación del entorno de evaluación representa la materialización del diseño experimental previamente descrito. Este capítulo detalla los aspectos técnicos y prácticos del desarrollo, abordando desde la configuración del entorno hasta la implementación específica de cada componente del sistema.
 
 El desarrollo se fundamenta en tres pilares principales: el sistema de recuperación de información, la implementación de los métodos QPP, y el framework de evaluación. Como se puede observar en la @tbl:tabla-componentes, cada uno de estos componentes requiere consideraciones técnicas específicas y se integran para formar un sistema cohesivo y reproducible.
-
+#show figure: set block(breakable: true)
 #figure(
   table(
     columns: (auto, 1fr),
@@ -153,7 +153,6 @@ La @fig:dockerfile muestra el archivo Docker utilizado para la configuración de
   caption: "Componentes principales del Dockerfile",
 ) <tabla_docker>
 
-\
 La @tbl:tabla_docker muestra los componentes esenciales para la configuración y ejecución del entorno experimental. Diversos errores fueron enfrentados debido a la codificación de caracteres durante las primeras pruebas del entorno, especialmente al procesar términos con caracteres especiales o diacríticos presentes en los datasets. La configuración explícita de UTF-8 en el contenedor Docker resultó fundamental para asegurar el correcto procesamiento de los documentos y consultas, evitando problemas de codificación que podrían afectar la calidad de la indexación y, por ende, los resultados de la evaluación.
 
 \

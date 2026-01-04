@@ -285,19 +285,18 @@ Para el análisis de correlación, el sistema implementa tres coeficientes (τ-K
 - *Normalización*: Rango consistente [-1,1] independiente de la distribución
 - *Significancia*: Mejor comportamiento con muestras pequeñas
 
-La elección de estas métricas de correlación está fundamentada en las prácticas estándar del campo de QPP. Como documentan Shtok et al. @query-drift, existen dos medidas de evaluación comúnmente utilizadas en el marco de predicción de rendimiento de consultas: el coeficiente de correlación de Pearson (ρ), que se calcula entre los valores de Average Precision reales y los valores asignados por el método de predicción, y el coeficiente de correlación τ de Kendall, que se calcula entre un ranking de consultas ordenadas por su AP real y un ranking inducido por los valores del predictor. Para ambas métricas, valores de correlación más altos indican una mayor calidad de predicción. @query-drift
+La elección de estas métricas de correlación está fundamentada en las prácticas estándar del campo de QPP. Como documentan @query-drift, existen dos medidas de evaluación comúnmente utilizadas en el marco de predicción de rendimiento de consultas: el coeficiente de correlación de Pearson (ρ), que se calcula entre los valores de Average Precision reales y los valores asignados por el método de predicción, y el coeficiente de correlación τ de Kendall, que se calcula entre un ranking de consultas ordenadas por su AP real y un ranking inducido por los valores del predictor. Para ambas métricas, valores de correlación más altos indican una mayor calidad de predicción. @query-drift
 
 \
-De igual forma, Tao y Wu @wig-nqc-scored-configuration validan este enfoque metodológico al evaluar la calidad de predicción mediante ambos coeficientes: la correlación de Pearson mide la correlación lineal entre dos variables en un rango de [-1,1], mientras que τ de Kendall mide la asociación entre dos cantidades medidas, donde 1 denota que los dos rankings son idénticos y -1 indica que uno es el inverso del otro.
+De igual forma @wig-nqc-scored-configuration validan este enfoque metodológico al evaluar la calidad de predicción mediante ambos coeficientes: la correlación de Pearson mide la correlación lineal entre dos variables en un rango de [-1,1], mientras que τ de Kendall mide la asociación entre dos cantidades medidas, donde 1 denota que los dos rankings son idénticos y -1 indica que uno es el inverso del otro.
 
 \
-Además, dentro de la literatura se ha discutido sobre el rendimiento e interpretabilidad de otros coeficientes, como el coeficiente de correlación de Pearson, el cual es menos robusto que τ-Kendall y Spearman, y su uso ha sido desestimado en favor de las anteriormente mencionadas. @correlation-depends-on-quality-of-dataset El marco de evaluación mejorado propuesto por Faggioli et al. @enhanced-evaluation sugiere además modelar el rendimiento de QPP como una distribución en lugar de depender de estimaciones puntuales, lo que proporciona implicaciones estadísticas importantes y supera limitaciones del enfoque tradicional basado únicamente en correlaciones.
+Además, dentro de la literatura se ha discutido sobre el rendimiento e interpretabilidad de otros coeficientes, como el coeficiente de correlación de Pearson, el cual es menos robusto que τ-Kendall y Spearman, y su uso ha sido desestimado en favor de las anteriormente mencionadas. @correlation-depends-on-quality-of-dataset El marco de evaluación mejorado propuesto por @enhanced-evaluation sugiere además modelar el rendimiento de _QPP_ como una distribución en lugar de depender de estimaciones puntuales, lo que proporciona implicaciones estadísticas importantes y supera limitaciones del enfoque tradicional basado únicamente en correlaciones.
 
-La implementación utilizará la librería ir_measures para garantizar cálculos estandarizados de las métricas IR, mientras que Scipy proporciona implementaciones eficientes de los coeficientes de correlación. El sistema maneja automáticamente casos especiales como queries sin resultados o scores QPP indefinidos, asegurando una evaluación robusta incluso en condiciones no ideales.  
-
-\
+La implementación utilizará la librería _ir_measures_ para garantizar cálculos estandarizados de las métricas de recuperación de información, mientras que _Scipy_ proporciona implementaciones eficientes de los coeficientes de correlación. El sistema maneja automáticamente casos especiales como queries sin resultados o scores _QPP_ indefinidos, asegurando una evaluación robusta incluso en condiciones no ideales.  
+#v(8pt)
 == Selección de conjuntos de datos
-#v(4pt)
+#v(8pt)
 La selección de datasets es parte fundamental para garantizar una evaluación comparativa robusta y representativa de los métodos _QPP_, es por ello, que se seleccionaron datasets reconocidos en la literatura, priorizando los que ofrecen juicios de relevancia _Qrels_ y métricas estandarizadas, permitiendo así validar el desempeño de los métodos seleccionados en escenarios variados.
 \
 Además, investigaciones como @query-drift han validado sus metodologías utilizando colecciones _TREC_  ampliamente reconocidas incluidas en este evaluación, las cuales han sido empleadas en numerosos estudios de predicción de rendimiento de consultas, permitiendo un análisis profundo de la calidad de predicción y el estudio de diversos factores que afectan a los predictores. Este enfoque garantiza no solo la robustez de los resultados, sino también su generalización a futuros trabajos relacionados con QPP.
@@ -606,12 +605,13 @@ Como se ha mencionado en capítulos anteriores, el objetivo general del proyecto
 - *Implementación y Evaluación*: Los métodos QPP se implementan en un entorno controlado utilizando herramientas como PyTerrier, Docker e ir_datasets, por lo que la evaluación se realiza mediante métricas de correlación y juicios de relevancia.
 - *Análisis de Resultados*: Los resultados obtenidos se comparan con estudios previos para determinar la efectividad de los métodos y establecer una línea base para futuras investigaciones.
 
+\
 La @tbl:tabla-relacion-objetivos resume la relación entre el diseño experimental y cómo contribuye al objetivo general.
 
 \
 #figure(
   table(
-    columns: (auto, auto),
+    columns: (1fr, auto),
     inset: 10pt,
     stroke: (x: none),
     row-gutter: (2.2pt, auto),
