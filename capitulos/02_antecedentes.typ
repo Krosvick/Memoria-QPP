@@ -606,7 +606,7 @@ La *Precisión Media* (_Average Precision_, _AP_) es una métrica que evalúa la
 #v(10pt)
 $ "MAP@n(R)" = frac( 1,Q ) sum_(i=1)^Q [1/n_i sum_(j=1)^n "rel"^b (d_j^i) * "AP@"j(R, q_i)] $ <metricas-map>
 #v(10pt)
-En la @eqt:metricas-map, $n_i$ corresponde al número de documentos relevantes para la consulta $q_i$ según los _Qrels_ y $"AP@"j(R, q_i)$ denota el valor de _AP_ calculado hasta la posición $j$ del ranking para la consulta $q_i$, manteniendo la misma convención de índices $i$ (consulta) y $j$ (posición) y la misma función de relevancia binarizada $"rel"^b(d_j^i)$ empleadas en la fórmula de Precisión.
+En la @eqt:metricas-map, $n_i$ corresponde al número de documentos relevantes para la consulta $q_i$ según los _Qrels_ y $"AP@"j(R, q_i)$ denota el valor de _AP_ calculado hasta la posición $j$ del ranking para la consulta $q_i$, manteniendo la misma convención de índices $i$ (consulta) y $j$ (posición) y la misma función de relevancia binarizada $"rel"^b (d_j^i)$ empleadas en la fórmula de Precisión.
 
 La *Ganancia Acumulada Descontada Normalizada (Normalized Discounted Cumulative Gain, nDCG)* es una métrica más sofisticada que, a diferencia de la Precisión, sí tiene en cuenta los diferentes niveles de relevancia (por ejemplo, "relevante", "muy relevante"). A nivel de consulta, puede verse como la razón entre la DCG obtenida por el sistema y la mejor DCG posible para esa misma consulta (IDCG), es decir: $ "nDCG"_i = frac("DCG"_i, "IDCG"_i) $ 
 La idea central es que los documentos altamente relevantes son más valiosos que los marginalmente relevantes, y la relevancia de un documento disminuye cuanto más abajo aparece en la lista de resultados.
