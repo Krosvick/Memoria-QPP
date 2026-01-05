@@ -21,7 +21,7 @@
 El diseño de esta evaluación comparativa no solo tiene como propósito validar la implementación técnica de los métodos QPP seleccionados, sino también establecer líneas base que permitan analizar sus fortalezas y limitaciones en contextos variados propios de los sistemas de recuperación de información. Para ello, se consideraron criterios sólidos y alineados con las mejores prácticas del estado del arte, garantizando la representatividad y el rigor del análisis comparativo.
 
 \
-La necesidad de un diseño comparativo sólido radica en la creciente complejidad de los sistemas de recuperación de información y la diversidad de escenarios en los que estos se aplican. Como señala @zendel2024qpptk, uno de los desafíos fundamentales en la investigación de QPP radica en la falta de reproducibilidad y estabilidad de los resultados experimentales, debido en parte a la variabilidad en las configuraciones de los sistemas de recuperación y en los conjuntos de datos utilizados.Esta variabilidad justifica la adopción de un marco experimental que utilice múltiples datasets representativos de diferentes dominios y tipos de consultas, emplee herramientas estandarizadas que garanticen la reproducibilidad, y aplique métricas de evaluación ampliamente aceptadas en la literatura. El diseño experimental propuesto sigue las recomendaciones de estudios recientes que enfatizan la importancia de establecer líneas base estables y reproducibles para futuras comparaciones. @zendel2024qpptk @enhanced-evaluation
+La necesidad de un diseño comparativo sólido radica en la creciente complejidad de los sistemas de recuperación de información y la diversidad de escenarios en los que estos se aplican. Como señala @zendel2024qpptk, uno de los desafíos fundamentales en la investigación de QPP radica en la falta de reproducibilidad y estabilidad de los resultados experimentales, debido en parte a la variabilidad en las configuraciones de los sistemas de recuperación y en los conjuntos de datos utilizados. Esta variabilidad justifica la adopción de un marco experimental que utilice múltiples _datasets_ representativos de diferentes dominios y tipos de consultas, emplee herramientas estandarizadas que garanticen la reproducibilidad, y aplique métricas de evaluación ampliamente aceptadas en la literatura. El diseño experimental propuesto sigue las recomendaciones de estudios recientes que enfatizan la importancia de establecer líneas base estables y reproducibles para futuras comparaciones @zendel2024qpptk @enhanced-evaluation.
 
 \
 En el presente proyecto, el diseño de la evaluación comparativa no solo busca responder preguntas específicas sobre el rendimiento de los métodos seleccionados, sino también contribuir al avance del estado del arte en QPP, estableciendo un marco que promueva prácticas experimentales reproducibles, transparentes y aplicables a diversos contextos, garantizando que los hallazgos obtenidos sean relevantes tanto para la comunidad científica como para la práctica en sistemas de recuperación de información.
@@ -30,37 +30,57 @@ En el presente proyecto, el diseño de la evaluación comparativa no solo busca 
 == Protocolo de evaluación experimental
 
 \
-En esta sección se describe el protocolo de evaluación desarrollado para llevar a cabo la evaluación comparativa de los métodos de Query Performance Prediction (QPP). A continuación se presenta el flujo general de los experimentos, las métricas empleadas para la evaluación, y las configuraciones técnicas específicas del entorno experimental.
+En esta sección se describe el protocolo de evaluación desarrollado para llevar a cabo la evaluación comparativa de los métodos de _Query Performance Prediction_ (QPP). A continuación se presenta el flujo general de los experimentos, las métricas empleadas para la evaluación, y las configuraciones técnicas específicas del entorno experimental.
 
-El entorno experimental está diseñado para garantizar la reproducibilidad, flexibilidad y transparencia. Para lograrlo, se ha implementado un entorno basado en capas, y reproducible en Docker, que permite ejecutar los experimentos de manera consistente y controlada, sin depender de configuraciones específicas de hardware o software.
+Respecto a esté último, está diseñado para garantizar la reproducibilidad, flexibilidad y transparencia. Para lograrlo, se ha implementado un entorno basado en capas, y reproducible en Docker, que permite ejecutar los experimentos de manera consistente y controlada, sin depender de configuraciones específicas de hardware o software.
 
 \
 === Paradigma de evaluación de métodos QPP
 \
-Antes de describir el flujo del sistema, es fundamental formalizar el paradigma de evaluación estándar utilizado en la literatura para cuantificar la calidad de los métodos de Query Performance Prediction (QPP). Este marco conceptual constituye la base teórica del diseño experimental.
+Antes de describir el flujo del sistema, es fundamental formalizar el paradigma de evaluación estándar utilizado en la literatura para cuantificar la calidad de los métodos de _Query Performance Prediction_ (QPP). Este marco conceptual constituye la base teórica del diseño experimental.
 
 El paradigma de evaluación se modela a partir de los siguientes componentes fundamentales:
 
-1.  *Contexto de Recuperación*: En la @eqt:contexto-recuperacion, $cal(C)$ es una colección de documentos y $cal(Q) = {q_1, ..., q_n}$ un conjunto de $n$ consultas de evaluación. Dado un sistema de recuperación $S$ (ranker), la ejecución de una consulta $q_i in cal(Q)$ sobre el corpus genera una lista ordenada de documentos $L_i$:
+1.  *Contexto de Recuperación*: En la @eqt:contexto-recuperacion, $cal(C)$ es una colección de documentos y $cal(Q) = {q_1, ..., q_n}$ un conjunto de $n$ consultas de evaluación. Dado un sistema de recuperación $S$ (_ranker_), la ejecución de una consulta $q_i in cal(Q)$ sobre el corpus genera una lista ordenada de documentos $L_i$:
 
+\
     $ L_i = S(q_i, cal(C)) $ <contexto-recuperacion>
+\
 
-2.  *Ground Truth (Efectividad Real)*: Para cada consulta $q_i$, existe un conjunto de juicios de relevancia $R_i$ (qrels). Como se define en la @eqt:ground-truth, la efectividad real del sistema para dicha consulta, denotada como $m_S (q_i)$, se obtiene aplicando una métrica de evaluación $cal(M)$ (como AP o nDCG) sobre la lista recuperada:
+2.  *_Ground Truth_ (Efectividad Real)*: Para cada consulta $q_i$, existe un conjunto de juicios de relevancia $R_i$ (_qrels_). Como se define en la @eqt:ground-truth, la efectividad real del sistema para dicha consulta, denotada como $m_S (q_i)$, se obtiene aplicando una métrica de evaluación $cal(M)$ (como AP o nDCG) sobre la lista recuperada:
+
+\
     $ m_S (q_i) = cal(M)(L_i, R_i) $ <ground-truth>
+\
+
     El conjunto de valores de efectividad para todas las consultas conforma el vector de desempeño real $arrow(m)_S in RR^n$:
+
+\
     $ arrow(m)_S = [m_S (q_1), m_S (q_2), dots, m_S (q_n)]^top $
+\
 
 3.  *Predicción de Rendimiento*: Un método QPP se define como una función estimadora $phi$ que asigna un puntaje a cada consulta, intentando aproximar su dificultad. Según la @eqt:prediccion, el vector de predicciones $arrow(phi) in RR^n$ se construye calculando:
+
+\
     $ arrow(phi) = [phi(q_1), phi(q_2), dots, phi(q_n)]^top $ <prediccion>
-    Dependiendo del tipo de predictor, la función $phi(q_i)$ puede depender solo de la consulta y el corpus (pre-retrieval) o también de la lista recuperada $L_i$ (post-retrieval).
+\
+
+    Dependiendo del tipo de predictor, la función $phi(q_i)$ puede depender solo de la consulta y el _corpus_ (_pre-retrieval_) o también de la lista recuperada $L_i$ (_post-retrieval_).
 
 4.  *Evaluación de la Calidad*: Finalmente, la calidad del predictor $P$ se cuantifica midiendo la asociación estadística entre el desempeño real y el predicho. Esto se formaliza en la @eqt:calidad mediante una función de correlación (típicamente Pearson $rho$ o Kendall $tau$):
-    $ "Calidad"(P) = "Corr"(arrow(m)_S, arrow(phi)) $ <calidad>
 
-#pagebreak()
+\
+    $ "Calidad"(P) = "Corr"(arrow(m)_S, arrow(phi)) $ <calidad>
+\
+
 El objetivo experimental es, por tanto, encontrar un predictor $phi^*$ tal que maximice esta correlación, tal como se expresa en la @eqt:optimizacion:
+
+\
 $ phi^* = arg max_phi "Corr"(arrow(m)_S, arrow(phi)) $ <optimizacion>
-Una alta correlación positiva indica que el predictor es capaz de ordenar las consultas de manera similar a su rendimiento real, permitiendo distinguir fiablemente entre consultas "difíciles" y "fáciles" par el sistema $S$. @query-drift
+\
+
+Una alta correlación positiva indica que el predictor es capaz de ordenar las consultas de manera similar a su rendimiento real, permitiendo distinguir fiablemente entre consultas "difíciles" y "fáciles" par el sistema $S$ @query-drift.
+
 \
 
 === Flujo del sistema
@@ -114,8 +134,8 @@ Una alta correlación positiva indica que el predictor es capaz de ordenar las c
 Como se puede apreciar en la @fig:diagrama_general, el diseño experimental sigue un flujo bien definido en el contexto de la recuperación de información, garantizando su entendimiento, reproducibilidad y el análisis riguroso de los resultados. El flujo incluye los siguientes pasos principales:
 
 \
--	*Preparación de Datasets:* Los datasets seleccionados, como Cranfield o Antique, se descargan de manera completa utilizando la librería _ir_datasets_  y se preprocesan en el entorno _Docker_, este proceso incluye la extracción de consultas, preparación de los juicios de relevancia (_Qrels_) y el formateo adecuado para su uso con _PyTerrier_.
--	*Indexado de Datasets:* Los datasets se indexan utilizando _PyTerrier_, creando estructuras de datos eficientes para la recuperación de información. Es también en este paso donde se guardan metadatos de los datasets, como la frecuencia de los términos en los documentos como la frecuencia de estos en la colección. Además, se hace uso del _‟Stemmer"_ de _Snowball_ sobre los documentos y consultas, para conseguir resultados más precisos en la evaluación.
+-	*Preparación de _Datasets_:* Los _datasets_ seleccionados, más adelante descritos, se descargan de manera completa utilizando la librería _ir_datasets_  y se preprocesan en el entorno _Docker_, este proceso incluye la extracción de consultas, preparación de los juicios de relevancia (_Qrels_) y el formateo adecuado para su uso con _PyTerrier_.
+-	*Indexado de _Datasets_:* Los _datasets_ se indexan utilizando _PyTerrier_, creando estructuras de datos eficientes para la recuperación de información. Es también en este paso donde se guardan metadatos de los _datasets_, como la frecuencia de los términos en los documentos como la frecuencia de estos en la colección. Además, se hace uso del _‟Stemmer"_ de _Snowball_ sobre los documentos y consultas, para conseguir resultados más precisos en la evaluación.
 -	*Configuración de Modelos de Recuperación:* Configuración de modelos de recuperación como estándar como _BM25_ en _PyTerrier_ con parámetros predefinidos, asegurando una base consistente para la evaluación de los métodos _QPP_.
 -	*Implementación de los métodos _QPP_:* Los métodos seleccionados, como, por ejemplo, _IDF_, _SCQ_ o _NQC_, se implementan mediante scripts en _Python_ dentro del contenedor _Docker_, todos estos utilizan una interfaz similar dentro del sistema, permitiendo una ejecución estandarizada de los métodos.
 -	*Ejecución de los métodos de predicción:* Los experimentos se realizan mediante un script principal que realiza múltiples iteraciones por método y dataset, asegurando estabilidad y fiabilidad de los resultados.
@@ -123,17 +143,17 @@ Como se puede apreciar en la @fig:diagrama_general, el diseño experimental sigu
 -	*Evaluación utilizando métricas de correlación:* Se realiza una evaluación de la correlación entre los puntajes de los predictores y las métricas IR, utilizando la librería de _Scipy_, para obtener una medida de la efectividad de los predictores QPP con relación al _‟ground truth”_.
 -	*Documentación y Almacenamiento:* Los resultados, configuraciones y scripts de ejecución se almacenan en directorios organizados dentro del contenedor _Docker_, garantizando su fácil acceso y análisis.
 
-Entre los componentes de la @fig:diagrama_general, se puede discernir la capa de datos, de indexación y recuperación. Estos componentes funcionan completamente dentro de la librería Pyterrier, el cual funciona como un *_wrapper_* para la librería Terrier, la cual es ampliamente utilizada en la literatura de recuperación de información para la realización de experimentos similares. @pyterrier
+Entre los componentes de la @fig:diagrama_general, se puede discernir la capa de datos, de indexación y recuperación. Estos componentes funcionan completamente dentro de la librería Pyterrier, el cual funciona como un *_wrapper_* para la librería Terrier, la cual es ampliamente utilizada en la literatura de recuperación de información para la realización de experimentos similares @pyterrier.
 
 \
 === Configuración técnica
 
 \
--	*Entorno _Docker_*: Al permitir encapsular todas las dependencias necesarias en un entorno reproducible, se evitan problemas de compatibilidad y configuración entre máquinas, asegurando que los experimentos puedan ser ejecutados de manera uniforme y reproducible. Esta decisión de diseño se alinea con las recomendaciones del QPPTK, cuya arquitectura permite delegar aspectos secundarios como la configuración del sistema de recuperación o el procesamiento del corpus a salidas cacheadas, permitiendo que los investigadores se enfoquen exclusivamente en el desarrollo y evaluación de métodos QPP. @zendel2024qpptk
+-	*Entorno _Docker_*: Al permitir encapsular todas las dependencias necesarias en un entorno reproducible, se evitan problemas de compatibilidad y configuración entre máquinas, asegurando que los experimentos puedan ser ejecutados de manera uniforme y reproducible. Esta decisión de diseño se alinea con las recomendaciones del QPPTK, cuya arquitectura permite delegar aspectos secundarios como la configuración del sistema de recuperación o el procesamiento del _corpus_ a salidas cacheadas, permitiendo que los investigadores se enfoquen exclusivamente en el desarrollo y evaluación de métodos QPP @zendel2024qpptk.
 
   El sistema utiliza una imagen base de _Python 3.9_ con _Java 11_ instalado para soportar PyTerrier. 
 
--	*Parámetros del Modelo de Recuperación*: El sistema utiliza el modelo de recuperación _BM25_ (_Best Match 25_) como método principal de recuperación. La elección de _BM25_ como modelo base sigue la práctica estándar en la literatura de QPP, donde los análisis experimentales comúnmente emplean BM25 para garantizar la comparabilidad con estudios previos. @zendel2024qpptk @query-drift Esta decisión permite que los resultados obtenidos puedan ser directamente contrastados con trabajos anteriores y establece una línea base estable para la evaluación de los predictores. Los parámetros han sido mantenidos en su configuración por defecto, como se observa en la @tbl:tabla_de_parametros
+-	*Parámetros del Modelo de Recuperación*: El sistema utiliza el modelo de recuperación _BM25_ (_Best Match 25_) como método principal de recuperación. La elección de _BM25_ como modelo base sigue la práctica estándar en la literatura de QPP, donde los análisis experimentales comúnmente emplean BM25 para garantizar la comparabilidad con estudios previos @zendel2024qpptk @query-drift. Esta decisión permite que los resultados obtenidos puedan ser directamente contrastados con trabajos anteriores y establece una línea base estable para la evaluación de los predictores. Los parámetros han sido mantenidos en su configuración por defecto, como se observa en la @tbl:tabla_de_parametros.
 
 \
 #figure(
@@ -159,12 +179,12 @@ Entre los componentes de la @fig:diagrama_general, se puede discernir la capa de
 
 \
 #pad(left:17pt)[
-Otros estudios han propuesto la utilización de otros parámetros para BM25, como el parámetro k1, el cual controla la saturación de términos en los documentos, sobretodo al utilizar métodos de clustering, tales experimentos han demostrado que un valor de k1 mayor a 1.2 puede mejorar el rendimiento de la recuperación. Sin embargo, en este estudio se mantendrán los parámetros por defecto de PyTerrier, ya que se ha demostrado que estos proporcionan un rendimiento adecuado para la mayoría de las tareas de recuperación de información, pero se puede realizar un estudio futuro sobre la utilización de estos parámetros en la evaluación de métodos QPP. @bm25
+Otros estudios han propuesto la utilización de otros parámetros para BM25, como el parámetro k1, el cual controla la saturación de términos en los documentos, sobretodo al utilizar métodos de _clustering_, tales experimentos han demostrado que un valor de k1 mayor a 1.2 puede mejorar el rendimiento de la recuperación. Sin embargo, en este estudio se mantendrán los parámetros por defecto de PyTerrier, ya que se ha demostrado que estos proporcionan un rendimiento adecuado para la mayoría de las tareas de recuperación de información, pero se puede realizar un estudio futuro sobre la utilización de estos parámetros en la evaluación de métodos QPP @bm25.
 ]
 
 \
 #pad(left:-15pt)[
-- *Ejecución de los métodos y scripts de evaluación*:La @tbl:tabla-argumentos sistema permite una configuración flexible de la ejecución de la evaluación a través de diversos parámetros que controlan tanto el proceso de recuperación como la evaluación QPP. La configuración se realiza principalmente mediante argumentos de línea de comandos y variables de entorno.
+- *Ejecución de los métodos y scripts de evaluación*: La @tbl:tabla-argumentos muestra una configuración flexible de la ejecución de la evaluación a través de diversos parámetros que controlan tanto el proceso de recuperación como la evaluación QPP. La configuración se realiza principalmente mediante argumentos de línea de comandos y variables de entorno.
 ]
 
 \
@@ -203,80 +223,14 @@ La evaluación final integra estos resultados mediante un análisis bidimensiona
 ]
 \
 #pad(left:-15pt)[
--	*Métricas Utilizadas*: Para el desarrollo de esta evaluación se optó por el uso de métricas de evaluación que cuentan con una presencia amplia en la literatura, por un lado se decantó por el uso nDCG y MAP, las cuales son ampliamente utilizadas en tareas de ranking y precisión proporcionan una medida del rendimiento del sistema de recuperación. Por otro lado, se decantó por el uso de métricas de correlación para la predicción de rendimiento de consultas, como el coeficiente de correlación de Kendall y Spearman, las cuales son ampliamente utilizadas en la literatura y proporcionan una medida de la efectividad de los predictores QPP. @correlation-methods
+-	*Métricas Utilizadas*: Para el desarrollo de esta evaluación se optó por el uso de métricas de evaluación que cuentan con una presencia amplia en la literatura, por un lado se decantó por el uso nDCG y MAP, las cuales son ampliamente utilizadas en tareas de ranking y precisión proporcionan una medida del rendimiento del sistema de recuperación. Por otro lado, se decantó por el uso de métricas de correlación para la predicción de rendimiento de consultas, como el coeficiente de correlación de Kendall y Spearman, las cuales son ampliamente utilizadas en la literatura y proporcionan una medida de la efectividad de los predictores QPP @correlation-methods.
 ]
 #pad(left:15pt)[
-En el contexto de la evaluación de sistemas de recuperación de información, las métricas binarias como Average Precision (*AP*) requieren una distinción clara entre documentos relevantes y no relevantes. Para lograr esto, se establece un umbral binario sobre los niveles de relevancia originales del dataset, donde los documentos con un nivel de relevancia igual o superior al umbral se consideran relevantes, mientras que aquellos por debajo se consideran no relevantes. Este enfoque permite evaluar el rendimiento del sistema en términos de su capacidad para distinguir entre documentos relevantes y no relevantes.
+En el contexto de la evaluación de sistemas de recuperación de información, las métricas binarias como _Average Precision_ (AP) requieren una distinción clara entre documentos relevantes y no relevantes. Para lograr esto, se establece un umbral binario sobre los niveles de relevancia originales del _dataset_, donde los documentos con un nivel de relevancia igual o superior al umbral se consideran relevantes, mientras que aquellos por debajo se consideran no relevantes. Este enfoque permite evaluar el rendimiento del sistema en términos de su capacidad para distinguir entre documentos relevantes y no relevantes.
 ]
 #pad(left:15pt)[
-Por otro lado, las métricas graduadas como el Normalized Discounted Cumulative Gain (nDCG) aprovechan la naturaleza multi-nivel de los juicios de relevancia mediante valores de ganancia. Estos valores representan la utilidad o importancia relativa de cada nivel de relevancia, donde un valor más alto indica una mayor relevancia del documento. La asignación de valores de ganancia es crucial ya que influye directamente en cómo la métrica evalúa la calidad del ranking, penalizando más severamente cuando documentos altamente relevantes (con mayor valor de ganancia) aparecen en posiciones más bajas del ranking. En la @tbl:tabla-metricas-datasets se detalla la configuración específica de relevancia y valores de ganancia para cada dataset:
+Por otro lado, las métricas graduadas como el _Normalized Discounted Cumulative Gain_ (nDCG) aprovechan la naturaleza multi-nivel de los juicios de relevancia mediante valores de ganancia. Estos valores representan la utilidad o importancia relativa de cada nivel de relevancia, donde un valor más alto indica una mayor relevancia del documento. La asignación de valores de ganancia es crucial ya que influye directamente en cómo la métrica evalúa la calidad del ranking, penalizando más severamente cuando documentos altamente relevantes (con mayor valor de ganancia) aparecen en posiciones más bajas del ranking.
 ]
-#pagebreak()
-#show figure: set block(breakable: true)
-#figure(
-  table(
-    columns: (1fr, 3fr, 2fr),
-    inset: 10pt,
-    stroke: (x: none),
-    row-gutter: (2.2pt, auto),
-    align: left,
-    [*Dataset*], [*Configuración*], [*Justificación*],
-    [Cranfield Collection],
-    [- Relevancia: 5 niveles (-1 a 4)
-     - Umbral binario: ≥1
-     - Valores de ganancia:
-       - Nivel -1: 0 (Sin interés)
-       - Nivel 1: 1 (Interés mínimo)
-       - Nivel 2: 2 (Referencia útil)
-       - Nivel 3: 3 (Alta relevancia)
-       - Nivel 4: 4 (Respuesta completa)],
-    [Escala graduada clásica que permite distinguir desde documentos sin interés hasta respuestas completas. Ideal para experimentos controlados.],
-    
-    [ANTIQUE],
-    [- Relevancia: 4 niveles (1-4)
-     - Umbral binario: ≥3
-     - Valores de ganancia:
-       - Nivel 1: 0 (Fuera de contexto)
-       - Nivel 2: 1 (No relevante)
-       - Nivel 3: 2 (Marginal)
-       - Nivel 4: 3 (Altamente relevante)],
-    [Escala granular para preguntas subjetivas. Los niveles 1-2 se consideran no relevantes para métricas binarias.],
-    
-    [TREC-COVID],
-    [- Relevancia: 4 niveles (-1 a 2)
-     - Umbral binario: ≥1
-     - Valores de ganancia:
-       - Nivel -1: 0 (No evaluado/negativo)
-       - Nivel 0: 0 (No relevante)
-       - Nivel 1: 1 (Relevante)
-       - Nivel 2: 2 (Altamente relevante)],
-    [Incluye nivel -1 para documentos no evaluados. Permite distinguir información COVID-19 de alta relevancia.],
-    
-    [MS MARCO Passage (TREC DL 2020)],
-    [- Relevancia: 4 niveles (0-3)
-     - Umbral binario: ≥2
-     - Valores de ganancia:
-       - Nivel 0: 0 (Irrelevante)
-       - Nivel 1: 1 (Relacionado)
-       - Nivel 2: 2 (Altamente relevante)
-       - Nivel 3: 3 (Perfectamente relevante)],
-    [Umbral binario en ≥2 siguiendo la práctica oficial de TREC. Escala graduada para nDCG.],
-    
-    [TREC CAR],
-    [- Relevancia: 6 niveles (-2 a 3)
-     - Umbral binario: ≥1
-     - Valores de ganancia:
-       - Nivel -2: 0 (Basura)
-       - Nivel -1: 0 (No relevante)
-       - Nivel 0: 0 (No relevante, tema cercano)
-       - Nivel 1: 1 (Puede mencionarse)
-       - Nivel 2: 2 (Debería mencionarse)
-       - Nivel 3: 3 (Debe mencionarse)],
-    [Escala detallada con juicios manuales. Incluye niveles negativos para contenido basura o irrelevante.],
-  ),
-  caption: "Configuración de métricas por dataset"
-) <tabla-metricas-datasets>
-
 \
 Para el análisis de correlación, el sistema implementa tres coeficientes (τ-Kendall, ρ-Spearman, r-Pearson), pero prioriza τ-Kendall por:
 
@@ -291,19 +245,21 @@ La elección de estas métricas de correlación está fundamentada en las práct
 De igual forma @wig-nqc-scored-configuration validan este enfoque metodológico al evaluar la calidad de predicción mediante ambos coeficientes: la correlación de Pearson mide la correlación lineal entre dos variables en un rango de [-1,1], mientras que τ de Kendall mide la asociación entre dos cantidades medidas, donde 1 denota que los dos rankings son idénticos y -1 indica que uno es el inverso del otro.
 
 \
-Además, dentro de la literatura se ha discutido sobre el rendimiento e interpretabilidad de otros coeficientes, como el coeficiente de correlación de Pearson, el cual es menos robusto que τ-Kendall y Spearman, y su uso ha sido desestimado en favor de las anteriormente mencionadas. @correlation-depends-on-quality-of-dataset El marco de evaluación mejorado propuesto por @enhanced-evaluation sugiere además modelar el rendimiento de _QPP_ como una distribución en lugar de depender de estimaciones puntuales, lo que proporciona implicaciones estadísticas importantes y supera limitaciones del enfoque tradicional basado únicamente en correlaciones.
+Además, dentro de la literatura se ha discutido sobre el rendimiento e interpretabilidad de otros coeficientes, como el coeficiente de correlación de Pearson, el cual es menos robusto que τ-Kendall y Spearman, y su uso ha sido desestimado en favor de las anteriormente mencionadas @correlation-depends-on-quality-of-dataset. El marco de evaluación mejorado propuesto por @enhanced-evaluation sugiere además modelar el rendimiento de _QPP_ como una distribución en lugar de depender de estimaciones puntuales, lo que proporciona implicaciones estadísticas importantes y supera limitaciones del enfoque tradicional basado únicamente en correlaciones.
 
 La implementación utilizará la librería _ir_measures_ para garantizar cálculos estandarizados de las métricas de recuperación de información, mientras que _Scipy_ proporciona implementaciones eficientes de los coeficientes de correlación. El sistema maneja automáticamente casos especiales como queries sin resultados o scores _QPP_ indefinidos, asegurando una evaluación robusta incluso en condiciones no ideales.  
-#v(8pt)
+#v(10pt)
 == Selección de conjuntos de datos
-#v(8pt)
-La selección de datasets es parte fundamental para garantizar una evaluación comparativa robusta y representativa de los métodos _QPP_, es por ello, que se seleccionaron datasets reconocidos en la literatura, priorizando los que ofrecen juicios de relevancia _Qrels_ y métricas estandarizadas, permitiendo así validar el desempeño de los métodos seleccionados en escenarios variados.
 \
+La selección de _datasets_ es parte fundamental para garantizar una evaluación comparativa robusta y representativa de los métodos _QPP_, es por ello, que se seleccionaron _datasets_ reconocidos en la literatura, priorizando los que ofrecen juicios de relevancia _Qrels_ y métricas estandarizadas, permitiendo así validar el desempeño de los métodos seleccionados en escenarios variados.
+
 Además, investigaciones como @query-drift han validado sus metodologías utilizando colecciones _TREC_  ampliamente reconocidas incluidas en este evaluación, las cuales han sido empleadas en numerosos estudios de predicción de rendimiento de consultas, permitiendo un análisis profundo de la calidad de predicción y el estudio de diversos factores que afectan a los predictores. Este enfoque garantiza no solo la robustez de los resultados, sino también su generalización a futuros trabajos relacionados con QPP.
 #v(4pt)
 === Criterios de inclusión
 \
-La @tbl:tabla-criterios-datasets presentan los criterios aplicados en la selección de datasets, detallando su importancia en el contexto del proyecto.
+La @tbl:tabla-criterios-datasets presentan los criterios aplicados en la selección de _datasets_, detallando su importancia en el contexto del proyecto.
+
+\
 #show figure: set block(breakable: true)
 #figure(
   table(
@@ -337,14 +293,14 @@ La @tbl:tabla-criterios-datasets presentan los criterios aplicados en la selecci
 ) <tabla-criterios-datasets>
 \
 
--	*Disponibilidad pública *: Es fundamental seleccionar datasets de acceso abierto que estén bien documentados, ya que esto garantiza la transparencia y la reproducibilidad de los experimentos, la disponibilidad pública también asegura que los resultados puedan ser validados por otros investigadores, fomentando la colaboración y el avance en el campo del QPP.
--	*Diversidad de escenarios*: Incluir datasets con diferentes tipos de consultas es crucial para evaluar cómo se desempeñan los métodos QPP en escenarios reales, por ejemplo de consultas informacionales: preguntas abiertas donde el usuario busca adquirir conocimiento general; consultas navegacionales: consultas donde el objetivo es encontrar una página específica; y consultas transaccionales: consultas orientadas a completar una acción. Esta diversidad asegura que los métodos sean efectivos en una variedad de tareas de recuperación, desde búsquedas generales hasta necesidades específicas.
--	*Uso en el estado del arte*: Seleccionar datasets ampliamente utilizados en investigaciones previas permite que los resultados del proyecto sean comparables con estudios existentes, lo que refuerza la validez del análisis comparativo y asegura que las metodologías empleadas cumplan con estándares científicos.
--	*Tamaño adecuado*: La inclusión de datasets de diferentes tamaños permite evaluar el comportamiento de los métodos en escenarios con distintos volúmenes de datos, en donde los datasets pequeños son ideales para pruebas controladas y rápidas, mientras que los grandes, son útiles para analizar la escalabilidad y robustez de los métodos. Este enfoque asegura que los métodos QPP seleccionados sean evaluados en condiciones que reflejen tanto la simplicidad como la complejidad de los sistemas de recuperación de información modernos.
--	*Relevancias conocidas (qrels)*: Los juicios de relevancia son esenciales para evaluar el desempeño de los métodos de manera objetiva, al incluir datasets con qrels bien establecidos, se garantiza que los resultados estén basados en un marco estandarizado, facilitando su interpretación y comparación
+-	*Disponibilidad pública *: Es fundamental seleccionar _datasets_ de acceso abierto que estén bien documentados, ya que esto garantiza la transparencia y la reproducibilidad de los experimentos, la disponibilidad pública también asegura que los resultados puedan ser validados por otros investigadores, fomentando la colaboración y el avance en el campo del QPP.
+-	*Diversidad de escenarios*: Incluir _datasets_ con diferentes tipos de consultas es crucial para evaluar cómo se desempeñan los métodos QPP en escenarios reales, por ejemplo de consultas informacionales: preguntas abiertas donde el usuario busca adquirir conocimiento general; consultas navegacionales: consultas donde el objetivo es encontrar una página específica; y consultas transaccionales: consultas orientadas a completar una acción. Esta diversidad asegura que los métodos sean efectivos en una variedad de tareas de recuperación, desde búsquedas generales hasta necesidades específicas.
+-	*Uso en el estado del arte*: Seleccionar _datasets_ ampliamente utilizados en investigaciones previas permite que los resultados del proyecto sean comparables con estudios existentes, lo que refuerza la validez del análisis comparativo y asegura que las metodologías empleadas cumplan con estándares científicos.
+-	*Tamaño adecuado*: La inclusión de _datasets_ de diferentes tamaños permite evaluar el comportamiento de los métodos en escenarios con distintos volúmenes de datos, en donde los _datasets_ pequeños son ideales para pruebas controladas y rápidas, mientras que los grandes, son útiles para analizar la escalabilidad y robustez de los métodos. Este enfoque asegura que los métodos QPP seleccionados sean evaluados en condiciones que reflejen tanto la simplicidad como la complejidad de los sistemas de recuperación de información modernos.
+-	*Relevancias conocidas (_qrels_)*: Los juicios de relevancia son esenciales para evaluar el desempeño de los métodos de manera objetiva, al incluir _datasets_ con _qrels_ bien establecidos, se garantiza que los resultados estén basados en un marco estandarizado, facilitando su interpretación y comparación
 
 \
-Es así como la aplicación de estos criterios garantiza que los datasets seleccionados sean adecuados para el análisis comparativo de los métodos QPP, de igual forma, al priorizar la diversidad, relevancia y representatividad, este proyecto establece una base sólida para evaluar el desempeño de los métodos en diferentes contextos y escalas, contribuyendo al avance del estado del arte en predicción del rendimiento de consultas.
+Es así como la aplicación de estos criterios garantiza que los _datasets_ seleccionados sean adecuados para el análisis comparativo de los métodos QPP, de igual forma, al priorizar la diversidad, relevancia y representatividad, este proyecto establece una base sólida para evaluar el desempeño de los métodos en diferentes contextos y escalas, contribuyendo al avance del estado del arte en predicción del rendimiento de consultas.
 
 \
 === Justificación de los conjuntos de datos seleccionados
@@ -421,15 +377,15 @@ La @tbl:tabla-datasets especifica los datasets seleccionados, seguida de la @tbl
 \
 *Cranfield Collection*:
 
-La colección Cranfield representa uno de los hitos fundacionales en la historia de la recuperación de información. Desarrollada entre 1958 y 1966 en el Cranfield Institute of Technology (actualmente Cranfield University) en el Reino Unido, bajo la dirección de Cyril Cleverdon, constituye el primer intento sistemático de evaluar sistemas de recuperación de información bajo condiciones controladas.
+La colección Cranfield representa uno de los hitos fundacionales en la historia de la recuperación de información. Desarrollada entre 1958 y 1966 en el _Cranfield Institute of Technology_ (actualmente Cranfield University) en el Reino Unido, bajo la dirección de Cyril Cleverdon, constituye el primer intento sistemático de evaluar sistemas de recuperación de información bajo condiciones controladas.
 
 - *Documentos*: La colección consta de 1,400 resúmenes científicos en el dominio de la aerodinámica. Cada documento incluye campos de identificador, título, texto del abstract, autor y referencia bibliográfica.
 - *Consultas*: Las 225 consultas fueron formuladas en lenguaje natural por investigadores del área, representando necesidades de información reales del dominio científico.
-- *Origen de Qrels*: Los juicios de relevancia fueron anotados manualmente por expertos en aerodinámica, estableciendo una escala de 5 niveles (-1 a 4). Estos juicios introdujeron el concepto de "relevance judgments" que se convertiría en estándar para la evaluación de IR. La distribución incluye: 225 juicios de nivel -1, 128 de nivel 1, 387 de nivel 2, 734 de nivel 3, y 363 de nivel 4.
-- *Importancia histórica*: Los experimentos de Cranfield establecieron el "paradigma Cranfield" que incluye una colección de documentos, un conjunto de consultas con juicios de relevancia asociados, y evaluación basada en precisión y recall, metodología que posteriormente adoptaría TREC.
+- *Origen de _Qrels_*: Los juicios de relevancia fueron anotados manualmente por expertos en aerodinámica, estableciendo una escala de 5 niveles (-1 a 4). Estos juicios introdujeron el concepto de "_relevance judgments_" que se convertiría en estándar para la evaluación de IR. La distribución incluye: 225 juicios de nivel -1, 128 de nivel 1, 387 de nivel 2, 734 de nivel 3, y 363 de nivel 4.
+- *Importancia histórica*: Los experimentos de Cranfield establecieron el "paradigma Cranfield" que incluye una colección de documentos, un conjunto de consultas con juicios de relevancia asociados, y evaluación basada en _precisión y recall_, metodología que posteriormente adoptaría TREC.
 
 \
-*ANTIQUE (A Non-factoid Question Answering Benchmark):*
+*ANTIQUE (_A Non-factoid Question Answering Benchmark_):*
 \
 
 ANTIQUE es un benchmark diseñado específicamente para la recuperación de respuestas no factuales, desarrollado por investigadores de la Universidad de Massachusetts Amherst y publicado en 2019 @antique-dataset.
@@ -442,30 +398,30 @@ ANTIQUE es un benchmark diseñado específicamente para la recuperación de resp
 \
 *TREC-COVID:*
 
-TREC-COVID fue una iniciativa colaborativa entre el Allen Institute for Artificial Intelligence (AI2), el National Institute of Standards and Technology (NIST), la National Library of Medicine (NLM), Oregon Health & Science University (OHSU), y la University of Texas Health Science Center at Houston (UTHealth) @trec-covid-dataset.
+TREC-COVID fue una iniciativa colaborativa entre el _Allen Institute for Artificial Intelligence_ (AI2), el _National Institute of Standards and Technology_ (NIST), la _National Library of Medicine_ (NLM), _Oregon Health & Science University_ (OHSU), y la _University of Texas Health Science Center at Houston_ (UTHealth) @trec-covid-dataset.
 
-- *Documentos*: La colección utiliza el corpus CORD-19 (COVID-19 Open Research Dataset) mantenido por Semantic Scholar. La versión BEIR contiene 171,332 artículos científicos representados por sus títulos y abstracts, incluyendo campos como identificador, texto, título, URL y PubMed ID.
+- *Documentos*: La colección utiliza el corpus CORD-19 (_COVID-19 Open Research Dataset_) mantenido por Semantic Scholar. La versión BEIR contiene 171,332 artículos científicos representados por sus títulos y abstracts, incluyendo campos como identificador, texto, título, URL y PubMed ID.
 - *Consultas*: Las 50 consultas representan necesidades de información reales de científicos, clínicos, responsables de políticas públicas y otros profesionales que necesitaban navegar la creciente literatura científica sobre COVID-19 durante la pandemia. Cada consulta incluye un título conciso, una descripción expandida y una narrativa que especifica qué documentos serían considerados relevantes.
-- *Origen de Qrels*: Los 66,336 juicios de relevancia fueron creados por asesores de NIST con experiencia biomédica, provenientes de NLM, OHSU y UTHealth. La evaluación se realizó en cinco rondas consecutivas durante 2020, acumulando juicios de relevancia profundos ("deep relevance judgments"). La escala incluye: nivel -1 (no evaluado o documento eliminado, 2 juicios), nivel 0 (no relevante, 41,661 juicios), nivel 1 (relevante, 10,456 juicios), y nivel 2 (altamente relevante, 14,217 juicios).
+- *Origen de Qrels*: Los 66,336 juicios de relevancia fueron creados por asesores de NIST con experiencia biomédica, provenientes de NLM, OHSU y UTHealth. La evaluación se realizó en cinco rondas consecutivas durante 2020, acumulando juicios de relevancia profundos ("_deep relevance judgments_"). La escala incluye: nivel -1 (no evaluado o documento eliminado, 2 juicios), nivel 0 (no relevante, 41,661 juicios), nivel 1 (relevante, 10,456 juicios), y nivel 2 (altamente relevante, 14,217 juicios).
 - *Objetivos*: El track buscó evaluar algoritmos de búsqueda para ayudar a gestionar el corpus de literatura científica sobre COVID-19 y descubrir métodos aplicables a futuras crisis biomédicas globales.
 
 \
-*MS MARCO Passage (TREC Deep Learning 2020):*
+*MS MARCO Passage (_TREC Deep Learning 2020_):*
 
-MS MARCO (Microsoft MAchine Reading COmprehension) es una colección a gran escala desarrollada por Microsoft Research, utilizada como base para el TREC Deep Learning Track desde 2019 @ms-marco-dataset.
+MS MARCO (_Microsoft MAchine Reading COmprehension_) es una colección a gran escala desarrollada por Microsoft Research, utilizada como base para el _TREC Deep Learning Track_ desde 2019 @ms-marco-dataset.
 
-- *Documentos*: El corpus completo contiene 8,841,823 pasajes extraídos de documentos web reales indexados por Bing. Cada pasaje consiste en un identificador y el texto del pasaje.
-- *Consultas*: Las consultas del TREC DL 2020 fueron muestreadas del conjunto de evaluación de MS MARCO. Originalmente, estas consultas provienen de preguntas reales y anónimas formuladas por usuarios del motor de búsqueda Bing, lo que garantiza que representan necesidades de información auténticas y cotidianas. El subconjunto "judged" contiene 54 consultas que fueron evaluadas por asesores de NIST.
+- *Documentos*: El _corpus_ completo contiene 8,841,823 pasajes extraídos de documentos web reales indexados por Bing. Cada pasaje consiste en un identificador y el texto del pasaje.
+- *Consultas*: Las consultas del TREC DL 2020 fueron muestreadas del conjunto de evaluación de MS MARCO. Originalmente, estas consultas provienen de preguntas reales y anónimas formuladas por usuarios del motor de búsqueda Bing, lo que garantiza que representan necesidades de información auténticas y cotidianas. El subconjunto "_judged_" contiene 54 consultas que fueron evaluadas por asesores de NIST.
 - *Origen de Qrels*: A diferencia de los juicios de relevancia escasos de MS MARCO original (donde típicamente solo un documento es marcado como relevante por consulta), el TREC DL 2020 proporciona 11,386 juicios de relevancia detallados creados por asesores de NIST. La escala de 4 niveles incluye: nivel 0 (irrelevante, 7,780 juicios), nivel 1 (relacionado, 1,940 juicios), nivel 2 (altamente relevante, 1,020 juicios), y nivel 3 (perfectamente relevante, 646 juicios). El umbral binario oficial de TREC es ≥2.
 
-#pagebreak()
-*TREC CAR (Complex Answer Retrieval)*
+\
+*TREC CAR (_Complex Answer Retrieval_):*
 
-TREC CAR es una colección de recuperación de pasajes ad-hoc construida a partir de Wikipedia, diseñada para abordar necesidades de información complejas que requieren respuestas extensas y estructuradas @TREC-CAR-dataset.
+TREC CAR es una colección de recuperación de pasajes _ad-hoc_ construida a partir de Wikipedia, diseñada para abordar necesidades de información complejas que requieren respuestas extensas y estructuradas @TREC-CAR-dataset.
 
-- *Documentos*: El corpus v1.5 contiene 29,678,367 pasajes extraídos de Wikipedia (dump de diciembre 2016). Cada documento incluye un identificador único y el texto del pasaje.
-- *Consultas*: Las 2,287 consultas del Year 1 (2017) fueron derivadas de la estructura jerárquica de artículos de Wikipedia. Cada consulta incluye un identificador, texto completo, título del artículo y la jerarquía de encabezados que representa la sección específica. Las consultas fueron seleccionadas manualmente de temas de ciencia popular y medio ambiente, inspiradas en noticias de actualidad y temas de interés general.
-- *Origen de Qrels*: La versión "manual" (`car/v1.5/trec-y1/manual`) contiene 29,571 juicios de relevancia creados por seis asesores de NIST utilizando pools de documentos construidos a partir de las entregas de los participantes. La escala graduada de 6 niveles es la más detallada entre los datasets seleccionados:
+- *Documentos*: El corpus v1.5 contiene 29,678,367 pasajes extraídos de Wikipedia (_dump_ de diciembre 2016). Cada documento incluye un identificador único y el texto del pasaje.
+- *Consultas*: Las 2,287 consultas del _Year 1_ (2017) fueron derivadas de la estructura jerárquica de artículos de Wikipedia. Cada consulta incluye un identificador, texto completo, título del artículo y la jerarquía de encabezados que representa la sección específica. Las consultas fueron seleccionadas manualmente de temas de ciencia popular y medio ambiente, inspiradas en noticias de actualidad y temas de interés general.
+- *Origen de Qrels*: La versión "manual" (`car/v1.5/trec-y1/manual`) contiene 29,571 juicios de relevancia creados por seis asesores de NIST utilizando _pools_ de documentos construidos a partir de las entregas de los participantes. La escala graduada de 6 niveles es la más detallada entre los datasets seleccionados:
   - Nivel -2: Basura/spam (42 juicios)
   - Nivel -1: No relevante (12,785 juicios)
   - Nivel 0: No relevante pero tema cercano (9,219 juicios)
@@ -479,7 +435,76 @@ Además, todos los datasets utilizados son de acceso abierto en repositorios pú
 
 De esta forma, la selección de datasets con características bien definidas asegura una evaluación diversa y representativa de los métodos QPP seleccionados, ya que este enfoque cubre dominios especializados, tareas cotidianas y casos complejos, estableciendo una base sólida para validar la efectividad y aplicabilidad de los métodos en diferentes contextos de recuperación de información.
 
+Una vez definidos los conjuntos de datos, es necesario operacionalizar las métricas de evaluación descritas en la _Sección 4.1_ ajustándolas a las escalas de relevancia particulares de cada colección seleccionada, dado que cada _dataset_ posee criterios de juicio distintos, se ha establecido una configuración estandarizada para los umbrales de relevancia y los valores de ganancia.
+
+En la @tbl:tabla-metricas-datasets se detalla la configuración específica de relevancia, umbrales binarios y valores de ganancia para cada _dataset_ seleccionado.
+
 \
+#show figure: set block(breakable: true)
+#figure(
+  table(
+    columns: (1fr, 3fr, 2fr),
+    inset: 10pt,
+    stroke: (x: none),
+    row-gutter: (2.2pt, auto),
+    align: left,
+    [*Dataset*], [*Configuración*], [*Justificación*],
+    [Cranfield Collection],
+    [- Relevancia: 5 niveles (-1 a 4)
+     - Umbral binario: ≥1
+     - Valores de ganancia:
+       - Nivel -1: 0 (Sin interés)
+       - Nivel 1: 1 (Interés mínimo)
+       - Nivel 2: 2 (Referencia útil)
+       - Nivel 3: 3 (Alta relevancia)
+       - Nivel 4: 4 (Respuesta completa)],
+    [Escala graduada clásica que permite distinguir desde documentos sin interés hasta respuestas completas. Ideal para experimentos controlados.],
+    
+    [ANTIQUE],
+    [- Relevancia: 4 niveles (1-4)
+     - Umbral binario: ≥3
+     - Valores de ganancia:
+       - Nivel 1: 0 (Fuera de contexto)
+       - Nivel 2: 1 (No relevante)
+       - Nivel 3: 2 (Marginal)
+       - Nivel 4: 3 (Altamente relevante)],
+    [Escala granular para preguntas subjetivas. Los niveles 1-2 se consideran no relevantes para métricas binarias.],
+    
+    [TREC-COVID],
+    [- Relevancia: 4 niveles (-1 a 2)
+     - Umbral binario: ≥1
+     - Valores de ganancia:
+       - Nivel -1: 0 (No evaluado/negativo)
+       - Nivel 0: 0 (No relevante)
+       - Nivel 1: 1 (Relevante)
+       - Nivel 2: 2 (Altamente relevante)],
+    [Incluye nivel -1 para documentos no evaluados. Permite distinguir información COVID-19 de alta relevancia.],
+    
+    [MS MARCO Passage (TREC DL 2020)],
+    [- Relevancia: 4 niveles (0-3)
+     - Umbral binario: ≥2
+     - Valores de ganancia:
+       - Nivel 0: 0 (Irrelevante)
+       - Nivel 1: 1 (Relacionado)
+       - Nivel 2: 2 (Altamente relevante)
+       - Nivel 3: 3 (Perfectamente relevante)],
+    [Umbral binario en ≥2 siguiendo la práctica oficial de TREC. Escala graduada para nDCG.],
+    
+    [TREC CAR],
+    [- Relevancia: 6 niveles (-2 a 3)
+     - Umbral binario: ≥1
+     - Valores de ganancia:
+       - Nivel -2: 0 (Basura)
+       - Nivel -1: 0 (No relevante)
+       - Nivel 0: 0 (No relevante, tema cercano)
+       - Nivel 1: 1 (Puede mencionarse)
+       - Nivel 2: 2 (Debería mencionarse)
+       - Nivel 3: 3 (Debe mencionarse)],
+    [Escala detallada con juicios manuales. Incluye niveles negativos para contenido basura o irrelevante.],
+  ),
+  caption: "Configuración de métricas por dataset"
+) <tabla-metricas-datasets>
+
 == Selección de métodos de QPP
 \
 La selección de métodos QPP resulta crucial en el diseño de este proyecto, ya que determina la relevancia y la validez del análisis comparativo.
@@ -491,7 +516,7 @@ A continuación, se describen los criterios aplicados en el proceso de selecció
 #v(13pt)
 === Criterios de selección
 \
-Como se ha mencionado, la selección de métodos de Query Performance Prediction (QPP) es un proceso fundamental para garantizar que los métodos evaluados sean representativos, robustos y relevantes en el contexto de los sistemas de recuperación de información. Con este propósito, se definieron criterios específicos que permiten abordar el problema desde una perspectiva teórica sólida y práctica aplicable, los que aseguran la validez de la evaluación comparativa y su alineación con los objetivos del proyecto.
+Como se ha mencionado, la selección de métodos de _Query Performance Prediction_ (QPP) es un proceso fundamental para garantizar que los métodos evaluados sean representativos, robustos y relevantes en el contexto de los sistemas de recuperación de información. Con este propósito, se definieron criterios específicos que permiten abordar el problema desde una perspectiva teórica sólida y práctica aplicable, los que aseguran la validez de la evaluación comparativa y su alineación con los objetivos del proyecto.
 
 \
 #figure(
@@ -527,9 +552,9 @@ Como se ha mencionado, la selección de métodos de Query Performance Prediction
 La @tbl:tabla-criterios resume los criterios definidos para la selección de los métodos de QPP, en donde cada criterio cumple un rol específico para garantizar que los métodos seleccionados no solo sean estadísticamente sólidos, sino también relevantes y diversificados en su enfoque, asegurando que el análisis comparativo resultante sea exhaustivo y útil para evaluar las fortalezas y limitaciones de los métodos elegidos.
 
 \
-- *Base estadística y simplicidad*: Se seleccionan métodos que se basan en conceptos matemáticos fundamentales, como la frecuencia de términos en el corpus y su relación con la consulta, ya que estos métodos son ampliamente reconocidos por su sencillez y su capacidad para ser implementados y replicados sin necesidad de recursos computacionales avanzados. Este criterio asegura que los métodos elegidos puedan ser utilizados como referencia en investigaciones futuras, promoviendo la reproducibilidad de los experimentos y el entendimiento teórico de los predictores.
+- *Base estadística y simplicidad*: Se seleccionan métodos que se basan en conceptos matemáticos fundamentales, como la frecuencia de términos en el _corpus_ y su relación con la consulta, ya que estos métodos son ampliamente reconocidos por su sencillez y su capacidad para ser implementados y replicados sin necesidad de recursos computacionales avanzados. Este criterio asegura que los métodos elegidos puedan ser utilizados como referencia en investigaciones futuras, promoviendo la reproducibilidad de los experimentos y el entendimiento teórico de los predictores.
 - *Uso en estudios previos*: Se buscan métodos que han sido recurrentemente evaluados en trabajos recientes que analizan sistemas de recuperación de información, ya que no solo garantiza que los resultados del proyecto sean comparables con investigaciones previas, sino que también asegura que los métodos seleccionados representan soluciones probadas y bien documentadas.
-- *Diversidad de enfoques*: Se seleccionan métodos tanto pre-retrieval como post-retrieval para capturar diferentes aspectos del problema, mientras que unos se enfocan en estimar la calidad de una consulta basándose únicamente en estadísticas del corpus, los otros evalúan la calidad considerando los documentos recuperados. Este enfoque integral permite analizar el rendimiento de consultas desde múltiples perspectivas, proporcionando una visión más completa de sus fortalezas y debilidades.
+- *Diversidad de enfoques*: Se seleccionan métodos tanto _pre-retrieval_ como _post-retrieval_ para capturar diferentes aspectos del problema, mientras que unos se enfocan en estimar la calidad de una consulta basándose únicamente en estadísticas del corpus, los otros evalúan la calidad considerando los documentos recuperados. Este enfoque integral permite analizar el rendimiento de consultas desde múltiples perspectivas, proporcionando una visión más completa de sus fortalezas y debilidades.
 - *Relevancia en el estado del arte*: Se priorizan métodos no basados en inteligencia artificial, ya que estos garantizan un análisis más transparente y menos sesgado en comparación con tecnologías supervisadas, además, de esta forma, los métodos seleccionados han sido ampliamente reconocidos en la literatura por su aplicabilidad en sistemas de recuperación de información y su capacidad para ser implementados sin depender de datasets de entrenamiento o modelos complejos.
 
 Por otra parte, la decisión de priorizar métodos no basados en inteligencia artificial tiene varias razones claves:
@@ -543,7 +568,7 @@ Por otra parte, la decisión de priorizar métodos no basados en inteligencia ar
 === Métodos seleccionados
 
 \
-Siguiendo los criterios establecidos en la sección anterior y tras un análisis exhaustivo de la literatura, se seleccionaron seis métodos de Query Performance Prediction (QPP) para la evaluación comparativa, los cuales representan enfoques diversos e incluyen estrategias pre-retrieval y post-retrieval, lo que asegura una cobertura de los aspectos clave del rendimiento de consultas en sistemas de recuperación de información. Además, como se ha mencionado, cada método fue elegido por su relevancia en el estado del arte, su fundamento teórico y su impacto demostrado en investigaciones previas, ofreciendo un marco robusto para analizar su efectividad y aplicabilidad en contextos variados.
+Siguiendo los criterios establecidos en la sección anterior y tras un análisis exhaustivo de la literatura, se seleccionaron seis métodos de _Query Performance Prediction_ (QPP) para la evaluación comparativa, los cuales representan enfoques diversos e incluyen estrategias _pre-retrieval_ y _post-retrieval_, lo que asegura una cobertura de los aspectos clave del rendimiento de consultas en sistemas de recuperación de información. Además, como se ha mencionado, cada método fue elegido por su relevancia en el estado del arte, su fundamento teórico y su impacto demostrado en investigaciones previas, ofreciendo un marco robusto para analizar su efectividad y aplicabilidad en contextos variados.
 
 \
 #figure(
@@ -556,25 +581,25 @@ Siguiendo los criterios establecidos en la sección anterior y tras un análisis
   table.header(
     [*Método QPP*], [*Clasificación*], [*Descripción*],
   ),
-  [1. IDF (Inverse Document Frequency)],
-  [Pre-retrieval],
+  [1. IDF (_Inverse Document Frequency_)],
+  [_Pre-retrieval_],
   [
-    Mide la rareza de los términos en un corpus mediante la frecuencia inversa de documentos.
+    Mide la rareza de los términos en un _corpus_ mediante la frecuencia inversa de documentos.
   ],
-  [2. SCQ (Similarity between a Query and a Collection],
-  [Pre-retrieval],
+  [2. SCQ (_Similarity between a Query and a Collection_],
+  [_Pre-retrieval_],
   [Calcula la similitud entre los términos de la consulta y la colección basándose en frecuencias y pesos.],
-  [3. NQC (Normalized Query Commitment)],
-  [Post-retrieval],
+  [3. NQC (_Normalized Query Commitment_)],
+  [_Post-retrieval_],
   [Evalúa la dispersión de los puntajes de relevancia en los documentos recuperados para predecir la calidad de la consulta.],
-  [4. Clarity Score (SC)],
-  [Post-retrieval],
+  [4. _Clarity Score_ (SC)],
+  [_Post-retrieval_],
   [Mide la divergencia entre el modelo de lenguaje de los documentos recuperados y el modelo de la colección. ],
-  [5. WIG (Weighted Information Gain)],
-  [Post-retrieval],
+  [5. WIG (_Weighted Information Gain_)],
+  [_Post-retrieval_],
   [Estima la calidad de la consulta mediante la ganancia de información ponderada basada en los documentos recuperados.],
-  [6. UEF (Utility Estimation Framework)],
-  [Post-retrieval],
+  [6. UEF (_Utility Estimation Framework_)],
+  [_Post-retrieval_],
   [Utiliza modelos de relevancia y teoría de decisión estadística para estimar la utilidad de los rankings generados.]
   ),
   caption: "Métodos de QPP seleccionados",
@@ -583,25 +608,29 @@ Siguiendo los criterios establecidos en la sección anterior y tras un análisis
 \
 En cuanto al análisis de las fortalezas y debilidades de cada método seleccionado en la @tbl:tabla-metodos:
 
--	*IDF (Inverse Document Frequency) :* Es un método simple, eficiente y ampliamente utilizado, su capacidad para medir la especificidad de los términos lo convierte en una herramienta básica para estimar la calidad de las consultas. Por otra parte, depende exclusivamente de estadísticas del corpus, lo que limita su precisión en escenarios donde la calidad de los documentos recuperados influye de forma significativa.
--	*SCQ (Similarity between a Query and a Collection):* Proporciona una evaluación más detallada al considerar la similitud entre la consulta y la colección en su conjunto, lo que resulta útil en contextos con consultas de longitud variada. Por otra lado, puede ser menos efectivo en colecciones con alta heterogeneidad temática debido a su dependencia de estadísticas globales.
--	*NQC (Normalized Query Commitment):* Evalúa la consistencia de los puntajes de relevancia en los documentos recuperados, lo que lo hace efectivo para identificar consultas problemáticas, pero requiere ejecutar consultas y recuperar documentos, lo que implica un costo computacional más alto en comparación con métodos pre-retrieval.
--	*Clarity Score (CS):* Mide la coherencia del lenguaje de los documentos recuperados, lo que lo hace efectivo en consultas específicas con temas bien definidos, pero es sensible a consultas cortas o ambiguas, donde la divergencia entre el modelo de lenguaje y el corpus puede ser menos clara.
--	*WIG (Weighted Information Gain):* Integra múltiples características de los documentos recuperados, como términos y proximidad, proporcionando una evaluación integral, aunque puede ser afectado por colecciones con sesgos en los documentos más relevantes, disminuyendo su precisión en escenarios específicos.
--	*UEF (Utility Estimation Framework):* Ofrece un marco flexible y adaptable, utilizando modelos de relevancia para capturar tanto la utilidad como la precisión de los rankings generados, pero su complejidad estadística puede dificultar su implementación en sistemas con recursos limitados o en contextos donde se prioriza la simplicidad.
+-	*IDF (_Inverse Document Frequency_) :* Es un método simple, eficiente y ampliamente utilizado, su capacidad para medir la especificidad de los términos lo convierte en una herramienta básica para estimar la calidad de las consultas. Por otra parte, depende exclusivamente de estadísticas del corpus, lo que limita su precisión en escenarios donde la calidad de los documentos recuperados influye de forma significativa.
+-	*SCQ (_Similarity between a Query and a Collection_):* Proporciona una evaluación más detallada al considerar la similitud entre la consulta y la colección en su conjunto, lo que resulta útil en contextos con consultas de longitud variada. Por otra lado, puede ser menos efectivo en colecciones con alta heterogeneidad temática debido a su dependencia de estadísticas globales.
+-	*NQC (_Normalized Query Commitment_):* Evalúa la consistencia de los puntajes de relevancia en los documentos recuperados, lo que lo hace efectivo para identificar consultas problemáticas, pero requiere ejecutar consultas y recuperar documentos, lo que implica un costo computacional más alto en comparación con métodos pre-retrieval.
+-	*_Clarity Score_ (CS):* Mide la coherencia del lenguaje de los documentos recuperados, lo que lo hace efectivo en consultas específicas con temas bien definidos, pero es sensible a consultas cortas o ambiguas, donde la divergencia entre el modelo de lenguaje y el corpus puede ser menos clara.
+-	*WIG (_Weighted Information Gain_):* Integra múltiples características de los documentos recuperados, como términos y proximidad, proporcionando una evaluación integral, aunque puede ser afectado por colecciones con sesgos en los documentos más relevantes, disminuyendo su precisión en escenarios específicos.
+-	*UEF (_Utility Estimation Framework_):* Ofrece un marco flexible y adaptable, utilizando modelos de relevancia para capturar tanto la utilidad como la precisión de los rankings generados, pero su complejidad estadística puede dificultar su implementación en sistemas con recursos limitados o en contextos donde se prioriza la simplicidad.
 
 \
-Los métodos seleccionados abarcan una gama de enfoques y fundamentos teóricos, lo que garantiza una evaluación comparativa exhaustiva y representativa, en donde la inclusión de métodos tanto pre-retrieval como post-retrieval asegura que se cubran múltiples facetas del problema, proporcionando una base sólida para analizar su desempeño en diferentes contextos, resultando en un diseño experimental robusto que refuerza la validez del estudio y su contribución al avance del estado del arte en predicción de rendimiento de consultas.
+Los métodos seleccionados abarcan una gama de enfoques y fundamentos teóricos, lo que garantiza una evaluación comparativa exhaustiva y representativa, en donde la inclusión de métodos tanto _pre-retrieval_ como _post-retrieval_ asegura que se cubran múltiples facetas del problema, proporcionando una base sólida para analizar su desempeño en diferentes contextos, resultando en un diseño experimental robusto que refuerza la validez del estudio y su contribución al avance del estado del arte en predicción de rendimiento de consultas.
 
 \
 == Relación entre diseño experimental y objetivos
+
+\
 El diseño experimental anteriormente expuesto se encuentra directamente alineado con los objetivos planteados, garantizando que cada etapa contribuya de forma directa al cumplimiento de las metas establecidas. Es por ello que, en esta sección, se describe la relación entre los elementos del diseño experimental y los objetivos general y específicos, resaltando cómo estos interactúan entre sí para alcanzar los resultados de análisis buscados.
 
 === Relación con el objetivo general
-Como se ha mencionado en capítulos anteriores, el objetivo general del proyecto consiste en evaluar comparativamente métodos de Query Performance Prediction (QPP) para búsquedas Ad-hoc utilizando métricas de correlación. En alineación con este objetivo, el diseño se ha organizado en las siguientes etapas:
 
-- *Selección de Métodos QPP*: Se han seleccionado seis métodos QPP no basados en inteligencia artificial (IDF, SCQ, NQC, Clarity Score, WIG y UEF) que son ampliamente reconocidos en la literatura y representan enfoques tanto pre-retrieval como post-retrieval.
-- *Selección de Datasets*: Se han elegido cinco datasets (Cranfield Collection, ANTIQUE, TREC-COVID, MS MARCO Passage (TREC DL 2020) y TREC CAR) que cubren una amplia gama de dominios y tipos de consultas con juicios de relevancia multi-nivel, asegurando que los resultados sean generalizables.
+\
+Como se ha mencionado en capítulos anteriores, el objetivo general del proyecto consiste en evaluar comparativamente métodos de _Query Performance Prediction_ (QPP) para búsquedas _Ad-hoc_ utilizando métricas de correlación. En alineación con este objetivo, el diseño se ha organizado en las siguientes etapas:
+
+- *Selección de Métodos QPP*: Se han seleccionado seis métodos QPP no basados en inteligencia artificial (IDF, SCQ, NQC, Clarity Score, WIG y UEF) que son ampliamente reconocidos en la literatura y representan enfoques tanto _pre-retrieval_ como _post-retrieval_.
+- *Selección de Datasets*: Se han elegido cinco _datasets_ (Cranfield Collection, ANTIQUE, TREC-COVID, MS MARCO Passage (TREC DL 2020) y TREC CAR) que cubren una amplia gama de dominios y tipos de consultas con juicios de relevancia multi-nivel, asegurando que los resultados sean generalizables.
 - *Implementación y Evaluación*: Los métodos QPP se implementan en un entorno controlado utilizando herramientas como PyTerrier, Docker e ir_datasets, por lo que la evaluación se realiza mediante métricas de correlación y juicios de relevancia.
 - *Análisis de Resultados*: Los resultados obtenidos se comparan con estudios previos para determinar la efectividad de los métodos y establecer una línea base para futuras investigaciones.
 

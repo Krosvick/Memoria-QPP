@@ -48,7 +48,7 @@ El modelo booleano fue el primero en ser implementado y se basa en la lógica cl
     
     circle((d, 0), radius: r, fill: green.transparentize(50%), stroke: green)
     
-    content((0, 0), [$A and B$], frame: "rect", fill: white.transparentize(40%), stroke: none, padding: 3pt)
+    content((0, 0), [$A sect B$], frame: "rect", fill: white.transparentize(40%), stroke: none, padding: 3pt)
     
     content((-d - 0.5, 0), [Término A])
     content((d + 0.5, 0), [Término B])
@@ -595,28 +595,39 @@ Entre las métricas más utilizadas se encuentran la *_Precision_* y la *_Exhaus
 
 #v(6pt)
 La *Precisión (Precision)*, definida en la @eqt:metricas-precision, mide la fracción de documentos recuperados que son relevantes. Responde a la pregunta: "¿Qué proporción de los resultados que mostré son realmente útiles?". Es un indicador de la exactitud de la búsqueda y requiere que los juicios de relevancia sean binarizados (es decir, un documento es relevante o no lo es, sin grados intermedios).
-#v(10pt)
+
+\
 $ "Precision@n(R)" = frac( 1,Q ) sum_(i=1)^Q [1/n sum_(i=j)^n "rel"^b (d_j^i)] $ <metricas-precision>
-#v(10pt)
+\
+
 Donde $Q$ es el número de consultas del conjunto de evaluación, $R$ denota el sistema o algoritmo de recuperación evaluado, $n$ es la profundidad de corte (el número de primeras posiciones consideradas en el ranking) y $d_j^i$ es el documento en la posición $j$ de la lista devuelta por $R$ para la consulta $q_i$; finalmente, $"rel"^b(d_j^i)$ es la relevancia *binarizada* del documento $d_j^i$, devolviendo 1 si es relevante y 0 en caso contrario.
 
 Una variante común es la *Precisión en K (Precision@$K$)*, que calcula la precisión considerando únicamente los primeros $K$ resultados del ranking. Es especialmente útil porque refleja la experiencia del usuario, quien raramente explora más allá de la primera página de resultados @metrics-sensitivity.
 
 La *Precisión Media* (_Average Precision_, _AP_) es una métrica que evalúa la calidad de un ranking para una única consulta combinando estas dos ideas. Se calcula promediando la precisión en cada posición donde se encuentra un documento relevante. _AP_ favorece a los sistemas que no solo recuperan muchos documentos relevantes (alta exhaustividad), sino que también los clasifican en las primeras posiciones (alta precisión). Para evaluar un sistema en un conjunto de consultas, se utiliza la *_Precisión Media Promedio_* (_Mean Average Precision_, _MAP_), que es simplemente el promedio de los valores de _AP_ de todas las consultas @query-difficulty-book.
-#v(10pt)
+
+\
 $ "MAP@n(R)" = frac( 1,Q ) sum_(i=1)^Q [1/n_i sum_(j=1)^n "rel"^b (d_j^i) * "AP@"j(R, q_i)] $ <metricas-map>
-#v(10pt)
+\
+
 En la @eqt:metricas-map, $n_i$ corresponde al número de documentos relevantes para la consulta $q_i$ según los _Qrels_ y $"AP@"j(R, q_i)$ denota el valor de _AP_ calculado hasta la posición $j$ del ranking para la consulta $q_i$, manteniendo la misma convención de índices $i$ (consulta) y $j$ (posición) y la misma función de relevancia binarizada $"rel"^b (d_j^i)$ empleadas en la fórmula de Precisión.
 
-La *Ganancia Acumulada Descontada Normalizada (Normalized Discounted Cumulative Gain, nDCG)* es una métrica más sofisticada que, a diferencia de la Precisión, sí tiene en cuenta los diferentes niveles de relevancia (por ejemplo, "relevante", "muy relevante"). A nivel de consulta, puede verse como la razón entre la DCG obtenida por el sistema y la mejor DCG posible para esa misma consulta (IDCG), es decir: $ "nDCG"_i = frac("DCG"_i, "IDCG"_i) $ 
+La *Ganancia Acumulada Descontada Normalizada (Normalized Discounted Cumulative Gain, nDCG)* definida en la @eqt:ndcg_eq, es una métrica más sofisticada que, a diferencia de la Precisión, sí tiene en cuenta los diferentes niveles de relevancia (por ejemplo, "relevante", "muy relevante"). A nivel de consulta, puede verse como la razón entre la DCG obtenida por el sistema y la mejor DCG posible para esa misma consulta (IDCG).
+
+\
+$ "nDCG"_i = frac("DCG"_i, "IDCG"_i) $ <ndcg_eq>
+\
+
 La idea central es que los documentos altamente relevantes son más valiosos que los marginalmente relevantes, y la relevancia de un documento disminuye cuanto más abajo aparece en la lista de resultados.
 
 Para ello, se asigna una ganancia a cada documento que crece exponencialmente con su nivel de relevancia ($"rel"$) derivado de los juicios de relevancia. Luego, esta ganancia se descuenta logarítmicamente según la posición del documento ($j$). Finalmente, el valor se normaliza dividiéndolo por un factor $N_i$, que representa la ganancia ideal para esa consulta (IDCG), para obtener una puntuación entre 0 y 1.
 
 La fórmula general para calcular nDCG con un corte en $n$ ($"nDCG"@n$), promediado sobre un conjunto de $Q$ consultas, se define en la @eqt:metricas-ndcg como:
-#v(10pt)
+
+\
 $ "nDCG"@n = 1/Q sum_(i=1)^Q [1/N_i sum_(j=1)^n frac(2^("rel"(d_j^i)) - 1, log_2(j+1))] $ <metricas-ndcg>
-#v(10pt)
+\
+
 Donde $"rel"(d_j^i)$ es ahora la relevancia *graduada* asignada al documento $d_j^i$ (por ejemplo, 0, 1, 2, ... según el nivel de relevancia) y $log_2(j+1)$ es el factor de descuento logarítmico que penaliza posiciones más profundas en el ranking, manteniendo la misma notación anterior para $Q$, $n$, $i$ y $j$. En esta formulación, $N_i$ cumple exactamente el papel de la *DCG ideal* para la consulta $q_i$: se corresponde con la *máxima DCG posible* dada la información disponible en los _Qrels_, obtenida ordenando idealmente los documentos conocidos como relevantes antes de calcular la suma interna; por tanto, $N_i$ coincide con la *IDCG* clásica y permite escribir $"nDCG"_i = frac("DCG"_i, "IDCG"_i)$ en el rango $[0,1]$. El nDCG es una de las métricas más comunes en la evaluación de IR y QPP debido a su capacidad para manejar juicios de relevancia graduados y su sensibilidad al orden de los resultados @metrics-sensitivity.
 
 #v(10pt)
@@ -628,7 +639,7 @@ Un diseño experimental típico implica varios componentes clave. Primero, se ut
 
 Las consultas se ejecutan utilizando uno o más *sistemas de recuperación de información* (o rankers), como BM25 o modelos neuronales. La efectividad real de cada consulta se calcula utilizando los juicios de relevancia (_Qrels_) disponibles y, en paralelo, se obtiene la puntuación predicha por el método de _QPP_. Sin embargo, como señala @microsoft-preretrieval, el rendimiento observado para una consulta no se debe a una única causa, sino a la interacción de varios efectos. Por una parte, influye la *tarea o necesidad informativa* asociada al tópico: hay temas que, por la abundancia y claridad de los documentos relevantes, resultan intrínsecamente más fáciles que otros. También interviene la *formulación concreta de la consulta*, ya que dos variantes que expresan la misma necesidad pueden producir listas de resultados muy distintas según la elección de términos, su longitud o su ambigüedad. Finalmente, el propio *sistema de recuperación* introduce su efecto, puesto que distintos rankers responden de forma diferente ante la misma combinación de tarea y consulta. Si no se tienen en cuenta estos componentes, un predictor de _QPP_ puede aparentar funcionar bien simplemente porque discrimina tareas fáciles y difíciles, sin capturar realmente la dificultad específica de una formulación de consulta para un sistema dado.
 
-Finalmente, se comparan las dos listas de puntuaciones (la real y la predicha) utilizando métricas de correlación. Un marco de evaluación robusto no se basa en estimaciones puntuales, sino que a menudo utiliza técnicas como los análisis de significancia también como análisis de varianza (_ANOVA_) para modelar el rendimiento del predictor como una distribución, lo que permite un análisis estadístico más detallado y conclusiones más fiables @enhanced-evaluation.
+Finalmente, se comparan las dos listas de puntuaciones (la real y la predicha) utilizando métricas de correlación. Un marco de evaluación robusto no se basa en estimaciones puntuales, sino que a menudo utiliza técnicas como los análisis de significancia también como el análisis de varianza (_ANOVA_) para modelar el rendimiento del predictor como una distribución, lo que permite un análisis estadístico más detallado y conclusiones más fiables @enhanced-evaluation.
 #v(10pt)
 === Métricas de correlación para evaluar métodos QPP
 \
@@ -637,15 +648,27 @@ El método estándar para cuantificar la efectividad de un predictor de QPP es m
 Los tres coeficientes más comunes en la literatura de QPP son:
 
 1.  *Coeficiente de correlación de Pearson ($r$)*: Es el único coeficiente paramétrico de los tres. Mide la *fuerza de la relación lineal* entre dos variables cuantitativas. Aunque es muy conocido, su uso en _QPP_ debe ser cuidadoso. Es sensible a la magnitud de las diferencias y a los valores atípicos (_outliers_), y asume que los datos siguen una distribución normal bivariada. Como las métricas de rendimiento raramente cumplen con este supuesto, su aplicación requiere tests de normalidad previos para validar su aplicación. En términos formales, para un conjunto de $n$ pares $(x_i, y_i)$ con $i = 1, ..., n$, se define en la @eqt:correlacion-pearson como:
+
+\
 $ r = frac( sum_(i=1)^n (x_i - m_x)(y_i - m_y), sqrt( sum_(i=1)^n (x_i - m_x)^2 sum_(i=1)^n (y_i - m_y)^2 ) ) $ <correlacion-pearson>
+\
+
 Aquí, $x_i$ y $y_i$ representan las observaciones emparejadas de dos variables aleatorias (por ejemplo, altura y peso de una misma persona), mientras que $m_x$ y $m_y$ corresponden a sus medias muestrales.
 
 2.  *Coeficiente de correlación de rangos de Spearman ($rho$)*: Es una alternativa no paramétrica a Pearson. En lugar de usar los valores brutos, primero los convierte en rangos y luego calcula el coeficiente de Pearson sobre esos rangos. Por ello, mide la *fuerza de una relación monotónica* (es decir, si una variable tiende a aumentar cuando la otra lo hace, sin que la relación tenga que ser lineal). Es menos sensible a los _outliers_ que Pearson, pero puede ser afectado por la presencia de muchos rangos empatados. En la práctica, $rho$ se obtiene aplicando la misma fórmula de Pearson sobre los rangos $(R(x_i), R(y_i))$; cuando no hay empates, admite además la forma cerrada clásica presentada en la @eqt:correlacion-spearman:
+
+\
 $ rho = 1 - frac( 6 sum_(i=1)^n d_i^2, n (n^2 - 1) ) $ <correlacion-spearman>
+\
+
 donde $d_i$ representa, para cada observación $i$, la diferencia entre los rangos asignados a $x_i$ e $y_i$, es decir, cuánto se desplaza la posición relativa del elemento $i$ entre ambos ordenamientos. Cuando las dos listas coinciden perfectamente en su orden (máxima concordancia), todas las diferencias de rango valen cero y la suma de $d_i^2$ es nula, lo que produce $rho = 1$; a medida que las posiciones relativas divergen, las diferencias de rango crecen, aumenta la suma de $d_i^2$ y el valor de $rho$ disminuye, reflejando menor acuerdo entre los rankings.
 
 3.  *Coeficiente de correlación de rangos de Kendall ($tau$)*: Es una medida no paramétrica que se considera la más robusta de las tres para la evaluación de _QPP_. En lugar de considerar la magnitud o el rango, $tau$ se basa en el número de *pares concordantes* y *discordantes* entre los dos rankings. Un par de observaciones $(x_i, y_i)$ y $(x_j, y_j)$ es concordante si el orden relativo de $x_i$ y $x_j$ coincide con el de $y_i$ y $y_j$, y discordante si dicho orden se invierte. Debido a que se basa en conteos, no asume ninguna distribución de los datos, es robusta frente a valores atípicos y maneja bien los empates en los rankings. Su interpretación también es más directa: representa la diferencia entre la probabilidad de que dos elementos estén en el mismo orden y la probabilidad de que estén en órdenes diferentes. La variante $tau_b$ de Kendall, que corrige por empates en ambas listas y es la que se utiliza habitualmente en _QPP_, se define en la @eqt:correlacion-kendall como:
+
+\
 $ tau_b = frac( P - Q, sqrt((P + Q + T)(P + Q + U)) ) $ <correlacion-kendall>
+\
+
 Aquí, $P$ y $Q$ denotan el número de pares concordantes y discordantes entre los dos rankings, mientras que $T$ y $U$ cuentan los pares empatados solo en la primera o solo en la segunda lista, respectivamente. De este modo, $tau_b$ mide el balance neto entre concordancias y discordancias, normalizado para corregir el efecto de los empates y mantener el coeficiente en el intervalo $[-1, 1]$.
 
 En la práctica, Spearman y Kendall son generalmente preferidos sobre Pearson en la investigación de _QPP_ por su naturaleza no paramétrica. Kendall's $tau$ es a menudo el preferido por su robustez y su interpretación probabilística, aunque Spearman's $rho$ también se reporta comúnmente @correlation-methods
