@@ -1,0 +1,8 @@
+{
+  "dataset": "cranfield",
+  "plot_type": "media_metricas",
+  "mean_values": {
+    "nDCG@10": 0.2985267850522659,
+    "MAP": 0.24905982981789768
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "dataset": "antique_test",
+  "plot_type": "media_metricas",
+  "mean_values": {
+    "nDCG@10": 0.37879777254444363,
+    "MAP": 0.18553131648365734
+  }
+}

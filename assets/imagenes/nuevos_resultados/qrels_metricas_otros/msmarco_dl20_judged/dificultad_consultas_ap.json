@@ -1,0 +1,14 @@
+{
+  "metric": "ap",
+  "hard_percentile": 0.2,
+  "easy_percentile": 0.8,
+  "thresholds": {
+    "hard": 0.04142833285916827,
+    "easy": 0.5370355021849804
+  },
+  "counts": {
+    "hard": 11,
+    "intermediate": 29,
+    "easy": 11
+  }
+}

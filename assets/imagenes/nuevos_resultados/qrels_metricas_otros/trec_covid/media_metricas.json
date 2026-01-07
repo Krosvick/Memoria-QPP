@@ -1,0 +1,8 @@
+{
+  "dataset": "trec_covid",
+  "plot_type": "media_metricas",
+  "mean_values": {
+    "nDCG@10": 0.4726815237714991,
+    "MAP": 0.1352688240701551
+  }
+}

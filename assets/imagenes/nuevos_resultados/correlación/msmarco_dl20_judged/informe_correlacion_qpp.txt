@@ -1,0 +1,38 @@
+Informe de Análisis de Correlación QPP
+=====================================
+
+Métricas analizadas: nDCG@k y AP
+
+
+Correlaciones KENDALL:
+------------------------
+
+Número de consultas utilizadas:
+IDF Promedio: 51 consultas
+IDF Máximo: 51 consultas
+SCQ Promedio: 51 consultas
+SCQ Máximo: 51 consultas
+WIG: 51 consultas
+NQC: 51 consultas
+Clarity: 51 consultas
+UEF-WIG: 51 consultas
+UEF-NQC: 51 consultas
+UEF-Clarity: 51 consultas
+
+Valores de correlación (solo estadísticamente significativos):
+               ndcg@10        ap
+IDF Promedio  0.208709  0.218824
+IDF Máximo    0.167909   0.26902
+SCQ Promedio  0.127109  0.096471
+SCQ Máximo    0.029816  0.061961
+WIG           0.406434  0.385098
+NQC           0.408003  0.535686
+Clarity       0.047077 -0.011765
+UEF-WIG       0.252648  0.303529
+UEF-NQC       0.408003  0.507451
+UEF-Clarity   0.119262  0.055686
+
+Estadísticas Resumen:
+Mejor método QPP: NQC
+Métrica más predecible: AP
+

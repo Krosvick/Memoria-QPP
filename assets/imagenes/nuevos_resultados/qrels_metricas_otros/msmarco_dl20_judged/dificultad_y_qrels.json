@@ -1,0 +1,514 @@
+{
+  "dataset": "msmarco_dl20_judged",
+  "qrels": {
+    "binary_threshold": 2,
+    "relevance_distribution": {
+      "0": 7780,
+      "1": 1940,
+      "2": 1020,
+      "3": 646
+    },
+    "relevant_docs_per_query": {
+      "23849": 46,
+      "42255": 6,
+      "47210": 29,
+      "67316": 23,
+      "118440": 98,
+      "121171": 69,
+      "135802": 9,
+      "141630": 13,
+      "156498": 7,
+      "169208": 12,
+      "174463": 62,
+      "258062": 26,
+      "324585": 11,
+      "330975": 41,
+      "332593": 27,
+      "336901": 3,
+      "390360": 14,
+      "405163": 98,
+      "555530": 84,
+      "583468": 67,
+      "640502": 121,
+      "673670": 18,
+      "701453": 16,
+      "730539": 10,
+      "768208": 7,
+      "877809": 39,
+      "911232": 4,
+      "914916": 69,
+      "938400": 48,
+      "940547": 36,
+      "997622": 18,
+      "1030303": 6,
+      "1037496": 30,
+      "1043135": 30,
+      "1051399": 10,
+      "1064670": 4,
+      "1071750": 8,
+      "1105792": 7,
+      "1106979": 18,
+      "1108651": 76,
+      "1109707": 118,
+      "1110678": 4,
+      "1113256": 12,
+      "1115210": 3,
+      "1116380": 6,
+      "1121353": 3,
+      "1122767": 37,
+      "1127540": 13,
+      "1131069": 3,
+      "1132532": 72,
+      "1133579": 17,
+      "1136043": 11,
+      "1136047": 6,
+      "1136962": 41
+    }
+  },
+  "difficulty": {
+    "ap": {
+      "summary": {
+        "metric": "ap",
+        "hard_percentile": 0.2,
+        "easy_percentile": 0.8,
+        "thresholds": {
+          "hard": 0.04142833285916827,
+          "easy": 0.5370355021849804
+        },
+        "counts": {
+          "hard": 11,
+          "intermediate": 29,
+          "easy": 11
+        }
+      },
+      "per_query": {
+        "1030303": {
+          "score": 0.7329365079365079,
+          "class": "Fácil (percentil alto)"
+        },
+        "1037496": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
+        "1043135": {
+          "score": 0.30242809207374904,
+          "class": "Intermedia"
+        },
+        "1051399": {
+          "score": 0.252155572755418,
+          "class": "Intermedia"
+        },
+        "1064670": {
+          "score": 0.6037037037037036,
+          "class": "Fácil (percentil alto)"
+        },
+        "1071750": {
+          "score": 0.13954794973544973,
+          "class": "Intermedia"
+        },
+        "1105792": {
+          "score": 0.5630952380952381,
+          "class": "Fácil (percentil alto)"
+        },
+        "1106979": {
+          "score": 0.7262004285417598,
+          "class": "Fácil (percentil alto)"
+        },
+        "1108651": {
+          "score": 0.0355767264668775,
+          "class": "Difícil (percentil bajo)"
+        },
+        "1109707": {
+          "score": 0.2968640320803002,
+          "class": "Intermedia"
+        },
+        "1110678": {
+          "score": 0.02140104682303721,
+          "class": "Difícil (percentil bajo)"
+        },
+        "1113256": {
+          "score": 0.8554651078088576,
+          "class": "Fácil (percentil alto)"
+        },
+        "1115210": {
+          "score": 0.008021640716098498,
+          "class": "Difícil (percentil bajo)"
+        },
+        "1116380": {
+          "score": 0.002276186522761865,
+          "class": "Difícil (percentil bajo)"
+        },
+        "1121353": {
+          "score": 0.03772366522366522,
+          "class": "Difícil (percentil bajo)"
+        },
+        "1122767": {
+          "score": 0.27280008073729306,
+          "class": "Intermedia"
+        },
+        "1127540": {
+          "score": 0.8627979863273982,
+          "class": "Fácil (percentil alto)"
+        },
+        "1131069": {
+          "score": 0.4142857142857143,
+          "class": "Intermedia"
+        },
+        "1132532": {
+          "score": 0.17241382279187478,
+          "class": "Intermedia"
+        },
+        "1133579": {
+          "score": 0.1994598126429432,
+          "class": "Intermedia"
+        },
+        "1136043": {
+          "score": 0.06369431771586226,
+          "class": "Intermedia"
+        },
+        "1136047": {
+          "score": 0.26361924328026026,
+          "class": "Intermedia"
+        },
+        "1136962": {
+          "score": 0.5393427621758784,
+          "class": "Fácil (percentil alto)"
+        },
+        "118440": {
+          "score": 0.002805346068536883,
+          "class": "Difícil (percentil bajo)"
+        },
+        "121171": {
+          "score": 0.18633917323817445,
+          "class": "Intermedia"
+        },
+        "135802": {
+          "score": 0.9170113836780502,
+          "class": "Fácil (percentil alto)"
+        },
+        "141630": {
+          "score": 0.13339274369928097,
+          "class": "Intermedia"
+        },
+        "156498": {
+          "score": 0.20028974464141247,
+          "class": "Intermedia"
+        },
+        "169208": {
+          "score": 0.46915950034371084,
+          "class": "Intermedia"
+        },
+        "174463": {
+          "score": 0.03320182318959749,
+          "class": "Difícil (percentil bajo)"
+        },
+        "23849": {
+          "score": 0.0464631575202498,
+          "class": "Intermedia"
+        },
+        "258062": {
+          "score": 0.14847888222331718,
+          "class": "Intermedia"
+        },
+        "324585": {
+          "score": 0.13874432803339054,
+          "class": "Intermedia"
+        },
+        "330975": {
+          "score": 0.30249001982201434,
+          "class": "Intermedia"
+        },
+        "332593": {
+          "score": 0.5370355021849804,
+          "class": "Fácil (percentil alto)"
+        },
+        "336901": {
+          "score": 0.11220238095238096,
+          "class": "Intermedia"
+        },
+        "390360": {
+          "score": 0.17588160936059513,
+          "class": "Intermedia"
+        },
+        "405163": {
+          "score": 0.04142833285916827,
+          "class": "Difícil (percentil bajo)"
+        },
+        "42255": {
+          "score": 0.5049917225228135,
+          "class": "Intermedia"
+        },
+        "47210": {
+          "score": 0.30019353859715125,
+          "class": "Intermedia"
+        },
+        "555530": {
+          "score": 0.0007005740700235187,
+          "class": "Difícil (percentil bajo)"
+        },
+        "640502": {
+          "score": 0.1506470035190705,
+          "class": "Intermedia"
+        },
+        "67316": {
+          "score": 0.04530514415534013,
+          "class": "Intermedia"
+        },
+        "701453": {
+          "score": 0.695639918932501,
+          "class": "Fácil (percentil alto)"
+        },
+        "730539": {
+          "score": 0.3952701086185556,
+          "class": "Intermedia"
+        },
+        "877809": {
+          "score": 0.12590553758102685,
+          "class": "Intermedia"
+        },
+        "911232": {
+          "score": 0.5427040110650069,
+          "class": "Fácil (percentil alto)"
+        },
+        "914916": {
+          "score": 0.24265275175441087,
+          "class": "Intermedia"
+        },
+        "938400": {
+          "score": 0.12429586991401805,
+          "class": "Intermedia"
+        },
+        "940547": {
+          "score": 0.029088436139914395,
+          "class": "Difícil (percentil bajo)"
+        },
+        "997622": {
+          "score": 0.4315163407734421,
+          "class": "Intermedia"
+        }
+      }
+    },
+    "ndcg@10": {
+      "summary": {
+        "metric": "ndcg@10",
+        "hard_percentile": 0.2,
+        "easy_percentile": 0.8,
+        "thresholds": {
+          "hard": 0.28741672945190583,
+          "easy": 0.7354793071712099
+        },
+        "counts": {
+          "hard": 11,
+          "intermediate": 29,
+          "easy": 11
+        }
+      },
+      "per_query": {
+        "1030303": {
+          "score": 0.8727462494464052,
+          "class": "Fácil (percentil alto)"
+        },
+        "1037496": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
+        "1043135": {
+          "score": 0.5721684921617437,
+          "class": "Intermedia"
+        },
+        "1051399": {
+          "score": 0.4619211727853627,
+          "class": "Intermedia"
+        },
+        "1064670": {
+          "score": 0.7713520288926189,
+          "class": "Fácil (percentil alto)"
+        },
+        "1071750": {
+          "score": 0.405301720176357,
+          "class": "Intermedia"
+        },
+        "1105792": {
+          "score": 0.7044152395223697,
+          "class": "Intermedia"
+        },
+        "1106979": {
+          "score": 0.8238773360101015,
+          "class": "Fácil (percentil alto)"
+        },
+        "1108651": {
+          "score": 0.29251200391549015,
+          "class": "Intermedia"
+        },
+        "1109707": {
+          "score": 0.8090814984226253,
+          "class": "Fácil (percentil alto)"
+        },
+        "1110678": {
+          "score": 0.3382579289648756,
+          "class": "Intermedia"
+        },
+        "1113256": {
+          "score": 0.9740821948792003,
+          "class": "Fácil (percentil alto)"
+        },
+        "1115210": {
+          "score": 0.3841896292593092,
+          "class": "Intermedia"
+        },
+        "1116380": {
+          "score": 0.040810894115161436,
+          "class": "Difícil (percentil bajo)"
+        },
+        "1121353": {
+          "score": 0.6307937501936975,
+          "class": "Intermedia"
+        },
+        "1122767": {
+          "score": 0.4321490312128605,
+          "class": "Intermedia"
+        },
+        "1127540": {
+          "score": 0.951215284644324,
+          "class": "Fácil (percentil alto)"
+        },
+        "1131069": {
+          "score": 0.4692787260227565,
+          "class": "Intermedia"
+        },
+        "1132532": {
+          "score": 0.21652628170774155,
+          "class": "Difícil (percentil bajo)"
+        },
+        "1133579": {
+          "score": 0.49537104105374474,
+          "class": "Intermedia"
+        },
+        "1136043": {
+          "score": 0.28741672945190583,
+          "class": "Difícil (percentil bajo)"
+        },
+        "1136047": {
+          "score": 0.3358245702308366,
+          "class": "Intermedia"
+        },
+        "1136962": {
+          "score": 0.7354793071712099,
+          "class": "Fácil (percentil alto)"
+        },
+        "118440": {
+          "score": 0.07839826897867533,
+          "class": "Difícil (percentil bajo)"
+        },
+        "121171": {
+          "score": 0.41184994669828545,
+          "class": "Intermedia"
+        },
+        "135802": {
+          "score": 0.9565122873643237,
+          "class": "Fácil (percentil alto)"
+        },
+        "141630": {
+          "score": 0.49038532963858744,
+          "class": "Intermedia"
+        },
+        "156498": {
+          "score": 0.30347610868608227,
+          "class": "Intermedia"
+        },
+        "169208": {
+          "score": 0.4199428482161703,
+          "class": "Intermedia"
+        },
+        "174463": {
+          "score": 0.3828004051609265,
+          "class": "Intermedia"
+        },
+        "23849": {
+          "score": 0.35895421017163465,
+          "class": "Intermedia"
+        },
+        "258062": {
+          "score": 0.5166851630541055,
+          "class": "Intermedia"
+        },
+        "324585": {
+          "score": 0.07839826897867533,
+          "class": "Difícil (percentil bajo)"
+        },
+        "330975": {
+          "score": 0.5099087676155303,
+          "class": "Intermedia"
+        },
+        "332593": {
+          "score": 0.7650652830239141,
+          "class": "Fácil (percentil alto)"
+        },
+        "336901": {
+          "score": 0.1564262420075855,
+          "class": "Difícil (percentil bajo)"
+        },
+        "390360": {
+          "score": 0.5013543894932765,
+          "class": "Intermedia"
+        },
+        "405163": {
+          "score": 0.4595326231006953,
+          "class": "Intermedia"
+        },
+        "42255": {
+          "score": 0.7045486125752479,
+          "class": "Intermedia"
+        },
+        "47210": {
+          "score": 0.7991502282294747,
+          "class": "Fácil (percentil alto)"
+        },
+        "555530": {
+          "score": 0.05502294157452004,
+          "class": "Difícil (percentil bajo)"
+        },
+        "640502": {
+          "score": 0.5570755222194131,
+          "class": "Intermedia"
+        },
+        "67316": {
+          "score": 0.27331436206400833,
+          "class": "Difícil (percentil bajo)"
+        },
+        "701453": {
+          "score": 0.9121833108549473,
+          "class": "Fácil (percentil alto)"
+        },
+        "730539": {
+          "score": 0.6286566539870351,
+          "class": "Intermedia"
+        },
+        "877809": {
+          "score": 0.6710806141053174,
+          "class": "Intermedia"
+        },
+        "911232": {
+          "score": 0.6648022064725901,
+          "class": "Intermedia"
+        },
+        "914916": {
+          "score": 0.4531064669317975,
+          "class": "Intermedia"
+        },
+        "938400": {
+          "score": 0.1081946581480787,
+          "class": "Difícil (percentil bajo)"
+        },
+        "940547": {
+          "score": 0.10452468374526319,
+          "class": "Difícil (percentil bajo)"
+        },
+        "997622": {
+          "score": 0.5743371894486218,
+          "class": "Intermedia"
+        }
+      }
+    }
+  }
+}

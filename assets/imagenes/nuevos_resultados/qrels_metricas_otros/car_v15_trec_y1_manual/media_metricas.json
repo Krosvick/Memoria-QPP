@@ -1,0 +1,8 @@
+{
+  "dataset": "car_v15_trec_y1_manual",
+  "plot_type": "media_metricas",
+  "mean_values": {
+    "nDCG@10": 0.2029251473606461,
+    "MAP": 0.176453627557908
+  }
+}

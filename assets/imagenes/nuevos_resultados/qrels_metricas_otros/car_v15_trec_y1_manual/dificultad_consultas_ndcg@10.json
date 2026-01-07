@@ -1,0 +1,14 @@
+{
+  "metric": "ndcg@10",
+  "hard_percentile": 0.2,
+  "easy_percentile": 0.8,
+  "thresholds": {
+    "hard": 0.0,
+    "easy": 0.3669282740474524
+  },
+  "counts": {
+    "hard": 198,
+    "intermediate": 361,
+    "easy": 140
+  }
+}
