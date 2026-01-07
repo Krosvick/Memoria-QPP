@@ -4,7 +4,7 @@
   it
 }
 = MARCO TEÓRICO
-\
+#v(10pt)
 == Sistemas de Recuperación de Información (IR)
 \
 El campo de la Recuperación de Información (IR) se centra en el estudio de métodos y sistemas que permiten localizar, dentro de grandes colecciones de documentos, aquellos que respondan de mejor forma a una necesidad informativa expresada por el usuario a través de una consulta o #emph[query]. Este proceso implica identificar, clasificar y ordenar documentos según su grado de relevancia, apoyándose en modelos matemáticos y estadísticos que describen la relación entre las palabras de la consulta y el contenido del corpus. En la práctica, los sistemas de recuperación de información sustentan desde buscadores web hasta repositorios científicos y bases de datos digitales @Query-difficulty-definition.
@@ -34,7 +34,7 @@ Los modelos de recuperación de información constituyen el núcleo de un sistem
 
 El modelo booleano fue el primero en ser implementado y se basa en la lógica clásica de operadores como AND, OR y NOT. En este enfoque, un documento es recuperado únicamente si cumple con las condiciones lógicas impuestas por la consulta realizada, sin establecer grados intermedios de relevancia. Si bien, este modelo es eficiente en contextos cerrados debido a su simplicidad, carece de una capacidad para ordenar los resultados, lo que limita su utilidad en escenarios de búsquedas más complejos @Query-difficulty-definition.
 
-#v(20pt)
+\
 #import "@preview/cetz:0.3.1" as cetz
 
 #figure(
@@ -55,10 +55,11 @@ El modelo booleano fue el primero en ser implementado y se basa en la lógica cl
   }),
   caption: "Diagrama de Venn del Modelo Booleano.",
 )
+\
 
-#v(20pt)
 Por otra parte, el modelo vectorial introdujo una representación algebraica tanto para los documentos como para las consultas, tratándolos como vectores en un espacio multidimensional, en el que cada dimensión corresponde a un término y los pesos asignados reflejan su importancia relativa. La similitud entre consulta y documento se mide, por lo general, mediante el coseno entre los vectores. Este particular enfoque permitió establecer rankings de relevancia y representó un avance significativo en la precisión de los sistemas IR @zendel2024qpptk.
-#v(20pt)
+
+\
 #import "@preview/cetz:0.3.1" as cetz
 
 #figure(
@@ -91,11 +92,11 @@ Por otra parte, el modelo vectorial introdujo una representación algebraica tan
   }),
   caption: "Representación geométrica del Modelo Vectorial.",
 ) <vectorial-diagrama>
-#v(20pt)
+\
 
 Por último, el modelo probabilístico se basa en estimar la probabilidad de relevancia de un documento a través de una consulta, en donde su versión más consolidada, el BM25 (abreviatura de "Best Match 25", refiriéndose a la iteración número 25 de la función de ranking), calcula dicha probabilidad a partir de la frecuencia de los términos en el documento y su frecuencia inversa en el corpus, normalizando además por la longitud del texto, como se puede ver en la @bm25-final. En este aspecto, BM25 ofrece equilibrio entre simplicidad, interpretabilidad y desempeño, razón por la cual es el modelo base en la mayoría de los experimentos y benchmarks actuales de IR @zendel2024qpptk.
-#v(20pt)
 
+\
 // Importaciones y Definiciones (SOLO UNA VEZ)
 #import "@preview/fletcher:0.5.4" as fletcher: diagram, node, edge
 #import fletcher.shapes: *
@@ -142,8 +143,7 @@ Por último, el modelo probabilístico se basa en estimar la probabilidad de rel
   ),
   caption: "Componentes estructurales del modelo BM25.",
 ) <bm25-final>
-
-#v(20pt)
+\
 
 Además de los modelos clásicos, se han desarrollado extensiones que buscan optimizar la precisión y la capacidad de generalización. Entre ellas, el BM25F incorpora información estructural de los documentos, el RM3 introduce retroalimentación mediante expansión de consultas, y los modelos neuronales de recuperación (Neural IR) utilizan representaciones distribuidas del texto para capturar relaciones semánticas más complejas @RAG. Estas variantes reflejan la evolución del campo hacia un paradigma híbrido, en el que los modelos tradicionales siguen siendo la base para experimentos controlados y reproducibles.
 
@@ -178,8 +178,8 @@ Además de los modelos clásicos, se han desarrollado extensiones que buscan opt
   ),
   caption: "Modelos de recuperación de información y su propósito dentro de un sistema IR.",
 ) <modelos-ir>
-
 \
+
 El resultado final que entrega un sistema IR se presenta como un ranking de documentos, es decir, una lista ordenada de mayor a menor relevancia estimada. Este refleja la manera en que los usuarios perciben la utilidad del sistema, ya que la mayoría solo revisa los primeros resultados, lo que convierte la posición del documento en un factor crítico de evaluación.
 
 En este trabajo se adopta principalmente el escenario de recuperación clásica, basado en BM25 y colecciones estándar, dado que la mayoría de los métodos de predicción de rendimiento han sido propuestos y validad en este contexto, y porque permite la comparación directa con estudios previos como los reportados en QPP-TK y benchmarks recientes de QPP @zendel2024qpptk.
@@ -215,7 +215,7 @@ La eficiencia de estas estructuras es fundamental para la escalabilidad del sist
   ..args,
 )
 
-#v(20pt)
+\
 
 #figure(
   diagram(
@@ -253,8 +253,7 @@ La eficiencia de estas estructuras es fundamental para la escalabilidad del sist
   caption: "Componentes fundamentales de un sistema de Recuperación de Información.",
 ) <ir-components-diagram>
 
-#v(20pt)
-
+\
 
 Por otra parte, la representación de documentos y consultas determina cómo se describen los textos dentro del sistema, asignando un peso a cada término para indicar su importancia relativa. En los sistemas clásicos, la representación más extendida es el modelo de espacio vectorial, en el cual tanto los documentos como las consultas se representan mediante vectores cuyas dimensiones corresponden a los términos del vocabulario.
 
@@ -299,13 +298,14 @@ Por último, la evaluación del sistema mide el desempeño del proceso de recupe
   ),
   caption: "Recursos y métricas comunes para la evaluación de sistemas IR y de métodos de predicción de rendimiento.",
 ) <metricas-ir>
-
 \
+
 En la evaluación de sistemas IR suele asumirse que los juicios de relevancia son correctos y completos, sin embargo, distintos estudios demuestran que la calidad de estos juicios depende en gran medida de la experticia del evaluador y del dominio temático de la colección. Cuando los evaluadores no son especialistas en el área o cuando la tarea es muy abierta, pueden aparecer discrepancias entre jueces, lo que introduce ruido en las métricas obtenidas y, por extensión, en la evaluación de los métodos de predicción de rendimiento @evaluator-domain-expertise @correlation-depends-on-quality-of-dataset.
 
 Esta situación es particularmente relevante para trabajos como el presente, donde el objetivo es correlacionar el valor entregado por un predictor con la efectividad real de la consulta, por ende, si los juicios de relevancia son incompletos o poco consistentes, la correlación observada puede reflejar las limitaciones de la colección más que las del método evaluado.
 
 De esta forma, los componentes de un sistema de recuperación de información funcionan como partes de un ciclo continuo, la indexación estructura, la representación abstrae, el modelo de recuperación calcula y la evaluación retroalimenta el proceso.
+
 #v(10pt)
 === Consultas, tópicos y búsquedas Ad-hoc
 \
@@ -326,7 +326,6 @@ En los últimos años, el concepto de búsqueda Ad-hoc se ha extendido hacia esc
 No obstante, el paradigma Ad-hoc sigue siendo el marco experimental más utilizado para la evaluación de métodos QPP, ya que permite controlar las variables de consulta y corpus, proporcionando resultados comparables entre diferentes modelos de recuperación.
 
 #v(10pt)
-
 == Predicción de Rendimiento de Consultas (QPP)
 \
 La predicción del rendimiento de consultas (QPP, Query Performance Prediction), también conocida como estimación de la dificultad de la consulta (QDE, Query Difficulty Estimation), representa una rama de investigación en el campo de la Recuperación de Información (IR) que se enfoca en predecir la calidad de los resultados de búsqueda para una consulta dada, recuperados por un sistema de recuperación específico, *sin necesidad* de información de relevancia proporcionada por un operador humano. Este desafío surge de la observación de que los sistemas de búsqueda a menudo fallan en responder eficazmente a ciertas consultas, lo que se asocia directamente con la noción de *dificultad de la consulta* @query-difficulty-book.
@@ -356,11 +355,16 @@ La *generalidad* de la dificultad de una consulta es un aspecto clave a consider
   it
 }
 Recientemente la literatura ha propuesto varias estrategias formales para definir la *dificultad* de una consulta $q$ en particular. Todas parten del valor $m_S_i \\ (q)$; la puntuación que entrega una métrica de efectividad $M$ (p. ej., $n D C G$, $A P$) cuando se evalúa la lista recuperada para $q$ por un sistema de recuperación $S_i$. Este valor sintetiza el rendimiento del sistema en esa consulta (cuanto menor es $m_S_i (q)$, más difícil resultó $q$ para $S_i$). y es la variable base con la que se etiquetan las clases de dificultad. Estas estrategias se resumen en la @tbl:definiciones-dificultad:
-#v(10pt)
+
 1. *Percentiles:* Particiona la distribución de la métrica $M$ por consulta mediante percentiles. En el caso binario, como se muestra en la @eqt:dificultad-percentil-binaria, una consulta $q$ se considera *difícil* para un sistema $S_i$ si su valor $m_S_i (q)$ es menor o igual que un percentil $p_x$, es decir, si aproximadamente $x\%$ de las consultas tienen un valor inferior. En el caso de desear una *dificultad graduada*, se utilizan $N-1$ percentiles para definir $N$ clases ordenadas de dificultad, donde la primera clase agrupa las consultas más difíciles y la última las más fáciles.
+\
 $ p_x : "dificultad"(q) = 1_{m_s_i (q) <= p_x} $ <dificultad-percentil-binaria>
 #pad(left:15pt)[
+\
+
 En estas expresiones, $"dificultad"(q)$ es una función *indicadora* que toma el valor 1 cuando la consulta $q$ se etiqueta como *difícil* y 0 en caso contrario. El parámetro $p_x$ corresponde al percentil $x$‑ésimo de la distribución de $M$ sobre todas las consultas, de modo que $1_{m_{S_i}(q) <= p_x}$ marca como *difíciles* aquellas cuyo rendimiento cae en el $x\%$ inferior de la distribución.
+
+\
 ]
 $
   q in cases(
@@ -369,12 +373,17 @@ $
      D_N ü ü ü ü ü ü ü ü ü ü ü \\ \\ "si" m_s_i \\(q) > P_(N-1)
   )
 $<dificultad-percentil-graduada>
+\
+
 #pad(left:15pt)[
   En el caso graduado @eqt:dificultad-percentil-graduada, los símbolos $D_1, ..., D_N$ representa *clases ordenadas de dificultad* (por ejemplo, *muy difícil*, *difícil*, *fácil*, *muy fácil*), mientras que $P_1, ..., P_{N-1}$ son percentiles crecientes que dividen la distribución de $M$ en $N$ segmentos. Cada consulta $q$ se asigna a una clase $D_k$ en función del intervalo en el que cae su valor $m_{S_i}(q)$ con respecto a estos cortes percentilares.    
 ]
 2. *Umbrales:* Fija cortes absolutos sobre la métrica para definir clases de dificultad. En el caso binario, como se expresa en la @eqt:dificultad-umbrales, una consulta $q$ es *difícil* para $S_i$ si $m_S_i (q)$ es menor o igual que un umbral $T$ (por ejemplo, consultas con $P@10 <= 0.1$). Para el caso graduado, se emplea un conjunto de umbrales $T_1, ..., T_(N-1)$ que inducen $N$ clases de dificultad ordenadas. 
-#v(4pt)
+
+\
 $ T : "dificultad"(q) = 1_{m_s_i \\(q) <= T} $ <dificultad-umbrales>
+\
+
 #pad(left:15pt)[
 Generalmente existen dos configuraciones típicas:
   
@@ -388,13 +397,15 @@ En la definición por umbrales, $T$ es un *corte absoluto* fijado directamente s
   En la versión graduada, una secuencia ordenada de umbrales $T_1 < ... < T_{N-1}$ permite definir varias clases de dificultad a partir de rangos absolutos de $M$: por ejemplo, *muy difícil* para $m_{S_i}(q) <= T_1$, *difícil* para $T_1 < m_{S_i}(q) <= T_2$, y así sucesivamente, hasta una última clase que agrupa las consultas con mejores valores de la métrica.
   ]
 3. *Combinada:* Combina ambos criterios: percentiles y por umbral. En el caso binario, presentado en la @eqt:dificultad-combinada, una consulta se considera *difícil* si es clasificada como difícil tanto por la definición basada en percentiles como por la basada en umbrales (es decir, si $m_S_i (q) <= T$ y $m_S_i (q) <= p_x$). Para dificultad graduada, la clase asignada a una consulta corresponde a la intersección de las clases obtenidas con cada una de las dos estrategias anteriores.
+\
 $
   "dificultad"(q) = 1_{m_s_i \\ (q) ü \\ \\ \\ <= ü \\ \\ \\T ü \\ \\ \\ \\ amp ü \\ \\ \\ \\ m_s_i \\ (q) ü \\ \\ \\ <= ü \\ \\ \\ p_x}
 $ <dificultad-combinada>
+\
+
 #pad(left:15pt)[
 En la definición combinada, la función $"dificultad"(q)$ solo toma el valor 1 cuando *simultáneamente* se cumplen las dos condiciones anteriores: el rendimiento de la consulta está por debajo del percentil $p_x$ y, al mismo tiempo, por debajo del umbral absoluto $T$. La notación $1_{A \land B}$ indica la función indicadora del evento intersección entre $A$ y $B$: vale 1 únicamente cuando ambas desigualdades se satisfacen, y 0 en cualquier otro caso.
 ]
-#v(4pt)
 
 Estas estrategias pueden plantearse en un enfoque *centrado en un único sistema*, donde la dificultad se define respecto de un sistema $S_i$ específico, o bien respecto de un *conjunto de sistemas* $S = {S_1, ..., S_K}$, reemplazando el conjunto de valores ${m_S_1 (q), ..., m_S_K (q)}$ por su promedio $frac( 1,K ) sum_(i=1)^K m_S_i (q)$ sobre todos los sistemas considerados. La evidencia empírica muestra que las definiciones por umbrales con una separación marcada entre clases (p. ej., *muy difíciles* vs. *muy fáciles*) suelen producir sets de entrenamiento más constrastados y por ende, predicciones más estables y con mayores verdaderos positivos que las definiciones puramente percentilares o combinadas @Query-difficulty-definition.
 
@@ -425,7 +436,7 @@ Estas estrategias pueden plantearse en un enfoque *centrado en un único sistema
   ),
   caption: "Formas de definir la dificultad de una consulta.",
 ) <definiciones-dificultad>
-#v(10pt)
+\
 
 #import "@preview/fletcher:0.5.4" as fletcher: diagram, node, edge
 #import fletcher.shapes: *
@@ -446,6 +457,7 @@ Estas estrategias pueden plantearse en un enfoque *centrado en un único sistema
   corner-radius: 5pt,
   ..args,
 )
+
 #v(10pt)
 === Soluciones al Problema de la Dificultad de las Consultas
 \
@@ -457,8 +469,7 @@ Primero, se realiza una recuperación inicial y se asume que los documentos mejo
 
 Finalmente, esta nueva "consulta expandida" se utiliza para realizar una segunda recuperación, que a menudo produce un ranking de resultados mucho más preciso, resolviendo problemas comunes como la sinonimia y la polisemia @relevance-models.
 
-#v(15pt)
-
+\
 #figure(
   diagram(
     spacing: 5pt,
@@ -482,17 +493,17 @@ Finalmente, esta nueva "consulta expandida" se utiliza para realizar una segunda
   ),
   caption: "Flujo de un sistema de recuperación basado en Modelos de Relevancia.",
 ) <relevance-model-flow>
-#v(15pt)
+\
 
 En la @relevance-model-flow se ilustra el flujo típico de expansión mediante modelos de relevancia: una consulta inicial se ejecuta con un ranker léxico (BM25) para obtener los _top‑K_ documentos; a partir de ese conjunto pseudo‑relevante se estima un modelo que induce nuevos términos y pesos; con la consulta expandida resultante se realiza una segunda recuperación, cuyo objetivo es reordenar con mayor precisión y producir un ranking final de documentos más alineado con la intención de la consulta.
 
 Más recientemente, la llegada de los *Modelos extensos del lenguaje* (LLMs) ha supuesto un avance significativo en el panorama de la recuperación de información. Sin embargo, uno de sus mayores problemas es que su conocimiento se *"congela"* en el momento del entrenamiento, lo que *limita su acceso a información reciente* y los hace propensos a *"alucinar"* o generar contenido incorrecto. 
 
 Para superar estas limitaciones, ha surgido el paradigma de la *Generación Aumentada por Recuperación* (RAG). Los modelos RAG combinan un recuperador de información con un LLM generativo en un proceso de dos fases:
-
+#pad(left:15pt)[
 1.  *Recuperación*: Un sistema de recuperación busca en una base de conocimiento (por ejemplo, una colección de documentos) para encontrar fragmentos de texto relevantes para la consulta.
 2.  *Generación*: Estos fragmentos recuperados se proporcionan como contexto a un LLM junto con la consulta original. El LLM sintetiza una respuesta coherente y factual, fundamentada en la evidencia extraída.
-
+]
 Este enfoque ancla las respuestas del LLM en información verificable, reduciendo las alucinaciones y permitiendo que el conocimiento del sistema se actualice simplemente actualizando la base de conocimiento documental. Es una técnica especialmente poderosa para consultas de conocimiento intensivo que demandan respuestas precisas y actualizadas @RAG.
 
 A pesar de su efectividad, estas soluciones avanzadas (desde la expansión de consultas hasta _pipelines_ _LLM + RAG_) suelen tener un costo computacional elevado. No es eficiente ni necesario aplicarlas a todas las consultas, especialmente a aquellas que son simples y pueden ser respondidas adecuadamente por un sistema de recuperación estándar.
@@ -505,23 +516,25 @@ Por otro lado la *Predicción del Rendimiento de Consultas* (QPP) busca destacar
 La literatura distingue dos categorías principales de predictores de rendimiento de consulta según el momento en que extraen información: métodos *_pre-retrieval_* y *_post-retrieval_*. Los primeros formalmente se caracterizan por actuar antes de ejecutar la búsqueda utilizando únicamente la consulta y estadísticas del índice; los segundos explotan señales observadas en la lista recuperada a partir de un modelo de recuperación de información (p. ej., patrones en las puntuaciones y funciones de ranking) @wig-nqc-scored-configuration.
 
 En paralelo, al adentrarnos en el campo de la inteligencia artificial, podemos encontrar otras categorías de clasificación por ejemplo, *régimen de aprendizaje (no supervisados frente a supervisados)* y por *entorno (búsqueda ad-hoc y conversacional utilizando modelos extensos del lenguaje)*, cuyas elecciones suponen compromisos entre costo computacional, latencia y capacidad para modelar fenómenos como ambigüedad, variación temática y distribuciones de consultas @Meng2023QPP @web-search-qpp.
+
 #v(10pt)
 ==== Predictores _pre-retrieval_
-#v(10pt)
+\
 Los predictores _pre-retrieval_ estiman la dificultad de una consulta a priori, sin ejecutar recuperación. Se apoyan en propiedades intrínsecas de la consulta y en estadísticas globales de la colección disponibles en tiempo de indexación. De forma general, caracterizan la especificidad y ambigüedad de la consulta, así como su potencial discriminativo en la colección, a partir de medidas o estadísticas resumidas que capturan propiedades léxicas de la consulta (longitud, diversidad o concentración de términos) y el patrón con que dichos términos aparecen en la colección (frecuencia y variabilidad entre documentos). Su atractivo radica en el bajo costo computacional y en que permiten decisiones de control (expansión, selección de sistema o ajuste de parámetros) antes de observar una lista recuperada @preretrieval-idf @idf-understanding.
+
 #v(10pt)
 ==== Predictores _post-retrieval_
 \
-Los predictores _post-retrieval_ se estiman una vez disponible la lista recuperada para la consulta determinada y se apoyan en señales observables en dicha lista. En términos generales, se agrupan en cuatro familias: 
-#v(10pt)
+Los predictores _post-retrieval_ se estiman una vez disponible la lista recuperada para la consulta determinada y se apoyan en señales observables en dicha lista. En términos generales, se agrupan en cuatro familias:
+#pad(left:15pt)[
 + El comportamiento de las puntuaciones devueltas por el ranker
 + La coherencia y consistencia semántica de los documentos en la cima del ranking
 + La estabilidad del ranking ante perturbaciones controladas (robustez)
 + El consenso con variantes del sistema o de la consulta. 
-#v(10pt)
+]
 Estas familias de señales buscan captar indicios de dificultad a partir de la respuesta del sistema para la consulta concreta.
 
-#pagebreak()
+\
 #figure(
   table(
     columns: (1fr, 2fr, 2fr),
@@ -547,18 +560,19 @@ Estas familias de señales buscan captar indicios de dificultad a partir de la r
   ),
   caption: "Factores y señales típicas en predictores post-retrieval",
 ) <tabla-factores-postretrieval>
+\
 
-#v(10pt)
 Los enfoques *_post-retrieval_* pueden ser no supervisados (agregan señales derivadas de la propia lista devuelta) o supervisados (aprenden a mapear representaciones de consulta-lista a una estimación de rendimiento). Su efectividad depende del tipo de recuperador (léxico o denso), de la profundidad considerada (top-k frente a listas profundas) y de las propiedades de la colección, dado que distintas distribuciones de puntuaciones y estructuras de ranking favorecen señales diferentes. Aunque su costo es mayor que el de los métodos pre-retrieval, suelen proporcionar estimaciones más informadas al incorporar evidencia del resultado concreto de recuperación @wig-nqc-scored-configuration @query-drift @statistical-decision-theory-uef.
+
 #v(10pt)
 === Aplicaciones de QPP en IR
 \
 La capacidad de predecir el rendimiento de una consulta abre un amplio abanico de aplicaciones prácticas que permiten a los sistemas de recuperación de información (IR) operar de manera más inteligente, robusta y eficiente. En lugar de tratar todas las consultas de la misma manera, los sistemas pueden utilizar los predictores de QPP para adaptar dinámicamente su comportamiento. Sin embargo, la utilidad de estas aplicaciones depende críticamente de la calidad del predictor: *se requiere una correlación moderadamente alta* entre el rendimiento predicho y el real para que estas estrategias mejoren de manera fiable la efectividad del sistema @how-much-correlation-is-good.
-#v(10pt)
 - *Activación selectiva de mecanismos avanzados:* Como se mencionó anteriormente, técnicas como la expansión de consultas mediante modelos de relevancia o el uso de arquitecturas complejas como RAG son computacionalmente costosas. Sobre este punto, QPP funciona como una herramienta de diagnóstico que estima de antemano la efectividad esperada. Si una consulta se predice como *difícil*, el sistema puede activar estos mecanismos más potentes para garantizar una respuesta de alta calidad. En cambio, para una consulta predicha como *fácil*, se puede utilizar un método de recuperación estándar, optimizando así el uso de recursos sin sacrificar la calidad en los casos necesarios @query-difficulty-book.
 - *Expansión selectiva de consultas:* La retroalimentación de pseudo-relevancia (_pseudo-relevance feedback_, PRF) es una técnica común para expandir consultas, pero su aplicación indiscriminada tiene consecuencias negativas. Si los documentos mejor clasificados iniciales no son relevantes, los términos añadidos pueden desviar el enfoque de la consulta original, un fenómeno conocido como *_query drift_*. Este desvío a menudo degrada el rendimiento en lugar de mejorarlo. Los predictores QPP permiten una aplicación más segura de esta técnica. Si se predice que una consulta tendrá un bajo rendimiento, se considera como una buena candidata para la expansión, ya que el potencial de mejora es elevado y el riesgo de empeorar un resultado ya pobre es negligible. Por el contrario, si se predice que una consulta ya es efectiva, aplicar la expansión podría ser innecesario o incluso perjudicial. De este modo, la predicción actúa como un guardián, aplicando la expansión solo cuando es probable que sea beneficiosa @query-drift.
 - *Búsqueda federada y metabúsqueda:* En entornos donde los resultados provienen de múltiples colecciones o motores de búsqueda, la QPP es fundamental para la fusión inteligente de resultados. En la *metabúsqueda*, se consultan varios motores de búsqueda, mientras que en la *búsqueda federada*, se busca en múltiples colecciones con un solo motor. En ambos casos, en lugar de combinar los rankings basándose únicamente en los puntajes de cada fuente, se puede predecir el rendimiento de la consulta en cada una de ellas de forma independiente. Los resultados de las fuentes donde se predice un alto rendimiento pueden recibir una mayor ponderación en el ranking final. Esta estrategia ha demostrado mejorar significativamente la calidad de los resultados combinados, aunque su éxito también depende de la fiabilidad del predictor utilizado @query-difficulty-book @how-much-correlation-is-good.
 - *Retroalimentación al usuario y al sistema:* La QPP también se utiliza para proporcionar retroalimentación directa. Un sistema puede informar al usuario que su consulta es probablemente "difícil" y que los resultados pueden ser de baja calidad, sugiriendo reformulaciones o términos alternativos. A nivel de administración del sistema, el análisis de las consultas predichas como difíciles en los registros de búsqueda (_query logs_) puede ayudar a identificar *contenido faltante* en la colección, guiando así los esfuerzos para enriquecer la base de conocimiento y cubrir las brechas de información detectadas @query-difficulty-book.
+
 #v(10pt)
 === Supuestos, limitaciones y amenazas a la validez
 \
@@ -567,7 +581,7 @@ A pesar de su potencial, la efectividad y la evaluación de los métodos de QPP 
 La evaluación y la aplicación de los métodos de QPP descansan sobre varios supuestos centrales. Un supuesto extendido sostiene que una alta correlación (Pearson, Kendall, Spearman) entre las predicciones y una métrica de efectividad (AP, nDCG) se traduce en utilidad práctica; sin embargo, la evidencia empírica muestra que la correlación, *aun siendo estadísticamente significativa*, no garantiza por sí sola una mejora operativa, pues la utilidad real depende de cómo la predicción informa decisiones concretas dentro del sistema @how-much-correlation-is-good. 
 
 A ello se suma una fuerte dependencia de los juicios de relevancia (_Qrels_) como “suelo de verdad”. Este supuesto es particularmente frágil, ya que la calidad de los _Qrels_ está sujeta a la variabilidad inherente al juicio humano. La evaluación de la relevancia no es un proceso mecánico; está influenciada por *la experiencia y el conocimiento del dominio del evaluador*. Se ha demostrado que los evaluadores no expertos ("generalistas") tienden a producir juicios menos precisos y más superficiales en comparación con los expertos del dominio, recurriendo con frecuencia a la simple coincidencia de palabras clave en lugar de a una comprensión profunda de la *intención* de la consulta. Esta discrepancia introduce una fuente potencialmente significativa de sesgo en los resultados de evaluación, lo que significa que un predictor de QPP puede estar siendo interpretado incorrectamente para replicar los juicios de un tipo particular de evaluador, en lugar de una noción objetiva de relevancia @evaluator-domain-expertise.
-#v(6pt)
+
 La validez de las evaluaciones también está modulada por las características de los conjuntos de datos y de las muestras de consulta empleados. El rendimiento observado de un predictor depende en gran medida del *tipo de colección*: resultados alentadores en corpus limpios y homogéneos (p. ej., noticias) no necesariamente se sostienen en colecciones provenientes de la web más *ruidosas y heterogéneas*; por ello, las conclusiones de benchmarks deben interpretarse con cautela y no extrapolarse sin verificación a contextos productivos @correlation-depends-on-quality-of-dataset. A ello se añade la sensibilidad a tamaños muestrales reducidos de consultas, frecuentes en campañas de evaluación: con pocas consultas, las estimaciones son más inestables y los intervalos de confianza se amplían, dificultando discernir si las diferencias entre predictores reflejan efectos genuinos o artefactos de muestreo. La composición de la muestra (por ejemplo, una sobre‑representación de consultas fáciles o difíciles) puede, además, sesgar las métricas y favorecer ciertas familias de predictores.
 
 #v(10pt)
@@ -593,7 +607,6 @@ En términos formales, una métrica de evaluación asigna a cada consulta un val
 
 Entre las métricas más utilizadas se encuentran la *_Precision_* y la *_Exhaustividad_* (_Recall_), sobre las cuales se construyen medidas más complejas como la *_Precisión Media_* (_AP_), su promedio sobre consultas (_MAP_) y la *_Ganancia Acumulada Descontada Normalizada_* (_nDCG_), que difieren en si asumen relevancia binaria o graduada y en la forma en que penalizan posiciones más profundas en el ranking @metrics-sensitivity.
 
-#v(6pt)
 La *Precisión (Precision)*, definida en la @eqt:metricas-precision, mide la fracción de documentos recuperados que son relevantes. Responde a la pregunta: "¿Qué proporción de los resultados que mostré son realmente útiles?". Es un indicador de la exactitud de la búsqueda y requiere que los juicios de relevancia sean binarizados (es decir, un documento es relevante o no lo es, sin grados intermedios).
 
 \
@@ -640,6 +653,7 @@ Un diseño experimental típico implica varios componentes clave. Primero, se ut
 Las consultas se ejecutan utilizando uno o más *sistemas de recuperación de información* (o rankers), como BM25 o modelos neuronales. La efectividad real de cada consulta se calcula utilizando los juicios de relevancia (_Qrels_) disponibles y, en paralelo, se obtiene la puntuación predicha por el método de _QPP_. Sin embargo, como señala @microsoft-preretrieval, el rendimiento observado para una consulta no se debe a una única causa, sino a la interacción de varios efectos. Por una parte, influye la *tarea o necesidad informativa* asociada al tópico: hay temas que, por la abundancia y claridad de los documentos relevantes, resultan intrínsecamente más fáciles que otros. También interviene la *formulación concreta de la consulta*, ya que dos variantes que expresan la misma necesidad pueden producir listas de resultados muy distintas según la elección de términos, su longitud o su ambigüedad. Finalmente, el propio *sistema de recuperación* introduce su efecto, puesto que distintos rankers responden de forma diferente ante la misma combinación de tarea y consulta. Si no se tienen en cuenta estos componentes, un predictor de _QPP_ puede aparentar funcionar bien simplemente porque discrimina tareas fáciles y difíciles, sin capturar realmente la dificultad específica de una formulación de consulta para un sistema dado.
 
 Finalmente, se comparan las dos listas de puntuaciones (la real y la predicha) utilizando métricas de correlación. Un marco de evaluación robusto no se basa en estimaciones puntuales, sino que a menudo utiliza técnicas como los análisis de significancia también como el análisis de varianza (_ANOVA_) para modelar el rendimiento del predictor como una distribución, lo que permite un análisis estadístico más detallado y conclusiones más fiables @enhanced-evaluation.
+
 #v(10pt)
 === Métricas de correlación para evaluar métodos QPP
 \
@@ -653,15 +667,18 @@ Los tres coeficientes más comunes en la literatura de QPP son:
 $ r = frac( sum_(i=1)^n (x_i - m_x)(y_i - m_y), sqrt( sum_(i=1)^n (x_i - m_x)^2 sum_(i=1)^n (y_i - m_y)^2 ) ) $ <correlacion-pearson>
 \
 
+#pad(left:15pt)[
 Aquí, $x_i$ y $y_i$ representan las observaciones emparejadas de dos variables aleatorias (por ejemplo, altura y peso de una misma persona), mientras que $m_x$ y $m_y$ corresponden a sus medias muestrales.
+]
 
 2.  *Coeficiente de correlación de rangos de Spearman ($rho$)*: Es una alternativa no paramétrica a Pearson. En lugar de usar los valores brutos, primero los convierte en rangos y luego calcula el coeficiente de Pearson sobre esos rangos. Por ello, mide la *fuerza de una relación monotónica* (es decir, si una variable tiende a aumentar cuando la otra lo hace, sin que la relación tenga que ser lineal). Es menos sensible a los _outliers_ que Pearson, pero puede ser afectado por la presencia de muchos rangos empatados. En la práctica, $rho$ se obtiene aplicando la misma fórmula de Pearson sobre los rangos $(R(x_i), R(y_i))$; cuando no hay empates, admite además la forma cerrada clásica presentada en la @eqt:correlacion-spearman:
 
 \
 $ rho = 1 - frac( 6 sum_(i=1)^n d_i^2, n (n^2 - 1) ) $ <correlacion-spearman>
 \
-
+#pad(left:15pt)[
 donde $d_i$ representa, para cada observación $i$, la diferencia entre los rangos asignados a $x_i$ e $y_i$, es decir, cuánto se desplaza la posición relativa del elemento $i$ entre ambos ordenamientos. Cuando las dos listas coinciden perfectamente en su orden (máxima concordancia), todas las diferencias de rango valen cero y la suma de $d_i^2$ es nula, lo que produce $rho = 1$; a medida que las posiciones relativas divergen, las diferencias de rango crecen, aumenta la suma de $d_i^2$ y el valor de $rho$ disminuye, reflejando menor acuerdo entre los rankings.
+]
 
 3.  *Coeficiente de correlación de rangos de Kendall ($tau$)*: Es una medida no paramétrica que se considera la más robusta de las tres para la evaluación de _QPP_. En lugar de considerar la magnitud o el rango, $tau$ se basa en el número de *pares concordantes* y *discordantes* entre los dos rankings. Un par de observaciones $(x_i, y_i)$ y $(x_j, y_j)$ es concordante si el orden relativo de $x_i$ y $x_j$ coincide con el de $y_i$ y $y_j$, y discordante si dicho orden se invierte. Debido a que se basa en conteos, no asume ninguna distribución de los datos, es robusta frente a valores atípicos y maneja bien los empates en los rankings. Su interpretación también es más directa: representa la diferencia entre la probabilidad de que dos elementos estén en el mismo orden y la probabilidad de que estén en órdenes diferentes. La variante $tau_b$ de Kendall, que corrige por empates en ambas listas y es la que se utiliza habitualmente en _QPP_, se define en la @eqt:correlacion-kendall como:
 
@@ -669,8 +686,10 @@ donde $d_i$ representa, para cada observación $i$, la diferencia entre los rang
 $ tau_b = frac( P - Q, sqrt((P + Q + T)(P + Q + U)) ) $ <correlacion-kendall>
 \
 
+#pad(left:15pt)[
 Aquí, $P$ y $Q$ denotan el número de pares concordantes y discordantes entre los dos rankings, mientras que $T$ y $U$ cuentan los pares empatados solo en la primera o solo en la segunda lista, respectivamente. De este modo, $tau_b$ mide el balance neto entre concordancias y discordancias, normalizado para corregir el efecto de los empates y mantener el coeficiente en el intervalo $[-1, 1]$.
+]
 
-En la práctica, Spearman y Kendall son generalmente preferidos sobre Pearson en la investigación de _QPP_ por su naturaleza no paramétrica. Kendall's $tau$ es a menudo el preferido por su robustez y su interpretación probabilística, aunque Spearman's $rho$ también se reporta comúnmente @correlation-methods
+En la práctica, Spearman y Kendall son generalmente preferidos sobre Pearson en la investigación de _QPP_ por su naturaleza no paramétrica. Kendall's $tau$ es a menudo el preferido por su robustez y su interpretación probabilística, aunque Spearman's $rho$ también se reporta comúnmente @correlation-methods.
 
 Finalmente, es crucial entender que una correlación estadísticamente significativa no siempre implica una mejora práctica. La investigación ha demostrado que una correlación, aunque sea alta (p. ej., > 0.5), puede no ser suficiente para que una aplicación como la expansión selectiva de consultas mejore de manera fiable el rendimiento del sistema. La utilidad real depende de la magnitud de esa correlación y del contexto de la aplicación, y muchos predictores existentes no alcanzan el umbral de fiabilidad necesario en escenarios reales @correlation-methods @how-much-correlation-is-good.

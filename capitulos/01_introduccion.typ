@@ -7,8 +7,8 @@
 }
 
 = INTRODUCCIÓN
-\
 
+#v(10pt)
 == Contexto del proyecto
 \
 La predicción del rendimiento de consultas (QPP) ha emergido como una herramienta prometedora en los sistemas de recuperación de información (IR). La capacidad de predecir la calidad de los resultados de búsqueda antes de la ejecución de la consulta permite tanto optimizar los recursos como al mismo tiempo mejorar la experiencia de los usuarios. No obstante, la eficacia de los métodos QPP varía significativamente según el dominio, el tipo de consulta, e incluso los modelos de recuperación utilizados, algo que se evidencia especialmente en búsquedas ad-hoc. Esta variabilidad subraya la necesidad de evaluaciones robustas y reproducibles, que permitan comparar y contrastar diferentes enfoques de tal forma que se pueda establecer una línea base clara para futuras investigaciones.
@@ -19,24 +19,26 @@ La motivación sobre el campo de Query Performance Prediction (QPP) ha aumentado
 
 Este trabajo busca establecer una línea base sobre los enfoques tradicionales para asegurar un avance en las futuras investigaciones de métodos QPP, mediante la implementación de un benchmark abierto y reproducible, disponible en GitHub. #footnote[https://github.com/emerssn/QPP-Benchmark]
 
-\
+#v(10pt)
 == Objetivo General
 \
 Evaluar comparativamente métodos de Query Performance Prediction (QPP) para búsquedas Ad-hoc utilizando métricas de correlación.
 
-\
+#v(10pt)
 == Objetivos Específicos
 \
+#pad(left:15pt)[
 1. Revisar la literatura sobre métodos de QPP en búsquedas ad-hoc sin el uso de inteligencia artificial.
 2. Identificar y describir los principales métodos QPP utilizados en la actualidad.
 3. Implementar y evaluar métodos QPP no basados en inteligencia artificial utilizando un conjunto de datos estandarizados y un marco de evaluación común.
 4. Analizar y documentar el rendimiento de los métodos QPP implementados para establecer una línea base para futuras comparaciones.
 5. Identificar fortalezas y debilidades de diferentes enfoques, proporcionando ideas para futuras investigaciones en métodos QPP.
+]
 
-\
+#v(10pt)
 == Estructura del trabajo de título
 \
-El presente trabajo se compone de los siguientes siete capítulos:
+El presente trabajo de título se compone de los siguientes siete capítulos:
 
 *Capítulo I: Introducción.* Presenta el contexto y motivación del proyecto, junto con los objetivos general y específicos planteados para su realización. Se describe la importancia de la predicción del rendimiento de consultas (QPP) en sistemas de recuperación de información y la necesidad de una evaluación comparativa robusta.
 
