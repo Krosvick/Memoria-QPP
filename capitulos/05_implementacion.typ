@@ -12,7 +12,7 @@
 \
 La implementación del entorno de evaluación representa la materialización del diseño experimental previamente descrito. Este capítulo detalla los aspectos técnicos y prácticos del desarrollo, abordando desde la configuración del entorno hasta la implementación específica de cada componente del sistema.
 
-El desarrollo se fundamenta en tres pilares principales: el sistema de recuperación de información, la implementación de los métodos QPP, y el framework de evaluación. Como se puede observar en la @tbl:tabla-componentes, cada uno de estos componentes requiere consideraciones técnicas específicas y se integran para formar un sistema cohesivo y reproducible.
+El desarrollo se fundamenta en tres pilares principales: el sistema de recuperación de información, la implementación de los métodos QPP, y el framework de evaluación. Como se puede observar en la @tbl:tabla-componentes, cada uno de estos componentes requiere consideraciones técnicas específicas, como el manejo consistente del vocabulario y la optimización de cálculos estadísticos, integrándose para formar un sistema cohesivo y reproducible.
 #show figure: set block(breakable: true)
 #figure(
   table(
@@ -160,9 +160,9 @@ La @tbl:tabla_docker muestra los componentes esenciales para la configuración y
 \
 Como se explicó anteriormente, los conjuntos de datos utilizados en este trabajo se encuentran disponibles en la librería IR-datasets, la cual cuenta con una amplia gama de conjuntos de datos tanto clásicos como modernos de recuperación de información junto a sus consultas y respectivos juicios de relevancia.
 
-Cada dataset cuenta con una cantidad de documentos y consultas disponibles para realizar la evaluación, por otro lado los juicios de relevancia o ‟Qrels” suponen un desafío extra para la implementación de la evaluación, puesto que cada dataset cuenta con distintos niveles de relevancia para las consultas, lo cual si no se maneja adecuadamente puede alterar drásticamente los resultados de la correlación.
+Cada dataset cuenta con una cantidad de documentos y consultas disponibles para realizar la evaluación, por otro lado los juicios de relevancia suponen un desafío extra para la implementación de la evaluación, puesto que cada dataset cuenta con distintos niveles de relevancia para las consultas, si estos no se manejan adecuadamente puede alterar drásticamente los resultados de la correlación.
 
-Esto es así puesto a que la evaluación clásica de métodos IR se basa en el cálculo de métricas como nDCG, AP, MAP, etc, las cuales dependen de los juicios de relevancia actuando como _ground truth_ para su cálculo.
+Esto es así puesto a que la evaluación clásica de métodos IR se basa en el cálculo de métricas como nDCG, AP, etc, las cuales dependen de los juicios de relevancia actuando como _ground truth_ para su cálculo.
 
 \
 #figure(
@@ -197,10 +197,16 @@ La @fig:codigo_formato_dataset muestra la configuración específica para el dat
 Esta diferenciación en el manejo de los niveles de relevancia es fundamental para obtener evaluaciones precisas, ya que un manejo inadecuado de estos valores podría llevar a distorsiones significativas en el cálculo de las métricas de evaluación y, consecuentemente, afectar la correlación con los predictores QPP. Por ejemplo, si no se estableciera el umbral binario adecuadamente o se asignaran valores de ganancia incorrectos, documentos marginalmente relevantes podrían tener el mismo peso que documentos altamente relevantes en el cálculo de las métricas, lo que no reflejaría fielmente la calidad real de los resultados de búsqueda.
 
 \
-=== Indexación y consultas
+=== Preprocesamiento, indexación y consultas
 
 \
-El proceso de indexación utilizado para la evaluación es el estándar de PyTerrier mediante la construcción de un índice invertido a partir de un corpus de documentos. Este índice invertido es utilizado para la recuperación de documentos relevantes para una consulta, utilizando el algoritmo BM25. Durante el tiempo de indexado, se realiza la tokenización de los documentos y consultas, aplicando un algoritmo de stemming y eliminación de ‟stopwords‟ para la normalización de los datos.
+El proceso de indexación constituye la base sobre la cual operan tanto el sistema de recuperación como los predictores QPP. En esta implementación, se optó por una estrategia de indexación personalizada en lugar de utilizar el pipeline por defecto de PyTerrier. Específicamente, los documentos son pre-procesados utilizando un pipeline unificado basado en la librería NLTK antes de ser ingestados por el indexador integrado de la librería.
+
+Este pipeline de preprocesamiento aplica tokenización, eliminación de _stopwords_ y _stemming_ (utilizando el famoso _SnowballStemmer_) de manera consistente tanto para los documentos como para las consultas. La justificación técnica de esta decisión radica en la necesidad de garantizar una correspondencia exacta entre el vocabulario del índice y los términos generados durante el procesamiento de las consultas lo cual sucede en dos capas distintas dentro del flujo del sistema. 
+
+Se observó que el tokenizador por defecto de Terrier presentaba inconsistencias significativas en el manejo de términos numéricos. Por ejemplo, términos como "0", "00" y "000" eran indexados como tokens distintos por Terrier, mientras que el pipeline de preprocesamiento basado en NLTK/Snowball los unificaba o eliminaba según su configuración de _stopwords_. Esta discrepancia causaba un grave desajuste de vocabulario (_vocabulary mismatch_), donde términos presentes en la consulta procesada en Python no encontraban correspondencia en el índice de Terrier (resultando en frecuencias de documento igual a 0), lo que a su vez generaba puntajes nulos o incorrectos en predictores sensibles como IDF y SCQ. Al indexar el texto ya procesado por el mismo pipeline que las consultas, se elimina esta fuente de error y se asegura la coherencia del vocabulario.
+
+Adicionalmente, para optimizar el rendimiento de los predictores _pre-retrieval_, se implementó mecanismos de caché estadísticos, el cual pre-calcula y almacena en un archivo JSON las estadísticas globales más consultadas, como la frecuencia de colección (_Collection Frequency_, CF) y la frecuencia de documentos (_Document Frequency_, DF) para cada término. Esta estrategia evita la sobrecarga computacional que implicaría realizar múltiples consultas JNI (_Java Native Interface_) al índice de Terrier o escaneos completos del índice para obtener estadísticas básicas repetitivas, reduciendo significativamente el tiempo de ejecución de los experimentos, especialmente en _datasets_ grandes como MS MARCO.
 
 \
 == Implementación de métodos QPP
@@ -241,16 +247,69 @@ Para la implementación de los métodos QPP, se ha utilizado como base código a
 === Métodos pre-retrieval
 
 \
-En esta categoría se implementaron dos de los métodos más utilizados en las evaluaciones de la literatura, por un lado se encuentra el método IDF, el cual se basa en la frecuencia de los términos en los documentos, y por otro lado se encuentra el método SCQ, el cual se basa en la similitud de la consulta a los documentos de la colección.
+En esta categoría se implementaron dos de los métodos más utilizados en las evaluaciones de la literatura: IDF y SCQ. Si bien conceptualmente son sencillos, su implementación robusta requirió abordar desafíos específicos relacionados con el manejo de términos.
 
-Ambos métodos cuentan con variaciones, ya sea el valor promedio de los términos de la consulta, o alternativamente el valor máximo de los términos de la consulta. Estas variaciones son utilizadas en diferentes evaluaciones y se ha optado por implementar ambas en el entorno experimental.
+Para el método *IDF (Inverse Document Frequency)*, se implementó un manejo riguroso de términos para asegurar la estabilidad del predictor. Estas modificaciones no son triviales, sino que surgieron tras iteraciones experimentales donde se observó que la implementación estándar producía correlaciones artificialmente bajas (cercanas a cero) debido a inestabilidad numérica.
+
+En primer lugar, se implementó una distinción explícita para los términos fuera del vocabulario (OOV). A diferencia de enfoques que simplemente asignan un valor nulo, esta implementación asigna un valor centinela de frecuencia de documento igual a -1 a los términos que no existen en absoluto en el índice. El beneficio crítico de este manejo es prevenir que la presencia de un solo término desconocido (por ejemplo, un error tipográfico) invalide el puntaje de toda una consulta al propagar valores nulos o indefinidos, permitiendo que el sistema degrade suavemente su estimación basándose únicamente en los términos conocidos.
+
+En segundo lugar, se incorporó la técnica de *suavizado Laplaciano* ( _add-1 smoothing_) en el cálculo del predictor IDF. Esta técnica consiste en simular que cada término del vocabulario ha sido observado una vez más de lo que realmente aparece en la colección.
+
+$ P_("smooth")(w) = ("count"(w) + 1) / (N + V) $ <formula_suavizado>
+
+En la @eqt:formula_suavizado $"count"(w)$ es la frecuencia del término $w$, $N$ es el total de tokens y $V$ el tamaño del vocabulario. La justificación técnica para aplicar este suavizado en QPP es debido a que aporta *estabilidad numérica* al evitar divisiones por cero e indefiniciones logarítmicas (como $log(0)$) que invalidarían el cálculo para términos extremadamente raros @laplacian-smoothing.
+
+Por otro lado, la implementación de *SCQ (Collection Query Similarity)* se benefició directamente de la optimización de caché estadística mencionada en la sección de indexación. Dado que SCQ requiere consultar intensivamente las frecuencias CF y DF para cada término de la consulta, el acceso directo a las estadísticas pre-calculadas permite calcular la similitud consulta-colección de manera eficiente. Se implementaron variantes del método que agregan los puntajes de los términos utilizando tanto la suma como el máximo (_max_scq_), permitiendo evaluar qué estrategia de agregación captura mejor la dificultad de la consulta.
 
 
 \
 === Métodos post-retrieval
 
 \
-En esta categoría se considero una mayor gama de predictores, desde métodos seminales del campo como Clarity, hasta frameworks mas recientes como UEF. Estos métodos requieren de una dependencia extra, la cual es el resultado de un sistema de recuperación de información en respuesta a una consulta.
+En esta categoría se consideró una gama más amplia de predictores, abarcando desde métodos basados en divergencia como Clarity, hasta frameworks basados en utilidad como UEF. La implementación de estos métodos implica una complejidad mayor, ya que requieren interactuar tanto con el índice invertido como con la lista de resultados recuperada.
+
+Un aspecto crítico en la implementación del *Clarity Score* fue el suavizado del modelo de lenguaje de la colección. Para estimar la probabilidad $P(w|C)$ de un término en la colección, se utilizó *suavizado de Dirichlet* con un parámetro $mu=1000$. Esta decisión no solo responde a una necesidad de estabilidad numérica, sino que es fundamental para la robustez de los modelos de lenguaje en Recuperación de Información, especialmente en función de la naturaleza de la colección procesada.
+
+En el contexto de colecciones pequeñas o constituidas por documentos breves (como pasajes, *snippets* o el propio dataset Cranfield utilizado), la frecuencia de términos (*term frequency*) es intrínsecamente escasa. Sin un mecanismo de suavizado, los modelos de lenguaje derivados resultantes serían extremadamente ruidosos y estarían sesgados hacia los pocos términos observados, provocando que la divergencia KL diverja artificialmente debido a probabilidades nulas o a picos de frecuencia no representativos. En este contexto, la técnica de suavizado de Dirichlet es una herramienta útil que reduce la varianza de la estimación, evita la sobreestimación de términos raros y estabiliza el modelo de la consulta. Esto permite que el puntaje de Clarity correlacione efectivamente con la dificultad real de la consulta y no con el ruido estadístico inherente a la escasez de datos.
+
+#figure(
+  kind:image,
+  [
+    #codly(languages: codly-languages)
+    ```python
+  def _get_collection_probabilities(self, terms: Iterable[str]) -> Dict[str, float]:
+        """
+        Calcula P(w|C) (modelo de lenguaje) con suavización de Dirichlet.
+        Fórmula: (cf + mu * p0) / (total_terms + mu), con p0 uniforme.
+        """
+        total_terms = max(1, self.index_stats['total_terms'])
+        mu = self.mu_bg
+        p0 = self._uniform_prior
+
+        probs = {}
+        for term in terms:
+            cf = float(self.index_stats['term_cf'].get(term, 0))
+            
+            # SIN SUAVIZADO:
+            # prob = cf / total_terms
+            # En colecciones pequeñas, esta estimación de máxima verosimilitudes altamente sensible a eventos raros y a términos no observados.
+            # En particular, cf = 0 induce prob = 0, lo que vuelve inestable el cálculo de divergencias (p. ej., KL).
+
+            # CON SUAVIZADO:
+            # Se incorporan 'mu' observaciones virtuales distribuidas según 'p0',
+            # lo que reduce la varianza de la estimación y mejora la estabilidad del modelo de lenguaje.
+            probs[term] = (cf + mu * p0) / (total_terms + mu)
+        return probs
+    ```
+  ],
+  caption: "Implementación del suavizado de Dirichlet en Clarity",
+) <codigo_clarity_dirichlet>
+
+Por otra parte, en colecciones masivas o con documentos extensos (como artículos de noticias o páginas web completas), donde las frecuencias de términos son más altas y estadísticamente fiables, el modelo empírico tiende a converger con la distribución real del lenguaje. Si bien el suavizado sigue aportando estabilidad, su impacto relativo es menor. En estos casos, un parámetro $mu$ excesivamente alto podría resultar contraproducente, ya que diluiría la especificidad del documento al acercar su modelo demasiado a la distribución uniforme de la colección, disminuyendo artificialmente el puntaje de Clarity. Dado que esta investigación opera sobre colecciones de tamaño controlado y características específicas, la elección de un $mu$ entre 500 y 1000 resulta un buen equilibrio para asegurar la validez de las predicciones @smoothing-factors.
+
+Para el método *UEF (Utility Estimation Framework)*, la implementación se centró en la robustez del cálculo de correlación. UEF estima la dificultad correlacionando los puntajes de recuperación originales con los obtenidos tras una expansión de consulta (en este caso, utilizando el modelo *RM3*). Para asegurar la validez de esta correlación, se implementó un alineamiento estricto de las listas de resultados basado en identificadores de documento (`docno`), asegurando que la comparación se realice sobre la intersección de documentos recuperados en ambas etapas. Además, se normalizan los puntajes antes del cálculo de correlación para mitigar diferencias de escala entre las pasadas de recuperación.
+
+Finalmente, para *NQC (Normalized Query Commitment)* y *WIG*, se incorporaron mecanismos de manejo de excepciones para casos de varianza cero. En situaciones donde todos los documentos recuperados tienen el mismo puntaje (lo cual puede ocurrir con consultas muy cortas o en colecciones con pocos documentos relevantes), la desviación estándar se anula, lo que podría causar errores de división. La implementación detecta estos casos y asigna un puntaje de dificultad predefinido, garantizando la continuidad de la evaluación sin interrupciones.
 
 #figure(
   kind:image,
@@ -259,22 +318,22 @@ En esta categoría se considero una mayor gama de predictores, desde métodos se
     ```python
         def calc_wig(self, list_size_param):
         """
-        Calculates the WIG score following Zhou and Croft's method.
+        Calcula el WIG score siguiendo el método de Zhou y Croft.
         Y. Zhou and W. B. Croft. Query performance prediction in web search environments
         """
         scores_vec = self.scores_vec[:list_size_param]
         if self.corpus_score == 0:
-            print("Corpus score is zero; returning WIG score as 0.0 to avoid division by zero.")
+            print("El puntaje del corpus es cero; retornando WIG score como 0.0 para evitar división por cero.")
             return 0.0
-        wig_score = (scores_vec.mean() - self.ql_corpus_score) / np.sqrt(len(self.query_terms))
+        wig_score = (scores_vec.mean() - self.corpus_score) / np.sqrt(len(self.query_terms))
         return wig_score
     ```
   ],
   caption: "Implementación del método WIG",
 ) <codigo_wig>
 
-La @fig:codigo_wig muestra la implementación del método post-retrieval WIG, en este podemos identificar tanto el uso del indice invertido como el resultado de el puntaje del modelo de recuperación de información frente a toda la colección como se puede apreciar en la @eqt:wig-equation. 
-Adicionalmente se puede observar parámetros como el tamaño de la lista de documentos a considerar, el cual fue definido como 5 para WIG y en 200 para NQC bajo la recomendación de la literatura y nuestros propios experimentos. @web-search-qpp @wig-nqc-scored-configuration @query-drift Para finalizar, también cabe mencionar que todas los puntajes fueron considerando el puntaje promedio de los 1000 primeros documentos de la lista de resultados.
+La @fig:codigo_wig muestra la implementación del método post-retrieval WIG, en este podemos identificar tanto el uso del indice invertido (_scores_vec_) como el resultado de el puntaje del modelo de recuperación de información frente a toda la colección (_corpus_score_) como se puede apreciar en la @eqt:wig-equation. 
+Adicionalmente se puede observar parámetros como el tamaño de la lista de documentos a considerar, el cual fue definido como 5 para WIG y en 200 para NQC bajo la recomendación de la literatura y nuestros propios experimentos @web-search-qpp @wig-nqc-scored-configuration @query-drift. Para finalizar, también cabe mencionar que todas los puntajes fueron considerando el puntaje promedio de los 1000 primeros documentos de la lista de resultados.
 
 
 \
@@ -282,22 +341,23 @@ Adicionalmente se puede observar parámetros como el tamaño de la lista de docu
 \
 La implementación de la evaluación de los métodos QPP se realiza mediante un analizador de correlaciones que permite calcular y visualizar las relaciones entre los puntajes de predicción y las métricas de rendimiento real del sistema. Este analizador está diseñado para procesar los resultados de múltiples métodos QPP y métricas de recuperación, generando análisis estadísticos y visualizaciones que facilitan la interpretación de los resultados.
 
+\
 === Cálculo de correlaciones
 
 \
-El análisis se basa principalmente en el cálculo de coeficientes de correlación entre los puntajes QPP y las métricas de recuperación (nDCG y AP). Se implementaron tres tipos de correlaciones:
+El análisis se basa principalmente en el cálculo de coeficientes de correlación entre los puntajes QPP y las métricas de recuperación (nDCG y AP). Se implementaron tres tipos de correlaciones: *Pearson*, que mide la relación lineal entre las variables; *Spearman*, que evalúa la relación monótona entre variables usando rangos; y *Kendall (τ)*, que mide la ordinalidad entre pares de observaciones. Para el cálculo, se utilizan las funciones especializadas la libreria Scipy, las cuales retornan tanto el coeficiente de correlación como los valores p asociados a la prueba de hipótesis.
 
-- Correlación de Pearson: Mide la relación lineal entre las variables
-- Correlación de Spearman: Evalúa la relación monótona entre variables usando rangos
-- Correlación de Kendall (τ): Mide la ordinalidad entre pares de observaciones
+Un aspecto crítico de la implementación es el *alineamiento de identificadores de consulta (QIDs)* entre los puntajes QPP y las métricas de recuperación. Dado que no todas las consultas pueden tener resultados válidos en ambos conjuntos (por ejemplo, consultas sin documentos relevantes en los _qrels_ o con puntajes QPP indefinidos), el sistema calcula la intersección de QIDs comunes antes de proceder con el análisis. Adicionalmente, se aplica un filtro de *número mínimo de consultas* ($n >= 5$) para garantizar que las correlaciones calculadas tengan suficiente respaldo estadístico, descartando comparaciones que podrían resultar espurias debido a tamaños de muestra insuficientes.
 
-La significancia estadística de las correlaciones se verifica mediante pruebas de hipótesis, considerando un nivel de significancia de $α <= 0.05$. Las correlaciones no significativas son registradas pero marcadas apropiadamente en los reportes.
+El manejo de *valores nulos y no numéricos* es otro aspecto relevante: los valores faltantes son detectados y excluidos del cálculo de correlación, evitando que contaminen los resultados. La significancia estadística se verifica mediante pruebas de hipótesis, considerando múltiples umbrales: $alpha < 0.05$ (significativo), $alpha < 0.01$ (muy significativo) y $alpha < 0.001$ (altamente significativo). Las correlaciones que no alcanzan el umbral de significancia son registradas pero marcadas apropiadamente en los reportes generados.
 
 \
 === Visualización de resultados
 
 \
-Para facilitar la interpretación de los resultados, se implementaron tres tipos principales de visualizaciones como se puede observar en la @tbl:tabla_visualizaciones, siguiendo la linea de otras evaluaciones. @zendel2024qpptk @correlation-depends-on-quality-of-dataset @enhanced-evaluation
+Para facilitar la interpretación de los resultados, se implementaron múltiples tipos de visualizaciones organizadas en dos categorías principales, siguiendo la linea de otras evaluaciones. @zendel2024qpptk @correlation-depends-on-quality-of-dataset @enhanced-evaluation
+
+La primera categoría corresponde a las visualizaciones de *análisis de correlación QPP*, como se puede observar en la @tbl:tabla_visualizaciones.
 
 \
 #figure(
@@ -309,14 +369,35 @@ Para facilitar la interpretación de los resultados, se implementaron tres tipos
     
     [*Tipo de gráfico*], [*Descripción*],
     
-    [*Mapas de calor*], [Muestran la matriz de correlaciones entre todos los métodos QPP y las métricas de evaluación, utilizando una escala de colores para representar la fuerza y dirección de las correlaciones],
+    [*Mapas de calor de correlación*], [Muestran la matriz de correlaciones entre todos los métodos QPP y las métricas de evaluación, utilizando una escala de colores divergente (_coolwarm_) centrada en cero para representar la fuerza y dirección de las correlaciones. Se genera una versión horizontal optimizada para el formato del trabajo de titulo],
     
-    [*Diagramas de dispersión*], [Visualizan la relación entre cada método QPP y una métrica específica, incluyendo líneas de regresión para mejor interpretación],
+    [*Mapas de calor de significancia*], [Visualizan los valores p de significancia estadística categorizados en cuatro niveles: no significativo ($>=0.05$), significativo ($<0.05$), muy significativo ($<0.01$) y altamente significativo ($<0.001$), utilizando una paleta de colores jerárquica],
     
-    [*Diagramas de caja*], [Presentan la distribución de las correlaciones para cada método QPP, permitiendo comparar su estabilidad y rendimiento general],
+    [*Diagramas de dispersión QPP*], [Visualizan la relación entre cada método QPP y una métrica específica, incluyendo líneas de regresión para mejor interpretación. Se generan tanto gráficos combinados como individuales para cada método],
+    
+    [*Diagramas de caja de correlaciones*], [Presentan la distribución de las correlaciones para cada método QPP ordenados por mediana, incluyendo puntos individuales con _jitter_ para visualizar la dispersión real de los datos y una línea de referencia en cero],
   ),
-  caption: "Tipos de visualizaciones implementadas",
+  caption: "Visualizaciones de análisis de correlación QPP",
 ) <tabla_visualizaciones>
+
+La segunda categoría corresponde a las visualizaciones de *análisis de juicios de relevancia y dificultad de consultas*, como se detalla en la @tbl:tabla_visualizaciones_qrels. Estas visualizaciones permiten comprender la naturaleza de los juicios de relevancia y su relación con el rendimiento del sistema.
+#figure(
+  table(
+    columns: (auto, 1fr),
+    rows: auto,
+    stroke: (x: none),
+    align: left + horizon,
+    
+    [*Tipo de gráfico*], [*Descripción*],
+    
+    [*Distribución de niveles de relevancia*], [Muestra la frecuencia de cada nivel de relevancia en los _qrels_, proporcionando contexto sobre la granularidad y distribución de los juicios disponibles en el dataset],
+    
+    [*Clasificación de dificultad*], [Clasifica las consultas en fáciles, intermedias y difíciles según percentiles de una métrica de efectividad, implementando definiciones basadas en umbrales como las descritas en la literatura],
+
+    [*Distribución de métricas de recuperación*], [Boxplots e histogramas que muestran la distribución de las métricas de evaluación (nDCG, AP) por consulta, permitiendo identificar outliers y patrones de rendimiento],
+  ),
+  caption: "Visualizaciones de análisis de qrels y dificultad",
+) <tabla_visualizaciones_qrels>
 
 \
 == Pruebas de validación

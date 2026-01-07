@@ -21,7 +21,7 @@ A traves de la literatura se ha establecido de manera casi unánime el análisis
 
 El campo de la predicción del rendimiento de consultas se ha desarrollado a lo largo de los años, y se ha establecido el uso de juicios de relevancia y métricas como el tau de Kendall para la evaluación de los predictores. En este sentido, se encuentran dos puntos de interés, por un lado la evaluación del sistema de recuperación subyacente, y por otro la evaluación de los predictores utilizando como pre-requisito la evaluación del sistema de recuperación.
 
-La configuración general utilizada para el experimento se presenta en la @fig:Diagrama_evaluación_resultados:
+
 
 \
 #figure(
@@ -51,7 +51,7 @@ La configuración general utilizada para el experimento se presenta en la @fig:D
     // Connections using proper edge syntax
     edge(<qrels>, <eval>, "-|>"),
     edge(<run>, <eval>, "-|>"),
-    edge(<eval>, <metrics>, "-|>", label: [Utiliza]),
+    edge(<eval>, <metrics>, "<|-", label: []),
     
     edge(<qpp>, <analysis>, "-|>"),
     edge(<eval>, <analysis>, "-|>", label: [Resultados]),
@@ -63,7 +63,7 @@ La configuración general utilizada para el experimento se presenta en la @fig:D
 ) <Diagrama_evaluación_resultados>
 
 \
-Donde se puede observar que el proceso de evaluación involucra métricas de evaluación de recuperación clásicas como nDCG o AP, y más adelante, métricas de correlación de predictores como el tau de Kendall, el cual debido a su naturaleza no lineal, se presenta como una métrica más fuerte frente a otras métricas como el coeficiente de Pearson.
+La configuración general utilizada para el experimento se presenta en la @fig:Diagrama_evaluación_resultados donde se puede observar que el proceso de evaluación involucra métricas de evaluación de recuperación clásicas como nDCG o AP, y más adelante, métricas de correlación de predictores como el tau de Kendall, el cual debido a su naturaleza no lineal, se presenta como una métrica más fuerte frente a otras métricas como el coeficiente de Pearson.
 
 \
 == Resultados obtenidos en conjuntos de datos
