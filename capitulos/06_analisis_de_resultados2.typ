@@ -17,13 +17,15 @@
 }
 = ANÁLISIS DE RESULTADOS
 \
-A traves de la literatura se ha establecido de manera casi unánime el análisis del rendimiento de los métodos QPP mediante el uso de métricas de correlación. Entre los primeros trabajos se puede encontrar el de E.M Voorhees en la conferencia TREC-6, donde se presenta el primer análisis de la capacidad de expertos en predecir el rendimiento de las consultas, donde se pudo observar que la mayor correlación lineal entre los resultados de los expertos fue de solo 0.26. @trec-6.
+
+A traves de la literatura se ha establecido de manera casi unánime el análisis del rendimiento de los métodos QPP mediante el uso de métricas de correlación. Entre los primeros trabajos se puede encontrar el de E.M Voorhees en la conferencia TREC-6, donde se presenta el primer análisis de la capacidad de expertos en predecir el rendimiento de las consultas, donde se pudo observar que la mayor correlación lineal entre los resultados de los expertos fue de solo 0.26 @trec-6.
 
 El campo de la predicción del rendimiento de consultas se ha desarrollado a lo largo de los años, y se ha establecido el uso de juicios de relevancia y métricas como el tau de Kendall para la evaluación de los predictores. En este sentido, se encuentran dos puntos de interés, por un lado la evaluación del sistema de recuperación subyacente, y por otro la evaluación de los predictores utilizando como pre-requisito la evaluación del sistema de recuperación.
 
 En esta sección se presentan los resultados obtenidos al evaluar los métodos QPP sobre cinco conjuntos de datos ampliamente utilizados en la comunidad de recuperación de información: *Antique/Test*, *Cranfield*, *BEIR-TREC-COVID*, *MS MARCO (Passage)* y *CAR*. Todos ellos se acceden a través del catálogo _ir_datasets_, lo que garantiza reproducibilidad y un tratamiento consistente de documentos, consultas y juicios de relevancia. En el caso de *MS MARCO (Passage)* y *CAR* se utilizaron específicamente las variantes con juicios multinivel, lo que permite analizar el comportamiento de los predictores en escenarios con información de relevancia más rica.
 
 El rendimiento del sistema de recuperación subyacente (BM25) se midió principalmente con las métricas nDCG\@10 y MAP. A partir de estas métricas se computaron coeficientes de correlación de Pearson, Spearman y Tau de Kendall entre las puntuaciones de los métodos QPP y los valores de nDCG\@10 y MAP, lo que permite estudiar tanto relaciones lineales como monótonas entre predictores y rendimiento real.
+
 \
 #figure(
     diagram(
@@ -62,13 +64,14 @@ El rendimiento del sistema de recuperación subyacente (BM25) se midió principa
   ),
   caption: [Diagrama de flujo del análisis de resultados]
 ) <Diagrama_evaluación_resultados>
-
 \
+
 La configuración general utilizada para el experimento se presenta en la @fig:Diagrama_evaluación_resultados donde se puede observar que el proceso de evaluación involucra métricas de evaluación de recuperación clásicas como nDCG o MAP, y más adelante, métricas de correlación de predictores como el tau de Kendall, el cual debido a su naturaleza no lineal, se presenta como una métrica más fuerte frente a otras métricas como el coeficiente de Pearson.
 
-\
+#v(10pt)
 == Caracterización de los conjuntos de datos
 \
+
 Previo a la evaluación de los métodos QPP, resulta imprescindible caracterizar los conjuntos de datos utilizados y el rendimiento del sistema de recuperación subyacente. Esta caracterización permite contextualizar los resultados de correlación posteriores y verificar que las diferencias observadas entre predictores se deben a su capacidad predictiva y no a artefactos del corpus o del ranker.
 
 El análisis se estructura en dos ejes complementarios: primero, la #emph[distribución de los juicios de relevancia] (_Qrels_), que describe la composición y balance de cada colección; segundo, la #emph[dificultad de las consultas] según el rendimiento observado del sistema BM25, clasificada mediante umbrales percentilares.
@@ -76,6 +79,7 @@ El análisis se estructura en dos ejes complementarios: primero, la #emph[distri
 #v(10pt)
 === Distribución de niveles de relevancia
 \
+
 Los juicios de relevancia constituyen el estándar de referencia para evaluar tanto el sistema de recuperación como los predictores QPP. Cada dataset emplea una escala de relevancia propia, que varía desde esquemas binarios simples hasta escalas graduadas con múltiples niveles. La @tbl:qrels_distribucion resume la distribución de juicios por nivel para los cinco conjuntos de datos evaluados.
 
 \
@@ -103,6 +107,7 @@ Los juicios de relevancia constituyen el estándar de referencia para evaluar ta
 
 Se observa una considerable heterogeneidad entre colecciones. #emph[Cranfield] destaca por su alta proporción de documentos relevantes (80.8%), lo que sugiere un corpus cuidadosamente curado donde el sistema BM25 tiene mayor probabilidad de éxito. En contraste, #emph[CAR] presenta la escala más compleja (6 niveles, incluyendo "Trash" con valor -2) y el mayor porcentaje de documentos no relevantes (74.5%), características que anticipan dificultades para los predictores.
 
+\
 #figure(
   grid(
     columns: 2,
@@ -112,8 +117,8 @@ Se observa una considerable heterogeneidad entre colecciones. #emph[Cranfield] d
   ),
   caption: [Contraste en distribución de relevancia: Cranfield (izq.) vs CAR (der.)]
 ) <fig:qrels_contraste>
-
 \
+
 La @fig:qrels_contraste ilustra visualmente este contraste. En #emph[Cranfield], los niveles "High relevance" y "Complete answer" dominan la distribución, reflejando un corpus donde la mayoría de los documentos juzgados aportan información útil. En #emph[CAR], por el contrario, prevalecen los juicios negativos, incluyendo una categoría "Trash" que indica párrafos completamente irrelevantes. Esta diferencia estructural tiene implicaciones directas para la predicción: en Cranfield, las consultas tienen mayor probabilidad de obtener resultados satisfactorios, mientras que en CAR el sistema enfrenta un escenario inherentemente adverso.
 
 El caso de #emph[TREC-COVID] merece atención especial: con 66,336 juicios, constituye la colección más densamente anotada, lo que proporciona una base estadística robusta para el análisis de correlaciones. Por otra parte, #emph[Antique/Test] y #emph[MS MARCO] presentan distribuciones intermedias con predominio de juicios no relevantes.
@@ -150,6 +155,7 @@ La @tbl:dificultad_consultas revela un patrón distintivo en #emph[CAR]: el 28.3
 
 En contraste, #emph[Antique/Test] y #emph[TREC-COVID] exhiben distribuciones perfectamente balanceadas (20%-60%-20%), reflejando una variedad equilibrada de consultas que permite evaluar el comportamiento de los predictores a lo largo de todo el espectro de dificultad.
 
+\
 #figure(
   grid(
     columns: 2,
@@ -159,30 +165,35 @@ En contraste, #emph[Antique/Test] y #emph[TREC-COVID] exhiben distribuciones per
   ),
   caption: [Distribución de dificultad de consultas: Antique/Test (izq.) vs CAR (der.)]
 ) <fig:dificultad_comparacion>
-
 \
+
 La @fig:dificultad_comparacion ilustra visualmente el contraste entre #emph[Antique/Test], con una distribución balanceada, y #emph[CAR], donde se observa un sesgo hacia consultas difíciles. Esta diferencia estructural anticipa el comportamiento divergente de los predictores QPP en ambos datasets, como se analizará en las secciones siguientes.
 
+\
 #figure(
   image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/cranfield/dificultad_consultas_ndcg@10.png", width: 60%),
   caption: [Distribución de dificultad de consultas en Cranfield]
 ) <fig:dificultad_cranfield>
-
 \
+
 Por su parte, #emph[Cranfield] (@fig:dificultad_cranfield) exhibe una distribución prácticamente idéntica a Antique/Test: 45 consultas difíciles (20%), 131 intermedias (59%) y 45 fáciles (20%). Esta simetría, junto con su alta proporción de documentos relevantes (80.8%), confirma su clasificación como dataset favorable para la tarea de predicción. A pesar de su reducido tamaño de corpus (~1,400 documentos), la variedad equilibrada de consultas proporciona un escenario adecuado para evaluar la capacidad predictiva de los métodos QPP.
 
-\
+#v(10pt)
 == Comparación de métodos QPP
 \
+
 Los métodos QPP evaluados en esta sección fueron contrastados directamente con los resultados de la evaluación del sistema de recuperación utilizando correlaciones de Pearson, Spearman y tau de Kendall entre las puntuaciones de los predictores y las métricas nDCG\@10 y MAP. La evaluación se realizó sobre cinco conjuntos de datos distintos: _Antique/Test_ (180 consultas), _Cranfield_ (221 consultas), _BEIR-TREC-COVID_ (50 consultas), _MS MARCO (Passage)_ (51 consultas) y _CAR_ (699 consultas). Esta diversidad de colecciones permite evaluar la robustez y generalización de los métodos QPP en diferentes contextos y tamaños de corpus, desde colecciones pequeñas y especializadas hasta grandes colecciones web.
 
+#v(10pt)
 === Visión general de las correlaciones
 \
+
 A continuación se presentan los diagramas de dispersión para cada dataset, los cuales permiten visualizar la relación entre las puntuaciones de cada método QPP y el rendimiento real (nDCG\@10) a nivel de consulta individual. Estas visualizaciones revelan patrones que los coeficientes de correlación agregados no capturan, tales como #emph[heterocedasticidad] (varianza no constante), presencia de #emph[outliers] y regiones de predicción más o menos confiables.
 
 #v(10pt)
 === Visualización de correlaciones por dataset
 \
+
 Para complementar el análisis tabular, los diagramas de dispersión permiten visualizar la relación entre las puntuaciones de cada método QPP y el rendimiento real (nDCG\@10) a nivel de consulta individual. Estas visualizaciones revelan patrones que los coeficientes de correlación agregados no capturan, tales como #emph[heterocedasticidad] (varianza no constante), presencia de #emph[outliers] y regiones de predicción más o menos confiables.
 
 A continuación se presentan los diagramas de dispersión para cada dataset, organizados en grids que incluyen los 10 métodos QPP evaluados. Cada subplot muestra la puntuación del predictor en el eje horizontal y nDCG\@10 en el eje vertical, junto con la línea de tendencia y su banda de confianza.
@@ -230,11 +241,10 @@ La @fig:dispersion_cranfield_msmarco compara dos datasets con tamaños muestrale
 
 En #emph[MS MARCO] (derecha, 51 consultas), la escasez de puntos produce bandas de confianza notablemente más amplias, aumentando la incertidumbre de las estimaciones. Sin embargo, se observa un patrón interesante: WIG y NQC muestran pendientes pronunciadas y paralelas, mientras que —a diferencia de otros datasets— IDF presenta una tendencia positiva moderada. Clarity, por su parte, muestra una línea prácticamente horizontal, indicando ausencia de capacidad predictiva en este corpus.
 
-
-
 #v(10pt)
 === Análisis por familia de métodos
 \
+
 Los métodos evaluados pueden agruparse en tres familias según su acceso a información del sistema de recuperación:
 
 *Métodos pre-retrieval (IDF, SCQ)*: Estos predictores operan únicamente con estadísticas del índice, sin conocer los documentos recuperados. Los diagramas de dispersión muestran consistentemente líneas de tendencia casi horizontales para IDF, con varianza extrema que invalida cualquier capacidad predictiva. SCQ presenta un comportamiento marginalmente mejor, alcanzando correlaciones moderadas en Antique/Test y Cranfield, pero su rendimiento se degrada en corpus grandes o especializados como TREC-COVID. La ventaja de estos métodos radica exclusivamente en su eficiencia computacional.
@@ -243,21 +253,24 @@ Los métodos evaluados pueden agruparse en tres familias según su acceso a info
 
 *Variantes UEF*: El marco Utility Estimation Framework extiende los métodos base incorporando información de pseudo-relevance feedback. Los diagramas revelan que UEF mejora consistentemente a NQC en la mayoría de datasets, con la excepción de MS MARCO donde ambos empatan. Para Clarity, UEF amplifica tanto sus fortalezas (TREC-COVID) como sus debilidades (Cranfield con correlación cercana a cero).
 
+\
 #figure(
   image("../assets/imagenes/nuevos_resultados/correlación/cranfield/correlaciones_qpp_boxplot_kendall.png", width: 120%),
   caption: [Distribución de correlaciones Kendall por método QPP en Cranfield]
 ) <fig:boxplot_cranfield>
-
 \
+
 La @fig:boxplot_cranfield ilustra de manera contundente el comportamiento anómalo de Clarity en Cranfield: es el único método con correlación negativa (τ ≈ -0.07), lo que indica que sus predicciones son inversamente proporcionales al rendimiento real. UEF-Clarity, aunque logra elevarse a valores cercanos a cero, sigue siendo el segundo peor método. Este patrón contrasta marcadamente con los métodos basados en varianza de puntuaciones (NQC, UEF-NQC, WIG, UEF-WIG), que ocupan consistentemente las posiciones superiores del ranking. La explicación más plausible es la inestabilidad del modelo de lenguaje en un corpus tan reducido (~1,400 documentos).
 
 #v(10pt)
 === Significancia estadística de las correlaciones
 \
+
 La validez de los patrones observados requiere verificar que las correlaciones sean estadísticamente significativas. Un coeficiente de correlación alto carece de utilidad práctica si no supera los umbrales de significancia, especialmente en datasets con pocas consultas donde el azar puede producir correlaciones espurias.
 
 Los mapas de calor de p-values utilizan una escala de cuatro niveles: altamente significativo (p < 0.001), muy significativo (p < 0.01), significativo (p < 0.05) y no significativo (p ≥ 0.05). Esta gradación permite distinguir entre correlaciones robustas y aquellas que podrían deberse a fluctuaciones aleatorias.
 
+\
 #figure(
   grid(
     columns: 2,
@@ -267,14 +280,12 @@ Los mapas de calor de p-values utilizan una escala de cuatro niveles: altamente 
   ),
   caption: [Significancia estadística (p-values): Antique/Test (izq.) vs TREC-COVID (der.)]
 ) <fig:pvalues_representativo>
-
 \
+
 El contraste entre ambos datasets contrasta fuertemente. En #emph[Antique/Test] (180 consultas), todos los métodos excepto IDF alcanzan significancia alta (p < 0.001), lo que valida la robustez de las correlaciones observadas. En #emph[TREC-COVID] (50 consultas), sin embargo, solo Clarity y UEF-Clarity presentan significancia consistente; métodos como NQC, que tradicionalmente dominan otros datasets, no superan el umbral de p < 0.05.
 
 Este fenómeno se explica por la relación matemática entre tamaño muestral y significancia estadística. La prueba de significancia para correlaciones evalúa si el coeficiente observado podría haberse obtenido por azar; con muestras pequeñas, la varianza del estimador es alta y solo correlaciones sustanciales superan el umbral. Concretamente, para τ de Kendall con n ≈ 50 consultas, solo correlaciones relativamente altas (τ ≳ 0.18–0.20) tienden a alcanzar p < 0.05, mientras que con n ≈ 180 consultas correlaciones mucho menores (τ ≈ 0.10) pueden resultar significativas. Esto explica por qué métodos como NQC, con correlaciones moderadas en TREC-COVID (τ ≈ 0.09), no alcanzan significancia a pesar de mostrar tendencias positivas.
 
-
-#v(5pt)
 *Patrones transversales de significancia*
 
 El análisis de los cinco datasets revela consistencias importantes:
@@ -293,99 +304,223 @@ Estos patrones de significancia complementan el análisis de correlaciones y deb
 
 Los resultados cuantitativos detallados, incluyendo las correlaciones exactas para cada combinación de método, métrica y dataset, se presentan en la siguiente sección.
 
-
+#v(10pt)
+== Análisis comparativo de los resultados
 \
 
-== Análisis comparativo entre datasets
+Una vez caracterizado el comportamiento visual de los predictores y las propiedades de los conjuntos de datos en las secciones previas, corresponde cuantificar con precisión el rendimiento de los métodos mediante los coeficientes de correlación.
+
+Este análisis cuantitativo resulta indispensable para validar estadísticamente las tendencias observadas y determinar qué métodos ofrecen no solo una relación lineal (_Pearson_) o monótona (_Spearman_), sino un ordenamiento correcto de las consultas según su dificultad (_Kendall_), aspecto crítico para la aplicabilidad real de los sistemas de rendimiento de consultas (QPP).
+
+La @tbl:Resultados_qpp_ndcg10_multidataset_tabla presenta la consolidación de los coeficientes obtenidos entre las puntuaciones de cada predictor y la métrica de efectividad nDCG\@10. Esta tabla constituye la evidencia central del estudio, permitiendo contrastar transversalmente el desempeño de los métodos en escenarios de recuperación con características estructural y semánticas muy diversas.
+
+Al respecto, un aspecto técnico relevante que se desprende de la comparación entre los tres coeficientes calculados es la consistencia direccional entre las métricas de correlación, ya que se observa que, en la mayoría casos, los métodos que obtienen un alto τ de _Kendall_ también mantienen valores elevados de ρ de _Spearman_ y _Pearson_.
+
+Esta alineación sugiere que la relación entre la predicción y el rendimiento real es robusta y no depende exclusivamente de la métrica estadística utilizada. Sin embargo, existen excepciones notables en los métodos pre-retrieval, como _IDF_, donde la discrepancia entre _Pearson_ y _Kendall_ se acentúa más, lo que indica que, aunque dichos métodos pueden capturar la magnitud general de la dificultad (relación lineal), pueden fallar sistemáticamente en ordenar correctamente las consultas individuales dentro del ranking.
+
 \
-La evaluación de los métodos QPP en múltiples conjuntos de datos revela patrones importantes sobre la robustez y generalización de los predictores. Como se menciona en @correlation-depends-on-quality-of-dataset, el rendimiento de un predictor puede variar significativamente dependiendo de las características del corpus, incluyendo su homogeneidad, tamaño, tipo de documentos y calidad de los juicios de relevancia.
-
-La @tbl:Resumen_correlaciones_datasets presenta un resumen de las correlaciones de Kendall obtenidas por el mejor método en cada dataset para la métrica nDCG\@10. Se puede observar una variabilidad considerable en los valores de correlación, que van desde 0.1259 en _car_v15_trec_y1_manual_ hasta 0.4245 en _antique test_. Esta amplitud de valores pone de manifiesto que la dificultad intrínseca de la tarea de predicción cambia de forma sustancial entre colecciones y que no existe un único método universalmente óptimo.
-
-#{
+#{ 
+  // Encabezados en negrita para la primera fila de la tabla
   show table.cell.where(y: 0): set text(style: "normal", weight: "bold")
-  set align(center)
-  [#figure(
-    table(
-    columns: 4,
-    stroke: (x: none),
-    inset: (x: 3pt, y: 7pt),
-    row-gutter: (2.2pt, auto),
 
-    table.header[*Dataset*][*Consultas*][*Mejor método*][*τ (nDCG\@10)*],
-
-    [*antique test*],[180],[UEF-NQC],[0.4245],
-    [*cranfield*],[91],[UEF-NQC],[0.3261],
-    [*trec_covid*],[50],[UEF-Clarity],[0.3279],
-    [*msmarco_dl20_judged*],[51],[NQC],[0.4080],
-    [*car_v15_trec_y1_manual*],[699],[UEF-NQC],[0.1259],
+  // Estilo local de la tabla para replicar el diseño del artículo
+  set table(
+    align: (x, y) => if x > 0 { left } else { center },
+    inset: (x: 3pt, y: 5pt),
+    // Solo línea gruesa entre cabecera y cuerpo; sin líneas internas en métodos/puntajes
+    stroke: (x, y) => if y < 3 { none } else if y == 3 { (top: 1pt) } else { none },
+    column-gutter: 6pt,
+    row-gutter: (2pt, auto),
   )
-  , caption: [Resumen de correlaciones de Kendall (τ) para nDCG\@10 en cada dataset]
-  ) <Resumen_correlaciones_datasets>]
+
+  [
+    #figure(
+      rotate(
+        -90deg,
+        reflow: true,
+        table(
+          columns: 16,
+
+          // Líneas superior e inferior de la tabla
+          table.hline(y: 0, position: top, stroke: 1pt),
+          // Línea fina justo debajo del título de la tabla
+          table.hline(y: 0, position: bottom, stroke: 0.5pt),
+          // Pequeñas líneas bajo cada dataset
+          table.hline(y: 1, start: 1, end: 4, position: bottom, stroke: 0.5pt),
+          table.hline(y: 1, start: 4, end: 7, position: bottom, stroke: 0.5pt),
+          table.hline(y: 1, start: 7, end: 10, position: bottom, stroke: 0.5pt),
+          table.hline(y: 1, start: 10, end: 13, position: bottom, stroke: 0.5pt),
+          table.hline(y: 1, start: 13, end: 16, position: bottom, stroke: 0.5pt),
+          table.hline(y: 12, position: bottom, stroke: 1pt),
+
+          // Cabecera multinivel: datasets y tipos de correlación
+          table.header(
+            table.cell(colspan: 16)[Correlaciones entre métodos QPP y nDCG\@10 en múltiples datasets],
+
+            table.cell(rowspan: 2)[*Método*],
+            table.cell(colspan: 3)[*Antique/Test*],
+            table.cell(colspan: 3)[*Cranfield*],
+            table.cell(colspan: 3)[*BEIR-TREC-COVID*],
+            table.cell(colspan: 3)[*MS MARCO (Passage)*],
+            table.cell(colspan: 3)[*CAR*],
+
+            [P-ρ], [S-ρ], [K-τ],
+            [P-ρ], [S-ρ], [K-τ],
+            [P-ρ], [S-ρ], [K-τ],
+            [P-ρ], [S-ρ], [K-τ],
+            [P-ρ], [S-ρ], [K-τ],
+          ),
+
+          // Métodos QPP (pre y post-retrieval)
+          [IDF Promedio],
+          [$0.164$], [$0.139$], [$0.096$],
+          [$0.249$], [$0.186$], [$0.133$],
+          [$0.123$], [$0.005$], [$-0.006$],
+          [$0.265$], [$0.291$], [$0.209$],
+          [$-0.019$], [$-0.007$], [$-0.004$],
+
+          [IDF Máximo],
+          [$0.092$], [$0.076$], [$0.051$],
+          [$0.117$], [$0.087$], [$0.060$],
+          [$0.083$], [$0.030$], [$0.017$],
+          [$0.251$], [$0.253$], [$0.168$],
+          [$0.018$], [$0.009$], [$0.006$],
+
+          [SCQ Promedio],
+          [$0.324$], [$0.266$], [$0.186$],
+          [$0.284$], [$0.235$], [$0.162$],
+          [$0.074$], [$0.053$], [$0.032$],
+          [$0.178$], [$0.182$], [$0.127$],
+          [$0.039$], [$0.014$], [$0.010$],
+
+          [SCQ Máximo],
+          [$0.379$], [$0.383$], [$0.260$],
+          [$0.310$], [$0.276$], [$0.196$],
+          [$0.062$], [$0.089$], [$0.055$],
+          [$-0.035$], [$0.012$], [$0.030$],
+          [$0.065$], [$0.074$], [$0.051$],
+
+          [WIG],
+          [$0.436$], [$0.450$], [$0.306$],
+          [$0.295$], [$0.324$], [$0.231$],
+          [$0.320$], [$0.278$], [$0.201$],
+          [$0.552$], [$0.560$], [$0.406$],
+          [$0.079$], [$0.099$], [$0.068$],
+
+          [NQC],
+          [$0.524$], [$0.567$], [$0.401$],
+          [$0.297$], [$0.384$], [$0.269$],
+          [$0.192$], [$0.147$], [$0.093$],
+          [*$0.553$*], [*$0.585$*], [*$0.408$*],
+          [$0.125$], [$0.166$], [$0.114$],
+
+          [Clarity],
+          [$0.452$], [$0.430$], [$0.296$],
+          [$-0.025$], [$-0.018$], [$-0.015$],
+          [$0.477$], [$0.461$], [$0.310$],
+          [$0.093$], [$0.068$], [$0.053$],
+          [$0.110$], [$0.146$], [$0.101$],
+
+          [UEF-WIG],
+          [$0.333$], [$0.377$], [$0.253$],
+          [*$0.388$*], [$0.390$], [$0.272$],
+          [$0.170$], [$0.192$], [$0.134$],
+          [$0.343$], [$0.380$], [$0.253$],
+          [$0.121$], [$0.124$], [$0.085$],
+
+          [UEF-NQC],
+          [*$0.553$*], [*$0.596$*], [*$0.424$*],
+          [$0.359$], [*$0.458$*], [*$0.326$*],
+          [$0.182$], [$0.146$], [$0.108$],
+          [$0.552$], [$0.560$], [*$0.408$*],
+          [*$0.131$*], [*$0.182$*], [*$0.126$*],
+
+          [UEF-Clarity],
+          [$0.463$], [$0.448$], [$0.307$],
+          [$0.161$], [$0.181$], [$0.120$],
+          [*$0.496$*], [*$0.468$*], [*$0.328$*],
+          [$0.190$], [$0.186$], [$0.126$],
+          [$0.113$], [$0.152$], [$0.105$],
+        ),
+      ),
+      caption: [Correlaciones (P-ρ, S-ρ y K-τ) entre métodos QPP y nDCG\@10 en los distintos datasets evaluados]
+    ) <Resultados_qpp_ndcg10_multidataset_tabla>]
 }
-
 \
 
-Un hallazgo particularmente notable es el comportamiento del método Clarity, que muestra un rendimiento especialmente alto en el dataset _BEIR-TREC-COVID_ (τ = 0.3279 para nDCG\@10 y τ ≈ 0.44 para MAP), superando incluso a métodos post-retrieval tradicionales como NQC y WIG. Este resultado contrasta con su desempeño en otros datasets, donde Clarity presenta correlaciones más moderadas o incluso no significativas, como en _Cranfield_ donde alcanza valores cercanos a cero. La explicación más plausible es que _BEIR-TREC-COVID_ está compuesto por artículos científicos relativamente homogéneos en temática y estilo, lo que facilita la estimación de modelos de lenguaje robustos; en cambio, _Cranfield_ es una colección pequeña donde la escasez de datos provoca modelos de lenguaje inestables y, por tanto, puntuaciones de Clarity poco informativas. En _MS MARCO (Passage)_, que contiene pasajes tipo Wikipedia, Clarity obtiene correlaciones intermedias: el mayor tamaño del corpus ayuda a estabilizar el modelo de lenguaje, pero la diversidad temática de las consultas suaviza parte de la ganancia observada en _BEIR-TREC-COVID_.
+La primera observación crítica que podemos obtener de la @tbl:Resultados_qpp_ndcg10_multidataset_tabla es la significativa heterogeneidad en los "techos de rendimiento" alcanzables. Se evidencia que la dificultad de la tarea de predicción no es uniforme: 
 
-Por otro lado, el dataset _CAR_ presenta las correlaciones más bajas en general, con el mejor método (UEF-NQC) alcanzando solo τ = 0.1259 para nDCG\@10. Este resultado es consistente con observaciones previas sobre la sensibilidad de los predictores a la calidad y características de los datasets @correlation-depends-on-quality-of-dataset. A pesar de ser el dataset con mayor número de consultas (699), la estructura jerárquica de los temas en CAR y la posible variabilidad en los juicios de relevancia (escala de −2 a 3) parecen introducir ruido adicional: pequeñas diferencias en la posición de párrafos relevantes se traducen en cambios bruscos de ganancia, lo que dificulta que los predictores capturen señales consistentes. Además, CAR es una tarea explícitamente semántica de *Complex Answer Retrieval*, donde con frecuencia se espera que el sistema recupere párrafos que no comparten necesariamente muchas palabras con la consulta. Dado que el modelo subyacente es BM25, basado en coincidencias léxicas *bag-of-words*, se generan muchas consultas con valores de nDCG\@10 muy bajos o incluso nulos, lo que limita fuertemente el techo de correlación alcanzable para cualquier método de predicción de rendimiento.
+- En colecciones favorables como _Antique_ y _MS MARCO_, los mejores métodos logran correlaciones de _Kendall_ robustas (*τ > 0.40*).
 
-En contraste, los datasets _Antique/Test_ y _MS MARCO (Passage)_ muestran correlaciones más altas, con valores superiores a 0.40 para los mejores métodos. En _Antique/Test_, UEF-NQC alcanza τ = 0.4245, mientras que en _MS MARCO (Passage)_, NQC (sin UEF) presenta τ = 0.4080. Estos resultados sugieren que, aunque diferentes en tamaño y dominio, ambos corpus comparten características favorables para los métodos post-retrieval: por un lado, un número suficiente de consultas para estimar de forma estable estadísticas de varianza de puntuaciones; por otro, juicios de relevancia multinivel que recompensan de manera más gradual las mejoras en el ranking, permitiendo que las diferencias de calidad entre predictores se reflejen con mayor claridad en nDCG\@10 y MAP.
+- En escenarios complejos como _CAR_, el rendimiento se desploma drásticamente (*τ ≈ 0.126*).
 
-Un patrón consistente observado a través de todos los datasets es la superioridad general de los métodos post-retrieval sobre los pre-retrieval. En la mayoría de los casos, métodos como NQC, UEF-NQC, WIG y UEF-WIG superan a IDF y SCQ, aunque con variaciones en la magnitud de la diferencia. La única excepción notable es _BEIR-TREC-COVID_, donde Clarity (un método post-retrieval basado en modelado de lenguaje) domina, pero esto puede atribuirse a las características específicas del corpus.
+Este escenario confirma cuantitativamente que la calidad de la predicción está intrínsecamente acotada por las propiedades del conjunto de datos y la capacidad del sistema de recuperación base para satisfacer las necesidades de información planteadas.
 
-Respecto al marco UEF, los resultados muestran un patrón mixto. En _Antique/Test_ y _Cranfield_, UEF-NQC supera consistentemente a NQC, lo que sugiere que la incorporación de información de expansión de consultas mejora la capacidad predictiva. Sin embargo, en _MS MARCO (Passage)_, NQC sin UEF presenta un rendimiento similar o ligeramente superior (τ = 0.4080 para ambos en nDCG\@10, pero τ = 0.5357 vs τ = 0.5075 para AP a favor de NQC). Esta variabilidad sugiere que la efectividad de UEF puede depender de las características específicas del dataset y del método base al que se aplica.
+Por otra parte, si analizamos el desempeño por familias, se hace evidente la limitación de los métodos _pre-retrieval_:
 
-La variabilidad observada en los resultados entre datasets refuerza la importancia de evaluar los métodos QPP en múltiples colecciones, como se recomienda en la literatura @correlation-depends-on-quality-of-dataset. Un predictor que funciona bien en un contexto puede no generalizar a otros, lo que subraya la necesidad de desarrollar métodos más robustos o de adaptar las estrategias de predicción según las características del corpus.
+- *IDF* (Promedio y Máximo) presenta correlaciones consistentemente bajas (*τ < 0.15*), demostrando una capacidad predictiva cercana al azar.
 
-\
+- *SCQ* revela un comportamiento dual interesante: alcanza correlaciones respetables en colecciones pequeñas como *_Antique_* (*τ ≈ 0.260*) y *_Cranfield_* (*τ ≈ 0.196*), pero su rendimiento colapsa en corpus masivos o especializados como *_MS MARCO_* (*τ = 0.030*) y *_TREC-COVID_* (*τ = 0.055*).
+
+Este hallazgo sugiere que la estadística de coherencia de la consulta, que es útil en contextos simples o reducidos, pierde robustez y se diluye como señal predictiva al escalar a _corpus_ que son masivos o con vocabularios técnicos específicos.
+
+Así mismo, esta degradación del rendimiento de _SCQ_ en índices masivos puede atribuirse al fenómeno de saturación del espacio semántico. En colecciones pequeñas como _Cranfield_, la ocurrencia de un término es un evento informativo fuerte, sin embargo, en índices del tamaño de _MS MARCO_ con millones de pasajes, la probabilidad de que exista co-ocurrencia accidental de términos aumenta exponencialmente, lo que provoca que la métrica de "coherencia" de _SCQ_ se vuelva ruidosa, ya que el método no puede distinguir entre una repetición de términos que aporta significado y una que es meramente estadística debido al volumen del _corpus_.
+
+En contraste, los métodos *_post-retrieval_* dominan el espectro de resultados. *_NQC_* se consolida como el predictor base más robusto del estudio, superando sistemáticamente a *_WIG_* en la mayoría de los escenarios. Esta consistencia de _NQC_ a través de los distintos _datasets_ valida la hipótesis de que la desviación estándar de las puntuaciones de los documentos recuperados es una señal más fiable de la "certeza" del sistema que la simple acumulación de aportes léxicos utilizada por _WIG_.
+
+Otro caso de estudio excepcional es el del método *_Clarity_*, en el que los datos numéricos confirman una dependencia extrema del dominio:
+
+- En conjuntos de datos como *_Cranfield_* fracasa de forma clara (*τ = -0.015*, correlación nula o inversa).
+
+- En *_TREC-COVID_* resurge como uno de los métodos líderes (τ = 0.310), y más aún, su variante _UEF-Clarity_ alcanza en este _dataset_ el valor más alto de la tabla (*τ = 0.328*).
+
+Esto indica que los modelos de lenguaje, base para _Clarity_, son altamente efectivos cuando el _corpus_ posee una homogeneidad temática y terminológica (como son los artículos médicos sobre COVID-19), pero se vuelven inestables e inútiles en colecciones pequeñas o con vocabularios más dispersos.
+
+Respecto a la aplicación del marco *_UEF_* (_Utility Estimation Framework_), los resultados muestran matices que son importantes, si bien el método logra potenciar el rendimiento en _Antique_ y _Cranfield_ (elevando la correlación de NQC de 0.401 a 0.424), se observa un fenómeno de *"saturación"* en _MS MARCO_. 
+
+En este _dataset_, las correlaciones de *NQC* y *UEF-NQC* son idénticas (*τ = 0.408*), lo que sugiere que en _corpus_ de gran escala y diversidad temática, la expansión de consultas, que es el mecanismo central de _UEF_, podría no estar aportando información nueva relevante o, peor aún, podría estar introdución ruido que neutraliza las ganancias de la re-estimación.
+
+Finalmente, el análisis del conjunto de datos *_CAR_* ratifica la dificultad extrema de las tareas de _Complex Answer Retrieval_ para los paradigmas actuales, ya que con una correlación máxima de *τ ≈ 0.126* transversal a todos los métodos probados, se evidencia una barrera estructural, en donde la desconexión semántica entre las consultas (títulos de Wikipedia, en este caso) y los pasajes relevantes, sumada a una escala de relevancia compleja, genera un escenario "ciego" para las señales léxicas y estadísticas tradicionales.
+
+#v(10pt)
 == Discusión de los resultados
 \
 
-Los resultados obtenidos en este estudio revelan patrones significativos en el rendimiento de los diferentes métodos de predicción de consultas (QPP), proporcionando insights valiosos sobre su efectividad y limitaciones en el contexto de la recuperación de información.
+El análisis exhasutivo anteriormente evidenciado sobre los cinco conjunto de datos heterogéneos nos permite no solo evaluar la efectividad puntual de los métodos QPP, sino también establecer principios generales que guíen la investigación futura.
 
-=== Importancia de las correlaciones observadas
+Los resultados confirman que la predicción del rendimiento de consultas es una tarea dependiente de varios factores (multifactorial), cuya dificultad depende tanto de las propiedades estadísticas de la colección como de la naturaleza semántica de la necesidad de información.
+
+#v(10pt)
+=== Contextualización y validación de la línea base
 \
-La evaluación de los métodos QPP en múltiples datasets mostró un rango de correlaciones que van desde valores cercanos a 0 (IDF en varios datasets) hasta aproximadamente 0.42 (UEF-NQC en _Antique/Test_). Aunque estas correlaciones podrían parecer modestas a primera vista, es importante contextualizarlas dentro del campo de la predicción del rendimiento de consultas. Como se señala en @how-much-correlation-is-good, correlaciones incluso tan bajas como 0.1 pueden tener valor práctico en ciertos contextos, siendo particularmente útiles cuando superan el umbral de 0.5. En este sentido, los resultados obtenidos por métodos como UEF-NQC (τ = 0.4245 en _Antique/Test_) y NQC (τ = 0.4080 en _MS MARCO (Passage)_) se acercan a niveles de correlación que pueden considerarse prácticamente significativos.
 
-Sin embargo, la variabilidad observada entre datasets subraya la importancia de considerar el contexto específico al interpretar estas correlaciones. Mientras que en algunos datasets como _antique test_ y _msmarco_dl20_judged_ se alcanzan correlaciones moderadas-altas, en otros como _car_v15_trec_y1_manual_ las correlaciones son considerablemente más bajas, lo que refleja la sensibilidad de los predictores a las características del corpus y la calidad de los juicios de relevancia.
+Uno de los principales aportes de este trabajo de título es la identificación empírica de una configuración de referencia robusta, en la que los datos demuestran que los métodos _post-retrieval_ basados en la dispersión de puntuaciones, específicamente _NQC_ y su variante _UEF-NQC_, ofrecen el equilibrio más consistente entre rendimiento y estabilidad.
 
+Aunque los valores de correlación obtenidos (con límites superiores cercanos a τ ≈ 0.42) podrían parecer modestos fuera del contexto de la recuperación de información, es crucial interpretarlos bajo los estándares del dominio. Como señala @how-much-correlation-is-good, correlaciones incluso tan bajas como _0.1_ poseen valor práctico en escenarios de predicción de dificultad, y valores en el rango obtenido en este estudio son considerados significativos. De hecho, resultados como los de _Antique_ se alinean e incluso superan ligeramente los reportados por @zendel2024qpptk, validando la calidad de la implementación.
 
+En consecuencia, se establece que métodos como _UEF-NQC_ constituyen un _baseline_ experimental idóneo para futuras investigaciones, debiendo preferise sobre métodos más débiles como _IDF_, siempre que el costo computacional de la expansión de consultas sea admisible.
+
+Desde una perspectiva de implementación en sistemas reales, estos hallazgos plantean un compromiso (_trade-off_) crítico entre precisión predictiva y latencia, ya que, si bien _UEF-NQC_ se establece como el estándar de calidad, su ejecución implica un costo computacional significativo al requerir una primera recuperación, análisis de puntajes, expansión de consultas y, en ocasiones, una segunda fase de recuperación.
+
+Por lo tanto, en escenarios de alta demanda o tiempo real, este costo podría ser un obstáculo, por ello, la utilidad marginal que ofrecen métodos intermedios como _SCQ_ en colecciones acotadas no debe descartarse totalmente, aunque son menos precisos, su ejecución es mucho más rápida al basarse en tablas pre-calculadas, lo que los convierte en candidatos viables para una primera capa de filtrado en arquitecturas de recuperación en cascada.
+
+#v(10pt)
+=== La complejidad inherente y el límite estadístico
 \
-=== Rendimiento de métodos pre-retrieval
-\
-Un hallazgo particularmente interesante emerge al analizar el comportamiento de los métodos pre-retrieval a través de todos los datasets. Como señala @microsoft-preretrieval, estos métodos son especialmente atractivos debido a su eficiencia computacional, ya que no requieren ejecutar el proceso de recuperación. Sin embargo, nuestros resultados muestran una marcada diferencia entre los dos métodos pre-retrieval evaluados: mientras que IDF mostró correlaciones prácticamente nulas o muy bajas en todos los datasets (en torno a τ ≈ 0.00–0.05 tanto en nDCG\@10 como en MAP), SCQ alcanzó correlaciones moderadas en algunos casos y cercanas a cero en otros.
 
-En concreto, SCQ logra correlaciones de Kendall en el rango τ ≈ 0.19–0.26 en *Antique/Test* y *Cranfield*, pero su rendimiento cae en *BEIR-TREC-COVID* y *MS MARCO (Passage)*, donde las correlaciones con nDCG\@10 y MAP se aproximan a cero. Esto sugiere que las señales puramente basadas en frecuencia de términos capturan razonablemente bien la dificultad de las consultas en colecciones pequeñas o relativamente homogéneas, pero pierden capacidad predictiva en colecciones grandes, ruidosas o con dominios especializados.
+Los resultados consistentemente bajos en el conjunto de datos _CAR_ (τ < 0.13) exponen no solo una limitación de los métodos evaluados, sino la complejidad intrínsica de la tarea. Estudios previos con expertos humanos como @humans-cant-predict y @user-ratings-vs-system-predictions han demostrado que incluso profesionales con conocimiento del dominio tienen dificultades para predecir el fracaso de una consulta basándose solo en su formulación.
 
-Esta disparidad confirma que, si bien los métodos pre-retrieval pueden ser prometedores por su eficiencia, su efectividad depende crucialmente de la sofisticación de sus métricas y del tipo de corpus. El mejor rendimiento de SCQ frente a IDF puede atribuirse a su capacidad para incorporar tanto la frecuencia de documentos como la frecuencia en la colección, proporcionando una vista más completa de la importancia de los términos. No obstante, el hecho de que incluso SCQ no alcance las correlaciones obtenidas por los métodos post-retrieval indica que la información disponible antes de la recuperación es insuficiente para capturar muchos de los factores que determinan el rendimiento real de las consultas.
+Esto sugiere que los métodos actuales, que operan bajo supuestos léxicos como _IDF_ y _SCQ_ o estadísticos como _NQC_ y _Clarity_ han alcanzado un "techo técnico", ya que asumen que la dificultad se manifiesta en la rareza de los términos o en la divergencia de distribuciones, pero son "ciegos" a la brecha semántica, por lo que en tareas complejas de recuperación donde la revelancia no es literal sino conceptual como en _CAR_, los métodos estadísticos no logran distinguir claramente entre una respuesta diversa pero relevante y una respuesta ruidosa e irrelevante.
 
-Sin embargo, es importante notar que el rendimiento de SCQ también muestra variabilidad entre datasets. En _BEIR-TREC-COVID_ y _MS MARCO (Passage)_, SCQ presenta correlaciones más bajas o incluso no significativas, lo que sugiere que su efectividad puede depender de las características específicas del corpus. Por último cabe mencionar que el método SCQ presenta mejores resultados en su variante máxima y promedio frente a los benchmarks disponibles en la literatura en el conjunto de datos _Antique/Test_. @zendel2024qpptk Poniendo en evidencia la importancia del preprocesado de consultas y documentos en la predicción del rendimiento de las consultas.
+Es fundamental también reconocer las limitaciones inherentes al estándar de referencia (_Ground Truth_) utilizado para validar estas predicciones, ya que métricas de recuperación como _nDCG_ dependen enteramente de la completitud y calidad de los juicios de relevancia humanos, por lo que, en _datasets_ con escada profundidad de juicio (_sparse judgments_) o sesgos de anotación, lo que los métodos QPP intentan predecir no es necesariamente la satisfacción real del usuario, sino la coincidencia con un conjunto de etiquetas estáticas, lo que puede ser particularmente crítico en casos como _CAR_, donde la baja correlación podría estar reflejando no solo la incapacidad de los predictores, sino también la desconexión entre la definición teórica de relevancia del _dataset_ y la utilidad real percibida que los métodos estadísticos intentan inferir.
 
-\
-=== Rendimiento de métodos post-retrieval
-\
-Los resultados demuestran consistentemente que los métodos post-retrieval, particularmente en sus variantes UEF, superan a los métodos pre-retrieval en la mayoría de los datasets evaluados. El método UEF-NQC emerge como el mejor predictor en tres de los cinco datasets (*Antique/Test*, *Cranfield* y *CAR*), alcanzando correlaciones de τ = 0.4245, τ = 0.3261 y τ = 0.1259 respectivamente. En *MS MARCO (Passage)*, el mejor rendimiento lo presenta NQC sin UEF (τ = 0.4080), mientras que en *BEIR-TREC-COVID* el liderazgo corresponde a UEF-Clarity (τ = 0.3279). Esta superioridad general de los métodos post-retrieval sugiere que la información adicional disponible después de la recuperación —como las distribuciones de puntuaciones sobre los documentos recuperados— proporciona señales más confiables para la predicción del rendimiento.
+Por otra parte, esta barrera semántica detectada sugiere que el futuro inmediato de la predicción del rendimiento de consultas no reside en refinar métricas estadísticas, sino en la integración de Inteligencia Artificial y Modelos de Lenguaje Grandes (_LLMs_), debido a que la capacidad de estos modelos para "entender" el contenido abre nuevas vías para superar las limitaciones observadas:
 
-Un aspecto particularmente revelador es el comportamiento de Clarity. En *Cranfield*, donde el corpus es pequeño y los documentos son relativamente cortos, Clarity muestra correlaciones muy bajas, cercanas a cero, tanto en nDCG\@10 como en MAP. Esto indica que el modelo de lenguaje estimado con tan pocos documentos no es suficientemente robusto y que pequeñas variaciones en la estimación de probabilidad de términos pueden distorsionar la medida de ambigüedad de la consulta. Sin embargo, en *MS MARCO (Passage)* y, sobre todo, en *BEIR-TREC-COVID*, Clarity y su variante UEF-Clarity alcanzan correlaciones sensiblemente mayores. En estos casos, el corpus está compuesto por pasajes derivados de fuentes tipo Wikipedia o por artículos científicos sobre COVID‑19, donde la coherencia temática y la longitud de los documentos favorecen la estimación de modelos de lenguaje más estables.
+- *Evaluación de Coherencia Semántica*: En lugar de medir la ambigüedad mediante modelos de lenguaje simples, como _Clarity_, un modelo neuronal podría evaluar directamente la coherencia lógica entre la consulta y los documentos recuperados.
 
-La combinación NQC/UEF-NQC también ilustra bien el efecto de la estructura del corpus. En colecciones relativamente pequeñas como *Cranfield* o con consultas de opinión como *Antique/Test*, UEF-NQC consigue mejorar de forma consistente a NQC al incorporar información de expansión de consultas. En cambio, en *MS MARCO (Passage)* la diferencia entre ambos se reduce: la gran cantidad de documentos y los juicios multinivel hacen que la varianza de las ganancias por consulta sea mayor, y la expansión no siempre introduce señales adicionales útiles. Finalmente, en *CAR*, donde las consultas se derivan de encabezados complejos de Wikipedia, tanto NQC como UEF-NQC obtienen correlaciones más modestas, lo que sugiere que la estructura jerárquica de los temas y la posible inconsistencia de los juicios manuales dificultan la tarea de predicción.
+- *Predicción Generativa*: Utilizar _LLMs_ para reformular la consulta y medir la consistencia de los conjuntos de documentos recuperados para cada variación, proporcionando una señal de robustez mucho más valiosa que la expansión léxica de _UEF_.
 
-En conjunto, estos resultados están en línea o ligeramente por encima de los reportados por Zendel et al. @zendel2024qpptk para _Antique/Test_, y refuerzan la conclusión de que los métodos post-retrieval —especialmente aquellos que combinan información de dispersión de puntuaciones con expansión de consultas— constituyen la opción más sólida cuando el coste computacional adicional es aceptable.
+- *Decisión Híbrida*: Dado que la eficiencia es clave @microsoft-preretrieval, se propone investigar arquitecturas en cascada donde métodos ligeros como _SCQ_ filtren consultas obviamente fáciles, para así reservar el costo computacional de los métodos neuronales solo para aquellas consultas clasificadas como ambiguas o difíciles.
 
-\
-=== Complejidad Inherente de la Tarea
-\
-La dificultad fundamental de predecir el rendimiento de las consultas se evidencia en estudios previos con expertos humanos @humans-cant-predict @user-ratings-vs-system-predictions, donde incluso profesionales con conocimiento profundo de la terminología y sus ambigüedades mostraron una capacidad limitada para predecir el rendimiento de las consultas. Este contexto hace que los resultados obtenidos por los métodos automáticos, particularmente UEF-NQC, sean más apreciables, ya que logran correlaciones moderadas en una tarea inherentemente compleja.
-
-\
-=== Implicaciones sobre una línea base experimental
-\
-Los resultados sugieren varias implicaciones importantes. Primero, la elección entre métodos pre y post-retrieval debe considerar el balance entre eficiencia y efectividad. Mientras que SCQ ofrece un compromiso razonable, logrando correlaciones moderadas sin el costo computacional de la recuperación, los métodos post-retrieval como UEF-NQC proporcionan predicciones significativamente más confiables cuando el tiempo de procesamiento no es una limitación crítica.
-
-Segundo, la variabilidad en el rendimiento observada en el análisis de dispersión sugiere que podría ser beneficioso desarrollar métodos híbridos que combinen las fortalezas de diferentes predictores, potencialmente adaptando la estrategia de predicción según las características específicas de la consulta.
-
-En tercer lugar, aun con los resultados prometedores obtenidos en ciertos casos como NQC y UEF-NQC en algunos datasets, cabe recalcar que las correlaciones siguen siendo bajas para la mayoría de los métodos, especialmente cuando se consideran todos los datasets evaluados. La variabilidad observada entre datasets, con correlaciones que van desde 0.13 hasta 0.42, sugiere que la tarea de predecir el rendimiento de las consultas sigue siendo una tarea compleja y que el desarrollo de métodos más sofisticados que puedan capturar mejor los matices que afectan el rendimiento de la recuperación de información sigue siendo una tarea pendiente.
-
-Finalmente, la evaluación multi-dataset realizada en este estudio subraya la importancia de no generalizar conclusiones basadas en un único corpus. La variabilidad en el rendimiento de los predictores entre datasets refuerza la necesidad de desarrollar métodos más robustos que puedan adaptarse a diferentes características de corpus, o de establecer estrategias de selección de predictores basadas en las propiedades del dataset en cuestión.
+En conclusión, los resultados obtenidos en este estudio, establecen una línea base sólida con _UEF-NQC_, por ejemplo, pero también evidencia que el objetivo próximo de la investigación QPP exige la evolución de paradigmas que permitan transitar desde la medición estadística hacia la comprensión semántica profunda.
 
