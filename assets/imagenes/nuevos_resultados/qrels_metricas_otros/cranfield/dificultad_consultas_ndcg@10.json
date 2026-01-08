@@ -3,12 +3,12 @@
   "hard_percentile": 0.2,
   "easy_percentile": 0.8,
   "thresholds": {
-    "hard": 0.0,
-    "easy": 0.49235051574172467
+    "hard": 0.05413985918958663,
+    "easy": 0.5442761686266455
   },
   "counts": {
-    "hard": 17,
-    "intermediate": 43,
-    "easy": 15
+    "hard": 45,
+    "intermediate": 131,
+    "easy": 45
   }
 }

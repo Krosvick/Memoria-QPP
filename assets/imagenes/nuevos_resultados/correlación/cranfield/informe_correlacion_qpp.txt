@@ -8,31 +8,31 @@ Correlaciones KENDALL:
 ------------------------
 
 Número de consultas utilizadas:
-IDF Promedio: 75 consultas
-IDF Máximo: 75 consultas
-SCQ Promedio: 75 consultas
-SCQ Máximo: 75 consultas
-WIG: 75 consultas
-NQC: 75 consultas
-Clarity: 75 consultas
-UEF-WIG: 75 consultas
-UEF-NQC: 75 consultas
-UEF-Clarity: 75 consultas
+IDF Promedio: 221 consultas
+IDF Máximo: 221 consultas
+SCQ Promedio: 221 consultas
+SCQ Máximo: 221 consultas
+WIG: 221 consultas
+NQC: 221 consultas
+Clarity: 221 consultas
+UEF-WIG: 221 consultas
+UEF-NQC: 221 consultas
+UEF-Clarity: 221 consultas
 
 Valores de correlación (solo estadísticamente significativos):
                ndcg@10        ap
-IDF Promedio  0.183656  0.162523
-IDF Máximo    0.101472  0.057754
-SCQ Promedio  0.154833  0.146667
-SCQ Máximo    0.198533  0.159654
-WIG           0.262735  0.260541
-NQC           0.270865  0.265586
-Clarity       0.041757  0.057297
-UEF-WIG       0.345336  0.381573
-UEF-NQC       0.365464  0.371532
-UEF-Clarity    0.17257  0.179099
+IDF Promedio  0.101527  0.099239
+IDF Máximo    0.036547  0.015519
+SCQ Promedio  0.103534  0.109525
+SCQ Máximo    0.176066  0.182854
+WIG           0.222373  0.234684
+NQC            0.21033  0.216252
+Clarity      -0.068995  -0.06797
+UEF-WIG       0.232791  0.244085
+UEF-NQC        0.25825  0.276651
+UEF-Clarity   0.010788    0.0223
 
 Estadísticas Resumen:
 Mejor método QPP: UEF-NQC
-Métrica más predecible: ndcg@10
+Métrica más predecible: AP
 

@@ -18,22 +18,78 @@
         "hard_percentile": 0.2,
         "easy_percentile": 0.8,
         "thresholds": {
-          "hard": 0.0550279191375235,
-          "easy": 0.41768042208403994
+          "hard": 0.06855911321922929,
+          "easy": 0.4797979797979797
         },
         "counts": {
-          "hard": 15,
-          "intermediate": 45,
-          "easy": 15
+          "hard": 45,
+          "intermediate": 131,
+          "easy": 45
         }
       },
       "per_query": {
+        "1": {
+          "score": 0.2014309649739722,
+          "class": "Intermedia"
+        },
+        "10": {
+          "score": 0.2583597410010081,
+          "class": "Intermedia"
+        },
+        "100": {
+          "score": 0.2854929893717989,
+          "class": "Intermedia"
+        },
+        "101": {
+          "score": 0.6878306878306879,
+          "class": "Fácil (percentil alto)"
+        },
+        "102": {
+          "score": 0.34542404398092,
+          "class": "Intermedia"
+        },
         "104": {
           "score": 0.1306270224776167,
           "class": "Intermedia"
         },
+        "105": {
+          "score": 0.4645351823317925,
+          "class": "Intermedia"
+        },
+        "106": {
+          "score": 0.30824016563147,
+          "class": "Intermedia"
+        },
+        "107": {
+          "score": 0.13202105826064975,
+          "class": "Intermedia"
+        },
+        "108": {
+          "score": 0.8139455782312924,
+          "class": "Fácil (percentil alto)"
+        },
+        "109": {
+          "score": 0.03571913948923598,
+          "class": "Difícil (percentil bajo)"
+        },
+        "11": {
+          "score": 0.16651706218346826,
+          "class": "Intermedia"
+        },
+        "110": {
+          "score": 0.2773718612413777,
+          "class": "Intermedia"
+        },
+        "111": {
+          "score": 0.29211291354148494,
+          "class": "Intermedia"
+        },
         "112": {
           "score": 0.3125,
+          "class": "Intermedia"
+        },
+        "113": {
+          "score": 0.23709395302348824,
           "class": "Intermedia"
         },
         "114": {
@@ -44,6 +100,18 @@
           "score": 0.035519036039790466,
           "class": "Difícil (percentil bajo)"
         },
+        "116": {
+          "score": 0.06278309168444277,
+          "class": "Difícil (percentil bajo)"
+        },
+        "117": {
+          "score": 0.04895833333333333,
+          "class": "Difícil (percentil bajo)"
+        },
+        "118": {
+          "score": 0.0895595295338844,
+          "class": "Intermedia"
+        },
         "119": {
           "score": 1.0,
           "class": "Fácil (percentil alto)"
@@ -52,37 +120,133 @@
           "score": 0.16799935170140484,
           "class": "Intermedia"
         },
+        "120": {
+          "score": 0.4975653594771242,
+          "class": "Fácil (percentil alto)"
+        },
+        "121": {
+          "score": 0.5123249299719888,
+          "class": "Fácil (percentil alto)"
+        },
         "122": {
           "score": 0.3286950717506273,
+          "class": "Intermedia"
+        },
+        "123": {
+          "score": 0.10882352941176471,
           "class": "Intermedia"
         },
         "124": {
           "score": 0.002575532450109006,
           "class": "Difícil (percentil bajo)"
         },
+        "125": {
+          "score": 0.3438120492014764,
+          "class": "Intermedia"
+        },
+        "126": {
+          "score": 0.22230105874316938,
+          "class": "Intermedia"
+        },
         "127": {
           "score": 0.09824196050956815,
           "class": "Intermedia"
         },
+        "128": {
+          "score": 0.016716613598052068,
+          "class": "Difícil (percentil bajo)"
+        },
         "129": {
           "score": 0.31761006289308175,
+          "class": "Intermedia"
+        },
+        "130": {
+          "score": 0.43768115942028984,
+          "class": "Intermedia"
+        },
+        "131": {
+          "score": 0.3696886446886447,
+          "class": "Intermedia"
+        },
+        "132": {
+          "score": 0.7517729677729678,
+          "class": "Fácil (percentil alto)"
+        },
+        "133": {
+          "score": 0.23060841727995549,
           "class": "Intermedia"
         },
         "134": {
           "score": 0.20238095238095238,
           "class": "Intermedia"
         },
+        "135": {
+          "score": 0.6598484848484849,
+          "class": "Fácil (percentil alto)"
+        },
+        "136": {
+          "score": 0.2717948717948718,
+          "class": "Intermedia"
+        },
         "137": {
           "score": 0.15565439462498284,
+          "class": "Intermedia"
+        },
+        "138": {
+          "score": 0.13225806451612904,
           "class": "Intermedia"
         },
         "139": {
           "score": 0.010943332170970686,
           "class": "Difícil (percentil bajo)"
         },
+        "14": {
+          "score": 0.6,
+          "class": "Fácil (percentil alto)"
+        },
+        "140": {
+          "score": 0.17158921877212072,
+          "class": "Intermedia"
+        },
+        "141": {
+          "score": 0.09904065678777625,
+          "class": "Intermedia"
+        },
+        "142": {
+          "score": 0.09090909090909091,
+          "class": "Intermedia"
+        },
+        "143": {
+          "score": 0.7,
+          "class": "Fácil (percentil alto)"
+        },
+        "144": {
+          "score": 0.401374370886566,
+          "class": "Intermedia"
+        },
         "145": {
           "score": 0.22466000893110868,
           "class": "Intermedia"
+        },
+        "146": {
+          "score": 0.5833333333333333,
+          "class": "Fácil (percentil alto)"
+        },
+        "147": {
+          "score": 0.2710082226115006,
+          "class": "Intermedia"
+        },
+        "148": {
+          "score": 0.1904663035387607,
+          "class": "Intermedia"
+        },
+        "149": {
+          "score": 0.40429472929472926,
+          "class": "Intermedia"
+        },
+        "150": {
+          "score": 0.5434782608695652,
+          "class": "Fácil (percentil alto)"
         },
         "151": {
           "score": 0.02974484228049278,
@@ -92,8 +256,32 @@
           "score": 0.01565998851753293,
           "class": "Difícil (percentil bajo)"
         },
+        "153": {
+          "score": 0.14893862638028693,
+          "class": "Intermedia"
+        },
+        "154": {
+          "score": 0.8333333333333333,
+          "class": "Fácil (percentil alto)"
+        },
+        "155": {
+          "score": 0.2547313797313797,
+          "class": "Intermedia"
+        },
         "157": {
           "score": 0.3626867776941379,
+          "class": "Intermedia"
+        },
+        "158": {
+          "score": 0.28007468911131334,
+          "class": "Intermedia"
+        },
+        "159": {
+          "score": 0.07212006942402197,
+          "class": "Intermedia"
+        },
+        "16": {
+          "score": 0.11084401709401709,
           "class": "Intermedia"
         },
         "160": {
@@ -112,6 +300,14 @@
           "score": 0.2973856209150327,
           "class": "Intermedia"
         },
+        "164": {
+          "score": 0.38069642873744347,
+          "class": "Intermedia"
+        },
+        "165": {
+          "score": 0.5,
+          "class": "Fácil (percentil alto)"
+        },
         "166": {
           "score": 0.025343865633689663,
           "class": "Difícil (percentil bajo)"
@@ -128,20 +324,92 @@
           "score": 0.2894736842105263,
           "class": "Intermedia"
         },
+        "17": {
+          "score": 0.260752688172043,
+          "class": "Intermedia"
+        },
+        "170": {
+          "score": 0.5416666666666666,
+          "class": "Fácil (percentil alto)"
+        },
+        "171": {
+          "score": 0.4777777777777777,
+          "class": "Intermedia"
+        },
+        "172": {
+          "score": 0.7708333333333333,
+          "class": "Fácil (percentil alto)"
+        },
+        "173": {
+          "score": 1.0,
+          "class": "Fácil (percentil alto)"
+        },
+        "174": {
+          "score": 0.08067214840529321,
+          "class": "Intermedia"
+        },
+        "175": {
+          "score": 0.05069756026624345,
+          "class": "Difícil (percentil bajo)"
+        },
+        "176": {
+          "score": 0.06775561506653943,
+          "class": "Difícil (percentil bajo)"
+        },
+        "177": {
+          "score": 0.7251948051948053,
+          "class": "Fácil (percentil alto)"
+        },
+        "178": {
+          "score": 0.4508928571428571,
+          "class": "Intermedia"
+        },
         "179": {
           "score": 0.2170877659574468,
+          "class": "Intermedia"
+        },
+        "18": {
+          "score": 0.20127226463104322,
+          "class": "Intermedia"
+        },
+        "180": {
+          "score": 0.37482811306340713,
+          "class": "Intermedia"
+        },
+        "181": {
+          "score": 0.26188619484491044,
           "class": "Intermedia"
         },
         "182": {
           "score": 0.5833333333333333,
           "class": "Fácil (percentil alto)"
         },
+        "183": {
+          "score": 0.5659036040140918,
+          "class": "Fácil (percentil alto)"
+        },
+        "184": {
+          "score": 0.2609930335770672,
+          "class": "Intermedia"
+        },
+        "185": {
+          "score": 0.7772486772486771,
+          "class": "Fácil (percentil alto)"
+        },
         "186": {
           "score": 0.06304792334662487,
-          "class": "Intermedia"
+          "class": "Difícil (percentil bajo)"
         },
         "187": {
           "score": 0.260354357758102,
+          "class": "Intermedia"
+        },
+        "188": {
+          "score": 0.3437938229789005,
+          "class": "Intermedia"
+        },
+        "189": {
+          "score": 0.09247347386865104,
           "class": "Intermedia"
         },
         "19": {
@@ -152,25 +420,113 @@
           "score": 0.479967159277504,
           "class": "Fácil (percentil alto)"
         },
+        "191": {
+          "score": 0.39617825569498727,
+          "class": "Intermedia"
+        },
+        "192": {
+          "score": 0.47619047619047616,
+          "class": "Intermedia"
+        },
+        "193": {
+          "score": 0.8316072682014711,
+          "class": "Fácil (percentil alto)"
+        },
+        "194": {
+          "score": 0.1496361111998232,
+          "class": "Intermedia"
+        },
+        "195": {
+          "score": 0.034582275961586306,
+          "class": "Difícil (percentil bajo)"
+        },
         "196": {
           "score": 0.27618254438602574,
+          "class": "Intermedia"
+        },
+        "197": {
+          "score": 0.6269841269841269,
+          "class": "Fácil (percentil alto)"
+        },
+        "198": {
+          "score": 0.5067114093959731,
+          "class": "Fácil (percentil alto)"
+        },
+        "199": {
+          "score": 0.0434227697145387,
+          "class": "Difícil (percentil bajo)"
+        },
+        "2": {
+          "score": 0.1947957450414719,
           "class": "Intermedia"
         },
         "20": {
           "score": 0.5464423912185105,
           "class": "Fácil (percentil alto)"
         },
+        "200": {
+          "score": 0.10437710437710439,
+          "class": "Intermedia"
+        },
+        "201": {
+          "score": 0.2893227495488406,
+          "class": "Intermedia"
+        },
         "202": {
           "score": 0.2021316568107002,
+          "class": "Intermedia"
+        },
+        "203": {
+          "score": 0.13090000036785723,
+          "class": "Intermedia"
+        },
+        "204": {
+          "score": 0.038131579523144506,
+          "class": "Difícil (percentil bajo)"
+        },
+        "205": {
+          "score": 0.75,
+          "class": "Fácil (percentil alto)"
+        },
+        "206": {
+          "score": 0.2799054373522458,
+          "class": "Intermedia"
+        },
+        "207": {
+          "score": 0.1503798185941043,
           "class": "Intermedia"
         },
         "208": {
           "score": 0.6013888888888889,
           "class": "Fácil (percentil alto)"
         },
+        "209": {
+          "score": 0.12362583546572466,
+          "class": "Intermedia"
+        },
+        "21": {
+          "score": 0.05513952017416118,
+          "class": "Difícil (percentil bajo)"
+        },
         "210": {
           "score": 0.34080034867436443,
           "class": "Intermedia"
+        },
+        "211": {
+          "score": 0.1362629149139545,
+          "class": "Intermedia"
+        },
+        "212": {
+          "score": 0.4128521070743541,
+          "class": "Intermedia"
+        },
+        "213": {
+          "score": 0.5657778892656375,
+          "class": "Fácil (percentil alto)"
+        },
+        "214": {
+          "score": 0.0318287260437024,
+          "class": "Difícil (percentil bajo)"
         },
         "215": {
           "score": 0.047031963470319633,
@@ -184,8 +540,16 @@
           "score": 0.22815351162542602,
           "class": "Intermedia"
         },
+        "218": {
+          "score": 0.24700816756052074,
+          "class": "Intermedia"
+        },
         "219": {
           "score": 0.03328657313971234,
+          "class": "Difícil (percentil bajo)"
+        },
+        "22": {
+          "score": 0.0,
           "class": "Difícil (percentil bajo)"
         },
         "220": {
@@ -196,6 +560,30 @@
           "score": 0.2235249017817915,
           "class": "Intermedia"
         },
+        "222": {
+          "score": 0.7876382876382877,
+          "class": "Fácil (percentil alto)"
+        },
+        "223": {
+          "score": 0.4654761904761905,
+          "class": "Intermedia"
+        },
+        "224": {
+          "score": 0.17320700007173895,
+          "class": "Intermedia"
+        },
+        "225": {
+          "score": 0.10529001176493202,
+          "class": "Intermedia"
+        },
+        "23": {
+          "score": 0.21135107800486375,
+          "class": "Intermedia"
+        },
+        "24": {
+          "score": 0.35294117647058826,
+          "class": "Intermedia"
+        },
         "25": {
           "score": 0.7004057762311224,
           "class": "Fácil (percentil alto)"
@@ -204,20 +592,72 @@
           "score": 0.23327348513917623,
           "class": "Intermedia"
         },
+        "27": {
+          "score": 0.07986340603657192,
+          "class": "Intermedia"
+        },
+        "28": {
+          "score": 0.004978406233438201,
+          "class": "Difícil (percentil bajo)"
+        },
         "29": {
           "score": 0.37003259887671347,
           "class": "Intermedia"
+        },
+        "3": {
+          "score": 0.6583928571428572,
+          "class": "Fácil (percentil alto)"
+        },
+        "30": {
+          "score": 0.03332689196680083,
+          "class": "Difícil (percentil bajo)"
         },
         "31": {
           "score": 0.0,
           "class": "Difícil (percentil bajo)"
         },
+        "32": {
+          "score": 0.09970284386577659,
+          "class": "Intermedia"
+        },
+        "33": {
+          "score": 0.4797979797979797,
+          "class": "Fácil (percentil alto)"
+        },
+        "34": {
+          "score": 0.07115588659706305,
+          "class": "Intermedia"
+        },
+        "35": {
+          "score": 0.024444444444444446,
+          "class": "Difícil (percentil bajo)"
+        },
+        "36": {
+          "score": 0.5029325513196481,
+          "class": "Fácil (percentil alto)"
+        },
         "37": {
           "score": 0.07105641377017968,
           "class": "Intermedia"
         },
+        "38": {
+          "score": 0.05181106659278899,
+          "class": "Difícil (percentil bajo)"
+        },
+        "39": {
+          "score": 0.11795967277848576,
+          "class": "Intermedia"
+        },
         "4": {
           "score": 0.5277777777777778,
+          "class": "Fácil (percentil alto)"
+        },
+        "40": {
+          "score": 0.09318931713668555,
+          "class": "Intermedia"
+        },
+        "41": {
+          "score": 0.75,
           "class": "Fácil (percentil alto)"
         },
         "42": {
@@ -228,12 +668,32 @@
           "score": 0.5120662047839907,
           "class": "Fácil (percentil alto)"
         },
+        "44": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
+        "45": {
+          "score": 0.18403146967281347,
+          "class": "Intermedia"
+        },
         "46": {
           "score": 0.2981887994839218,
           "class": "Intermedia"
         },
+        "47": {
+          "score": 0.3239995685125594,
+          "class": "Intermedia"
+        },
+        "48": {
+          "score": 0.1760168737933572,
+          "class": "Intermedia"
+        },
         "49": {
           "score": 0.06468531468531469,
+          "class": "Difícil (percentil bajo)"
+        },
+        "5": {
+          "score": 0.3321428571428572,
           "class": "Intermedia"
         },
         "50": {
@@ -242,7 +702,7 @@
         },
         "51": {
           "score": 0.4390334153053237,
-          "class": "Fácil (percentil alto)"
+          "class": "Intermedia"
         },
         "52": {
           "score": 0.7333333333333333,
@@ -252,17 +712,53 @@
           "score": 0.27077837036381347,
           "class": "Intermedia"
         },
+        "54": {
+          "score": 0.1297908269063679,
+          "class": "Intermedia"
+        },
+        "55": {
+          "score": 0.4116122397725011,
+          "class": "Intermedia"
+        },
+        "56": {
+          "score": 0.15638360415399943,
+          "class": "Intermedia"
+        },
+        "57": {
+          "score": 0.051752841954652865,
+          "class": "Difícil (percentil bajo)"
+        },
         "58": {
           "score": 0.10984128054540565,
+          "class": "Intermedia"
+        },
+        "59": {
+          "score": 0.12967240338164251,
+          "class": "Intermedia"
+        },
+        "6": {
+          "score": 0.16547332875457874,
           "class": "Intermedia"
         },
         "60": {
           "score": 0.26833895763029625,
           "class": "Intermedia"
         },
+        "61": {
+          "score": 0.5723634651600753,
+          "class": "Fácil (percentil alto)"
+        },
         "62": {
           "score": 0.022207378188781057,
           "class": "Difícil (percentil bajo)"
+        },
+        "63": {
+          "score": 0.04828042328042328,
+          "class": "Difícil (percentil bajo)"
+        },
+        "64": {
+          "score": 0.5526315789473684,
+          "class": "Fácil (percentil alto)"
         },
         "65": {
           "score": 0.2504054193738779,
@@ -270,11 +766,31 @@
         },
         "66": {
           "score": 0.061678568404874,
-          "class": "Intermedia"
+          "class": "Difícil (percentil bajo)"
         },
         "67": {
           "score": 0.48586123657452135,
           "class": "Fácil (percentil alto)"
+        },
+        "68": {
+          "score": 0.03571355892784464,
+          "class": "Difícil (percentil bajo)"
+        },
+        "69": {
+          "score": 0.06147054186374575,
+          "class": "Difícil (percentil bajo)"
+        },
+        "7": {
+          "score": 0.2533020924149956,
+          "class": "Intermedia"
+        },
+        "70": {
+          "score": 0.09539518613595357,
+          "class": "Intermedia"
+        },
+        "71": {
+          "score": 0.03808281436677913,
+          "class": "Difícil (percentil bajo)"
         },
         "72": {
           "score": 0.1608364943230142,
@@ -284,9 +800,13 @@
           "score": 0.3369290263856581,
           "class": "Intermedia"
         },
+        "74": {
+          "score": 0.13700866316641744,
+          "class": "Intermedia"
+        },
         "75": {
           "score": 0.06855911321922929,
-          "class": "Intermedia"
+          "class": "Difícil (percentil bajo)"
         },
         "76": {
           "score": 0.3053009881177738,
@@ -294,19 +814,31 @@
         },
         "77": {
           "score": 0.4605820105820106,
+          "class": "Intermedia"
+        },
+        "78": {
+          "score": 0.9166666666666666,
           "class": "Fácil (percentil alto)"
         },
         "79": {
           "score": 0.05702690805432446,
-          "class": "Intermedia"
+          "class": "Difícil (percentil bajo)"
         },
         "8": {
           "score": 0.11656519185912231,
           "class": "Intermedia"
         },
+        "80": {
+          "score": 0.022552578200064052,
+          "class": "Difícil (percentil bajo)"
+        },
+        "81": {
+          "score": 0.41666666666666663,
+          "class": "Intermedia"
+        },
         "82": {
           "score": 0.4217354437535331,
-          "class": "Fácil (percentil alto)"
+          "class": "Intermedia"
         },
         "83": {
           "score": 0.04098224894451628,
@@ -316,16 +848,68 @@
           "score": 0.38701664574521355,
           "class": "Intermedia"
         },
+        "85": {
+          "score": 0.26663462988089853,
+          "class": "Intermedia"
+        },
+        "86": {
+          "score": 0.75,
+          "class": "Fácil (percentil alto)"
+        },
         "87": {
           "score": 0.013561425986598073,
           "class": "Difícil (percentil bajo)"
+        },
+        "88": {
+          "score": 0.6607142857142857,
+          "class": "Fácil (percentil alto)"
+        },
+        "89": {
+          "score": 0.15284676833696442,
+          "class": "Intermedia"
+        },
+        "9": {
+          "score": 0.3511904761904762,
+          "class": "Intermedia"
+        },
+        "90": {
+          "score": 0.11280392785094963,
+          "class": "Intermedia"
+        },
+        "91": {
+          "score": 0.10139906007187331,
+          "class": "Intermedia"
+        },
+        "92": {
+          "score": 0.3787600345292654,
+          "class": "Intermedia"
         },
         "93": {
           "score": 0.5,
           "class": "Fácil (percentil alto)"
         },
+        "94": {
+          "score": 0.46187915813724567,
+          "class": "Intermedia"
+        },
+        "95": {
+          "score": 0.05886970172684458,
+          "class": "Difícil (percentil bajo)"
+        },
         "96": {
           "score": 0.35885348088758595,
+          "class": "Intermedia"
+        },
+        "97": {
+          "score": 0.2005243587513091,
+          "class": "Intermedia"
+        },
+        "98": {
+          "score": 0.020516226725164607,
+          "class": "Difícil (percentil bajo)"
+        },
+        "99": {
+          "score": 0.3020833333333333,
           "class": "Intermedia"
         }
       }
@@ -336,22 +920,78 @@
         "hard_percentile": 0.2,
         "easy_percentile": 0.8,
         "thresholds": {
-          "hard": 0.0,
-          "easy": 0.49235051574172467
+          "hard": 0.05413985918958663,
+          "easy": 0.5442761686266455
         },
         "counts": {
-          "hard": 17,
-          "intermediate": 43,
-          "easy": 15
+          "hard": 45,
+          "intermediate": 131,
+          "easy": 45
         }
       },
       "per_query": {
+        "1": {
+          "score": 0.31550122648565454,
+          "class": "Intermedia"
+        },
+        "10": {
+          "score": 0.40569200764743657,
+          "class": "Intermedia"
+        },
+        "100": {
+          "score": 0.3375266840297254,
+          "class": "Intermedia"
+        },
+        "101": {
+          "score": 0.7271824993776034,
+          "class": "Fácil (percentil alto)"
+        },
+        "102": {
+          "score": 0.4582812660226995,
+          "class": "Intermedia"
+        },
         "104": {
           "score": 0.21398626473452753,
           "class": "Intermedia"
         },
+        "105": {
+          "score": 0.49228574847720336,
+          "class": "Intermedia"
+        },
+        "106": {
+          "score": 0.3522373587123268,
+          "class": "Intermedia"
+        },
+        "107": {
+          "score": 0.16638558634208475,
+          "class": "Intermedia"
+        },
+        "108": {
+          "score": 0.7472119159332626,
+          "class": "Fácil (percentil alto)"
+        },
+        "109": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
+        "11": {
+          "score": 0.2087176021310864,
+          "class": "Intermedia"
+        },
+        "110": {
+          "score": 0.14655308996296207,
+          "class": "Intermedia"
+        },
+        "111": {
+          "score": 0.24930742276814705,
+          "class": "Intermedia"
+        },
         "112": {
           "score": 0.42827240252944054,
+          "class": "Intermedia"
+        },
+        "113": {
+          "score": 0.36331756126716835,
           "class": "Intermedia"
         },
         "114": {
@@ -362,6 +1002,18 @@
           "score": 0.07764365961663881,
           "class": "Intermedia"
         },
+        "116": {
+          "score": 0.142424650157287,
+          "class": "Intermedia"
+        },
+        "117": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
+        "118": {
+          "score": 0.1131326163504866,
+          "class": "Intermedia"
+        },
         "119": {
           "score": 1.0,
           "class": "Fácil (percentil alto)"
@@ -370,37 +1022,133 @@
           "score": 0.15979138559512832,
           "class": "Intermedia"
         },
+        "120": {
+          "score": 0.4807697093517356,
+          "class": "Intermedia"
+        },
+        "121": {
+          "score": 0.5495350259875404,
+          "class": "Fácil (percentil alto)"
+        },
         "122": {
           "score": 0.4290243636671025,
+          "class": "Intermedia"
+        },
+        "123": {
+          "score": 0.13565197343244778,
           "class": "Intermedia"
         },
         "124": {
           "score": 0.0,
           "class": "Difícil (percentil bajo)"
         },
+        "125": {
+          "score": 0.3500661815614119,
+          "class": "Intermedia"
+        },
+        "126": {
+          "score": 0.26758011768212336,
+          "class": "Intermedia"
+        },
         "127": {
           "score": 0.13376740912194254,
           "class": "Intermedia"
         },
+        "128": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
         "129": {
           "score": 0.41316787106994,
+          "class": "Intermedia"
+        },
+        "130": {
+          "score": 0.5802200399999605,
+          "class": "Fácil (percentil alto)"
+        },
+        "131": {
+          "score": 0.4234066135545276,
+          "class": "Intermedia"
+        },
+        "132": {
+          "score": 0.6594570437246106,
+          "class": "Fácil (percentil alto)"
+        },
+        "133": {
+          "score": 0.1658729189226719,
           "class": "Intermedia"
         },
         "134": {
           "score": 0.35195904451706733,
           "class": "Intermedia"
         },
+        "135": {
+          "score": 0.6713322927938017,
+          "class": "Fácil (percentil alto)"
+        },
+        "136": {
+          "score": 0.25445053471073825,
+          "class": "Intermedia"
+        },
         "137": {
           "score": 0.1781092246467922,
+          "class": "Intermedia"
+        },
+        "138": {
+          "score": 0.23719771276929622,
           "class": "Intermedia"
         },
         "139": {
           "score": 0.0,
           "class": "Difícil (percentil bajo)"
         },
+        "14": {
+          "score": 0.46562125102601803,
+          "class": "Intermedia"
+        },
+        "140": {
+          "score": 0.10814227129778668,
+          "class": "Intermedia"
+        },
+        "141": {
+          "score": 0.10319924368599645,
+          "class": "Intermedia"
+        },
+        "142": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
+        "143": {
+          "score": 0.8503449055347546,
+          "class": "Fácil (percentil alto)"
+        },
+        "144": {
+          "score": 0.5545189487425737,
+          "class": "Fácil (percentil alto)"
+        },
         "145": {
           "score": 0.2498375056117115,
           "class": "Intermedia"
+        },
+        "146": {
+          "score": 0.6590018048024133,
+          "class": "Fácil (percentil alto)"
+        },
+        "147": {
+          "score": 0.3671703402954396,
+          "class": "Intermedia"
+        },
+        "148": {
+          "score": 0.21296307116410548,
+          "class": "Intermedia"
+        },
+        "149": {
+          "score": 0.49988039530225725,
+          "class": "Intermedia"
+        },
+        "150": {
+          "score": 0.6131471927654584,
+          "class": "Fácil (percentil alto)"
         },
         "151": {
           "score": 0.0,
@@ -410,8 +1158,32 @@
           "score": 0.0,
           "class": "Difícil (percentil bajo)"
         },
+        "153": {
+          "score": 0.30663256969190594,
+          "class": "Intermedia"
+        },
+        "154": {
+          "score": 0.9385574520455129,
+          "class": "Fácil (percentil alto)"
+        },
+        "155": {
+          "score": 0.4415131711866312,
+          "class": "Intermedia"
+        },
         "157": {
           "score": 0.4701106581684247,
+          "class": "Intermedia"
+        },
+        "158": {
+          "score": 0.114568526355485,
+          "class": "Intermedia"
+        },
+        "159": {
+          "score": 0.1657675285278968,
+          "class": "Intermedia"
+        },
+        "16": {
+          "score": 0.2192560461704936,
           "class": "Intermedia"
         },
         "160": {
@@ -430,13 +1202,21 @@
           "score": 0.4367467095119259,
           "class": "Intermedia"
         },
+        "164": {
+          "score": 0.5093283122038673,
+          "class": "Intermedia"
+        },
+        "165": {
+          "score": 0.6509209298071326,
+          "class": "Fácil (percentil alto)"
+        },
         "166": {
           "score": 0.0,
           "class": "Difícil (percentil bajo)"
         },
         "167": {
           "score": 0.5378003827621997,
-          "class": "Fácil (percentil alto)"
+          "class": "Intermedia"
         },
         "168": {
           "score": 0.21840743681816419,
@@ -446,12 +1226,76 @@
           "score": 0.4144299250118475,
           "class": "Intermedia"
         },
+        "17": {
+          "score": 0.2960819109658652,
+          "class": "Intermedia"
+        },
+        "170": {
+          "score": 0.6161817858576044,
+          "class": "Fácil (percentil alto)"
+        },
+        "171": {
+          "score": 0.5085937958343111,
+          "class": "Intermedia"
+        },
+        "172": {
+          "score": 0.6629473505432018,
+          "class": "Fácil (percentil alto)"
+        },
+        "173": {
+          "score": 1.0,
+          "class": "Fácil (percentil alto)"
+        },
+        "174": {
+          "score": 0.05413985918958663,
+          "class": "Difícil (percentil bajo)"
+        },
+        "175": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
+        "176": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
+        "177": {
+          "score": 0.643483446072633,
+          "class": "Fácil (percentil alto)"
+        },
+        "178": {
+          "score": 0.38793169016283696,
+          "class": "Intermedia"
+        },
         "179": {
           "score": 0.33424620450682646,
           "class": "Intermedia"
         },
+        "18": {
+          "score": 0.2960819109658652,
+          "class": "Intermedia"
+        },
+        "180": {
+          "score": 0.4665787583695489,
+          "class": "Intermedia"
+        },
+        "181": {
+          "score": 0.3658605195047882,
+          "class": "Intermedia"
+        },
         "182": {
           "score": 0.58688267143572,
+          "class": "Fácil (percentil alto)"
+        },
+        "183": {
+          "score": 0.6587856660414563,
+          "class": "Fácil (percentil alto)"
+        },
+        "184": {
+          "score": 0.3713974442083386,
+          "class": "Intermedia"
+        },
+        "185": {
+          "score": 0.5671520100267574,
           "class": "Fácil (percentil alto)"
         },
         "186": {
@@ -462,33 +1306,129 @@
           "score": 0.39704359198730904,
           "class": "Intermedia"
         },
+        "188": {
+          "score": 0.384627869172735,
+          "class": "Intermedia"
+        },
+        "189": {
+          "score": 0.07804174330298691,
+          "class": "Intermedia"
+        },
         "19": {
           "score": 0.052988944605778035,
-          "class": "Intermedia"
+          "class": "Difícil (percentil bajo)"
         },
         "190": {
           "score": 0.5712595104601804,
           "class": "Fácil (percentil alto)"
         },
+        "191": {
+          "score": 0.22627404461483697,
+          "class": "Intermedia"
+        },
+        "192": {
+          "score": 0.5585075862632192,
+          "class": "Fácil (percentil alto)"
+        },
+        "193": {
+          "score": 0.8532062028305182,
+          "class": "Fácil (percentil alto)"
+        },
+        "194": {
+          "score": 0.1255979944932021,
+          "class": "Intermedia"
+        },
+        "195": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
         "196": {
           "score": 0.45236959552968886,
+          "class": "Intermedia"
+        },
+        "197": {
+          "score": 0.6787956981029196,
+          "class": "Fácil (percentil alto)"
+        },
+        "198": {
+          "score": 0.6418158112823249,
+          "class": "Fácil (percentil alto)"
+        },
+        "199": {
+          "score": 0.03982634557067626,
+          "class": "Difícil (percentil bajo)"
+        },
+        "2": {
+          "score": 0.2647674023351304,
           "class": "Intermedia"
         },
         "20": {
           "score": 0.6479443292923116,
           "class": "Fácil (percentil alto)"
         },
+        "200": {
+          "score": 0.14126697285982898,
+          "class": "Intermedia"
+        },
+        "201": {
+          "score": 0.31228733136926534,
+          "class": "Intermedia"
+        },
         "202": {
           "score": 0.3118404453692737,
+          "class": "Intermedia"
+        },
+        "203": {
+          "score": 0.22629442339403338,
+          "class": "Intermedia"
+        },
+        "204": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
+        "205": {
+          "score": 0.8772153153380493,
+          "class": "Fácil (percentil alto)"
+        },
+        "206": {
+          "score": 0.37520459804730716,
+          "class": "Intermedia"
+        },
+        "207": {
+          "score": 0.1914683983115837,
           "class": "Intermedia"
         },
         "208": {
           "score": 0.6111811094270241,
           "class": "Fácil (percentil alto)"
         },
+        "209": {
+          "score": 0.1448781607491198,
+          "class": "Intermedia"
+        },
+        "21": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
         "210": {
           "score": 0.37886710611181607,
           "class": "Intermedia"
+        },
+        "211": {
+          "score": 0.11585328568538587,
+          "class": "Intermedia"
+        },
+        "212": {
+          "score": 0.45146334547474987,
+          "class": "Intermedia"
+        },
+        "213": {
+          "score": 0.4774711249678933,
+          "class": "Intermedia"
+        },
+        "214": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
         },
         "215": {
           "score": 0.0,
@@ -502,7 +1442,15 @@
           "score": 0.2925174048337164,
           "class": "Intermedia"
         },
+        "218": {
+          "score": 0.3373607180381707,
+          "class": "Intermedia"
+        },
         "219": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
+        "22": {
           "score": 0.0,
           "class": "Difícil (percentil bajo)"
         },
@@ -514,6 +1462,30 @@
           "score": 0.36061520249666434,
           "class": "Intermedia"
         },
+        "222": {
+          "score": 0.689189442204991,
+          "class": "Fácil (percentil alto)"
+        },
+        "223": {
+          "score": 0.592512031964586,
+          "class": "Fácil (percentil alto)"
+        },
+        "224": {
+          "score": 0.28385714630717135,
+          "class": "Intermedia"
+        },
+        "225": {
+          "score": 0.39281988307025506,
+          "class": "Intermedia"
+        },
+        "23": {
+          "score": 0.23520846863246447,
+          "class": "Intermedia"
+        },
+        "24": {
+          "score": 0.4035099417625012,
+          "class": "Intermedia"
+        },
         "25": {
           "score": 0.7554452073673414,
           "class": "Fácil (percentil alto)"
@@ -522,20 +1494,72 @@
           "score": 0.19278506596713904,
           "class": "Intermedia"
         },
+        "27": {
+          "score": 0.12089595312113362,
+          "class": "Intermedia"
+        },
+        "28": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
         "29": {
           "score": 0.513252864671669,
+          "class": "Intermedia"
+        },
+        "3": {
+          "score": 0.7403795971138045,
           "class": "Fácil (percentil alto)"
+        },
+        "30": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
         },
         "31": {
           "score": 0.0,
           "class": "Difícil (percentil bajo)"
         },
+        "32": {
+          "score": 0.22555919528417626,
+          "class": "Intermedia"
+        },
+        "33": {
+          "score": 0.5442761686266455,
+          "class": "Fácil (percentil alto)"
+        },
+        "34": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
+        "35": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
+        "36": {
+          "score": 0.7039180890341347,
+          "class": "Fácil (percentil alto)"
+        },
         "37": {
           "score": 0.0,
           "class": "Difícil (percentil bajo)"
         },
+        "38": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
+        "39": {
+          "score": 0.12399828879535069,
+          "class": "Intermedia"
+        },
         "4": {
           "score": 0.6131471927654584,
+          "class": "Fácil (percentil alto)"
+        },
+        "40": {
+          "score": 0.17583789994930155,
+          "class": "Intermedia"
+        },
+        "41": {
+          "score": 0.7224242270408039,
           "class": "Fácil (percentil alto)"
         },
         "42": {
@@ -546,13 +1570,33 @@
           "score": 0.3863013885077049,
           "class": "Intermedia"
         },
+        "44": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
+        "45": {
+          "score": 0.13104779197739286,
+          "class": "Intermedia"
+        },
         "46": {
           "score": 0.44540223893598296,
+          "class": "Intermedia"
+        },
+        "47": {
+          "score": 0.3352303076067704,
+          "class": "Intermedia"
+        },
+        "48": {
+          "score": 0.226437742007454,
           "class": "Intermedia"
         },
         "49": {
           "score": 0.0,
           "class": "Difícil (percentil bajo)"
+        },
+        "5": {
+          "score": 0.3851761243460836,
+          "class": "Intermedia"
         },
         "50": {
           "score": 0.10755206835684229,
@@ -560,7 +1604,7 @@
         },
         "51": {
           "score": 0.5325800413594849,
-          "class": "Fácil (percentil alto)"
+          "class": "Intermedia"
         },
         "52": {
           "score": 0.9105610532357876,
@@ -570,17 +1614,53 @@
           "score": 0.34705439432648877,
           "class": "Intermedia"
         },
+        "54": {
+          "score": 0.08953559843576164,
+          "class": "Intermedia"
+        },
+        "55": {
+          "score": 0.508159735108525,
+          "class": "Intermedia"
+        },
+        "56": {
+          "score": 0.21293156267978905,
+          "class": "Intermedia"
+        },
+        "57": {
+          "score": 0.07839826897867533,
+          "class": "Intermedia"
+        },
         "58": {
           "score": 0.16839968520880175,
+          "class": "Intermedia"
+        },
+        "59": {
+          "score": 0.28447861945446157,
+          "class": "Intermedia"
+        },
+        "6": {
+          "score": 0.2609252979031514,
           "class": "Intermedia"
         },
         "60": {
           "score": 0.4304782346220419,
           "class": "Intermedia"
         },
+        "61": {
+          "score": 0.6435990209857224,
+          "class": "Fácil (percentil alto)"
+        },
         "62": {
           "score": 0.0,
           "class": "Difícil (percentil bajo)"
+        },
+        "63": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
+        "64": {
+          "score": 0.38009376671593426,
+          "class": "Intermedia"
         },
         "65": {
           "score": 0.35506141750374637,
@@ -594,12 +1674,36 @@
           "score": 0.4838596665492723,
           "class": "Intermedia"
         },
+        "68": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
+        "69": {
+          "score": 0.0857021092083185,
+          "class": "Intermedia"
+        },
+        "7": {
+          "score": 0.35870174497018037,
+          "class": "Intermedia"
+        },
+        "70": {
+          "score": 0.09630515588626795,
+          "class": "Intermedia"
+        },
+        "71": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
         "72": {
           "score": 0.26299274034749015,
           "class": "Intermedia"
         },
         "73": {
           "score": 0.4694095114482101,
+          "class": "Intermedia"
+        },
+        "74": {
+          "score": 0.12202239118791948,
           "class": "Intermedia"
         },
         "75": {
@@ -614,12 +1718,24 @@
           "score": 0.600324034520111,
           "class": "Fácil (percentil alto)"
         },
+        "78": {
+          "score": 0.9424890210124037,
+          "class": "Fácil (percentil alto)"
+        },
         "79": {
           "score": 0.0,
           "class": "Difícil (percentil bajo)"
         },
         "8": {
           "score": 0.038615684613617494,
+          "class": "Difícil (percentil bajo)"
+        },
+        "80": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
+        "81": {
+          "score": 0.44391917204490255,
           "class": "Intermedia"
         },
         "82": {
@@ -632,18 +1748,70 @@
         },
         "84": {
           "score": 0.5423099179594804,
+          "class": "Intermedia"
+        },
+        "85": {
+          "score": 0.4744233757201067,
+          "class": "Intermedia"
+        },
+        "86": {
+          "score": 0.8772153153380493,
           "class": "Fácil (percentil alto)"
         },
         "87": {
           "score": 0.0,
           "class": "Difícil (percentil bajo)"
         },
+        "88": {
+          "score": 0.6872043417623491,
+          "class": "Fácil (percentil alto)"
+        },
+        "89": {
+          "score": 0.05327083587009019,
+          "class": "Difícil (percentil bajo)"
+        },
+        "9": {
+          "score": 0.49818925746641285,
+          "class": "Intermedia"
+        },
+        "90": {
+          "score": 0.061166069076961885,
+          "class": "Intermedia"
+        },
+        "91": {
+          "score": 0.05418896451870669,
+          "class": "Intermedia"
+        },
+        "92": {
+          "score": 0.6035687650007424,
+          "class": "Fácil (percentil alto)"
+        },
         "93": {
           "score": 0.6309297535714574,
           "class": "Fácil (percentil alto)"
         },
+        "94": {
+          "score": 0.5129021541829552,
+          "class": "Intermedia"
+        },
+        "95": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
         "96": {
           "score": 0.41784980281570044,
+          "class": "Intermedia"
+        },
+        "97": {
+          "score": 0.29719540702873604,
+          "class": "Intermedia"
+        },
+        "98": {
+          "score": 0.0,
+          "class": "Difícil (percentil bajo)"
+        },
+        "99": {
+          "score": 0.4324262576581134,
           "class": "Intermedia"
         }
       }
