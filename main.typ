@@ -105,7 +105,7 @@
 
 #pagebreak()
 
-#include "capitulos/06_analisis_de_resultados.typ"
+#include "capitulos/06_analisis_de_resultados2.typ"
 
 #pagebreak()
 
