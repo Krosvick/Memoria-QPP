@@ -62,7 +62,7 @@ El rendimiento del sistema de recuperación subyacente (BM25) se midió principa
     edge(<analysis>, <report>, "-|>"),
     
   ),
-  caption: [Diagrama de flujo del análisis de resultados]
+  caption: [Diagrama de flujo del análisis de resultados.]
 ) <Diagrama_evaluación_resultados>
 \
 
@@ -100,7 +100,7 @@ Los juicios de relevancia constituyen el estándar de referencia para evaluar ta
       [MS MARCO], [4], [11,386], [68.3%], [Dominado por \ Irrelevant],
       [TREC-COVID], [4], [66,336], [62.8%], [Mayor volumen de juicios],
     ),
-    caption: [Distribución de juicios de relevancia por dataset]
+    caption: [Distribución de juicios de relevancia por dataset.]
   ) <qrels_distribucion>]
 }
 \
@@ -115,7 +115,7 @@ Se observa una considerable heterogeneidad entre colecciones. #emph[Cranfield] d
     image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/cranfield/qrels_distribucion_niveles_relevancia.png"),
     image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/car_v15_trec_y1_manual/qrels_distribucion_niveles_relevancia.png"),
   ),
-  caption: [Contraste en distribución de relevancia: Cranfield (izq.) vs CAR (der.)]
+  caption: [Contraste en distribución de relevancia: Cranfield (izq.) vs CAR (der.).]
 ) <qrels_contraste>
 \
 
@@ -146,7 +146,7 @@ La dificultad de una consulta se define operacionalmente a partir del rendimient
       [MS MARCO], [51], [11 (22%)], [29 (57%)], [11 (22%)],
       [TREC-COVID], [50], [10 (20%)], [30 (60%)], [10 (20%)],
     ),
-    caption: [Distribución de dificultad de consultas según nDCG\@10]
+    caption: [Distribución de dificultad de consultas según nDCG\@10.]
   ) <dificultad_consultas>]
 }
 \
@@ -163,7 +163,7 @@ En contraste, #emph[Antique/Test] y #emph[TREC-COVID] exhiben distribuciones per
     image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/antique_test/dificultad_consultas_ndcg@10.png"),
     image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/car_v15_trec_y1_manual/dificultad_consultas_ndcg@10.png"),
   ),
-  caption: [Distribución de dificultad de consultas: Antique/Test (izq.) vs CAR (der.)]
+  caption: [Distribución de dificultad de consultas: Antique/Test (izq.) vs CAR (der.).]
 ) <dificultad_comparacion>
 \
 
@@ -172,7 +172,7 @@ La @fig:dificultad_comparacion ilustra visualmente el contraste entre #emph[Anti
 \
 #figure(
   image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/cranfield/dificultad_consultas_ndcg@10.png", width: 60%),
-  caption: [Distribución de dificultad de consultas en Cranfield]
+  caption: [Distribución de dificultad de consultas en Cranfield.]
 ) <dificultad_cranfield>
 \
 
@@ -195,7 +195,7 @@ A continuación se presentan los diagramas de dispersión para cada dataset, los
 A continuación se presentan los diagramas de dispersión para cada dataset, organizados en grids que incluyen los 10 métodos QPP evaluados. Cada subplot muestra la puntuación del predictor en el eje horizontal y nDCG\@10 en el eje vertical, junto con la línea de tendencia y su banda de confianza.
 #figure(
   image("../assets/imagenes/nuevos_resultados/correlación/antique_test/dispersion_qpp_ndcg@10.png", width: 100%,),
-  caption: [Diagramas de dispersión QPP vs nDCG\@10 en Antique/Test]
+  caption: [Diagramas de dispersión QPP vs nDCG\@10 en Antique/Test.]
 ) <dispersion_antique>
 \
 
@@ -204,7 +204,7 @@ La @fig:dispersion_antique evidencia el comportamiento diferenciado de los méto
 \
 #figure(
   image("../assets/imagenes/nuevos_resultados/correlación/car_v15_trec_y1_manual/dispersion_qpp_ndcg@10.png", width: 100%),
-  caption: [Diagramas de dispersión QPP vs nDCG\@10 en CAR]
+  caption: [Diagramas de dispersión QPP vs nDCG\@10 en CAR.]
 ) <dispersion_car>
 \
 
@@ -213,7 +213,7 @@ El caso de #emph[CAR] (@fig:dispersion_car) representa el escenario más problem
 \
 #figure(
   image("../assets/imagenes/nuevos_resultados/correlación/trec_covid/dispersion_qpp_ndcg@10.png", width: 100%),
-  caption: [Diagramas de dispersión QPP vs nDCG\@10 en TREC-COVID]
+  caption: [Diagramas de dispersión QPP vs nDCG\@10 en TREC-COVID.]
 ) <dispersion_covid>
 \
 
@@ -227,7 +227,7 @@ En #emph[TREC-COVID] (@fig:dispersion_covid) emerge un patrón único que invier
     image("../assets/imagenes/nuevos_resultados/correlación/cranfield/dispersion_qpp_ndcg@10.png"),
     image("../assets/imagenes/nuevos_resultados/correlación/msmarco_dl20_judged/dispersion_qpp_ndcg@10.png"),
   ),
-  caption: [Diagramas de dispersión: Cranfield (izq.) y MS MARCO (der.)]
+  caption: [Diagramas de dispersión: Cranfield (izq.) y MS MARCO (der.).]
 ) <dispersion_cranfield_msmarco>
 \
 
@@ -250,7 +250,7 @@ Los métodos evaluados pueden agruparse en tres familias según su acceso a info
 \
 #figure(
   image("../assets/imagenes/nuevos_resultados/correlación/cranfield/correlaciones_qpp_boxplot_kendall.png", width: 120%),
-  caption: [Distribución de correlaciones Kendall por método QPP en Cranfield]
+  caption: [Distribución de correlaciones Kendall por método QPP en Cranfield.]
 ) <boxplot_cranfield>
 \
 
@@ -272,7 +272,7 @@ Los mapas de calor de p-values utilizan una escala de cuatro niveles: altamente 
     image("../assets/imagenes/nuevos_resultados/correlación/antique_test/pvalues_qpp_kendall.png"),
     image("../assets/imagenes/nuevos_resultados/correlación/trec_covid/pvalues_qpp_kendall.png"),
   ),
-  caption: [Significancia estadística (p-values): Antique/Test (izq.) vs TREC-COVID (der.)]
+  caption: [Significancia estadística (p-values): Antique/Test (izq.) vs TREC-COVID (der.).]
 ) <pvalues_representativo>
 \
 
@@ -437,7 +437,7 @@ Esta alineación sugiere que la relación entre la predicción y el rendimiento 
           [$0.113$], [$0.152$], [$0.105$],
         ),
       ),
-      caption: [Correlaciones (P-ρ, S-ρ y K-τ) entre métodos QPP y nDCG\@10 en los distintos datasets evaluados]
+      caption: [Correlaciones (P-ρ, S-ρ y K-τ) entre métodos QPP y nDCG\@10 en los distintos datasets evaluados.]
     ) <Resultados_qpp_ndcg10_multidataset_tabla>]
 }
 \

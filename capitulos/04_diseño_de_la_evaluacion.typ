@@ -135,7 +135,7 @@ El diseño experimental sigue un flujo bien definido en el contexto de la recupe
     // Resultado final
     edge(<corr>, <puntajes>, "->", $"Guarda correlaciones"$),
   ),
-  caption: "Diagrama de componentes del entorno de evaluación",
+  caption: "Diagrama de componentes del entorno de evaluación.",
 ) <diagrama_general>
 \
 
@@ -184,7 +184,7 @@ A continuación se detallan los componentes fundamentales de la configuración t
     [Especialmente importante en colecciones heterogéneas como _ANTIQUE_ donde la longitud de los documentos varía significativamente. Impacta el cálculo de NQC al normalizar los scores.],
     [0.75],
   ),
-  caption: [Parámetros principales de BM25],
+  caption: [Parámetros principales de BM25.],
 ) <tabla_de_parametros>
 
 \
@@ -217,7 +217,7 @@ Otros estudios han propuesto la utilización de otros parámetros para BM25, com
     [--skip-plots], [Omite la generación de visualizaciones], [False],
     [--output-dir], [Directorio de salida para los resultados], [None],
   ),
-  caption: "Parámetros principales de configuración"
+  caption: "Parámetros principales de configuración."
 ) <tabla-argumentos>
 
 \
@@ -292,7 +292,7 @@ La @tbl:tabla-criterios-datasets presentan los criterios aplicados en la selecci
   [Incluyen juicios de relevancia establecidos previamente.],
   [Facilitan la evaluación precisa y objetiva del desempeño de los métodos QPP.]
   ),
-  caption: "Criterios de inclusión de datasets",
+  caption: "Criterios de inclusión de datasets.",
 ) <tabla-criterios-datasets>
 \
 
@@ -356,7 +356,7 @@ La @tbl:tabla-datasets especifica los datasets seleccionados, seguida de la @tbl
     [Proporciona evaluación con juicios humanos detallados en escala graduada.],
     [Incluye juicios negativos explícitos que permiten un análisis más profundo.]
   ),
-  caption: "Tabla de datasets y sus criterios de inclusión",
+  caption: "Tabla de datasets y sus criterios de inclusión.",
 ) <tabla-datasets>
 
 \
@@ -381,7 +381,7 @@ La @tbl:tabla-datasets especifica los datasets seleccionados, seguida de la @tbl
     MARCO DL 2020], [`msmarco-passage/trec-dl-2020/judged`], [8,841,823], [54], [11,386], [Asesores NIST (TREC DL 2020)],
     [TREC CAR], [`car/v1.5/trec-y1/manual`], [29,678,367], [2,287], [29,571], [Asesores NIST (juicios manuales)]
   ),
-  caption: "Estadísticos de los datasets seleccionados",
+  caption: "Estadísticos de los datasets seleccionados.",
 ) <tabla-metadata-datasets>
 \
 
@@ -413,7 +413,7 @@ La @tbl:tabla-datasets especifica los datasets seleccionados, seguida de la @tbl
 
 - *Documentos*: El _corpus_ completo contiene 8,841,823 pasajes extraídos de documentos web reales indexados por Bing. Cada pasaje consiste en un identificador y el texto del pasaje.
 - *Consultas*: Las consultas del TREC DL 2020 fueron muestreadas del conjunto de evaluación de MS MARCO. Originalmente, estas consultas provienen de preguntas reales y anónimas formuladas por usuarios del motor de búsqueda Bing, lo que garantiza que representan necesidades de información auténticas y cotidianas. El subconjunto "_judged_" contiene 54 consultas que fueron evaluadas por asesores de NIST.
-- *Origen de Qrels*: A diferencia de los juicios de relevancia escasos de MS MARCO original (donde típicamente solo un documento es marcado como relevante por consulta), el TREC DL 2020 proporciona 11,386 juicios de relevancia detallados creados por asesores de NIST. La escala de 4 niveles incluye: nivel 0 (irrelevante, 7,780 juicios), nivel 1 (relacionado, 1,940 juicios), nivel 2 (altamente relevante, 1,020 juicios), y nivel 3 (perfectamente relevante, 646 juicios). El umbral binario oficial de TREC es ≥2.
+- *Origen de Qrels*: A diferencia de los juicios de relevancia escasos de MS MARCO original (donde típicamente solo un documento es marcado como relevante por consulta), el TREC DL 2020 proporciona 11,386 juicios de relevancia detallados creados por asesores de NIST. La escala de 4 niveles incluye: nivel 0 (irrelevante, 7,780 juicios), nivel 1 (relacionado, 1,940 juicios), nivel 2 (altamente relevante, 1,020 juicios), y nivel 3 (perfectamente relevante, 646 juicios). El umbral binario oficial de TREC es ≥ 2.
 \
 
 *TREC CAR (_Complex Answer Retrieval_):* TREC CAR es una colección de recuperación de pasajes _ad-hoc_ construida a partir de Wikipedia, diseñada para abordar necesidades de información complejas que requieren respuestas extensas y estructuradas @TREC-CAR-dataset.
@@ -502,8 +502,9 @@ En la @tbl:tabla-metricas-datasets se detalla la configuración específica de r
        - Nivel 3: 3 (Debe mencionarse)],
     [Escala detallada con juicios manuales. Incluye niveles negativos para contenido basura o irrelevante.],
   ),
-  caption: "Configuración de métricas por dataset"
+  caption: "Configuración de métricas por dataset."
 ) <tabla-metricas-datasets>
+\
 
 #v(10pt)
 == Selección de métodos de QPP
@@ -546,7 +547,7 @@ Como se ha mencionado, la selección de métodos de _Query Performance Predictio
     [Asegura un marco comparativo que no depende de tecnologías supervisadas y promueve análisis no sesgados.]
     
   ),
-  caption: "Criterios de selección de métodos de QPP",
+  caption: "Criterios de selección de métodos de QPP.",
 ) <tabla-criterios>
 \
 
@@ -601,7 +602,7 @@ Siguiendo los criterios establecidos en la sección anterior y tras un análisis
   [_Post-retrieval_],
   [Utiliza modelos de relevancia y teoría de decisión estadística para estimar la utilidad de los rankings generados.]
   ),
-  caption: "Métodos de QPP seleccionados",
+  caption: "Métodos de QPP seleccionados.",
 ) <tabla-metodos>
 \
 
@@ -651,13 +652,14 @@ La @tbl:tabla-relacion-objetivos resume la relación entre el diseño experiment
     [*Implementación y Evaluación*], [Proporciona una evaluación comparativa robusta utilizando métricas de correlación estandarizadas.],
     [*Análisis de Resultados*], [Establece una línea base para futuras comparaciones con nuevos enfoques.],
   ),
-  caption: "Relación entre diseño experimental y objetivos"
+  caption: "Relación entre diseño experimental y objetivos."
 ) <tabla-relacion-objetivos>
 \
+
 #v(10pt)
 === Alineación con los Objetivos Específicos
-
 \
+
 A continuación, se describe cómo cada objetivo específico se relaciona con el diseño experimental:
 
 *a) Revisar la literatura sobre métodos de QPP en búsquedas Ad-hoc sin el uso de inteligencia artificial.*
@@ -700,7 +702,7 @@ A continuación, se describe cómo cada objetivo específico se relaciona con el
     [d)], [Evaluación de predicciones mediante métricas de correlación y juicios de relevancia.],
     [e)], [Documentación y análisis de resultados en función de los objetivos del proyecto.],
   ),
-  caption: "Relación entre diseño experimental y objetivos"
+  caption: "Relación entre diseño experimental y objetivos."
 ) <tabla-relacion-resumen>
 \
 

@@ -558,7 +558,7 @@ Estas familias de señales buscan captar indicios de dificultad a partir de la r
     [Acuerdo con variantes del sistema o de la consulta.],
     [Correlación de rangos entre el ranking original y variantes (por ejemplo, con stemming, con expansión de consulta).]
   ),
-  caption: "Factores y señales típicas en predictores post-retrieval",
+  caption: "Factores y señales típicas en predictores post-retrieval.",
 ) <tabla-factores-postretrieval>
 \
 

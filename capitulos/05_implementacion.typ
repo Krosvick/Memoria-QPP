@@ -10,7 +10,7 @@
 = IMPLEMENTACIÓN
 
 \
-La implementación del entorno de evaluación representa la materialización del diseño experimental previamente descrito. Este capítulo detalla los aspectos técnicos y prácticos del desarrollo, abordando desde la configuración del entorno hasta la implementación específica de cada componente del sistema.
+La implementación del entorno de evaluación representa la materialización del diseño experimental previamente descrito. Este Capítulo detalla los aspectos técnicos y prácticos del desarrollo, abordando desde la configuración del entorno hasta la implementación específica de cada componente del sistema.
 
 El desarrollo se fundamenta en tres pilares principales: el sistema de recuperación de información, la implementación de los métodos QPP, y el framework de evaluación. Como se puede observar en la @tbl:tabla-componentes, cada uno de estos componentes requiere consideraciones técnicas específicas, como el manejo consistente del vocabulario y la optimización de cálculos estadísticos, integrándose para formar un sistema cohesivo y reproducible.
 
@@ -44,7 +44,7 @@ El desarrollo se fundamenta en tres pilares principales: el sistema de recuperac
       - Generación de visualizaciones
     ],
   ),
-  caption: "Componentes principales del sistema implementado",
+  caption: "Componentes principales del sistema implementado.",
 ) <tabla-componentes>
 \
 
@@ -66,7 +66,7 @@ La implementación se realizó priorizando la modularidad y la reproducibilidad,
     [Estadísticas], [scipy, numpy], [Análisis de correlaciones],
     [Visualización], [matplotlib, seaborn], [Generación de gráficos],
   ),
-  caption: "Stack tecnológico principal",
+  caption: "Stack tecnológico principal.",
 ) <tabla-tecnologias>
 \
 
@@ -93,7 +93,7 @@ El entorno experimental se encuentra configurado para ser ejecutado en un varied
     [*PyTerrier*], [Librería de recuperación de información], [0.13.0 más snapshot para el soporte de modelos de relevancia],
     [*IR-datasets*], [Librería de conjuntos de datos], [0.5.9],
   ),
-  caption: "Configuración del entorno experimental",
+  caption: "Configuración del entorno experimental.",
 ) <configuracion>
 \
 
@@ -102,6 +102,7 @@ Como se puede apreciar en la @tbl:configuracion, se ha optado por implementar el
 #v(10pt)
 === Docker y dependencias
 \
+
 Docker es la principal herramienta que permite la ejecución del entorno experimental, esta cuenta con una amplia gama de herramientas que permiten la ejecución de entornos virtuales en diferentes sistemas operativos. Para los propósitos de este trabajo, se ha optado por imágenes de docker basados en la versión Slim Buster de Debian, la cual destaca en su ligereza y velocidad de ejecución.
 
 \
@@ -129,7 +130,7 @@ Docker es la principal herramienta que permite la ejecución del entorno experim
     ...
     ```
   ],
-  caption: "Dockerfile para la configuración del entorno experimental",
+  caption: "Dockerfile para la configuración del entorno experimental.",
 ) <dockerfile>
 \
 
@@ -155,7 +156,7 @@ La @fig:dockerfile muestra el archivo Docker utilizado para la configuración de
     [*Build essentials*], [Herramientas básicas de compilación necesarias para algunas dependencias de Python],
     
   ),
-  caption: "Componentes principales del Dockerfile",
+  caption: "Componentes principales del Dockerfile.",
 ) <tabla_docker>
 \
 
@@ -164,6 +165,7 @@ La @tbl:tabla_docker muestra los componentes esenciales para la configuración y
 #v(10pt)
 === Integración de conjuntos de datos
 \
+
 Como se explicó anteriormente, los conjuntos de datos utilizados en este trabajo se encuentran disponibles en la librería IR-datasets, la cual cuenta con una amplia gama de conjuntos de datos tanto clásicos como modernos de recuperación de información junto a sus consultas y respectivos juicios de relevancia.
 
 Cada dataset cuenta con una cantidad de documentos y consultas disponibles para realizar la evaluación, por otro lado los juicios de relevancia suponen un desafío extra para la implementación de la evaluación, puesto que cada dataset cuenta con distintos niveles de relevancia para las consultas, si estos no se manejan adecuadamente puede alterar drásticamente los resultados de la correlación.
@@ -194,7 +196,7 @@ DATASET_FORMATS = {
     }
     ```
   ],
-  caption: "Configuración de formato de dataset",
+  caption: "Configuración de formato de dataset.",
 ) <codigo_formato_dataset>
 \
 
@@ -241,16 +243,26 @@ La implementación de los métodos QPP difiere en las dos categorías en la que 
     )
     ```
   ],
-  caption: "Código de implementación del factory de métodos QPP",
+  caption: "Código de implementación del factory de métodos QPP.",
 ) <codigo_factory>
 \
 
-#figure(image("../assets/imagenes/codeviz-diagram-2025-01-09T20-47-14-Copy of System Diagram.drawio.png"), caption: "Diagrama de la capa de métodos QPP")<diagrama-capa-qpp>
+\
+#figure(
+  pad(
+    x: -2cm,
+    image(
+      "../assets/imagenes/codeviz-diagram-2025-01-09T20-47-14-Copy of System Diagram.drawio.png", 
+      width: 100%
+    )
+  ),
+  caption: "Diagrama de la capa de métodos QPP."
+)<diagrama-capa-qpp>
 \
 
 Para cumplir con los requisitos de los métodos QPP, se ha implementado un factory, el cual se encarga de la creación y computo de los puntajes de los métodos QPP. Este factory se encarga de tomar las dependencias necesarias y entregarlas a los métodos QPP, para que estos puedan ser computados.
 
-Para la implementación de los métodos QPP, se ha utilizado como base código abierto pero con mejoras y modificaciones propias para satisfacer las necesidades de la evaluación a realizar. Todo el código externo utilizado se encuentra disponible en el repositorio de GitHub de el usuario *Zendelo*. #footnote[https://github.com/Zendelo/QPP-EnhancedEval/tree/qpptk-dev]
+Para la implementación de los métodos QPP, se ha utilizado como base código abierto pero con mejoras y modificaciones propias para satisfacer las necesidades de la evaluación a realizar. Todo el código externo utilizado se encuentra disponible en el repositorio de _GitHub_ de _QPP-EnhancedEval_. #footnote[https://github.com/Zendelo/QPP-EnhancedEval/tree/qpptk-dev]
 
 #v(10pt)
 === Métodos pre-retrieval
@@ -262,7 +274,7 @@ Para el método *IDF (Inverse Document Frequency)*, se implementó un manejo rig
 
 En primer lugar, se implementó una distinción explícita para los términos fuera del vocabulario (OOV). A diferencia de enfoques que simplemente asignan un valor nulo, esta implementación asigna un valor centinela de frecuencia de documento igual a -1 a los términos que no existen en absoluto en el índice. El beneficio crítico de este manejo es prevenir que la presencia de un solo término desconocido (por ejemplo, un error tipográfico) invalide el puntaje de toda una consulta al propagar valores nulos o indefinidos, permitiendo que el sistema degrade suavemente su estimación basándose únicamente en los términos conocidos.
 
-En segundo lugar, se incorporó la técnica de *suavizado Laplaciano* ( _add-1 smoothing_) en el cálculo del predictor IDF. Esta técnica consiste en simular que cada término del vocabulario ha sido observado una vez más de lo que realmente aparece en la colección.
+En segundo lugar, se incorporó la técnica de *suavizado Laplaciano* (_add-1 smoothing_) en el cálculo del predictor IDF. Esta técnica consiste en simular que cada término del vocabulario ha sido observado una vez más de lo que realmente aparece en la colección.
 
 \
 $ P_("smooth")(w) = ("count"(w) + 1) / (N + V) $ <formula_suavizado>
@@ -280,7 +292,7 @@ En esta categoría se consideró una gama más amplia de predictores, abarcando 
 
 Un aspecto crítico en la implementación del *Clarity Score* fue el suavizado del modelo de lenguaje de la colección. Para estimar la probabilidad $P(w|C)$ de un término en la colección, se utilizó *suavizado de Dirichlet* con un parámetro $mu=1000$. Esta decisión no solo responde a una necesidad de estabilidad numérica, sino que es fundamental para la robustez de los modelos de lenguaje en Recuperación de Información, especialmente en función de la naturaleza de la colección procesada.
 
-En el contexto de colecciones pequeñas o constituidas por documentos breves (como pasajes, *snippets* o el propio dataset Cranfield utilizado), la frecuencia de términos (*term frequency*) es intrínsecamente escasa. Sin un mecanismo de suavizado, los modelos de lenguaje derivados resultantes serían extremadamente ruidosos y estarían sesgados hacia los pocos términos observados, provocando que la divergencia KL diverja artificialmente debido a probabilidades nulas o a picos de frecuencia no representativos. En este contexto, la técnica de suavizado de Dirichlet es una herramienta útil que reduce la varianza de la estimación, evita la sobreestimación de términos raros y estabiliza el modelo de la consulta. Esto permitiría que el puntaje de Clarity correlacione efectivamente con la dificultad real de la consulta y no con el ruido estadístico inherente a la escasez de datos.
+En el contexto de colecciones pequeñas o constituidas por documentos breves, como pasajes, *snippets* (fragmentos de texto cortos que resumen el contenido de un documento en la lista de resultados) o el propio dataset Cranfield utilizado, la frecuencia de términos (*term frequency*) es intrínsecamente escasa. Sin un mecanismo de suavizado, los modelos de lenguaje derivados resultantes serían extremadamente ruidosos y estarían sesgados hacia los pocos términos observados, provocando que la divergencia KL diverja artificialmente debido a probabilidades nulas o a picos de frecuencia no representativos. En este contexto, la técnica de suavizado de Dirichlet es una herramienta útil que reduce la varianza de la estimación, evita la sobreestimación de términos raros y estabiliza el modelo de la consulta. Esto permitiría que el puntaje de Clarity correlacione efectivamente con la dificultad real de la consulta y no con el ruido estadístico inherente a la escasez de datos.
 
 \
 #figure(
@@ -313,7 +325,7 @@ En el contexto de colecciones pequeñas o constituidas por documentos breves (co
         return probs
     ```
   ],
-  caption: "Implementación del suavizado de Dirichlet en Clarity",
+  caption: "Implementación del suavizado de Dirichlet en Clarity.",
 ) <codigo_clarity_dirichlet>
 \
 
@@ -342,7 +354,7 @@ Finalmente, para *NQC (Normalized Query Commitment)* y *WIG*, se incorporaron me
         return wig_score
     ```
   ],
-  caption: "Implementación del método WIG",
+  caption: "Implementación del método WIG.",
 ) <codigo_wig>
 \
 
@@ -352,12 +364,13 @@ Adicionalmente se puede observar parámetros como el tamaño de la lista de docu
 #v(10pt)
 == Implementación de la evaluación
 \
+
 La implementación de la evaluación de los métodos QPP se realiza mediante un analizador de correlaciones que permite calcular y visualizar las relaciones entre los puntajes de predicción y las métricas de rendimiento real del sistema. Este analizador está diseñado para procesar los resultados de múltiples métodos QPP y métricas de recuperación, generando análisis estadísticos y visualizaciones que facilitan la interpretación de los resultados.
 
 #v(10pt)
 === Cálculo de correlaciones
-
 \
+
 El análisis se basa principalmente en el cálculo de coeficientes de correlación entre los puntajes QPP y las métricas de recuperación (nDCG y AP). Se implementaron tres tipos de correlaciones: *Pearson*, que mide la relación lineal entre las variables; *Spearman*, que evalúa la relación monótona entre variables usando rangos; y *Kendall (τ)*, que mide la ordinalidad entre pares de observaciones. Para el cálculo, se utilizan las funciones especializadas la libreria Scipy, las cuales retornan tanto el coeficiente de correlación como los valores p asociados a la prueba de hipótesis.
 
 Un aspecto crítico de la implementación es el *alineamiento de identificadores de consulta (QIDs)* entre los puntajes QPP y las métricas de recuperación. Dado que no todas las consultas pueden tener resultados válidos en ambos conjuntos (por ejemplo, consultas sin documentos relevantes en los _qrels_ o con puntajes QPP indefinidos), el sistema calcula la intersección de QIDs comunes antes de proceder con el análisis. Adicionalmente, se aplica un filtro de *número mínimo de consultas* ($n >= 5$) para garantizar que las correlaciones calculadas tengan suficiente respaldo estadístico, descartando comparaciones que podrían resultar espurias debido a tamaños de muestra insuficientes.
@@ -368,7 +381,7 @@ El manejo de *valores nulos y no numéricos* es otro aspecto relevante: los valo
 === Visualización de resultados
 
 \
-Para facilitar la interpretación de los resultados, se implementaron múltiples tipos de visualizaciones organizadas en dos categorías principales, siguiendo la linea de otras evaluaciones. @zendel2024qpptk @correlation-depends-on-quality-of-dataset @enhanced-evaluation
+Para facilitar la interpretación de los resultados, se implementaron múltiples tipos de visualizaciones organizadas en dos categorías principales, siguiendo la linea de otras evaluaciones @zendel2024qpptk @correlation-depends-on-quality-of-dataset @enhanced-evaluation.
 
 La primera categoría corresponde a las visualizaciones de *análisis de correlación QPP*, como se puede observar en la @tbl:tabla_visualizaciones.
 
@@ -390,7 +403,7 @@ La primera categoría corresponde a las visualizaciones de *análisis de correla
     
     [*Diagramas de caja de correlaciones*], [Presentan la distribución de las correlaciones para cada método QPP ordenados por mediana, incluyendo puntos individuales con _jitter_ para visualizar la dispersión real de los datos y una línea de referencia en cero],
   ),
-  caption: "Visualizaciones de análisis de correlación QPP",
+  caption: "Visualizaciones de análisis de correlación QPP.",
 ) <tabla_visualizaciones>
 \
 
@@ -412,7 +425,7 @@ La segunda categoría corresponde a las visualizaciones de *análisis de juicios
 
     [*Distribución de métricas de recuperación*], [Boxplots e histogramas que muestran la distribución de las métricas de evaluación (nDCG, AP) por consulta, permitiendo identificar outliers y patrones de rendimiento],
   ),
-  caption: "Visualizaciones de análisis de qrels y dificultad",
+  caption: "Visualizaciones de análisis de qrels y dificultad.",
 ) <tabla_visualizaciones_qrels>
 \
 
@@ -446,7 +459,7 @@ Las pruebas unitarias se organizaron en siete módulos principales, cada uno enf
     [IDF], [Cálculos de IDF y variantes de agregación],
     [SCQ], [Implementación del predictor SCQ y manejo de términos],
   ),
-  caption: "Módulos principales de pruebas unitarias",
+  caption: "Módulos principales de pruebas unitarias.",
 ) <tabla-modulos-prueba>
 \
 
@@ -488,7 +501,7 @@ La ejecución completa de la suite de pruebas, que comprende 50 casos de prueba 
     [IDF], [7], [0.01],
     [SCQ], [6], [0.01],
   ),
-  caption: "Resultados de ejecución por componente",
+  caption: "Resultados de ejecución por componente.",
 ) <tabla-resultados-pruebas>
 \
 
