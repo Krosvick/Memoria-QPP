@@ -440,7 +440,6 @@ Esta alineación sugiere que la relación entre la predicción y el rendimiento 
       caption: [Correlaciones (P-ρ, S-ρ y K-τ) entre métodos QPP y nDCG\@10 en los distintos datasets evaluados.]
     ) <Resultados_qpp_ndcg10_multidataset_tabla>]
 }
-\
 
 La primera observación crítica que podemos obtener de la @tbl:Resultados_qpp_ndcg10_multidataset_tabla es la significativa heterogeneidad en los "techos de rendimiento" alcanzables. Se evidencia que la dificultad de la tarea de predicción no es uniforme: 
 

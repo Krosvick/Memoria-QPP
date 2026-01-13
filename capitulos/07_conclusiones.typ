@@ -4,8 +4,8 @@
   it
 }
 = CONCLUSIONES Y TRABAJO FUTURO
-\
 
+#v(10pt)
 == Principales conclusiones
 \
 
@@ -20,6 +20,98 @@ El preprocesado mediante algoritmos de stemming y stopwords, así como la implem
 Finalmente, la evidencia experimental demuestra que los métodos QPP clásicos presentan una capacidad predictiva limitada en el contexto de búsquedas Ad-hoc. Los resultados se alinean con investigaciones previas como la de Hauff et al. (2010) @how-much-correlation-is-good, que establece que correlaciones bajas ($τ < 0.1$) pueden ser útiles en Meta-búsquedas, correlaciones medias ($τ >= 0.4$) pueden ser útiles en búsquedas Ad-hoc tomando ciertas suposiciones, mientras que correlaciones más altas ($τ >= 0.7$) son necesarias para obtener resultados generalizables y confiables en todos los casos.
 
 
+#v(10pt)
+== Relación entre diseño experimental y objetivos
+
+\
+El diseño experimental anteriormente expuesto se encuentra directamente alineado con los objetivos planteados, garantizando que cada etapa contribuya de forma directa al cumplimiento de las metas establecidas. Es por ello que, en esta sección, se describe la relación entre los elementos del diseño experimental y los objetivos general y específicos, resaltando cómo estos interactúan entre sí para alcanzar los resultados de análisis buscados.
+
+#v(10pt)
+=== Relación con el objetivo general
+
+\
+Como se ha mencionado en capítulos anteriores, el objetivo general del proyecto consiste en evaluar comparativamente métodos de _Query Performance Prediction_ (QPP) para búsquedas _Ad-hoc_ utilizando métricas de correlación. En alineación con este objetivo, el diseño se ha organizado en las siguientes etapas:
+
+- *Selección de Métodos QPP*: Se han seleccionado seis métodos QPP no basados en inteligencia artificial (IDF, SCQ, NQC, Clarity Score, WIG y UEF) que son ampliamente reconocidos en la literatura y representan enfoques tanto _pre-retrieval_ como _post-retrieval_.
+- *Selección de Datasets*: Se han elegido cinco _datasets_ (Cranfield Collection, ANTIQUE, TREC-COVID, MS MARCO Passage (TREC DL 2020) y TREC CAR) que cubren una amplia gama de dominios y tipos de consultas con juicios de relevancia multi-nivel, asegurando que los resultados sean generalizables.
+- *Implementación y Evaluación*: Los métodos QPP se implementan en un entorno controlado utilizando herramientas como PyTerrier, Docker e ir_datasets, por lo que la evaluación se realiza mediante métricas de correlación y juicios de relevancia.
+- *Análisis de Resultados*: Los resultados obtenidos se comparan con estudios previos para determinar la efectividad de los métodos y establecer una línea base para futuras investigaciones.
+
+La @tbl:tabla-relacion-objetivos resume la relación entre el diseño experimental y cómo contribuye al objetivo general.
+
+\
+\
+\
+#figure(
+  table(
+    columns: (auto, auto),
+    inset: 10pt,
+    stroke: (x: none),
+    row-gutter: (2.2pt, auto),
+    align: left + horizon,
+    [*Etapa del diseño experimental*], [*Contribución al objetivo general*],
+    [*Selección de Métodos QPP*], [Garantiza que los métodos evaluados sean representativos y relevantes para búsquedas Ad-hoc.],
+    [*Selección de Datasets*], [Permite evaluar los métodos en diferentes contextos y dominios, asegurando la generalización de los resultados.],
+    [*Implementación y Evaluación*], [Proporciona una evaluación comparativa robusta utilizando métricas de correlación estandarizadas.],
+    [*Análisis de Resultados*], [Establece una línea base para futuras comparaciones con nuevos enfoques.],
+  ),
+  caption: "Relación entre diseño experimental y objetivos."
+) <tabla-relacion-objetivos>
+\
+
+#v(10pt)
+=== Alineación con los Objetivos Específicos
+\
+
+A continuación, se describe cómo cada objetivo específico se relaciona con el diseño experimental:
+
+*a) Revisar la literatura sobre métodos de QPP en búsquedas Ad-hoc sin el uso de inteligencia artificial.*
+#pad(left: 1.5em)[
+  Este objetivo se aborda mediante una revisión exhaustiva de trabajos y artículos académicos y experimentales relevantes, priorizando métodos no basados en IA que han sido ampliamente estudiados y documentados, lo que asegura que los métodos seleccionados sean representativos y relevantes para el contexto de búsquedas Ad-hoc.
+]
+
+*b) Comparar los resultados de los métodos QPP con estudios previos.*
+#pad(left: 1.5em)[
+  Se utilizan métricas de correlación estandarizadas y juicios de relevancia para evaluar el rendimiento de los métodos QPP. Estas métricas son ampliamente aceptadas en la literatura y permiten una comparación directa con estudios previos.
+]
+
+*c) Implementar métodos QPP en búsquedas Ad-hoc sin inteligencia artificial para su evaluación utilizando métricas estandarizadas.*
+#pad(left: 1.5em)[
+  La implementación de los métodos se realiza en un entorno experimental controlado utilizando contenedores Docker, que aseguran la replicabilidad y la consistencia en la ejecución de los experimentos con ayuda de scripts en Python, lo que permite una evaluación precisa y reproducible.
+]
+
+*d) Evaluar los resultados obtenidos de los métodos QPP implementados, determinando su efectividad en función de los resultados descritos en el estado del arte.*
+#pad(left: 1.5em)[
+  La evaluación se realiza comparando las predicciones generadas por los métodos seleccionados con los juicios de relevancia (qrels) asociados a cada dataset, utilizando métricas de correlación como Kendall's Tau. Este análisis permite determinar las fortalezas y limitaciones de cada método en contextos específicos.
+]
+
+*e) Analizar y documentar el rendimiento de los métodos QPP implementados para establecer una línea base para futuras comparaciones con nuevos enfoques.*
+#pad(left: 1.5em)[
+  Los resultados obtenidos se documentan detalladamente, incluyendo las métricas de correlación obtenidas para cada método QPP en cada dataset. Esta documentación sirve como una línea base para futuras investigaciones, permitiendo que otros investigadores comparen nuevos métodos con los resultados obtenidos en este proyecto.
+]
+
+\
+#figure(
+  table(
+    columns: (auto, auto),
+    inset: 10pt,
+    stroke: (x: none),
+    row-gutter: (2.2pt, auto),
+    align: left + horizon,
+    [*Objetivo específico*], [*Elemento del diseño experimental*],
+    [a)], [Revisión de literatura y selección de métodos representativos],
+    [b)], [Selección de datasets reconocidos y herramientas de evaluación estandarizadas.],
+    [c)], [Implementación de métodos QPP en entornos replicables.],
+    [d)], [Evaluación de predicciones mediante métricas de correlación y juicios de relevancia.],
+    [e)], [Documentación y análisis de resultados en función de los objetivos del proyecto.],
+  ),
+  caption: "Relación entre diseño experimental y objetivos."
+) <tabla-relacion-resumen>
+\
+
+Como se observa en la @tbl:tabla-relacion-resumen, el diseño experimental del proyecto está cuidadosamente alineado con los objetivos del proyecto, en donde la selección de métodos QPP, la elección de datasets, la implementación en un entorno controlado y el uso de métricas de correlación estandarizadas garantizan que los resultados sean robustos, reproducibles y relevantes para el campo de la predicción del rendimiento de consultas, resultando en un enfoque que no solo cumple con los objetivos del proyecto, sino que también establece una base sólida para futuras investigaciones en QPP.
+
+
 \
 == Recomendaciones para investigaciones futuras
 \
@@ -30,7 +122,7 @@ Las limitaciones observadas en este estudio incluyen la restricción a métodos 
 
 Por lo tanto, se recomienda que futuras investigaciones consideren la inclusión de métodos basados en inteligencia artificial y aprendizaje automático, los cuales podrían capturar de manera más efectiva las complejidades y matices presentes en las consultas y colecciones de documentos. Además, la ampliación del espectro de datasets utilizados, incorporando colecciones más diversas y de mayor escala, podría proporcionar una evaluación más exhaustiva y generalizable de los métodos QPP.
 
-\
+#v(10pt)
 == Trabajo Futuro
 \
 

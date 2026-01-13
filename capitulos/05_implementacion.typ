@@ -214,7 +214,7 @@ Este pipeline de preprocesamiento aplica tokenización, eliminación de _stopwor
 
 Durante el desarrollo se observó que el tokenizador por defecto de Terrier presentaba inconsistencias significativas en el manejo de ciertos tipos de términos. Este comportamiento se manifestaba especialmente en secuencias numéricas: términos como "0", "00" y "000" eran indexados como tokens distintos por Terrier, mientras que el pipeline de preprocesamiento basado en NLTK/Snowball los unificaba o eliminaba según su configuración de _stopwords_. Esta discrepancia causaba un desajuste de vocabulario (_vocabulary mismatch_), donde términos presentes en la consulta procesada en Python no encontraban correspondencia en el índice de Terrier, resultando en frecuencias de documento igual a cero. A su vez, esto generaba puntajes nulos o incorrectos en predictores sensibles como IDF y SCQ. Al indexar el texto ya procesado por el mismo pipeline que las consultas, se elimina esta fuente de error y se asegura la coherencia del vocabulario.
 
-Para cuantificar el impacto de esta discrepancia, se realizó un análisis comparativo de los vocabularios generados por ambos pipelines de tokenización sobre el dataset Antique/test, que comprende 403,666 documentos. Los resultados, presentados en la @tabla-discrepancia-vocab, revelan diferencias estadísticamente significativas entre ambos enfoques de tokenización.
+Para cuantificar el impacto de esta discrepancia, se realizó un análisis comparativo de los vocabularios generados por ambos pipelines de tokenización sobre el dataset Antique/test, que comprende 403.666 documentos. Los resultados, presentados en la @tabla-discrepancia-vocab, revelan diferencias estadísticamente significativas entre ambos enfoques de tokenización.
 
 \
 #figure(
@@ -226,16 +226,16 @@ Para cuantificar el impacto de esta discrepancia, se realizó un análisis compa
     
     [*Métrica*], [*NLTK (Snowball)*], [*PyTerrier*],
     
-    [Términos únicos], [238,298], [218,336],
-    [Ocurrencias totales], [8,200,515], [7,295,979],
+    [Términos únicos], [238.298], [218.336],
+    [Ocurrencias totales], [8.200.515], [7.295.979],
     
     table.hline(stroke: 0.5pt),
-    table.cell(colspan: 3)[*Distribución del vocabulario combinado (Total de 254,530 términos)*],
+    table.cell(colspan: 3)[*Distribución del vocabulario combinado (Total de 254.530 términos)*],
     
-    [Términos compartidos], table.cell(colspan: 2)[202,104 (79.4%)],
-    [Términos exclusivos], [36,194 (14.2%)], [16,232 (6.4%)],
+    [Términos compartidos], table.cell(colspan: 2)[202.104 (79.4%)],
+    [Términos exclusivos], [36.194 (14.2%)], [16.232 (6.4%)],
   ),
-  caption: "Comparación de vocabularios entre tokenizadores",
+  caption: "Comparación de vocabularios entre tokenizadores.",
 ) <tabla-discrepancia-vocab>
 \
 
@@ -255,11 +255,11 @@ El análisis revela un overlap de vocabulario del 79.4% entre ambos tokenizadore
     [Queries con términos OOV], [9], [102],
     [Tasa OOV en predictores], [0.69%], [11.56%],
   ),
-  caption: "Impacto en la cobertura de consultas",
+  caption: "Impacto en la cobertura de consultas.",
 ) <tabla-cobertura-queries>
 \
 
-La diferencia en cobertura de terminos en las consultas fue determinante para la elección del pipeline:NLTK/Snowball alcanza una cobertura del 98.98% de los términos presentes en las consultas, PyTerrier solo cubre el 88.44%. Esta brecha de 10.54 puntos porcentuales significa que, utilizando el tokenizador por defecto de Terrier, un 11.56% de los términos de las consultas no encontrarían correspondencia en el índice, generando valores OOV (*_out of vocabulary_*) que distorsionan los cálculos de los predictores. En el caso de IDF y SCQ, se identificaron 6 de las 200 queries afectadas por términos problemáticos, incluyendo errores ortográficos ("inspeciton"), nombres propios ("murrieta") y concatenaciones accidentales ("june3"). Estos hallazgos fundamentan la decisión de adoptar un pipeline de preprocesamiento unificado basado en Snowball, garantizando así la coherencia del vocabulario entre el índice y las consultas.
+La diferencia en cobertura de terminos en las consultas fue determinante para la elección del pipeline: NLTK/Snowball alcanza una cobertura del 98.98% de los términos presentes en las consultas, PyTerrier solo cubre el 88.44%. Esta brecha de 10.54 puntos porcentuales significa que, utilizando el tokenizador por defecto de Terrier, un 11.56% de los términos de las consultas no encontrarían correspondencia en el índice, generando valores OOV (*_out of vocabulary_*) que distorsionan los cálculos de los predictores. En el caso de IDF y SCQ, se identificaron 6 de las 200 queries afectadas por términos problemáticos, incluyendo errores ortográficos ("inspeciton"), nombres propios ("murrieta") y concatenaciones accidentales ("june3"). Estos hallazgos fundamentan la decisión de adoptar un pipeline de preprocesamiento unificado basado en Snowball, garantizando así la coherencia del vocabulario entre el índice y las consultas.
 
 Adicionalmente, para optimizar el rendimiento de los predictores _pre-retrieval_, se implementó mecanismos de caché estadísticos, el cual pre-calcula y almacena en un archivo JSON las estadísticas globales más consultadas, como la frecuencia de colección (_Collection Frequency_, CF) y la frecuencia de documentos (_Document Frequency_, DF) para cada término. Esta estrategia evita la sobrecarga computacional que implicaría realizar múltiples consultas JNI (_Java Native Interface_) al índice de Terrier o escaneos completos del índice para obtener estadísticas básicas repetitivas, reduciendo significativamente el tiempo de ejecución de los experimentos, especialmente en _datasets_ grandes como MS MARCO.
 

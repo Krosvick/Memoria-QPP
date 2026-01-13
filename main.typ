@@ -109,7 +109,7 @@
 
 #pagebreak()
 
-#include "capitulos/07_conclusiones.typ"
+#include "capitulos/07_conclusiones2.typ"
 
 #pagebreak()
 
