@@ -214,7 +214,7 @@ Este pipeline de preprocesamiento aplica tokenización, eliminación de _stopwor
 
 Durante el desarrollo se observó que el tokenizador por defecto de Terrier presentaba inconsistencias significativas en el manejo de ciertos tipos de términos. Este comportamiento se manifestaba especialmente en secuencias numéricas: términos como "0", "00" y "000" eran indexados como tokens distintos por Terrier, mientras que el pipeline de preprocesamiento basado en NLTK/Snowball los unificaba o eliminaba según su configuración de _stopwords_. Esta discrepancia causaba un desajuste de vocabulario (_vocabulary mismatch_), donde términos presentes en la consulta procesada en Python no encontraban correspondencia en el índice de Terrier, resultando en frecuencias de documento igual a cero. A su vez, esto generaba puntajes nulos o incorrectos en predictores sensibles como IDF y SCQ. Al indexar el texto ya procesado por el mismo pipeline que las consultas, se elimina esta fuente de error y se asegura la coherencia del vocabulario.
 
-Para cuantificar el impacto de esta discrepancia, se realizó un análisis comparativo de los vocabularios generados por ambos pipelines de tokenización sobre el dataset Antique/test, que comprende 403.666 documentos. Los resultados, presentados en la @tabla-discrepancia-vocab, revelan diferencias estadísticamente significativas entre ambos enfoques de tokenización.
+Para cuantificar el impacto de esta discrepancia, se realizó un análisis comparativo de los vocabularios generados por ambos pipelines de tokenización sobre el dataset Antique/test, que comprende 403.666 documentos. Los resultados, presentados en la @tbl:tabla-discrepancia-vocab, revelan diferencias estadísticamente significativas entre ambos enfoques de tokenización.
 
 \
 #figure(
@@ -406,7 +406,7 @@ Finalmente, para *NQC (Normalized Query Commitment)* y *WIG*, se incorporaron me
 \
 
 La @fig:codigo_wig muestra la implementación del método post-retrieval WIG, en este podemos identificar tanto el uso del indice invertido (_scores_vec_) como el resultado de el puntaje del modelo de recuperación de información frente a toda la colección (_corpus_score_) como se puede apreciar en la @eqt:wig-equation. 
-Adicionalmente se puede observar parámetros como el tamaño de la lista de documentos a considerar, el cual fue definido como 5 para WIG y en 200 para NQC bajo la recomendación de la literatura y nuestros propios experimentos @web-search-qpp @wig-nqc-scored-configuration @query-drift. Para finalizar, también cabe mencionar que todas los puntajes fueron considerando el puntaje promedio de los 1000 primeros documentos de la lista de resultados.
+Adicionalmente se puede observar parámetros como el tamaño de la lista de documentos a considerar, el cual fue definido como 5 para WIG y en 200 para NQC bajo la recomendación de la literatura y nuestros propios experimentos @web-search-qpp @wig-nqc-scored-configuration @query-drift. Para finalizar, también cabe mencionar que todas los puntajes fueron considerando el puntaje promedio de los 1.000 primeros documentos de la lista de resultados.
 
 #v(10pt)
 == Implementación de la evaluación
@@ -428,53 +428,15 @@ El manejo de *valores nulos y no numéricos* es otro aspecto relevante: los valo
 === Visualización de resultados
 
 \
-Para facilitar la interpretación de los resultados, se implementaron múltiples tipos de visualizaciones organizadas en dos categorías principales, siguiendo la linea de otras evaluaciones @zendel2024qpptk @correlation-depends-on-quality-of-dataset @enhanced-evaluation.
+Para facilitar la interpretación de los hallazgos experimentales, se implementó un conjunto de visualizaciones organizadas en dos categorías principales: análisis de correlación y análisis de juicios de relevancia. Esta estrategia de representación gráfica sigue los lineamientos metodológicos de evaluaciones recientes en el área @zendel2024qpptk @correlation-depends-on-quality-of-dataset @enhanced-evaluation.
 
-La primera categoría corresponde a las visualizaciones de *análisis de correlación QPP*, como se puede observar en la @tbl:tabla_visualizaciones.
+En primera instancia, para el ánalisis de correlación QPP, se generaron mapas de calor (_heatmaps_) que despliegan la matriz de correlaciones entre los métodos predictivos y las métricas de evaluación. Para ello, se utilizó una escala de colores divergente (_coolwarm_) centrada en cero, lo que permite identificar rápidamente la fuerza y dirección de las asociaciones, además de una variante específica para visualizar la significancia estadística, categorizando los valores _p_ en cuatro niveles jerárquicos (desde no significativo $>=0,05$ hasta altamente significativo $<0,001$).
 
-\
-#figure(
-  table(
-    columns: (auto, 1fr),
-    rows: auto,
-    stroke: (x: none),
-    align: left + horizon,
-    
-    [*Tipo de gráfico*], [*Descripción*],
-    
-    [*Mapas de calor de correlación*], [Muestran la matriz de correlaciones entre todos los métodos QPP y las métricas de evaluación, utilizando una escala de colores divergente (_coolwarm_) centrada en cero para representar la fuerza y dirección de las correlaciones. Se genera una versión horizontal optimizada para el formato del trabajo de titulo],
-    
-    [*Mapas de calor de significancia*], [Visualizan los valores p de significancia estadística categorizados en cuatro niveles: no significativo ($>=0.05$), significativo ($<0.05$), muy significativo ($<0.01$) y altamente significativo ($<0.001$), utilizando una paleta de colores jerárquica],
-    
-    [*Diagramas de dispersión QPP*], [Visualizan la relación entre cada método QPP y una métrica específica, incluyendo líneas de regresión para mejor interpretación. Se generan tanto gráficos combinados como individuales para cada método],
-    
-    [*Diagramas de caja de correlaciones*], [Presentan la distribución de las correlaciones para cada método QPP ordenados por mediana, incluyendo puntos individuales con _jitter_ para visualizar la dispersión real de los datos y una línea de referencia en cero],
-  ),
-  caption: "Visualizaciones de análisis de correlación QPP.",
-) <tabla_visualizaciones>
-\
+De forma complementaria, se construyeron diagramas de dispersión con líneas de regresión para examinar la linealidad de las predicciones y diagramas de caja (_boxplots_) ordenados por mediana, los cuales incluyen puntos individuales con _jitter_ para revelar la dispersión real de los datos y facilitar la comparación del comportamiento distributivo de cada método.
 
-La segunda categoría corresponde a las visualizaciones de *análisis de juicios de relevancia y dificultad de consultas*, como se detalla en la @tbl:tabla_visualizaciones_qrels. Estas visualizaciones permiten comprender la naturaleza de los juicios de relevancia y su relación con el rendimiento del sistema.
+Por otro lado, la segunda categoría de visualizaciones se orientó a la caracterización de los juicios de relevancia y la dificulta de las consultas. Se graficó la distribución de niveles de relevancia presente en los qrels, proporcionando contexto sobre la granularidad de cada dataset. Asimismo, se implementaron gráficos para la clasificación de la dificultad, segmentando las consultas en categorías (fáciles, intermedias y difíciles) según percentiles de efectividad establecidos en la literatura.
 
-\
-#figure(
-  table(
-    columns: (auto, 1fr),
-    rows: auto,
-    stroke: (x: none),
-    align: left + horizon,
-    
-    [*Tipo de gráfico*], [*Descripción*],
-    
-    [*Distribución de niveles de relevancia*], [Muestra la frecuencia de cada nivel de relevancia en los _qrels_, proporcionando contexto sobre la granularidad y distribución de los juicios disponibles en el dataset],
-    
-    [*Clasificación de dificultad*], [Clasifica las consultas en fáciles, intermedias y difíciles según percentiles de una métrica de efectividad, implementando definiciones basadas en umbrales como las descritas en la literatura],
-
-    [*Distribución de métricas de recuperación*], [Boxplots e histogramas que muestran la distribución de las métricas de evaluación (nDCG, AP) por consulta, permitiendo identificar outliers y patrones de rendimiento],
-  ),
-  caption: "Visualizaciones de análisis de qrels y dificultad.",
-) <tabla_visualizaciones_qrels>
-\
+Finalmente, se generaron histogramas y diagramas de caja para analizar la distribución de las métricas de recuperación (como nDCG y AP), lo que resulta fundamental para detectar patrones de rendimiento del sistema base y la presencia de valores atípicos (_outliers_) que pudiesen influir en la predicción.
 
 #v(10pt)
 == Pruebas de validación
@@ -527,7 +489,7 @@ La validación se realizó mediante un enfoque sistemático que incluye:
 La ejecución completa de la suite de pruebas, que comprende 50 casos de prueba distribuidos entre los diferentes módulos, demostró la robustez del sistema implementado. Como se evidencia en los resultados:
 
 - Tasa de éxito del 100% en todos los módulos de prueba
-- Tiempo total de ejecución de 11.27 segundos
+- Tiempo total de ejecución de 11,27 segundos
 - Cobertura completa de todos los componentes críticos del sistema
 
 \
@@ -540,13 +502,13 @@ La ejecución completa de la suite de pruebas, que comprende 50 casos de prueba 
     
     [*Componente*], [*Pruebas ejecutadas*], [*Tiempo de ejecución (s)*],
     
-    [QPPCorrelationAnalyzer], [10], [8.25],
-    [Evaluator], [6], [0.05],
-    [Clarity], [8], [0.03],
-    [NQC], [6], [0.01],
-    [WIG], [7], [0.01],
-    [IDF], [7], [0.01],
-    [SCQ], [6], [0.01],
+    [QPPCorrelationAnalyzer], [10], [8,25],
+    [Evaluator], [6], [0,05],
+    [Clarity], [8], [0,03],
+    [NQC], [6], [0,01],
+    [WIG], [7], [0,01],
+    [IDF], [7], [0,01],
+    [SCQ], [6], [0,01],
   ),
   caption: "Resultados de ejecución por componente.",
 ) <tabla-resultados-pruebas>

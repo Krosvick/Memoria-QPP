@@ -18,7 +18,7 @@
 = ANÁLISIS DE RESULTADOS
 \
 
-A traves de la literatura se ha establecido de manera casi unánime el análisis del rendimiento de los métodos QPP mediante el uso de métricas de correlación. Entre los primeros trabajos se puede encontrar el de E.M Voorhees en la conferencia TREC-6, donde se presenta el primer análisis de la capacidad de expertos en predecir el rendimiento de las consultas, donde se pudo observar que la mayor correlación lineal entre los resultados de los expertos fue de solo 0.26 @trec-6.
+A traves de la literatura se ha establecido de manera casi unánime el análisis del rendimiento de los métodos QPP mediante el uso de métricas de correlación. Entre los primeros trabajos se puede encontrar el de E.M Voorhees en la conferencia TREC-6, donde se presenta el primer análisis de la capacidad de expertos en predecir el rendimiento de las consultas, donde se pudo observar que la mayor correlación lineal entre los resultados de los expertos fue de solo 0,26 @trec-6.
 
 El campo de la predicción del rendimiento de consultas se ha desarrollado a lo largo de los años, y se ha establecido el uso de juicios de relevancia y métricas como el Tau de Kendall o el Coeficiente de correlación de Spearman para la evaluación de los predictores. En este sentido, se encuentran dos puntos de interés, por un lado la evaluación del *sistema de recuperación subyacente*, y por otro la *evaluación de los predictores* utilizando como pre-requisito la evaluación del sistema de recuperación.
 
@@ -46,7 +46,8 @@ El rendimiento del sistema de recuperación subyacente (BM25) se midió principa
     blob((0,1), [Análisis de correlación], shape: hexagon, tint: orange, name: "analysis"),
     
     // Metrics & Outputs
-    blob((2.3,4), [Métricas nDCG/MAP], tint: green, name: "metrics"),
+    //blob((2.3,4), [Métricas nDCG/MAP], tint: green, name: "metrics"),
+    blob((2.3,4), [Métricas nDCG/MAP], shape: chevron, tint: yellow, name: "metrics"),
     blob((2.3,2), [Resultados de \
     correlación], tint: green, name: "scores"),
     blob((2.3,0), [Reporte \ estadístico], tint: green, name: "report"),
@@ -94,34 +95,36 @@ Los juicios de relevancia constituyen el estándar de referencia para evaluar ta
       row-gutter: (2pt, auto),
       align: center + horizon,
       table.header[*Dataset*][*Niveles*][*Total Qrels*][*% No Relevantes*][*Observación*],
-      [Antique/Test], [4], [6,589], [61.6%], [Dominan Out of context y Not relevant],
-      [Cranfield], [5], [1,837], [19.2%], [80.8% documentos útiles o relevantes],
-      [CAR], [6], [29,571], [74.5%], [Incluye \ nivel "Trash" (-2)],
-      [MS MARCO], [4], [11,386], [68.3%], [Dominado por \ Irrelevant],
-      [TREC-COVID], [4], [66,336], [62.8%], [Mayor volumen de juicios],
+      [Antique/Test], [4], [6.589], [61,6%], [Dominan Out of context y Not relevant],
+      [Cranfield], [5], [1.837], [19,2%], [80,8% documentos útiles o relevantes],
+      [CAR], [6], [29.571], [74,5%], [Incluye \ nivel "Trash" (-2)],
+      [MS MARCO], [4], [11.386], [68,3%], [Dominado por \ Irrelevant],
+      [TREC-COVID], [4], [66.336], [62,8%], [Mayor volumen de juicios],
     ),
     caption: [Distribución de juicios de relevancia por dataset.]
   ) <qrels_distribucion>]
 }
 \
 
-Se observa una considerable heterogeneidad entre colecciones. #emph[Cranfield] destaca por su alta proporción de documentos relevantes (80.8%), lo que sugiere un corpus cuidadosamente curado donde el sistema BM25 tiene mayor probabilidad de éxito. En contraste, #emph[CAR] presenta la escala más compleja (6 niveles, incluyendo "Trash" con valor -2) y el mayor porcentaje de documentos no relevantes (74.5%), características que anticipan dificultades para los predictores.
+Se observa una considerable heterogeneidad entre colecciones. #emph[Cranfield] destaca por su alta proporción de documentos relevantes (80,8%), lo que sugiere un corpus cuidadosamente curado donde el sistema BM25 tiene mayor probabilidad de éxito. En contraste, #emph[CAR] presenta la escala más compleja (6 niveles, incluyendo "Trash" con valor -2) y el mayor porcentaje de documentos no relevantes (74,5%), características que anticipan dificultades para los predictores.
 
 \
 #figure(
-  grid(
-    columns: 2,
-    gutter: 2pt,
-    image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/cranfield/qrels_distribucion_niveles_relevancia.png"),
-    image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/car_v15_trec_y1_manual/qrels_distribucion_niveles_relevancia.png"),
-  ),
-  caption: [Contraste en distribución de relevancia: Cranfield (izq.) vs CAR (der.).]
-) <qrels_contraste>
+  image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/cranfield/qrels_distribucion_niveles_relevancia.png", width: 60%),
+  caption: [Distribución de niveles de relevancia en Cranfield.]
+) <qrels_dist_cranfield>
 \
 
-La @fig:qrels_contraste ilustra visualmente este contraste. En #emph[Cranfield], los niveles "High relevance" y "Complete answer" dominan la distribución, reflejando un corpus donde la mayoría de los documentos juzgados aportan información útil. En #emph[CAR], por el contrario, prevalecen los juicios negativos, incluyendo una categoría "Trash" que indica párrafos completamente irrelevantes. Esta diferencia estructural tiene implicaciones directas para la predicción: en Cranfield, las consultas tienen mayor probabilidad de obtener resultados satisfactorios, mientras que en CAR el sistema enfrenta un escenario inherentemente adverso.
+\
+#figure(
+  image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/car_v15_trec_y1_manual/qrels_distribucion_niveles_relevancia.png", width: 60%),
+  caption: [Distribución de niveles de relevancia en CAR.]
+) <qrels_dist_car>
+\
 
-El caso de #emph[TREC-COVID] merece atención especial: con 66,336 juicios, constituye la colección más densamente anotada, lo que proporciona una base estadística robusta para el análisis de correlaciones. Por otra parte, #emph[Antique/Test] y #emph[MS MARCO] presentan distribuciones intermedias con predominio de juicios no relevantes.
+La @fig:qrels_dist_cranfield y la @fig:qrels_dist_car ilustran visualmente este contraste. En #emph[Cranfield], los niveles "High relevance" y "Complete answer" dominan la distribución, reflejando un corpus donde la mayoría de los documentos juzgados aportan información útil. En #emph[CAR], por el contrario, prevalecen los juicios negativos, incluyendo una categoría "Trash" que indica párrafos completamente irrelevantes. Esta diferencia estructural tiene implicaciones directas para la predicción: en Cranfield, las consultas tienen mayor probabilidad de obtener resultados satisfactorios, mientras que en CAR el sistema enfrenta un escenario inherentemente adverso.
+
+El caso de #emph[TREC-COVID] merece atención especial: con 66.336 juicios, constituye la colección más densamente anotada, lo que proporciona una base estadística robusta para el análisis de correlaciones. Por otra parte, #emph[Antique/Test] y #emph[MS MARCO] presentan distribuciones intermedias con predominio de juicios no relevantes.
 
 #v(10pt)
 === Dificultad de consultas basada en rendimiento
@@ -157,17 +160,19 @@ En contraste, #emph[Antique/Test] y #emph[TREC-COVID] exhiben distribuciones per
 
 \
 #figure(
-  grid(
-    columns: 2,
-    gutter: 10pt,
-    image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/antique_test/dificultad_consultas_ndcg@10.png"),
-    image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/car_v15_trec_y1_manual/dificultad_consultas_ndcg@10.png"),
-  ),
-  caption: [Distribución de dificultad de consultas: Antique/Test (izq.) vs CAR (der.).]
-) <dificultad_comparacion>
+  image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/antique_test/dificultad_consultas_ndcg@10.png", width: 60%),
+  caption: [Distribución de dificultad de consultas en Antique/Test.]
+) <dificultad_antique>
 \
 
-La @fig:dificultad_comparacion ilustra visualmente el contraste entre #emph[Antique/Test], con una distribución balanceada, y #emph[CAR], donde se observa un sesgo hacia consultas difíciles. Esta diferencia estructural anticipa el comportamiento divergente de los predictores QPP en ambos datasets, como se analizará en las secciones siguientes.
+\
+#figure(
+  image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/car_v15_trec_y1_manual/dificultad_consultas_ndcg@10.png", width: 60%),
+  caption: [Distribución de dificultad de consultas en CAR.]
+) <dificultad_car>
+\
+
+La @fig:dificultad_antique y @fig:dificultad_car ilustran visualmente el contraste entre #emph[Antique/Test], con una distribución balanceada, y #emph[CAR], donde se observa un sesgo hacia consultas difíciles. Esta diferencia estructural anticipa el comportamiento divergente de los predictores QPP en ambos datasets, como se analizará en las secciones siguientes.
 
 \
 #figure(
@@ -176,7 +181,7 @@ La @fig:dificultad_comparacion ilustra visualmente el contraste entre #emph[Anti
 ) <dificultad_cranfield>
 \
 
-Por su parte, #emph[Cranfield] (@fig:dificultad_cranfield) exhibe una distribución prácticamente idéntica a Antique/Test: 45 consultas difíciles (20%), 131 intermedias (59%) y 45 fáciles (20%). Esta simetría, junto con su alta proporción de documentos relevantes (80.8%), confirma su clasificación como dataset favorable para la tarea de predicción. A pesar de su reducido tamaño de corpus (~1,400 documentos), la variedad equilibrada de consultas proporciona un escenario adecuado para evaluar la capacidad predictiva de los métodos QPP.
+Por su parte, #emph[Cranfield] (@fig:dificultad_cranfield) exhibe una distribución prácticamente idéntica a Antique/Test: 45 consultas difíciles (20%), 131 intermedias (59%) y 45 fáciles (20%). Esta simetría, junto con su alta proporción de documentos relevantes (80,8%), confirma su clasificación como dataset favorable para la tarea de predicción. A pesar de su reducido tamaño de corpus (~1.400 documentos), la variedad equilibrada de consultas proporciona un escenario adecuado para evaluar la capacidad predictiva de los métodos QPP.
 
 #v(10pt)
 == Comparación de métodos QPP
@@ -208,7 +213,7 @@ La @fig:dispersion_antique evidencia el comportamiento diferenciado de los méto
 ) <dispersion_car>
 \
 
-El caso de #emph[CAR] (@fig:dispersion_car) representa el escenario más problemático. Con 699 consultas, la alta densidad de puntos revela un patrón distintivo: #emph[todas] las líneas de tendencia son prácticamente horizontales (τ máximo = 0.1259), y existe una concentración masiva de puntos en el rango nDCG\@10 ≈ 0 - 0.3. Este comportamiento refleja la incompatibilidad fundamental entre BM25 (basado en coincidencias léxicas) y la tarea de #emph[Complex Answer Retrieval], que requiere comprensión semántica. La heterocedasticidad severa observable en todos los métodos indica que ningún predictor logra capturar consistentemente la dificultad de estas consultas.
+El caso de #emph[CAR] (@fig:dispersion_car) representa el escenario más problemático. Con 699 consultas, la alta densidad de puntos revela un patrón distintivo: #emph[todas] las líneas de tendencia son prácticamente horizontales (τ máximo = 0,1259), y existe una concentración masiva de puntos en el rango nDCG\@10 ≈ 0 - 0,3. Este comportamiento refleja la incompatibilidad fundamental entre BM25 (basado en coincidencias léxicas) y la tarea de #emph[Complex Answer Retrieval], que requiere comprensión semántica. La heterocedasticidad severa observable en todos los métodos indica que ningún predictor logra capturar consistentemente la dificultad de estas consultas.
 
 \
 #figure(
@@ -221,19 +226,21 @@ En #emph[TREC-COVID] (@fig:dispersion_covid) emerge un patrón único que invier
 
 \
 #figure(
-  grid(
-    columns: 2,
-    gutter: 10pt,
-    image("../assets/imagenes/nuevos_resultados/correlación/cranfield/dispersion_qpp_ndcg@10.png"),
-    image("../assets/imagenes/nuevos_resultados/correlación/msmarco_dl20_judged/dispersion_qpp_ndcg@10.png"),
-  ),
-  caption: [Diagramas de dispersión: Cranfield (izq.) y MS MARCO (der.).]
-) <dispersion_cranfield_msmarco>
+  image("../assets/imagenes/nuevos_resultados/correlación/cranfield/dispersion_qpp_ndcg@10.png", width: 100%),
+  caption: [Diagramas de dispersión en Cranfield.]
+) <dispersion_cranfield>
 \
 
-La @fig:dispersion_cranfield_msmarco compara dos datasets con tamaños muestrales muy diferentes. En #emph[Cranfield] (izquierda, 221 consultas), la mayor densidad de puntos permite identificar patrones más claros: WIG, NQC y sus variantes UEF muestran pendientes ascendentes bien definidas, mientras que Clarity exhibe una tendencia descendente distintiva —los puntos se distribuyen inversamente, con predicciones altas correspondiendo a rendimientos bajos. Los métodos pre-retrieval (IDF, SCQ) presentan nubes de puntos dispersas sin estructura clara.
+\
+#figure(
+  image("../assets/imagenes/nuevos_resultados/correlación/msmarco_dl20_judged/dispersion_qpp_ndcg@10.png", width: 100%),
+  caption: [Diagramas de dispersión en MS MARCO (Passage).]
+) <dispersion_msmarco>
+\
 
-En #emph[MS MARCO] (derecha, 51 consultas), la escasez de puntos produce bandas de confianza notablemente más amplias, aumentando la incertidumbre de las estimaciones. Sin embargo, se observa un patrón interesante: WIG y NQC muestran pendientes pronunciadas y paralelas, mientras que —a diferencia de otros datasets— IDF presenta una tendencia positiva moderada. Clarity, por su parte, muestra una línea prácticamente horizontal, indicando ausencia de capacidad predictiva en este corpus.
+En la @fig:dispersion_cranfield y la @fig:dispersion_msmarco podemos comparar dos datasets con tamaños muestrales muy diferentes. En #emph[Cranfield] (izquierda, 221 consultas), la mayor densidad de puntos permite identificar patrones más claros: WIG, NQC y sus variantes UEF muestran pendientes ascendentes bien definidas, mientras que Clarity exhibe una tendencia descendente distintiva: los puntos se distribuyen inversamente, con predicciones altas correspondiendo a rendimientos bajos. Los métodos pre-retrieval (IDF, SCQ) presentan nubes de puntos dispersas sin estructura clara.
+
+En #emph[MS MARCO] (derecha, 51 consultas), la escasez de puntos produce bandas de confianza notablemente más amplias, aumentando la incertidumbre de las estimaciones. Sin embargo, se observa un patrón interesante: WIG y NQC muestran pendientes pronunciadas y paralelas, mientras que, a diferencia de otros datasets, IDF presenta una tendencia positiva moderada. Clarity, por su parte, muestra una línea prácticamente horizontal, indicando ausencia de capacidad predictiva en este corpus.
 
 #v(10pt)
 === Análisis por familia de métodos
@@ -254,7 +261,7 @@ Los métodos evaluados pueden agruparse en tres familias según su acceso a info
 ) <boxplot_cranfield>
 \
 
-La @fig:boxplot_cranfield ilustra de manera contundente el comportamiento anómalo de Clarity en Cranfield: es el único método con correlación negativa (τ ≈ −0.07), lo que indica que sus predicciones son inversamente proporcionales al rendimiento real. El predictor UEF-Clarity, aunque logra elevarse a valores cercanos a cero, continúa siendo el segundo peor método. Este patrón contrasta marcadamente con los enfoques basados en varianza de puntuaciones (NQC, UEF-NQC, WIG, UEF-WIG), que ocupan consistentemente las posiciones superiores del ranking. Estos resultados sugieren que los métodos basados en modelos de lenguaje son especialmente sensibles a escenarios de colección pequeña, donde la estimación de distribuciones se vuelve altamente inestable. En el caso de Cranfield (~1.400 documentos), dicha inestabilidad no logra ser compensada ni siquiera mediante suavizado Dirichlet, el cual, como se discutió anteriormente, fue implementado para amortiguar este fenómeno.
+La @fig:boxplot_cranfield ilustra de manera contundente el comportamiento anómalo de Clarity en Cranfield: es el único método con correlación negativa (τ ≈ −0,07), lo que indica que sus predicciones son inversamente proporcionales al rendimiento real. El predictor UEF-Clarity, aunque logra elevarse a valores cercanos a cero, continúa siendo el segundo peor método. Este patrón contrasta marcadamente con los enfoques basados en varianza de puntuaciones (NQC, UEF-NQC, WIG, UEF-WIG), que ocupan consistentemente las posiciones superiores del ranking. Estos resultados sugieren que los métodos basados en modelos de lenguaje son especialmente sensibles a escenarios de colección pequeña, donde la estimación de distribuciones se vuelve altamente inestable. En el caso de Cranfield ($~1.400$ documentos), dicha inestabilidad no logra ser compensada ni siquiera mediante suavizado Dirichlet, el cual, como se discutió anteriormente, fue implementado para amortiguar este fenómeno.
 
 #v(10pt)
 === Significancia estadística de las correlaciones
@@ -262,23 +269,25 @@ La @fig:boxplot_cranfield ilustra de manera contundente el comportamiento anóma
 
 La validez de los patrones observados requiere verificar que las correlaciones sean estadísticamente significativas. Un coeficiente de correlación alto carece de utilidad práctica si no supera los umbrales de significancia, especialmente en datasets con pocas consultas donde el azar puede producir correlaciones espurias.
 
-Los mapas de calor de p-values utilizan una escala de cuatro niveles: altamente significativo (p < 0.001), muy significativo (p < 0.01), significativo (p < 0.05) y no significativo (p ≥ 0.05). Esta gradación permite distinguir entre correlaciones robustas y aquellas que podrían deberse a fluctuaciones aleatorias.
+Los mapas de calor de p-values utilizan una escala de cuatro niveles: altamente significativo (p < 0,001), muy significativo (p < 0,01), significativo (p < 0,05) y no significativo (p ≥ 0,05). Esta gradación permite distinguir entre correlaciones robustas y aquellas que podrían deberse a fluctuaciones aleatorias.
 
 \
 #figure(
-  grid(
-    columns: 2,
-    gutter: 10pt,
-    image("../assets/imagenes/nuevos_resultados/correlación/antique_test/pvalues_qpp_kendall.png"),
-    image("../assets/imagenes/nuevos_resultados/correlación/trec_covid/pvalues_qpp_kendall.png"),
-  ),
-  caption: [Significancia estadística (p-values): Antique/Test (izq.) vs TREC-COVID (der.).]
-) <pvalues_representativo>
+  image("../assets/imagenes/nuevos_resultados/correlación/antique_test/pvalues_qpp_kendall.png", width: 80%),
+  caption: [Significancia estadística (p-values) en Antique/Test.]
+) <pvalues_antique>
 \
 
-El contraste entre ambos datasets contrasta fuertemente. En #emph[Antique/Test] (180 consultas), todos los métodos excepto IDF alcanzan significancia alta (p < 0.001), lo que valida la robustez de las correlaciones observadas. En #emph[TREC-COVID] (50 consultas), sin embargo, solo Clarity y UEF-Clarity presentan significancia consistente; métodos como NQC, que tradicionalmente dominan otros datasets, no superan el umbral de p < 0.05.
+\
+#figure(
+  image("../assets/imagenes/nuevos_resultados/correlación/trec_covid/pvalues_qpp_kendall.png", width: 80%),
+  caption: [Significancia estadística (p-values) en TREC-COVID.]
+) <pvalues_trec_covid>
+\
 
-Este fenómeno se explica por la relación matemática entre tamaño muestral y significancia estadística. La prueba de significancia para correlaciones evalúa si el coeficiente observado podría haberse obtenido por azar; con muestras pequeñas, la varianza del estimador es alta y solo correlaciones sustanciales superan el umbral. Concretamente, para τ de Kendall con n ≈ 50 consultas, solo correlaciones relativamente altas (τ ≳ 0.18–0.20) tienden a alcanzar p < 0.05, mientras que con n ≈ 180 consultas correlaciones mucho menores (τ ≈ 0.10) pueden resultar significativas. Esto explica por qué métodos como NQC, con correlaciones moderadas en TREC-COVID (τ ≈ 0.09), no alcanzan significancia a pesar de mostrar tendencias positivas.
+Como podemos ver en la @fig:pvalues_antique y la @fig:pvalues_trec_covid, ambos datasets contrastan fuertemente. En #emph[Antique/Test] (180 consultas), todos los métodos excepto IDF alcanzan significancia alta (p < 0,001), lo que valida la robustez de las correlaciones observadas. En #emph[TREC-COVID] (50 consultas), sin embargo, solo Clarity y UEF-Clarity presentan significancia consistente; métodos como NQC, que tradicionalmente dominan otros datasets, no superan el umbral de p < 0,05.
+
+Este fenómeno se explica por la relación matemática entre tamaño muestral y significancia estadística. La prueba de significancia para correlaciones evalúa si el coeficiente observado podría haberse obtenido por azar; con muestras pequeñas, la varianza del estimador es alta y solo correlaciones sustanciales superan el umbral. Concretamente, para τ de Kendall con n ≈ 50 consultas, solo correlaciones relativamente altas (τ ≳ 0,18–0,20) tienden a alcanzar p < 0,05, mientras que con n ≈ 180 consultas correlaciones mucho menores (τ ≈ 0,10) pueden resultar significativas. Esto explica por qué métodos como NQC, con correlaciones moderadas en TREC-COVID (τ ≈ 0,09), no alcanzan significancia a pesar de mostrar tendencias positivas.
 
 *Patrones transversales de significancia*
 
@@ -286,11 +295,11 @@ El análisis de los cinco datasets revela consistencias importantes:
 
 - #emph[IDF nunca alcanza significancia estadística] en ningún dataset, confirmando su inutilidad práctica como predictor QPP con el sistema BM25 evaluado.
 
-- #emph[NQC y UEF-NQC] son altamente significativos (p < 0.001) en cuatro de cinco datasets, con la única excepción de TREC-COVID.
+- #emph[NQC y UEF-NQC] son altamente significativos (p < 0,001) en cuatro de cinco datasets, con la única excepción de TREC-COVID.
 
 - #emph[Clarity exhibe significancia polarizada]: altamente significativo en TREC-COVID y Antique, pero no significativo en Cranfield ni MS MARCO.
 
-- #emph[SCQ presenta significancia intermedia]: alcanza p < 0.001 en Antique y CAR, pero no supera p < 0.05 en MS MARCO ni TREC-COVID.
+- #emph[SCQ presenta significancia intermedia]: alcanza p < 0,001 en Antique y CAR, pero no supera p < 0,05 en MS MARCO ni TREC-COVID.
 
 - #emph[Los datasets pequeños] (MS MARCO con 51 consultas, TREC-COVID con 50) muestran mayor proporción de métodos no significativos, subrayando la importancia del tamaño muestral para conclusiones robustas.
 
@@ -367,74 +376,74 @@ Esta alineación sugiere que la relación entre la predicción y el rendimiento 
 
           // Métodos QPP (pre y post-retrieval)
           [IDF Promedio],
-          [$0.164$], [$0.139$], [$0.038$],
-          [$0.249$], [$0.186$], [$0.102$],
-          [$0.123$], [$0.005$], [$-0.006$],
-          [$0.265$], [$0.292$], [$0.209$],
-          [$-0.019$], [$-0.007$], [$-0.005$],
+          [$0,164$], [$0,139$], [$0,038$],
+          [$0,249$], [$0,186$], [$0,102$],
+          [$0,123$], [$0,005$], [$-0,006$],
+          [$0,265$], [$0,292$], [$0,209$],
+          [$-0,019$], [$-0,007$], [$-0,005$],
 
           [IDF Máximo],
-          [$0.092$], [$0.076$], [$0.028$],
-          [$0.117$], [$0.087$], [$0.037$],
-          [$0.083$], [$0.030$], [$0.017$],
-          [$0.251$], [$0.253$], [$0.168$],
-          [$0.018$], [$0.009$], [$0.006$],
+          [$0,092$], [$0,076$], [$0,028$],
+          [$0,117$], [$0,087$], [$0,037$],
+          [$0,083$], [$0,030$], [$0,017$],
+          [$0,251$], [$0,253$], [$0,168$],
+          [$0,018$], [$0,009$], [$0,006$],
 
           [SCQ Promedio],
-          [$0.324$], [$0.266$], [$0.180$],
-          [$0.284$], [$0.235$], [$0.104$],
-          [$0.075$], [$0.053$], [$0.032$],
-          [$0.178$], [$0.182$], [$0.127$],
-          [$0.039$], [$0.014$], [$0.010$],
+          [$0,324$], [$0,266$], [$0,180$],
+          [$0,284$], [$0,235$], [$0,104$],
+          [$0,075$], [$0,053$], [$0,032$],
+          [$0,178$], [$0,182$], [$0,127$],
+          [$0,039$], [$0,014$], [$0,010$],
 
           [SCQ Máximo],
-          [$0.379$], [$0.383$], [$0.269$],
-          [$0.310$], [$0.276$], [$0.176$],
-          [$0.062$], [$0.089$], [$0.055$],
-          [$-0.035$], [$0.012$], [$0.030$],
-          [$0.065$], [$0.074$], [$0.051$],
+          [$0,379$], [$0,383$], [$0,269$],
+          [$0,310$], [$0,276$], [$0,176$],
+          [$0,062$], [$0,089$], [$0,055$],
+          [$-0,035$], [$0,012$], [$0,030$],
+          [$0,065$], [$0,074$], [$0,051$],
 
           [WIG],
-          [$0.436$], [$0.450$], [$0.305$],
-          [$0.295$], [$0.324$], [$0.222$],
-          [$0.320$], [$0.278$], [$0.201$],
-          [$0.552$], [$0.560$], [$0.406$],
-          [$0.079$], [$0.099$], [$0.068$],
+          [$0,436$], [$0,450$], [$0,305$],
+          [$0,295$], [$0,324$], [$0,222$],
+          [$0,320$], [$0,278$], [$0,201$],
+          [$0,552$], [$0,560$], [$0,406$],
+          [$0,079$], [$0,099$], [$0,068$],
 
           [NQC],
-          [$0.524$], [$0.567$], [$0.382$],
-          [$0.297$], [$0.384$], [$0.210$],
-          [$0.192$], [$0.147$], [$0.093$],
-          [*$0.553$*], [*$0.585$*], [*$0.408$*],
-          [$0.125$], [$0.166$], [$0.114$],
+          [$0,524$], [$0,567$], [$0,382$],
+          [$0,297$], [$0,384$], [$0,210$],
+          [$0,192$], [$0,147$], [$0,093$],
+          [*$0,553$*], [*$0,585$*], [*$0,408$*],
+          [$0,125$], [$0,166$], [$0,114$],
 
           [Clarity],
-          [$0.452$], [$0.430$], [$0.272$],
-          [$-0.025$], [$-0.018$], [$-0.069$],
-          [$0.477$], [$0.461$], [$0.320$],
-          [$0.093$], [$0.068$], [$0.047$],
-          [$0.110$], [$0.146$], [$0.101$],
+          [$0,452$], [$0,430$], [$0,272$],
+          [$-0,025$], [$-0,018$], [$-0,069$],
+          [$0,477$], [$0,461$], [$0,320$],
+          [$0,093$], [$0,068$], [$0,047$],
+          [$0,110$], [$0,146$], [$0,101$],
 
           [UEF-WIG],
-          [$0.333$], [$0.377$], [$0.252$],
-          [*$0.388$*], [$0.390$], [$0.233$],
-          [$0.170$], [$0.192$], [$0.134$],
-          [$0.343$], [$0.380$], [$0.253$],
-          [$0.121$], [$0.124$], [$0.086$],
+          [$0,333$], [$0,377$], [$0,252$],
+          [*$0,388$*], [$0,390$], [$0,233$],
+          [$0,170$], [$0,192$], [$0,134$],
+          [$0,343$], [$0,380$], [$0,253$],
+          [$0,121$], [$0,124$], [$0,086$],
 
           [UEF-NQC],
-          [*$0.553$*], [*$0.596$*], [*$0.427$*],
-          [$0.359$], [*$0.458$*], [*$0.258$*],
-          [$0.182$], [$0.146$], [$0.108$],
-          [$0.552$], [$0.560$], [*$0.408$*],
-          [*$0.131$*], [*$0.182$*], [*$0.126$*],
+          [*$0,553$*], [*$0,596$*], [*$0,427$*],
+          [$0,359$], [*$0,458$*], [*$0,258$*],
+          [$0,182$], [$0,146$], [$0,108$],
+          [$0,552$], [$0,560$], [*$0,408$*],
+          [*$0,131$*], [*$0,182$*], [*$0,126$*],
 
           [UEF-Clarity],
-          [$0.463$], [$0.448$], [$0.286$],
-          [$0.161$], [$0.181$], [$0.011$],
-          [*$0.496$*], [*$0.468$*], [*$0.331$*],
-          [$0.190$], [$0.186$], [$0.119$],
-          [$0.113$], [$0.152$], [$0.105$],
+          [$0,463$], [$0,448$], [$0,286$],
+          [$0,161$], [$0,181$], [$0,011$],
+          [*$0,496$*], [*$0,468$*], [*$0,331$*],
+          [$0,190$], [$0,186$], [$0,119$],
+          [$0,113$], [$0,152$], [$0,105$],
         ),
       ),
       caption: [Correlaciones (P-ρ, S-ρ y K-τ) entre métodos QPP y nDCG\@10 en los distintos datasets evaluados.]
@@ -443,17 +452,17 @@ Esta alineación sugiere que la relación entre la predicción y el rendimiento 
 
 La primera observación crítica que podemos obtener de la @tbl:Resultados_qpp_ndcg10_multidataset_tabla es la significativa heterogeneidad en los "techos de rendimiento" alcanzables. Se evidencia que la dificultad de la tarea de predicción no es uniforme: 
 
-- En colecciones favorables como _Antique_ y _MS MARCO_, los mejores métodos logran correlaciones de _Kendall_ robustas (*τ > 0.40*).
+- En colecciones favorables como _Antique_ y _MS MARCO_, los mejores métodos logran correlaciones de _Kendall_ robustas (*τ > 0,40*).
 
-- En escenarios complejos como _CAR_, el rendimiento se desploma drásticamente (*τ ≈ 0.126*).
+- En escenarios complejos como _CAR_, el rendimiento se desploma drásticamente (*τ ≈ 0,126*).
 
 Este escenario confirma cuantitativamente que la calidad de la predicción está intrínsecamente acotada por las propiedades del conjunto de datos y la capacidad del sistema de recuperación base para satisfacer las necesidades de información planteadas.
 
 Por otra parte, si analizamos el desempeño por familias, se hace evidente la limitación de los métodos _pre-retrieval_:
 
-- *IDF* (Promedio y Máximo) presenta correlaciones consistentemente bajas (*τ < 0.15*), demostrando una capacidad predictiva cercana al azar.
+- *IDF* (Promedio y Máximo) presenta correlaciones consistentemente bajas (*τ < 0,15*), demostrando una capacidad predictiva cercana al azar.
 
-- *SCQ* revela un comportamiento dual interesante: alcanza correlaciones respetables en colecciones pequeñas como *_Antique_* (*τ ≈ 0.269*) y *_Cranfield_* (*τ ≈ 0.176*), pero su rendimiento colapsa en corpus masivos o especializados como *_MS MARCO_* (*τ = 0.030*) y *_TREC-COVID_* (*τ = 0.055*).
+- *SCQ* revela un comportamiento dual interesante: alcanza correlaciones respetables en colecciones pequeñas como *_Antique_* (*τ ≈ 0,269*) y *_Cranfield_* (*τ ≈ 0,176*), pero su rendimiento colapsa en corpus masivos o especializados como *_MS MARCO_* (*τ = 0,030*) y *_TREC-COVID_* (*τ = 0,055*).
 
 Este hallazgo sugiere que la estadística de coherencia de la consulta, que es útil en contextos simples o reducidos, pierde robustez y se diluye como señal predictiva al escalar a _corpus_ que son masivos o con vocabularios técnicos específicos.
 
@@ -463,17 +472,17 @@ En contraste, los métodos *_post-retrieval_* dominan el espectro de resultados.
 
 Otro caso de estudio excepcional es el del método *_Clarity_*, en el que los datos numéricos confirman una dependencia extrema del dominio:
 
-- En conjuntos de datos como *_Cranfield_* fracasa de forma clara (*τ = -0.069*, correlación nula o inversa).
+- En conjuntos de datos como *_Cranfield_* fracasa de forma clara (*τ = -0,069*, correlación nula o inversa).
 
-- En *_TREC-COVID_* resurge como uno de los métodos líderes (τ = 0.320), y más aún, su variante _UEF-Clarity_ alcanza en este _dataset_ el valor más alto de la tabla (*τ = 0.331*).
+- En *_TREC-COVID_* resurge como uno de los métodos líderes (τ = 0,320), y más aún, su variante _UEF-Clarity_ alcanza en este _dataset_ el valor más alto de la tabla (*τ = 0,331*).
 
 Esto indica que los modelos de lenguaje, base para _Clarity_, son altamente efectivos cuando el _corpus_ posee una homogeneidad temática y terminológica (como son los artículos médicos sobre COVID-19), pero se vuelven inestables e inútiles en colecciones pequeñas o con vocabularios más dispersos.
 
-Respecto a la aplicación del marco *_UEF_* (_Utility Estimation Framework_), los resultados muestran matices que son importantes, si bien el método logra potenciar el rendimiento en _Antique_ y _Cranfield_ (elevando la correlación de NQC de 0.382 a 0.427), se observa un fenómeno de *"saturación"* en _MS MARCO_. 
+Respecto a la aplicación del marco *_UEF_* (_Utility Estimation Framework_), los resultados muestran matices que son importantes, si bien el método logra potenciar el rendimiento en _Antique_ y _Cranfield_ (elevando la correlación de NQC de 0,382 a 0,427), se observa un fenómeno de *"saturación"* en _MS MARCO_. 
 
-En este _dataset_, las correlaciones de *NQC* y *UEF-NQC* son idénticas (*τ = 0.408*), lo que sugiere que en _corpus_ de gran escala y diversidad temática, la expansión de consultas, que es el mecanismo central de _UEF_, podría no estar aportando información nueva relevante o, peor aún, podría estar introdución ruido que neutraliza las ganancias de la re-estimación.
+En este _dataset_, las correlaciones de *NQC* y *UEF-NQC* son idénticas (*τ = 0,408*), lo que sugiere que en _corpus_ de gran escala y diversidad temática, la expansión de consultas, que es el mecanismo central de _UEF_, podría no estar aportando información nueva relevante o, peor aún, podría estar introdución ruido que neutraliza las ganancias de la re-estimación.
 
-Finalmente, el análisis del conjunto de datos *_CAR_* ratifica la dificultad extrema de las tareas de _Complex Answer Retrieval_ para los paradigmas actuales, ya que con una correlación máxima de *τ ≈ 0.126* transversal a todos los métodos probados, se evidencia una barrera estructural, en donde la desconexión semántica entre las consultas (títulos de Wikipedia, en este caso) y los pasajes relevantes, sumada a una escala de relevancia compleja, genera un escenario "ciego" para las señales léxicas y estadísticas tradicionales.
+Finalmente, el análisis del conjunto de datos *_CAR_* ratifica la dificultad extrema de las tareas de _Complex Answer Retrieval_ para los paradigmas actuales, ya que con una correlación máxima de *τ ≈ 0,126* transversal a todos los métodos probados, se evidencia una barrera estructural, en donde la desconexión semántica entre las consultas (títulos de Wikipedia, en este caso) y los pasajes relevantes, sumada a una escala de relevancia compleja, genera un escenario "ciego" para las señales léxicas y estadísticas tradicionales.
 
 #v(10pt)
 == Discusión de los resultados
@@ -489,7 +498,7 @@ Los resultados confirman que la predicción del rendimiento de consultas es una 
 
 Uno de los principales aportes de este trabajo de título es la identificación empírica de una configuración de referencia robusta, en la que los datos demuestran que los métodos _post-retrieval_ basados en la dispersión de puntuaciones, específicamente _NQC_ y su variante _UEF-NQC_, ofrecen el equilibrio más consistente entre rendimiento y estabilidad.
 
-Aunque los valores de correlación obtenidos (con límites superiores cercanos a τ ≈ 0.43) podrían parecer modestos fuera del contexto de la recuperación de información, es crucial interpretarlos bajo los estándares del dominio. Como señala @how-much-correlation-is-good, correlaciones incluso tan bajas como _0.1_ poseen valor práctico en escenarios de predicción de dificultad, y valores en el rango obtenido en este estudio son considerados significativos. De hecho, resultados como los de _Antique_ se alinean e incluso superan ligeramente los reportados por @zendel2024qpptk, validando la calidad de la implementación.
+Aunque los valores de correlación obtenidos (con límites superiores cercanos a τ ≈ 0,43) podrían parecer modestos fuera del contexto de la recuperación de información, es crucial interpretarlos bajo los estándares del dominio. Como señala @how-much-correlation-is-good, correlaciones incluso tan bajas como _0,1_ poseen valor práctico en escenarios de predicción de dificultad, y valores en el rango obtenido en este estudio son considerados significativos. De hecho, resultados como los de _Antique_ se alinean e incluso superan ligeramente los reportados por @zendel2024qpptk, validando la calidad de la implementación.
 
 En consecuencia, se establece que métodos como _UEF-NQC_ constituyen un _baseline_ experimental idóneo para futuras investigaciones, debiendo preferise sobre métodos más débiles como _IDF_, siempre que el costo computacional de la expansión de consultas sea admisible.
 
@@ -501,7 +510,7 @@ Por lo tanto, en escenarios de alta demanda o tiempo real, este costo podría se
 === La complejidad inherente y el límite estadístico
 \
 
-Los resultados consistentemente bajos en el conjunto de datos _CAR_ (τ < 0.13) exponen no solo una limitación de los métodos evaluados, sino la complejidad intrínsica de la tarea. Estudios previos con expertos humanos como @humans-cant-predict y @user-ratings-vs-system-predictions han demostrado que incluso profesionales con conocimiento del dominio tienen dificultades para predecir el fracaso de una consulta basándose solo en su formulación.
+Los resultados consistentemente bajos en el conjunto de datos _CAR_ (τ < 0,13) exponen no solo una limitación de los métodos evaluados, sino la complejidad intrínsica de la tarea. Estudios previos con expertos humanos como @humans-cant-predict y @user-ratings-vs-system-predictions han demostrado que incluso profesionales con conocimiento del dominio tienen dificultades para predecir el fracaso de una consulta basándose solo en su formulación.
 
 Esto sugiere que los métodos actuales, que operan bajo supuestos léxicos como _IDF_ y _SCQ_ o estadísticos como _NQC_ y _Clarity_ han alcanzado un "techo técnico", ya que asumen que la dificultad se manifiesta en la rareza de los términos o en la divergencia de distribuciones, pero son "ciegos" a la brecha semántica, por lo que en tareas complejas de recuperación donde la revelancia no es literal sino conceptual como en _CAR_, los métodos estadísticos no logran distinguir claramente entre una respuesta diversa pero relevante y una respuesta ruidosa e irrelevante.
 

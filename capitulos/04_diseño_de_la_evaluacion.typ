@@ -371,15 +371,15 @@ La @tbl:tabla-datasets especifica los datasets seleccionados, seguida de la @tbl
     table.header(
       [*Dataset*], [*Variante ir\_datasets*], [*Documentos*], [*Consultas*], [*Qrels*], [*Origen de Anotaciones*]
     ),
-    [Cranfield], [`cranfield`], [1,400], [225], [1,837], [Expertos en aerodinámica (1960s)],
-    [ANTIQUE], [`antique/test`], [403,666], [200], [6,589], [Crowdworkers (Amazon MTurk)],
+    [Cranfield], [`cranfield`], [1.400], [225], [1.837], [Expertos en aerodinámica (1960s)],
+    [ANTIQUE], [`antique/test`], [403.666], [200], [6.589], [Crowdworkers (Amazon MTurk)],
     [TREC-
     
-    COVID], [`beir/trec-covid`], [171,332], [50], [66,336], [Asesores NIST (expertos médicos)],
+    COVID], [`beir/trec-covid`], [171.332], [50], [66.336], [Asesores NIST (expertos médicos)],
     [MS 
     
-    MARCO DL 2020], [`msmarco-passage/trec-dl-2020/judged`], [8,841,823], [54], [11,386], [Asesores NIST (TREC DL 2020)],
-    [TREC CAR], [`car/v1.5/trec-y1/manual`], [29,678,367], [2,287], [29,571], [Asesores NIST (juicios manuales)]
+    MARCO DL 2020], [`msmarco-passage/trec-dl-2020/judged`], [8.841.823], [54], [11.386], [Asesores NIST (TREC DL 2020)],
+    [TREC CAR], [`car/v1.5/trec-y1/manual`], [29.678.367], [2.287], [29.571], [Asesores NIST (juicios manuales)]
   ),
   caption: "Estadísticos de los datasets seleccionados.",
 ) <tabla-metadata-datasets>
@@ -387,7 +387,7 @@ La @tbl:tabla-datasets especifica los datasets seleccionados, seguida de la @tbl
 
 *Cranfield Collection*: La colección Cranfield representa uno de los hitos fundacionales en la historia de la recuperación de información. Desarrollada entre 1958 y 1966 en el _Cranfield Institute of Technology_ (actualmente Cranfield University) en el Reino Unido, bajo la dirección de Cyril Cleverdon, constituye el primer intento sistemático de evaluar sistemas de recuperación de información bajo condiciones controladas.
 
-- *Documentos*: La colección consta de 1,400 resúmenes científicos en el dominio de la aerodinámica. Cada documento incluye campos de identificador, título, texto del abstract, autor y referencia bibliográfica.
+- *Documentos*: La colección consta de 1.400 resúmenes científicos en el dominio de la aerodinámica. Cada documento incluye campos de identificador, título, texto del abstract, autor y referencia bibliográfica.
 - *Consultas*: Las 225 consultas fueron formuladas en lenguaje natural por investigadores del área, representando necesidades de información reales del dominio científico.
 - *Origen de _Qrels_*: Los juicios de relevancia fueron anotados manualmente por expertos en aerodinámica, estableciendo una escala de 5 niveles (-1 a 4). Estos juicios introdujeron el concepto de "_relevance judgments_" que se convertiría en estándar para la evaluación de IR. La distribución incluye: 225 juicios de nivel -1, 128 de nivel 1, 387 de nivel 2, 734 de nivel 3, y 363 de nivel 4.
 - *Importancia histórica*: Los experimentos de Cranfield establecieron el "paradigma Cranfield" que incluye una colección de documentos, un conjunto de consultas con juicios de relevancia asociados, y evaluación basada en _precisión y recall_, metodología que posteriormente adoptaría TREC.
@@ -395,38 +395,38 @@ La @tbl:tabla-datasets especifica los datasets seleccionados, seguida de la @tbl
 
 *ANTIQUE (_A Non-factoid Question Answering Benchmark_):* ANTIQUE es un benchmark diseñado específicamente para la recuperación de respuestas no factuales, desarrollado por investigadores de la Universidad de Massachusetts Amherst y publicado en 2019 @antique-dataset.
 
-- *Documentos*: La colección contiene 403,666 pasajes cortos de respuestas extraídos de Yahoo! Answers (Webscope L6), un servicio de preguntas y respuestas comunitario donde usuarios formulaban preguntas de diversa índole.
+- *Documentos*: La colección contiene 403.666 pasajes cortos de respuestas extraídos de Yahoo! Answers (Webscope L6), un servicio de preguntas y respuestas comunitario donde usuarios formulaban preguntas de diversa índole.
 - *Consultas*: El conjunto de test incluye 200 preguntas no factuales de dominio abierto, caracterizadas por ser subjetivas y basadas en opiniones, donde no existe una única respuesta "correcta". Las preguntas provienen de categorías diversas como consejos, recomendaciones y experiencias personales.
-- *Origen de Qrels*: Los 6,589 juicios de relevancia del conjunto de test fueron recolectados mediante crowdsourcing en Amazon Mechanical Turk. Los anotadores evaluaron todas las respuestas disponibles para cada pregunta utilizando una escala de 4 niveles: nivel 1 (fuera de contexto), nivel 2 (no relevante), nivel 3 (marginalmente relevante), y nivel 4 (altamente relevante). La distribución incluye: 1,642 juicios de nivel 1, 2,417 de nivel 2, 1,196 de nivel 3, y 1,334 de nivel 4.
+- *Origen de Qrels*: Los 6,589 juicios de relevancia del conjunto de test fueron recolectados mediante crowdsourcing en Amazon Mechanical Turk. Los anotadores evaluaron todas las respuestas disponibles para cada pregunta utilizando una escala de 4 niveles: nivel 1 (fuera de contexto), nivel 2 (no relevante), nivel 3 (marginalmente relevante), y nivel 4 (altamente relevante). La distribución incluye: 1.642 juicios de nivel 1, 2.417 de nivel 2, 1.196 de nivel 3, y 1.334 de nivel 4.
 - *Objetivo*: Este dataset introduce complejidad adicional para los sistemas de recuperación debido a la naturaleza subjetiva de las consultas, donde la relevancia depende de factores contextuales y de opinión difíciles de modelar estadísticamente.
 \
 
 *TREC-COVID:* TREC-COVID fue una iniciativa colaborativa entre el _Allen Institute for Artificial Intelligence_ (AI2), el _National Institute of Standards and Technology_ (NIST), la _National Library of Medicine_ (NLM), _Oregon Health & Science University_ (OHSU), y la _University of Texas Health Science Center at Houston_ (UTHealth) @trec-covid-dataset.
 
-- *Documentos*: La colección utiliza el corpus CORD-19 (_COVID-19 Open Research Dataset_) mantenido por Semantic Scholar. La versión BEIR contiene 171,332 artículos científicos representados por sus títulos y abstracts, incluyendo campos como identificador, texto, título, URL y PubMed ID.
+- *Documentos*: La colección utiliza el corpus CORD-19 (_COVID-19 Open Research Dataset_) mantenido por Semantic Scholar. La versión BEIR contiene 171.332 artículos científicos representados por sus títulos y abstracts, incluyendo campos como identificador, texto, título, URL y PubMed ID.
 - *Consultas*: Las 50 consultas representan necesidades de información reales de científicos, clínicos, responsables de políticas públicas y otros profesionales que necesitaban navegar la creciente literatura científica sobre COVID-19 durante la pandemia. Cada consulta incluye un título conciso, una descripción expandida y una narrativa que especifica qué documentos serían considerados relevantes.
-- *Origen de Qrels*: Los 66,336 juicios de relevancia fueron creados por asesores de NIST con experiencia biomédica, provenientes de NLM, OHSU y UTHealth. La evaluación se realizó en cinco rondas consecutivas durante 2020, acumulando juicios de relevancia profundos ("_deep relevance judgments_"). La escala incluye: nivel -1 (no evaluado o documento eliminado, 2 juicios), nivel 0 (no relevante, 41,661 juicios), nivel 1 (relevante, 10,456 juicios), y nivel 2 (altamente relevante, 14,217 juicios).
+- *Origen de Qrels*: Los 66.336 juicios de relevancia fueron creados por asesores de NIST con experiencia biomédica, provenientes de NLM, OHSU y UTHealth. La evaluación se realizó en cinco rondas consecutivas durante 2020, acumulando juicios de relevancia profundos ("_deep relevance judgments_"). La escala incluye: nivel -1 (no evaluado o documento eliminado, 2 juicios), nivel 0 (no relevante, 41.661 juicios), nivel 1 (relevante, 10.456 juicios), y nivel 2 (altamente relevante, 14.217 juicios).
 - *Objetivos*: El track buscó evaluar algoritmos de búsqueda para ayudar a gestionar el corpus de literatura científica sobre COVID-19 y descubrir métodos aplicables a futuras crisis biomédicas globales.
 \
 
 *MS MARCO Passage (_TREC Deep Learning 2020_):* MS MARCO (_Microsoft MAchine Reading COmprehension_) es una colección a gran escala desarrollada por Microsoft Research, utilizada como base para el _TREC Deep Learning Track_ desde 2019 @ms-marco-dataset.
 
-- *Documentos*: El _corpus_ completo contiene 8,841,823 pasajes extraídos de documentos web reales indexados por Bing. Cada pasaje consiste en un identificador y el texto del pasaje.
+- *Documentos*: El _corpus_ completo contiene 8.841.823 pasajes extraídos de documentos web reales indexados por Bing. Cada pasaje consiste en un identificador y el texto del pasaje.
 - *Consultas*: Las consultas del TREC DL 2020 fueron muestreadas del conjunto de evaluación de MS MARCO. Originalmente, estas consultas provienen de preguntas reales y anónimas formuladas por usuarios del motor de búsqueda Bing, lo que garantiza que representan necesidades de información auténticas y cotidianas. El subconjunto "_judged_" contiene 54 consultas que fueron evaluadas por asesores de NIST.
-- *Origen de Qrels*: A diferencia de los juicios de relevancia escasos de MS MARCO original (donde típicamente solo un documento es marcado como relevante por consulta), el TREC DL 2020 proporciona 11,386 juicios de relevancia detallados creados por asesores de NIST. La escala de 4 niveles incluye: nivel 0 (irrelevante, 7,780 juicios), nivel 1 (relacionado, 1,940 juicios), nivel 2 (altamente relevante, 1,020 juicios), y nivel 3 (perfectamente relevante, 646 juicios). El umbral binario oficial de TREC es ≥ 2.
+- *Origen de Qrels*: A diferencia de los juicios de relevancia escasos de MS MARCO original (donde típicamente solo un documento es marcado como relevante por consulta), el TREC DL 2020 proporciona 11.386 juicios de relevancia detallados creados por asesores de NIST. La escala de 4 niveles incluye: nivel 0 (irrelevante, 7.780 juicios), nivel 1 (relacionado, 1,940 juicios), nivel 2 (altamente relevante, 1.020 juicios), y nivel 3 (perfectamente relevante, 646 juicios). El umbral binario oficial de TREC es ≥ 2.
 \
 
 *TREC CAR (_Complex Answer Retrieval_):* TREC CAR es una colección de recuperación de pasajes _ad-hoc_ construida a partir de Wikipedia, diseñada para abordar necesidades de información complejas que requieren respuestas extensas y estructuradas @TREC-CAR-dataset.
 
-- *Documentos*: El corpus v1.5 contiene 29,678,367 pasajes extraídos de Wikipedia (_dump_ de diciembre 2016). Cada documento incluye un identificador único y el texto del pasaje.
-- *Consultas*: Las 2,287 consultas del _Year 1_ (2017) fueron derivadas de la estructura jerárquica de artículos de Wikipedia. Cada consulta incluye un identificador, texto completo, título del artículo y la jerarquía de encabezados que representa la sección específica. Las consultas fueron seleccionadas manualmente de temas de ciencia popular y medio ambiente, inspiradas en noticias de actualidad y temas de interés general.
-- *Origen de Qrels*: La versión "manual" (`car/v1.5/trec-y1/manual`) contiene 29,571 juicios de relevancia creados por seis asesores de NIST utilizando _pools_ de documentos construidos a partir de las entregas de los participantes. La escala graduada de 6 niveles es la más detallada entre los datasets seleccionados:
+- *Documentos*: El corpus v1.5 contiene 29.678.367 pasajes extraídos de Wikipedia (_dump_ de diciembre 2016). Cada documento incluye un identificador único y el texto del pasaje.
+- *Consultas*: Las 2.287 consultas del _Year 1_ (2017) fueron derivadas de la estructura jerárquica de artículos de Wikipedia. Cada consulta incluye un identificador, texto completo, título del artículo y la jerarquía de encabezados que representa la sección específica. Las consultas fueron seleccionadas manualmente de temas de ciencia popular y medio ambiente, inspiradas en noticias de actualidad y temas de interés general.
+- *Origen de Qrels*: La versión "manual" (`car/v1.5/trec-y1/manual`) contiene 29.571 juicios de relevancia creados por seis asesores de NIST utilizando _pools_ de documentos construidos a partir de las entregas de los participantes. La escala graduada de 6 niveles es la más detallada entre los datasets seleccionados:
   - Nivel -2: Basura/spam (42 juicios)
-  - Nivel -1: No relevante (12,785 juicios)
-  - Nivel 0: No relevante pero tema cercano (9,219 juicios)
-  - Nivel 1: Podría mencionarse (3,094 juicios)
-  - Nivel 2: Debería mencionarse (1,970 juicios)
-  - Nivel 3: Debe mencionarse (2,461 juicios)
+  - Nivel -1: No relevante (12.785 juicios)
+  - Nivel 0: No relevante pero tema cercano (9.219 juicios)
+  - Nivel 1: Podría mencionarse (3.094 juicios)
+  - Nivel 2: Debería mencionarse (1.970 juicios)
+  - Nivel 3: Debe mencionarse (2.461 juicios)
 - *Diferencia con qrels automáticos*: TREC CAR también ofrece qrels automáticos derivados de la estructura de Wikipedia, pero para este proyecto se utiliza exclusivamente la versión con juicios manuales por su mayor fiabilidad y la inclusión de juicios negativos explícitos.
 
 Además, todos los datasets utilizados son de acceso abierto en repositorios públicos y están bien documentados debido a que son ampliamente reconocidos en la comunidad de recuperación de información, lo que asegura que cualquier investigador pueda acceder a ellos sin restricciones para replicar los experimentos. Todos los datasets son accesibles a través de la librería *_ir\_datasets_*, garantizando un proceso estandarizado de carga y preprocesamiento. Es así que, la utilización de datasets de acceso abierto garantiza que los resultados del proyecto sean reproducibles y accesibles para futuras investigaciones, fomentando el entorno colaborativo y transparente, evitando problemas legales o éticos relacionados con el uso de datos restringidos o privados.
