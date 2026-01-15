@@ -450,9 +450,9 @@ Para garantizar la fiabilidad del entorno de evaluación implementado, se desarr
 === Datos para las prueba
 \
 
-Para ejecutar las pruebas unitarias se requiere un corpus de documentos con sus respectivas consultas y juicios de relevancia. Sin embargo, utilizar datasets completos como Antique o MS MARCO para pruebas unitarias presenta inconvenientes prácticos: tiempos de indexación prolongados, mayor consumo de memoria y dificultad para verificar manualmente los resultados esperados.
+Para ejecutar las pruebas unitarias se requiere un corpus de documentos con sus respectivas consultas y juicios de relevancia. Sin embargo, utilizar _datasets_ completos como Antique o MS MARCO para pruebas unitarias presenta inconvenientes prácticos: tiempos de indexación prolongados, mayor consumo de memoria y dificultad para verificar manualmente los resultados esperados.
 
-Por esta razón, se diseñó un dataset de prueba sintético denominado _IquiqueDataset_, inspirado en información turística e histórica de la ciudad de Iquique in Chile. Este dataset cumple con los requisitos de legibilidad en español del pipeline de preprocesamiento y permite verificar manualmente cada cálculo gracias a su tamaño reducido.
+Por esta razón, se diseñó un _dataset_ de prueba sintético denominado _IquiqueDataset_, inspirado en información turística e histórica de la ciudad de Iquique en Chile. Este _dataset_ cumple con los requisitos de legibilidad en español del pipeline de preprocesamiento y permite verificar manualmente cada cálculo gracias a su tamaño reducido.
 
 \
 #figure(
@@ -475,7 +475,7 @@ Por esta razón, se diseñó un dataset de prueba sintético denominado _Iquique
 \
 
 
-El corpus incluye ocho documentos breves que abarcan temas como la geografía de Iquique, la Zona Franca (ZOFRI), la playa Cavancha, el Museo Regional, el clima desértico costero, la Guerra del Pacífico, la industria del salitre y el patrimonio cultural pampino. Esta diversidad temática permite evaluar el comportamiento de los predictores ante consultas con diferente especificidad y cobertura documental.
+El _corpus_ incluye ocho documentos breves que abarcan temas como la geografía de Iquique, la Zona Franca (ZOFRI), la playa Cavancha, el Museo Regional, el clima desértico costero, la Guerra del Pacífico, la industria del salitre y el patrimonio cultural pampino. Esta diversidad temática permite evaluar el comportamiento de los predictores ante consultas con diferente especificidad y cobertura documental.
 
 \
 #figure(
@@ -525,7 +525,7 @@ Como se observa en la @tbl:tabla-iquique-queries, las consultas presentan difere
 === Componentes del módulo de pruebas
 \
 
-Las pruebas unitarias se organizaron en una estructura jerárquica que refleja la arquitectura del sistema. Se crearon módulos de testing para cada capa importante de la evaluación: un módulo para las pruebas del analizador de correlaciones y el evaluador de métricas, y módulos separados para cada uno de los predictores QPP, distinguiendo entre métodos pre-retrieval y post-retrieval según la taxonomía establecida en el marco teórico.
+Las pruebas unitarias se organizaron en una estructura jerárquica que refleja la arquitectura del sistema. Se crearon módulos de testing para cada capa importante de la evaluación: un módulo para las pruebas del analizador de correlaciones y el evaluador de métricas, y módulos separados para cada uno de los predictores QPP, distinguiendo entre métodos _pre-retrieval_ y _post-retrieval_ según la taxonomía establecida en el marco teórico.
 
 \
 #figure(
@@ -559,7 +559,7 @@ La ejecución de las pruebas se automatizó mediante un sistema de descubrimient
 A continuación se describen casos de prueba representativos de cada categoría, ilustrando la metodología de validación empleada y los escenarios cubiertos.
 
 \
-*Predictores pre-retrieval (IDF y SCQ)*: Las pruebas del predictor IDF verifican el correcto cálculo de la frecuencia inversa de documento para términos individuales y múltiples. Un caso crítico es el manejo de términos fuera del vocabulario: cuando un término de la consulta no existe en el índice, el sistema debe manejar esta situación de forma robusta, evitando que el puntaje de toda la consulta se invalide. Las pruebas verifican que el IDF calculado para un término conocido coincide con la fórmula teórica $log(N\/d f_t)$ donde $N$ es el número de documentos del corpus, que los términos inexistentes son excluidos del cálculo degradando suavemente la estimación, y que la frecuencia de documento de términos comunes se calcula correctamente.
+*Predictores pre-retrieval (IDF y SCQ)*: Las pruebas del predictor IDF verifican el correcto cálculo de la frecuencia inversa de documento para términos individuales y múltiples. Un caso crítico es el manejo de términos fuera del vocabulario: cuando un término de la consulta no existe en el índice, el sistema debe manejar esta situación de forma robusta, evitando que el puntaje de toda la consulta se invalide. Las pruebas verifican que el IDF calculado para un término conocido coincide con la fórmula teórica $log(N\/d f_t)$ donde $N$ es el número de documentos del _corpus_, que los términos inexistentes son excluidos del cálculo degradando suavemente la estimación, y que la frecuencia de documento de términos comunes se calcula correctamente.
 
 \
 #figure(
@@ -589,7 +589,7 @@ A continuación se describen casos de prueba representativos de cada categoría,
 La @fig:codigo_test_idf ilustra cómo se valida el cálculo del predictor IDF. Primero se preprocesan los términos de una consulta de prueba utilizando la misma función de procesamiento que se emplea durante la indexación, garantizando consistencia en el vocabulario. Luego se calcula el puntaje IDF mediante el predictor implementado y se compara contra el valor esperado según la fórmula teórica. La función `assertAlmostEqual` permite una tolerancia numérica de hasta 7 decimales, acomodando pequeñas diferencias de precisión de punto flotante inherentes a los cálculos logarítmicos.
 
 \
-*Predictores post-retrieval (Clarity, NQC, WIG)*: Las pruebas del predictor Clarity validan el flujo completo de cálculo, desde la construcción del modelo de lenguaje del conjunto pseudo-relevante hasta el cómputo de la divergencia KL. Un aspecto fundamental es la verificación del suavizado de Dirichlet: para distribuciones de probabilidad distintas, la divergencia KL debe ser estrictamente positiva, mientras que para distribuciones idénticas debe aproximarse a cero. Adicionalmente, se verifica que el stemmer Snowball produce resultados consistentes entre la indexación y el procesamiento de consultas (por ejemplo, "historia" $arrow.r$ "histori", "iquique" $arrow.r$ "iquiqu").
+*Predictores post-retrieval (Clarity, NQC, WIG)*: Las pruebas del predictor Clarity validan el flujo completo de cálculo, desde la construcción del modelo de lenguaje del conjunto pseudo-relevante hasta el cómputo de la divergencia KL. Un aspecto fundamental es la verificación del suavizado de Dirichlet: para distribuciones de probabilidad distintas, la divergencia KL debe ser estrictamente positiva, mientras que para distribuciones idénticas debe aproximarse a cero. Adicionalmente, se verifica que el _stemmer_ _Snowball_ produce resultados consistentes entre la indexación y el procesamiento de consultas (por ejemplo, "historia" $arrow.r$ "histori", "iquique" $arrow.r$ "iquiqu").
 
 \
 #figure(
@@ -616,7 +616,7 @@ La @fig:codigo_test_idf ilustra cómo se valida el cálculo del predictor IDF. P
 ) <codigo_test_clarity>
 \
 
-La @fig:codigo_test_clarity demuestra la validación del suavizado de Dirichlet implementado en Clarity. El método _get_collection_probabilities_ calcula las probabilidades de colección para un conjunto de términos aplicando la fórmula de suavizado mencionada anteriormente. Las verificaciones garantizan que todas las probabilidades resultantes estén en el rango válido $[0, 1]$, condición necesaria para el cálculo posterior de la divergencia KL. La segunda parte de la prueba valida la consistencia del stemming: los mismos términos deben transformarse de forma idéntica durante la indexación y durante el procesamiento de consultas, asegurando que el vocabulario del índice coincida con el de las probabilidades de colección.
+La @fig:codigo_test_clarity demuestra la validación del suavizado de Dirichlet implementado en Clarity. El método _get_collection_probabilities_ calcula las probabilidades de colección para un conjunto de términos aplicando la fórmula de suavizado mencionada anteriormente. Las verificaciones garantizan que todas las probabilidades resultantes estén en el rango válido $[0, 1]$, condición necesaria para el cálculo posterior de la divergencia KL. La segunda parte de la prueba valida la consistencia del _stemming_: los mismos términos deben transformarse de forma idéntica durante la indexación y durante el procesamiento de consultas, asegurando que el vocabulario del índice coincida con el de las probabilidades de colección.
 
 \
 *Evaluador de métricas*: Las pruebas del evaluador verifican el cálculo de nDCG y AP contra valores de referencia conocidos. Se construyen dos escenarios extremos: un ranking perfecto donde los documentos relevantes ocupan las primeras posiciones (debiendo producir métricas superiores a 0.8), y un ranking invertido donde los documentos relevantes quedan al final (debiendo producir métricas inferiores a 0.6 para nDCG y 0.5 para AP).
