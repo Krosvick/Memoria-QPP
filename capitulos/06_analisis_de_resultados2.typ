@@ -235,7 +235,7 @@ Finalmente, Clarity revela un comportamiento inestable, ya que, aunque su tenden
 
 El caso de #emph[CAR] (@fig:dispersion_car) representa el escenario más crítico de la evaluación y de gran valor experimental. Con 699 consultas, la alta densidad de puntos revela un patrón sistemático distintivo caracterizado por dos fenómenos:
 
-1.  *_Floor Effect_ (Efecto Suelo)*: Como se define en la literatura estadística (poner referencia), la concentración masiva de puntos en el rango de rendimiento nulo (nDCG\@10 ≈ 0) comprime la varianza de la variable dependiente, ya que al no existir una distribución de rendimiento efectiva, resulta matemáticamente inviable establecer una correlación lineal robusta, independientemente de la calidad del predictor.
+1.  *_Floor Effect_ (Efecto Suelo)*: Como se define en la literatura estadística @cramerstatistics, la concentración masiva de puntos en el rango de rendimiento nulo (nDCG\@10 ≈ 0) comprime la varianza de la variable dependiente, ya que al no existir una distribución de rendimiento efectiva, resulta matemáticamente inviable establecer una correlación lineal robusta, independientemente de la calidad del predictor.
 
 1.  *Desacople Predictivo*: Se observa una desconexión estructural entre las señales que capturan los métodos QPP (basados en coincidencia léxica y divergencia estática) y la naturaleza de la tarea #emph[Complex Answer Retrieval]. Mientras que los métodos asignan puntuaciones dinámicas a las consultas, sugiriendo falsamente que detectan variabilidad en la dificultad, el rendimiento real permanece plano, esto confirma que las heurísticas estadísticas tradicionales son "ciegas" ante la dificultad semántica, validando la necesidad de enfoques neuronales para este tipo de _corpus_.
 
