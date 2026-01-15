@@ -163,9 +163,9 @@ En contraste, #emph[Antique/Test] y #emph[TREC-COVID] exhiben distribuciones per
   image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/antique_test/dificultad_consultas_ndcg@10.png", width: 60%),
   caption: [Distribución de dificultad de consultas en Antique/Test.]
 ) <dificultad_antique>
-\
 
 \
+
 #figure(
   image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/car_v15_trec_y1_manual/dificultad_consultas_ndcg@10.png", width: 60%),
   caption: [Distribución de dificultad de consultas en CAR.]
@@ -193,18 +193,38 @@ Los métodos QPP evaluados en esta sección fueron contrastados directamente con
 === Visión general de las correlaciones
 \
 
-A continuación se presentan los diagramas de dispersión para cada dataset, los cuales permiten visualizar la relación entre las puntuaciones de cada método QPP y el rendimiento real (nDCG\@10) a nivel de consulta individual. Estas visualizaciones revelan patrones que los coeficientes de correlación agregados no capturan, tales como #emph[heterocedasticidad] (varianza no constante), presencia de #emph[outliers] y regiones de predicción más o menos confiables.
+El análisis visual constituye un complemento indispensable a las métricas numéricas presentadas anteriormente. A continuación, se presentan los diagramas de dispersión generados para cada conjunto de datos, los cuales permiten examinar la relación entre las puntuaciones estimadas por cada método QPP y el rendimiento real del sistema (nDCG\@10) a nivel de consulta individual.
 
-#v(10pt)
+Estas visualizaciones son críticas para identificar patrones que los coeficientes de correlación agregados (como _Kendall_ o _Pearson_) no logran capturar por sí solos, tales como #emph[heterocedasticidad] (varianza no constante), la presencia de valores atípicos (#emph[outliers]) y la identificación de regiones específicas donde un predictor puede ser más o menos confiable.
 
-A continuación se presentan los diagramas de dispersión para cada dataset, organizados en grids que incluyen los 10 métodos QPP evaluados. Cada subplot muestra la puntuación del predictor en el eje horizontal y nDCG\@10 en el eje vertical, junto con la línea de tendencia y su banda de confianza.
+Para garantizar una correcta lectura de los resultados gráficos, se detalla a continuación la metodología de construcción utilizada mediante la biblioteca de visualización estadística _Seaborn_ en Python, así como los criterios para su interpretación.
+
+1.  *Representación de Datos (Puntos)*: Cada punto en el gráfico corresponde a una consulta única (_q_) del _dataset_.
+- El Eje Horizontal (X) representa el valor de predicción (_score_) asignado por el método QPP evaluado.
+- El Eje Vertical (Y) representa la métrica de efectividad real obtenida (nDCG\@10).
+
+2.  *Línea de Tendencia (Regresión)*: La línea sólida que atraviesa la nube de puntos corresponde a un ajuste de regresión lineal calculado mediante el método de mínimos cuadrados. Esta línea indica la dirección de la correlación: una pendiente positiva pronunciada sugiere que el método predice correctamente el aumento del rendimiento.
+
+3.  *Banda de Confianza (Sombreado)*: El área translúcida alrededor de la línea de regresión representa el intervalo de confianza del 95% para la estimación, calculado automáticamente mediante un procedimiento de _bootstrapping_ (remuestreo). Una banda estrecha indica que la tendencia observada es robusta y consistente, mientras que una banda ancha sugiere mayor incertidumbre en la precisión.
+
+Bajo estos criterios, un método QPP ideal debería mostrar una nube de puntos compacta y elongada diagonalmente hacia la derecha. Por el contrario, una nube dispersa verticalmente o con una línea de tendencia plana indica una capacidad predictiva pobre, donde el método no logra distinguir eficazmente entre consultas díficles y fáciles.
+
+A continuación se presentan los diagramas de dispersión organizados por _dataset_, incluyendo los métodos QPP evaluados para su contraste directo.
+
+\
 #figure(
   image("../assets/imagenes/nuevos_resultados/correlación/antique_test/dispersion_qpp_ndcg@10.png", width: 100%,),
   caption: [Diagramas de dispersión QPP vs nDCG\@10 en Antique/Test.]
 ) <dispersion_antique>
 \
 
-La @fig:dispersion_antique evidencia el comportamiento diferenciado de los métodos en #emph[Antique/Test]. Los métodos NQC y UEF-NQC presentan las pendientes más pronunciadas y bandas de confianza más estrechas, indicando predicciones más estables. En contraste, los métodos IDF (promedio y máximo) muestran líneas de tendencia casi horizontales con dispersión extrema, confirmando su incapacidad predictiva. El método Clarity exhibe varios #emph[outliers] en valores altos (>150), lo que sugiere sensibilidad a consultas con términos muy específicos.
+La @fig:dispersion_antique evidencia el comportamiento diferenciado de los métodos en #emph[Antique/Test].
+
+Los métodos _post-retrieval_ basados en divergencia (NQC, WIG y UEF-NQC) dominan visualmente el escenario, presentando las pendientes positivas más pronunciadas y, crucialmente UEF-NQC exhibe la banda de confianza más estrecha y una nube de puntos más compacta que su versión base (NQC), lo que confirma visualmente que la re-estimación de utilidad reduce el ruido de la predicción.
+
+En contraste, los métodos _pre-retrieval_ (IDF promedio y máximo) muestran líneas de tendencia horizontales con una dispersión vertical extrema. Es notable cómo consultas con el máximo puntaje IDF pueden tener un nDCG de 0, evidenciando la desconexión entre la rareza de los términos y su relevancia real en este dataset.
+
+Finalmente, Clarity revela un comportamiento inestable, ya que, aunque su tendencia es positiva, presenta severos #emph[outliers] en valores altos (>150) asociados a un rendimiento mediocre, lo que sugiere que Clarity genera "falsos positivos" de dificultad, asignando puntajes altos a consultas con vocabulario inusual pero que no logran recuperar documentos relevantes.
 
 \
 #figure(
@@ -213,7 +233,14 @@ La @fig:dispersion_antique evidencia el comportamiento diferenciado de los méto
 ) <dispersion_car>
 \
 
-El caso de #emph[CAR] (@fig:dispersion_car) representa el escenario más problemático. Con 699 consultas, la alta densidad de puntos revela un patrón distintivo: #emph[todas] las líneas de tendencia son prácticamente horizontales (τ máximo = 0,1259), y existe una concentración masiva de puntos en el rango nDCG\@10 ≈ 0 - 0,3. Este comportamiento refleja la incompatibilidad fundamental entre BM25 (basado en coincidencias léxicas) y la tarea de #emph[Complex Answer Retrieval], que requiere comprensión semántica. La heterocedasticidad severa observable en todos los métodos indica que ningún predictor logra capturar consistentemente la dificultad de estas consultas.
+El caso de #emph[CAR] (@fig:dispersion_car) representa el escenario más crítico de la evaluación y de gran valor experimental. Con 699 consultas, la alta densidad de puntos revela un patrón sistemático distintivo caracterizado por dos fenómenos:
+
+1.  *_Floor Effect_ (Efecto Suelo)*: Como se define en la literatura estadística (poner referencia), la concentración masiva de puntos en el rango de rendimiento nulo (nDCG\@10 ≈ 0) comprime la varianza de la variable dependiente, ya que al no existir una distribución de rendimiento efectiva, resulta matemáticamente inviable establecer una correlación lineal robusta, independientemente de la calidad del predictor.
+
+1.  *Desacople Predictivo*: Se observa una desconexión estructural entre las señales que capturan los métodos QPP (basados en coincidencia léxica y divergencia estática) y la naturaleza de la tarea #emph[Complex Answer Retrieval]. Mientras que los métodos asignan puntuaciones dinámicas a las consultas, sugiriendo falsamente que detectan variabilidad en la dificultad, el rendimiento real permanece plano, esto confirma que las heurísticas estadísticas tradicionales son "ciegas" ante la dificultad semántica, validando la necesidad de enfoques neuronales para este tipo de _corpus_.
+
+
+Este comportamiento confirma la incompatibilidad entre el modelo léxico base (BM25) y la tarea semántica de #emph[Complex Answer Retrieval]. Incluso los métodos de expansión UEF demuestran que la re-estimación de utilidad no es tan útil cuando los documentos iniciales recuperados carecen de relevancia.
 
 \
 #figure(
@@ -222,7 +249,13 @@ El caso de #emph[CAR] (@fig:dispersion_car) representa el escenario más problem
 ) <dispersion_covid>
 \
 
-En #emph[TREC-COVID] (@fig:dispersion_covid) emerge un patrón único que invierte las tendencias observadas en otros datasets. Visualmente, Clarity y UEF-Clarity presentan las pendientes más pronunciadas y las bandas de confianza más estrechas, mientras que NQC y WIG —habitualmente dominantes— muestran líneas casi horizontales. Esta inversión se explica por la naturaleza del corpus: artículos científicos con vocabulario técnico homogéneo favorecen los modelos de lenguaje (base de Clarity), mientras que la buena separación de puntuaciones BM25 reduce la variabilidad que explotan NQC y WIG.
+En #emph[TREC-COVID] (@fig:dispersion_covid) emerge un patrón distintivo que invierte las jerarquías observadas en los otros conjuntos de datos, ya que visualmente Clarity y su variante UEF-Clarity dominan el espectro, presentando las pendientes positivas más pronunciadas y bandas de confianza estrechas, lo que denota una predicción robusta y bien correlacionada.
+
+Por el contrario, los métodos basados en divergencia de puntajes (NQC, WIG), habitualmente dominantes en otros conjuntos de datos, colapsan en líneas de tendencia casi horizontales. Esta inversión se atribuye a la naturaleza técnica y homogénea del _corpus_:
+
+1.  *Ventaja de Clarity*: Al basarse en modelos de lenguaje, Clarity explota eficazmente la especificidad del vocabulario médico, por lo que la divergencia entre el modelo de la consulta (términos técnicos precisos) y la olección general es una señal muy limpia en este dominio.
+
+2.  *Fallo de NQC/WIG*: La alta densidad de términos relevantes en la colección provoca una "saturación de puntajes" en BM25, ya que al existir muchos documentos con puntuaciones de recuperación similares, la varianza de los _scores_ se comprime, privando a NQC y WIG de la señal de dispersión necesaria para discriminar la dificultad de la consulta.
 
 \
 #figure(
@@ -238,9 +271,11 @@ En #emph[TREC-COVID] (@fig:dispersion_covid) emerge un patrón único que invier
 ) <dispersion_msmarco>
 \
 
-En la @fig:dispersion_cranfield y la @fig:dispersion_msmarco podemos comparar dos datasets con tamaños muestrales muy diferentes. En #emph[Cranfield] (izquierda, 221 consultas), la mayor densidad de puntos permite identificar patrones más claros: WIG, NQC y sus variantes UEF muestran pendientes ascendentes bien definidas, mientras que Clarity exhibe una tendencia descendente distintiva: los puntos se distribuyen inversamente, con predicciones altas correspondiendo a rendimientos bajos. Los métodos pre-retrieval (IDF, SCQ) presentan nubes de puntos dispersas sin estructura clara.
+Finalmente, al analizar la @fig:dispersion_cranfield y la @fig:dispersion_msmarco, es posible contrastar el impacto del tamaño muestral y la naturaleza del dominio.
 
-En #emph[MS MARCO] (derecha, 51 consultas), la escasez de puntos produce bandas de confianza notablemente más amplias, aumentando la incertidumbre de las estimaciones. Sin embargo, se observa un patrón interesante: WIG y NQC muestran pendientes pronunciadas y paralelas, mientras que, a diferencia de otros datasets, IDF presenta una tendencia positiva moderada. Clarity, por su parte, muestra una línea prácticamente horizontal, indicando ausencia de capacidad predictiva en este corpus.
+En _Cranfield_ (221 consultas), la densidad de puntos permite identificar tendencias estructurales: WIG, NQC y sus variantes UEF muestran pendientes ascendentes bien definidas. Sin embargo, Clarity exhibe una tendencia descendente anómala (correlación negativa), donde el modelo asigna puntuaciones altas a consultas que obtienen bajo rendimiento real, lo que sugiere que el predictor confunde la coherencia terminológica de los documentos técnicos recuperados con su relevancia temática real. Por su parte, Los métodos _pre-retrieval_ (IDF, SCQ) presentan nubes de puntos amorfas sin direccionalidad, confirmando su ineficacia en colecciones especializadas.
+
+Por otro lado, en #emph[MS MARCO] (51 consultas), la escasez de datos se traduce visualmente en bandas de confianza notablemente más amplias (sombras extensas), lo que alerta sobre la mayor incertidumbre estadística de estas regresiones. A pesar de ello, se observa un patrón interesante: WIG y NQC logran mantener pendientes pronunciadas y paralelas, demostrando capacidad para extraer señal predictiva incluso con una muestra de juicios limitada. Clarity, en cambio, colapsa en una línea horizontal, indicando una ausencia total de señal predictiva en este corpus masivo y heterogéneo.
 
 #v(10pt)
 === Análisis por familia de métodos
