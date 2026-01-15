@@ -442,13 +442,17 @@ Finalmente, se generaron histogramas y diagramas de caja para analizar la distri
 == Pruebas de validación
 \
 
-La validación exhaustiva del sistema implementado se realizó mediante una suite completa de pruebas unitarias, diseñada para verificar el correcto funcionamiento de cada componente del entorno de evaluación. Se desarrolló un framework de pruebas automatizado que permite la ejecución sistemática de casos de prueba y la generación de informes detallados.
+La validación de la evaluación constituye una etapa del desarrollo necesaria para garantizar la fiabilidad del entorno de evaluación implementado. Su propósito es verificar que cada componente funciona correctamente de forma aislada y en conjunto con los demás. En el contexto de la Recuperación de Información, donde los cálculos numéricos y estadísticos son fundamentales, la validación adquiere especial relevancia ya que un error en el cálculo de frecuencias o en la normalización de puntajes puede propagarse y distorsionar los resultados de correlación, invalidando las conclusiones experimentales.
+
+Para garantizar la fiabilidad del entorno de evaluación implementado, se desarrolló un conjunto de pruebas unitarias utilizando el framework _unittest_ de _Python_. Las pruebas unitarias constituyen la base de la pirámide de testeo en ingeniería de software, verificando el comportamiento de unidades individuales de código (funciones, métodos o clases) de forma aislada y reproducible. A diferencia de las pruebas de integración o de sistema, las pruebas unitarias permiten identificar con precisión la fuente de un fallo y facilitan la regresión automática ante cambios en el código.
 
 #v(10pt)
-=== Estructura de las pruebas
+=== Datos para las prueba
 \
 
-Las pruebas unitarias se organizaron en siete módulos principales, cada uno enfocado en un componente específico del sistema:
+Para ejecutar las pruebas unitarias se requiere un corpus de documentos con sus respectivas consultas y juicios de relevancia. Sin embargo, utilizar datasets completos como Antique o MS MARCO para pruebas unitarias presenta inconvenientes prácticos: tiempos de indexación prolongados, mayor consumo de memoria y dificultad para verificar manualmente los resultados esperados.
+
+Por esta razón, se diseñó un dataset de prueba sintético denominado _IquiqueDataset_, inspirado en información turística e histórica de la ciudad de Iquique in Chile. Este dataset cumple con los requisitos de legibilidad en español del pipeline de preprocesamiento y permite verificar manualmente cada cálculo gracias a su tamaño reducido.
 
 \
 #figure(
@@ -458,39 +462,245 @@ Las pruebas unitarias se organizaron en siete módulos principales, cada uno enf
     stroke: (x: none),
     align: left + horizon,
     
-    [*Módulo de prueba*], [*Aspectos evaluados*],
+    [*Característica*], [*Valor*],
     
-    [QPPCorrelationAnalyzer], [Análisis de correlaciones, generación de visualizaciones y reportes estadísticos],
-    [Evaluator], [Cálculo de métricas de evaluación (nDCG, AP)],
-    [Clarity], [Implementación del predictor Clarity, incluyendo cálculos de KL-divergence],
-    [NQC], [Funcionalidad del predictor NQC y cálculos de scores normalizados],
-    [WIG], [Implementación del predictor WIG y procesamiento de scores],
-    [IDF], [Cálculos de IDF y variantes de agregación],
-    [SCQ], [Implementación del predictor SCQ y manejo de términos],
+    [Número de documentos], [8],
+    [Idioma], [Español],
+    [Número de consultas], [8],
+    [Juicios de relevancia], [22],
+    [Niveles de relevancia], [Multinivel (1: marginal, 2: relevante, 3: altamente relevante)],
   ),
-  caption: "Módulos principales de pruebas unitarias.",
+  caption: "Características del dataset de prueba IquiqueDataset.",
+) <tabla-iquique-dataset>
+\
+
+
+El corpus incluye ocho documentos breves que abarcan temas como la geografía de Iquique, la Zona Franca (ZOFRI), la playa Cavancha, el Museo Regional, el clima desértico costero, la Guerra del Pacífico, la industria del salitre y el patrimonio cultural pampino. Esta diversidad temática permite evaluar el comportamiento de los predictores ante consultas con diferente especificidad y cobertura documental.
+
+\
+#figure(
+  table(
+    columns: (auto, 1fr),
+    inset: 10pt,
+    stroke: (x: none),
+    align: left + horizon,
+    
+    [*Doc ID*], [*Contenido*],
+    
+    [doc0], [Iquique es una ciudad portuaria y comuna del norte de Chile, capital de la provincia homónima y de la región de Tarapacá],
+    [doc1], [La Zona Franca de Iquique (ZOFRI) es uno de los centros comerciales más importantes del norte de Chile y Sudamérica],
+    [doc2], [Playa Cavancha es la playa urbana más popular de Iquique, ideal para el surf y deportes acuáticos],
+    [doc3], [El Museo Regional de Iquique exhibe la historia de la cultura Chinchorro y la época del salitre],
+    [doc4], [El clima de Iquique es desértico costero con abundante nubosidad y temperaturas moderadas durante todo el año],
+  ),
+  caption: "Muestra de documentos del corpus IquiqueDataset (5 de 8).",
+) <tabla-iquique-docs>
+\
+
+#figure(
+  table(
+    columns: (auto, 1fr, auto),
+    inset: 10pt,
+    stroke: (x: none),
+    align: left + horizon,
+    
+    [*QID*], [*Consulta*], [*Docs. relevantes*],
+    
+    [0], [playa cavancha iquique], [3],
+    [1], [zona franca zofri], [2],
+    [2], [museo historia iquique], [4],
+    [3], [historia salitre guerra pacifico], [4],
+    [4], [clima temperatura iquique], [2],
+    [5], [patrimonio cultural pampino], [3],
+    [6], [comercio norte chile sudamerica], [3],
+    [7], [combate naval peru chile], [2],
+  ),
+  caption: "Consultas del dataset IquiqueDataset y su cobertura de relevancia.",
+) <tabla-iquique-queries>
+\
+
+Como se observa en la @tbl:tabla-iquique-queries, las consultas presentan diferentes grados de dificultad inherente. Todas las consultas utilizan juicios de relevancia multinivel, donde el nivel 3 indica alta relevancia, el nivel 2 indica relevancia moderada, y el nivel 1 indica relevancia marginal. Esta gradación permite evaluar métricas como nDCG que consideran la posición y el grado de relevancia de los documentos recuperados.
+
+#v(10pt)
+=== Componentes del módulo de pruebas
+\
+
+Las pruebas unitarias se organizaron en una estructura jerárquica que refleja la arquitectura del sistema. Se crearon módulos de testing para cada capa importante de la evaluación: un módulo para las pruebas del analizador de correlaciones y el evaluador de métricas, y módulos separados para cada uno de los predictores QPP, distinguiendo entre métodos pre-retrieval y post-retrieval según la taxonomía establecida en el marco teórico.
+
+\
+#figure(
+  table(
+    columns: (auto, auto, 1fr),
+    inset: 10pt,
+    stroke: (x: none),
+    align: left + horizon,
+    
+    [*Componente*], [*Casos*], [*Aspectos evaluados*],
+    
+    [Analizador de correlaciones], [10], [Inicialización, cálculo de correlaciones (Pearson, Spearman, Kendall), generación de mapas de calor, diagramas de dispersión, diagramas de caja, reportes y alineamiento de identificadores],
+    [Evaluador de métricas], [6], [Cálculo de nDCG\@10 y AP para rankings perfectos e invertidos, evaluación de múltiples métricas simultáneas y manejo de consultas inválidas],
+    [Clarity], [8], [Cómputo de frecuencias de términos, probabilidades de colección con suavizado Dirichlet, divergencia KL, consistencia de stemming y manejo de documentos vacíos],
+    [NQC], [6], [Inicialización de vectores de puntajes, cálculo de puntaje del corpus, normalización por desviación estándar y manejo de datos vacíos],
+    [WIG], [7], [Vectores de puntajes, puntaje del corpus, cálculo WIG con normalización por longitud de consulta y frecuencias de colección],
+    [UEF], [8], [Correlación entre rankings original y re-rankeado, límites de correlación, manejo de puntajes base cero, procesamiento por lotes y escenarios de correlación perfecta],
+    [IDF], [7], [Cálculo de frecuencia de documento por término, manejo de términos fuera del vocabulario, agregación por promedio y máximo, y procesamiento por lotes],
+    [SCQ], [6], [Estadísticas de frecuencia de colección y documento, cálculo de similitud consulta-colección, métodos de agregación (suma, promedio, máximo) y términos desconocidos],
+  ),
+  caption: "Componentes evaluados mediante pruebas unitarias.",
 ) <tabla-modulos-prueba>
 \
 
-#v(10pt)
-=== Metodología de validación
-\
-La validación se realizó mediante un enfoque sistemático que incluye:
+La ejecución de las pruebas se automatizó mediante un sistema de descubrimiento automático que localiza y ejecuta todos los casos de prueba del proyecto. Este sistema genera tres tipos de reportes: un archivo de texto plano con el resumen de ejecución, un archivo estructurado con estadísticas detalladas por componente, y un informe formateado que incluye indicadores visuales de éxito o fallo para cada caso individual.
 
-- *Pruebas de casos límite*: Verificación del comportamiento del sistema ante consultas vacías, términos desconocidos y valores extremos.
-- *Validación de consistencia*: Comprobación de la coherencia en el procesamiento de términos y el stemming.
-- *Pruebas de integración*: Verificación de la correcta interacción entre componentes, especialmente en el análisis de correlaciones.
-- *Validación de métricas*: Comprobación de cálculos de nDCG y AP contra valores conocidos.
+#v(10pt)
+=== Casos de prueba representativos
+\
+
+A continuación se describen casos de prueba representativos de cada categoría, ilustrando la metodología de validación empleada y los escenarios cubiertos.
+
+\
+*Predictores pre-retrieval (IDF y SCQ)*: Las pruebas del predictor IDF verifican el correcto cálculo de la frecuencia inversa de documento para términos individuales y múltiples. Un caso crítico es el manejo de términos fuera del vocabulario: cuando un término de la consulta no existe en el índice, el sistema debe manejar esta situación de forma robusta, evitando que el puntaje de toda la consulta se invalide. Las pruebas verifican que el IDF calculado para un término conocido coincide con la fórmula teórica $log(N\/d f_t)$ donde $N$ es el número de documentos del corpus, que los términos inexistentes son excluidos del cálculo degradando suavemente la estimación, y que la frecuencia de documento de términos comunes se calcula correctamente.
+
+\
+#figure(
+  kind:image,
+  [
+    #codly(languages: codly-languages)
+    ```python
+    # Preprocesar términos de consulta
+    sample_text = "iquique playa"
+    processed_terms = preprocess_text(sample_text)
+    term1, term2 = processed_terms[0], processed_terms[1]
+    
+    # Calcular IDF utilizando el predictor
+    score = self.idf.compute_score([term1])
+
+    # Calcular IDF utilizando la fórmula teórica
+    expected_idf = np.log(self.total_docs / self.term_dfs[term1])
+    
+    # Verificar que coincide con fórmula teórica con margen de error
+    self.assertAlmostEqual(score, expected_idf)
+    ```
+  ],
+  caption: "Prueba de validación del cálculo de IDF para términos individuales.",
+) <codigo_test_idf>
+\
+
+La @fig:codigo_test_idf ilustra cómo se valida el cálculo del predictor IDF. Primero se preprocesan los términos de una consulta de prueba utilizando la misma función de procesamiento que se emplea durante la indexación, garantizando consistencia en el vocabulario. Luego se calcula el puntaje IDF mediante el predictor implementado y se compara contra el valor esperado según la fórmula teórica. La función `assertAlmostEqual` permite una tolerancia numérica de hasta 7 decimales, acomodando pequeñas diferencias de precisión de punto flotante inherentes a los cálculos logarítmicos.
+
+\
+*Predictores post-retrieval (Clarity, NQC, WIG)*: Las pruebas del predictor Clarity validan el flujo completo de cálculo, desde la construcción del modelo de lenguaje del conjunto pseudo-relevante hasta el cómputo de la divergencia KL. Un aspecto fundamental es la verificación del suavizado de Dirichlet: para distribuciones de probabilidad distintas, la divergencia KL debe ser estrictamente positiva, mientras que para distribuciones idénticas debe aproximarse a cero. Adicionalmente, se verifica que el stemmer Snowball produce resultados consistentes entre la indexación y el procesamiento de consultas (por ejemplo, "historia" $arrow.r$ "histori", "iquique" $arrow.r$ "iquiqu").
+
+\
+#figure(
+  kind:image,
+  [
+    #codly(languages: codly-languages)
+    ```python
+    # Obtener probabilidades de colección con suavizado de Dirichlet
+    stemmed_terms = ['iquiqu', 'playa', 'museo']
+    probs = self.clarity._get_collection_probabilities(stemmed_terms)
+    
+    # Verificar que todas las probabilidades están en rango válido
+    for term, prob in probs.items():
+        self.assertGreaterEqual(prob, 0)
+        self.assertLessEqual(prob, 1)
+    
+    # Verificar consistencia de stemming
+    stemmer = SnowballStemmer('spanish')
+    assert stemmer.stem('historia') == 'histori'
+    assert stemmer.stem('iquique') == 'iquiqu'
+    ```
+  ],
+  caption: "Prueba de suavizado de Dirichlet y consistencia de stemming en Clarity.",
+) <codigo_test_clarity>
+\
+
+La @fig:codigo_test_clarity demuestra la validación del suavizado de Dirichlet implementado en Clarity. El método _get_collection_probabilities_ calcula las probabilidades de colección para un conjunto de términos aplicando la fórmula de suavizado mencionada anteriormente. Las verificaciones garantizan que todas las probabilidades resultantes estén en el rango válido $[0, 1]$, condición necesaria para el cálculo posterior de la divergencia KL. La segunda parte de la prueba valida la consistencia del stemming: los mismos términos deben transformarse de forma idéntica durante la indexación y durante el procesamiento de consultas, asegurando que el vocabulario del índice coincida con el de las probabilidades de colección.
+
+\
+*Evaluador de métricas*: Las pruebas del evaluador verifican el cálculo de nDCG y AP contra valores de referencia conocidos. Se construyen dos escenarios extremos: un ranking perfecto donde los documentos relevantes ocupan las primeras posiciones (debiendo producir métricas superiores a 0.8), y un ranking invertido donde los documentos relevantes quedan al final (debiendo producir métricas inferiores a 0.6 para nDCG y 0.5 para AP).
+
+\
+#figure(
+  kind:image,
+  [
+    #codly(languages: codly-languages)
+    ```python
+    # Evaluar ranking perfecto (documentos relevantes primero)
+    results = evaluate_results(
+        self.qrels,
+        self.perfect_run,
+        metrics=['ndcg@10'],
+        dataset_name="iquique_dataset",
+        min_results=1
+    )
+    
+    # Verificar que nDCG es alto para ranking perfecto
+    ndcg_score = results['ndcg@10']['mean']
+    self.assertGreater(ndcg_score, 0.8)
+    
+    # Evaluar ranking invertido (documentos relevantes al final)
+    reversed_results = evaluate_results(
+        self.qrels,
+        self.reversed_run,
+        metrics=['ndcg@10'],
+        dataset_name="iquique_dataset",
+        min_results=1
+    )
+    
+    # Verificar que nDCG es bajo para ranking invertido
+    reversed_score = reversed_results['ndcg@10']['mean']
+    self.assertLess(reversed_score, 0.6)
+    ```
+  ],
+  caption: "Prueba de evaluación de métricas con rankings perfecto e invertido.",
+) <codigo_test_evaluator>
+\
+
+La @fig:codigo_test_evaluator valida el evaluador de métricas mediante la construcción de escenarios controlados. En el ranking perfecto, los documentos con mayor relevancia aparecen en las primeras posiciones, lo que debe producir valores de nDCG cercanos a 1.0 (el test verifica $> 0.8$). Por el contrario, en el ranking invertido los documentos relevantes se posicionan al final de la lista, degradando significativamente la métrica. Esta prueba no solo valida la correcta implementación de nDCG, sino también la sensibilidad de la métrica a la posición de los documentos relevantes. El parámetro `min_results=1` se configura específicamente para el dataset de prueba pequeño, ya que el valor por defecto de 1000 resultados mínimos no es aplicable a colecciones de validación.
+
+\
+*Analizador de correlaciones*: Las pruebas del analizador de correlaciones validan tanto la lógica de cálculo como la generación de visualizaciones. Se verifica que los coeficientes de Pearson, Spearman y Kendall están siempre en el rango $[-1, 1]$ para cualquier par de variables, que solo los identificadores de consulta presentes simultáneamente en los puntajes QPP y las métricas de recuperación se conservan para el análisis, y que los puntajes vacíos o con valores indefinidos generan excepciones apropiadas o son manejados de forma robusta.
+
+\
+#figure(
+  kind:image,
+  [
+    #codly(languages: codly-languages)
+    ```python
+    # Calcular correlaciones entre puntajes QPP y métricas
+    correlations = self.analyzer.calculate_correlations(
+        correlation_types=['pearson', 'spearman', 'kendall']
+    )
+    
+    # Verificar que todos los coeficientes están en rango válido
+    for corr_type in ['pearson', 'spearman', 'kendall']:
+        for value in correlations[corr_type].values.flatten():
+            if not np.isnan(value):
+                self.assertTrue(-1 <= value <= 1)
+    
+    # Verificar alineamiento de identificadores de consulta
+    aligned_qids = self.analyzer._align_qids(
+        qpp_scores={'0': 0.5, '1': 0.7},
+        metrics={'0': 0.8, '2': 0.6}
+    )
+    # Solo '0' está presente en ambos conjuntos
+    self.assertEqual(set(aligned_qids), {'0'})
+    ```
+  ],
+  caption: "Prueba de cálculo de correlaciones y alineamiento de identificadores.",
+) <codigo_test_correlation>
+\
+
+La @fig:codigo_test_correlation muestra dos aspectos fundamentales del análisis de correlaciones. Primero, se valida que todos los coeficientes de correlación calculados (Pearson, Spearman y Kendall) permanezcan dentro de su rango teórico $[-1, 1]$. Los valores fuera de este rango indicarían errores numéricos graves en la implementación. Segundo, se verifica el alineamiento de identificadores de consulta: solo aquellas consultas que poseen tanto puntajes QPP como métricas de recuperación deben incluirse en el análisis. En el ejemplo mostrado, aunque los puntajes QPP contienen las consultas '0' y '1', y las métricas contienen '0' y '2', solo la consulta '0' queda alineada para el cálculo de correlaciones. Este alineamiento correcto es fundamental para evitar correlaciones espurias causadas por datos faltantes.
+
 
 #v(10pt)
 === Resultados de la validación
-
 \
-La ejecución completa de la suite de pruebas, que comprende 50 casos de prueba distribuidos entre los diferentes módulos, demostró la robustez del sistema implementado. Como se evidencia en los resultados:
 
-- Tasa de éxito del 100% en todos los módulos de prueba
-- Tiempo total de ejecución de 11,27 segundos
-- Cobertura completa de todos los componentes críticos del sistema
+La ejecución completa del framework de pruebas, que comprende 58 casos distribuidos entre los ocho módulos, demostró la robustez del sistema implementado. Los resultados se resumen en la @tbl:tabla-resultados-pruebas.
 
 \
 #figure(
@@ -502,16 +712,23 @@ La ejecución completa de la suite de pruebas, que comprende 50 casos de prueba 
     
     [*Componente*], [*Pruebas ejecutadas*], [*Tiempo de ejecución (s)*],
     
-    [QPPCorrelationAnalyzer], [10], [8,25],
-    [Evaluator], [6], [0,05],
+    [Analizador de correlaciones], [10], [8,25],
+    [Evaluador de métricas], [6], [0,05],
     [Clarity], [8], [0,03],
     [NQC], [6], [0,01],
     [WIG], [7], [0,01],
+    [UEF], [8], [0,02],
     [IDF], [7], [0,01],
     [SCQ], [6], [0,01],
+    table.hline(stroke: 0.5pt),
+    [*Total*], [*58*], [*8,40*],
   ),
-  caption: "Resultados de ejecución por componente.",
+  caption: "Resultados de ejecución de pruebas unitarias por componente.",
 ) <tabla-resultados-pruebas>
 \
 
-La validación exhaustiva realizada confirma la fiabilidad y precisión del entorno de evaluación implementado, proporcionando una base sólida para los experimentos subsiguientes. El sistema demostró ser robusto ante diversos escenarios de prueba, manteniendo la consistencia en el procesamiento de consultas y el cálculo de métricas de evaluación.
+Todos los casos de prueba finalizaron exitosamente, alcanzando una tasa de éxito del 100%. El tiempo total de ejecución de aproximadamente 8,4 segundos resulta adecuado dado el tamaño reducido del dataset de validación, permitiendo obtener resultados rápidos y interpretables.
+
+El analizador de correlaciones concentra la mayor parte del tiempo de ejecución debido a la generación de múltiples visualizaciones en formatos gráficos. Los predictores QPP muestran tiempos de ejecución mínimos gracias a la reutilización del índice y las estadísticas pre-calculadas, lo cual valida las estrategias de optimización mencionadas en secciones anteriores.
+
+La validación exhaustiva realizada confirma la fiabilidad y precisión del entorno de evaluación implementado, proporcionando una base sólida para los experimentos de correlación analizados en el siguiente Capítulo. El sistema demostró ser robusto ante diversos escenarios de prueba, manteniendo la consistencia en el procesamiento de consultas, el cálculo de puntajes QPP y la evaluación de métricas de recuperación.
