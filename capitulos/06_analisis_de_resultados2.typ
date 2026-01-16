@@ -110,14 +110,14 @@ Se observa una considerable heterogeneidad entre colecciones. #emph[Cranfield] d
 
 \
 #figure(
-  image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/cranfield/qrels_distribucion_niveles_relevancia.png", width: 60%),
+  image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/cranfield/qrels_distribucion_niveles_relevancia.png", width: 80%),
   caption: [Distribución de niveles de relevancia en Cranfield.]
 ) <qrels_dist_cranfield>
 \
 
 \
 #figure(
-  image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/car_v15_trec_y1_manual/qrels_distribucion_niveles_relevancia.png", width: 60%),
+  image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/car_v15_trec_y1_manual/qrels_distribucion_niveles_relevancia.png", width: 80%),
   caption: [Distribución de niveles de relevancia en CAR.]
 ) <qrels_dist_car>
 \
@@ -160,14 +160,14 @@ En contraste, #emph[Antique/Test] y #emph[TREC-COVID] exhiben distribuciones per
 
 \
 #figure(
-  image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/antique_test/dificultad_consultas_ndcg@10.png", width: 60%),
+  image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/antique_test/dificultad_consultas_ndcg@10.png", width: 80%),
   caption: [Distribución de dificultad de consultas en Antique/Test.]
 ) <dificultad_antique>
 
 \
 
 #figure(
-  image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/car_v15_trec_y1_manual/dificultad_consultas_ndcg@10.png", width: 60%),
+  image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/car_v15_trec_y1_manual/dificultad_consultas_ndcg@10.png", width: 80%),
   caption: [Distribución de dificultad de consultas en CAR.]
 ) <dificultad_car>
 \
@@ -176,7 +176,7 @@ La @fig:dificultad_antique y @fig:dificultad_car ilustran visualmente el contras
 
 \
 #figure(
-  image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/cranfield/dificultad_consultas_ndcg@10.png", width: 60%),
+  image("../assets/imagenes/nuevos_resultados/qrels_metricas_otros/cranfield/dificultad_consultas_ndcg@10.png", width: 80%),
   caption: [Distribución de dificultad de consultas en Cranfield.]
 ) <dificultad_cranfield>
 \
@@ -203,9 +203,13 @@ Para garantizar una correcta lectura de los resultados gráficos, se detalla a c
 - El Eje Horizontal (X) representa el valor de predicción (_score_) asignado por el método QPP evaluado.
 - El Eje Vertical (Y) representa la métrica de efectividad real obtenida (nDCG\@10).
 
-2.  *Línea de Tendencia (Regresión)*: La línea sólida que atraviesa la nube de puntos corresponde a un ajuste de regresión lineal calculado mediante el método de mínimos cuadrados. Esta línea indica la dirección de la correlación: una pendiente positiva pronunciada sugiere que el método predice correctamente el aumento del rendimiento.
+2.  *Línea de Tendencia (Regresión)*: La línea sólida que atraviesa la nube de puntos corresponde a un ajuste de regresión lineal calculado mediante el método de mínimos cuadrados, es decir, la mejor línea recta posible que representa la relación entre las dos variables. Esta línea indica la dirección de la correlación: una pendiente positiva pronunciada sugiere que el método predice correctamente el aumento del rendimiento.
 
-3.  *Banda de Confianza (Sombreado)*: El área translúcida alrededor de la línea de regresión representa el intervalo de confianza del 95% para la estimación, calculado automáticamente mediante un procedimiento de _bootstrapping_ (remuestreo). Una banda estrecha indica que la tendencia observada es robusta y consistente, mientras que una banda ancha sugiere mayor incertidumbre en la precisión.
+3.  *Banda de Confianza (Sombreado)*: El área translúcida alrededor de la línea de regresión representa el intervalo de confianza del 95% calculado mediante *bootstrapping* (remuestreo no paramétrico). Este método estima la incertidumbre remuestreando los datos observados con reemplazo, generando múltiples regresiones alternativas y calculando percentiles sobre las predicciones resultantes. A diferencia de métodos paramétricos clásicos (distribución $t$ o normal), _bootstrap_ no asume ninguna distribución teórica, operando exclusivamente con los datos disponibles.
+
+  El procedimiento reutiliza los datos observados mediante iteraciones sucesivas (por defecto 1.000 en _Seaborn_): cada iteración remuestrea consultas con reemplazo, ajusta una regresión sobre la nueva muestra y acumula predicciones; la distribución resultante de predicciones define los límites del intervalo mediante percentiles simétricos.
+
+  El ancho de las bandas refleja fielmente la incertidumbre inherente. Bandas amplias surgen cuando el tamaño muestral es reducido (p. ej., 50 consultas en _TREC-COVID_), cuando los puntos exhiben alta dispersión respecto a la línea de tendencia (residuos grandes) o hacia los extremos del eje horizontal, donde pequeños cambios en la pendiente amplifican las diferencias de predicción. Por el contrario, bandas estrechas indican que la tendencia observada es robusta y que diferentes submuestras conducen a conclusiones consistentes sobre la relación entre predicción QPP y rendimiento real.
 
 Bajo estos criterios, un método QPP ideal debería mostrar una nube de puntos compacta y elongada diagonalmente hacia la derecha. Por el contrario, una nube dispersa verticalmente o con una línea de tendencia plana indica una capacidad predictiva pobre, donde el método no logra distinguir eficazmente entre consultas díficles y fáciles.
 
@@ -289,14 +293,6 @@ Los métodos evaluados pueden agruparse en tres familias según su acceso a info
 
 *Variantes UEF*: El marco Utility Estimation Framework extiende los métodos base incorporando información de pseudo-relevance feedback. Los diagramas revelan que UEF mejora consistentemente a NQC en la mayoría de datasets, con la excepción de MS MARCO donde ambos empatan. Para Clarity, UEF amplifica tanto sus contextos favorables (TREC-COVID) y aumentando un poco su rendimiento en situaciones difíciles (Cranfield con correlación cercana a cero).
 
-\
-#figure(
-  image("../assets/imagenes/nuevos_resultados/correlación/cranfield/correlaciones_qpp_boxplot_kendall.png", width: 120%),
-  caption: [Distribución de correlaciones Kendall por método QPP en Cranfield.]
-) <boxplot_cranfield>
-\
-
-La @fig:boxplot_cranfield ilustra de manera contundente el comportamiento anómalo de Clarity en Cranfield: es el único método con correlación negativa (τ ≈ −0,07), lo que indica que sus predicciones son inversamente proporcionales al rendimiento real. El predictor UEF-Clarity, aunque logra elevarse a valores cercanos a cero, continúa siendo el segundo peor método. Este patrón contrasta marcadamente con los enfoques basados en varianza de puntuaciones (NQC, UEF-NQC, WIG, UEF-WIG), que ocupan consistentemente las posiciones superiores del ranking. Estos resultados sugieren que los métodos basados en modelos de lenguaje son especialmente sensibles a escenarios de colección pequeña, donde la estimación de distribuciones se vuelve altamente inestable. En el caso de Cranfield ($~1.400$ documentos), dicha inestabilidad no logra ser compensada ni siquiera mediante suavizado Dirichlet, el cual, como se discutió anteriormente, fue implementado para amortiguar este fenómeno.
 
 #v(10pt)
 === Significancia estadística de las correlaciones
