@@ -545,6 +545,58 @@ Los resultados consistentemente bajos en el conjunto de datos _CAR_ (τ < 0,13) 
 
 Esto sugiere que los métodos actuales, que operan bajo supuestos léxicos como _IDF_ y _SCQ_ o estadísticos como _NQC_ y _Clarity_ han alcanzado un "techo técnico", ya que asumen que la dificultad se manifiesta en la rareza de los términos o en la divergencia de distribuciones, pero son "ciegos" a la brecha semántica, por lo que en tareas complejas de recuperación donde la revelancia no es literal sino conceptual como en _CAR_, los métodos estadísticos no logran distinguir claramente entre una respuesta diversa pero relevante y una respuesta ruidosa e irrelevante.
 
+Para cuantificar la magnitud del efecto suelo (_floor effect_), la @tbl:tabla_floor_effect presenta una comparación transversal del porcentaje de consultas con rendimiento nulo o muy bajo en cada colección evaluada.
+
+\
+#{
+  show table.cell.where(y: 0): set text(style: "normal", weight: "bold")
+  set table(stroke: (x: none))
+  set align(center)
+  [#figure(
+    table(
+      columns: 5,
+      inset: (x: 8pt, y: 6pt),
+      row-gutter: (2pt, auto),
+      align: center + horizon,
+      table.header[*Dataset*][*Consultas*][*nDCG\@10 = 0*][*nDCG\@10 ≤ 0.1*][*Media*],
+      [Antique/Test], [180], [4,4%], [10,0%], [0,379],
+      [Cranfield], [221], [18,1%], [24,9%], [0,320],
+      [TREC-COVID], [50], [14,0%], [18,0%], [0,473],
+      [CAR], [699], [*28,3%*], [*41,9%*], [*0,203*],
+    ),
+    caption: [Distribución del efecto suelo por dataset. CAR presenta la mayor concentración de consultas con rendimiento nulo.]
+  ) <tabla_floor_effect>]
+}
+\
+
+Los datos revelan que #emph[CAR] concentra el 28,3% de sus consultas con nDCG\@10 = 0, proporción significativamente mayor que en los demás datasets (Antique: 4,4%, TREC-COVID: 14%). Más aún, el 41,9% de las consultas CAR obtienen un rendimiento igual o inferior a 0,1, evidenciando que el problema no es marginal sino estructural.
+
+Para ilustrar concretamente la naturaleza de esta barrera semántica, la @tbl:ejemplos_brecha_semantica presenta ejemplos representativos de consultas con rendimiento nulo:
+
+\
+#{
+  show table.cell.where(y: 0): set text(style: "normal", weight: "bold")
+  set table(stroke: (x: none))
+  set align(center)
+  [#figure(
+    table(
+      columns: 2,
+      inset: (x: 8pt, y: 6pt),
+      row-gutter: (2pt, auto),
+      align: (left, center),
+      table.header[*Consulta (estructura jerárquica)*][*nDCG\@10*],
+      [Invasive species/Effects/Economic/.../Benefits], [0,000],
+      [Beach nourishment/Nourishment projects/Hawaii/Waikiki], [0,000],
+      [Brain damage/Signs and symptoms/Moderate/severe...], [0,000],
+      [Drinking water/Health aspects/Well contamination...], [0,000],
+    ),
+    caption: [Ejemplos de consultas CAR con brecha semántica. Los encabezados jerárquicos de Wikipedia no comparten vocabulario léxico con los párrafos relevantes.]
+  ) <ejemplos_brecha_semantica>]
+}
+\
+
+Estas consultas ilustran el problema central: las estructuras jerárquicas como "Invasive species/Effects/Economic/Economic opportunities/Benefits" describen un concepto semántico específico (_beneficios económicos de especies invasoras_), pero los párrafos relevantes en el corpus probablemente discuten el tema sin utilizar exactamente esos términos. El modelo BM25, al operar sobre coincidencias léxicas exactas, no puede recuperar documentos relevantes cuando no existe solapamiento de vocabulario, independientemente de la coherencia conceptual.
+
 Es fundamental también reconocer las limitaciones inherentes al estándar de referencia (_Ground Truth_) utilizado para validar estas predicciones, ya que métricas de recuperación como _nDCG_ dependen enteramente de la completitud y calidad de los juicios de relevancia humanos, por lo que, en _datasets_ con escada profundidad de juicio (_sparse judgments_) o sesgos de anotación, lo que los métodos QPP intentan predecir no es necesariamente la satisfacción real del usuario, sino la coincidencia con un conjunto de etiquetas estáticas, lo que puede ser particularmente crítico en casos como _CAR_, donde la baja correlación podría estar reflejando no solo la incapacidad de los predictores, sino también la desconexión entre la definición teórica de relevancia del _dataset_ y la utilidad real percibida que los métodos estadísticos intentan inferir.
 #v(10pt)
 === Análisis de la sensibilidad de Clarity
