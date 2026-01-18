@@ -547,48 +547,28 @@ Esto sugiere que los métodos actuales, que operan bajo supuestos léxicos como 
 
 Es fundamental también reconocer las limitaciones inherentes al estándar de referencia (_Ground Truth_) utilizado para validar estas predicciones, ya que métricas de recuperación como _nDCG_ dependen enteramente de la completitud y calidad de los juicios de relevancia humanos, por lo que, en _datasets_ con escada profundidad de juicio (_sparse judgments_) o sesgos de anotación, lo que los métodos QPP intentan predecir no es necesariamente la satisfacción real del usuario, sino la coincidencia con un conjunto de etiquetas estáticas, lo que puede ser particularmente crítico en casos como _CAR_, donde la baja correlación podría estar reflejando no solo la incapacidad de los predictores, sino también la desconexión entre la definición teórica de relevancia del _dataset_ y la utilidad real percibida que los métodos estadísticos intentan inferir.
 #v(10pt)
-=== Impacto del dominio en Clarity
+=== Análisis de la sensibilidad de Clarity
 \
 
-El comportamiento de _Clarity_, donde exhibe correlaciones negativas en _Cranfield_ pero lidera en otros dominios como _TREC-COVID_, requiere un análisis más profundo para entender las limitaciones del método.
+La disparidad observada en el rendimiento del método Clarity entre las colecciones de *Cranfield* y *TREC-COVID* no es accidental, sino que responde a diferencias estructurales profundas en cuanto a escala, riqueza de vocabulario y distribución de frecuencias. Formalmente, Clarity estima la coherencia de los resultados recuperados mediante la divergencia Kullback-Leibler (KL) entre el modelo de lenguaje de la consulta ($P(w|Q)$) y el modelo de lenguaje de la colección ($P(w|C)$), tal como se define en la @eqt:clarity-definition:
 
-Como se describió en el Capítulo de trabajos relacionados, _Clarity_ calcula la divergencia de Kullback-Leibler entre el modelo de lenguaje de la consulta $P(w|Q)$ y el modelo de la colección $P_"coll"(w)$. La intuición fundamental del método es que una consulta "clara" debería generar un modelo de lenguaje que difiera sustancialmente del modelo general de la colección: términos específicos y poco ambiguos tendrán una probabilidad $P(w|Q)$ mucho mayor que su probabilidad en el fondo $P_"coll"(w)$, maximizando la divergencia.
 
-Sin embargo, esta lógica tiene como supuesto que existe una *asimetría significativa* entre ambas distribuciones. En colecciones de *dominio abierto* (datasets más ruidosos con  índices web o repositorios de noticias), los términos técnicos de una consulta son raros en el vocabulario general, por lo que el cociente $P(w|Q) \/ P_"coll"(w)$ es alto y la divergencia KL captura efectivamente la especificidad de la consulta.
+$ "Clarity" = sum_{w in V} P(w|Q) log_2 (P(w|Q) / P(w|C)) $ <clarity-definition>
 
-En cambio, en colecciones de *dominio cerrado* (como _Cranfield_, especializada en aerodinámica), el vocabulario técnico está uniformemente distribuido en toda la colección. Los términos que caracterizan una consulta también son frecuentes en el "ruido de fondo", colapsando el cociente $P(w|Q) \/ P_"coll"(w)$ hacia valores cercanos a 1 y, consecuentemente, anulando la señal de _Clarity_.
 
-La @tbl:tabla_homogeneidad_cranfield presenta un análisis de los términos frecuentes en _Cranfield_, donde se observa que incluso los términos más distintivos (como "buckl" o "shell") alcanzan cocientes de apenas 2,5, mientras que términos genéricos del dominio ("compar", "relat") tienen cocientes inferiores a 1, indicando que son *menos* frecuentes en los documentos recuperados que en la colección general.
+Donde $P(w|Q)$ representa la probabilidad del término $w$ en el modelo de pseudo-relevancia (construido desde los documentos recuperados), y $P(w|C)$ su probabilidad en la colección completa. Cada término contribuye a la divergencia total con el sumando $P(w|Q) log_2 (P(w|Q) / P(w|C))$: términos con $P(w|C)$ muy bajo generan cocientes altos y, por tanto, mayor contribución. Si estos términos son específicos del dominio, la divergencia es informativa; si son términos raros sin valor semántico, la métrica se infla artificialmente.
 
-\
-#{
-  show table.cell.where(y: 0): set text(style: "normal", weight: "bold")
-  set table(stroke: (x: none))
-  set align(center)
-  [#figure(
-    table(
-      columns: 5,
-      inset: (x: 8pt, y: 6pt),
-      row-gutter: (2pt, auto),
-      align: center + horizon,
-      table.header[*Término*][*Consultas*][*$P(w|Q)$*][*$P_"coll"(w)$*][*Cociente*],
-      [buckl], [91], [0,0265], [0,0104], [2,54],
-      [shell], [84], [0,0250], [0,0101], [2,48],
-      [stress], [93], [0,0178], [0,0103], [1,72],
-      [panel], [53], [0,0156], [0,0093], [1,69],
-      [cylindr], [56], [0,0150], [0,0091], [1,66],
-      [appli], [82], [0,0056], [0,0096], [0,58],
-      [relat], [122], [0,0059], [0,0101], [0,58],
-      [compar], [132], [0,0058], [0,0100], [0,57],
-      [paramet], [84], [0,0055], [0,0096], [0,57],
-      [show], [60], [0,0055], [0,0097], [0,57],
-    ),
-    caption: [Estadísticas de términos frecuentes en Cranfield.]
-  ) <tabla_homogeneidad_cranfield>]
-}
-\
 
-El cociente promedio $P(w|Q) \/ P_"coll"(w)$ para los términos más importantes en _Cranfield_ es de apenas *2,58*. En contraste, la @tbl:tabla_homogeneidad_trec presenta el mismo análisis para _TREC-COVID_, donde los cocientes son dramáticamente superiores.
+El análisis de los datos revela que *TREC-COVID* es una colección vastamente superior en magnitud, conteniendo 122 veces más documentos (171.332 vs 1.400) y un vocabulario 41,6 veces más extenso que *Cranfield*. Esta diferencia de escala altera drásticamente el efecto de la suavización de Dirichlet en el cálculo de $P(w|C)$. En colecciones masivas, los términos específicos tienden a tener probabilidades de colección extremadamente bajas, lo que infla los cocientes $P(w|Q)/P(w|C)$ y resulta en puntajes de Clarity más altos y discriminativos.
+
+Aunque ambas colecciones presentan una alta proporción de términos raros (frecuencia de colección baja: $"cf" <= 5$), su impacto en la métrica es divergente:
+
+- En *Cranfield*, solo el 5,7% de los términos del modelo de pseudo-relevancia poseen una $P(w|C) < 10^(-4)$, contribuyendo al 25,1% de la divergencia total. Esta contribución, aunque menor en proporción, tiene un impacto desproporcionado debido al reducido tamaño del vocabulario indexado (6.054 términos). En colecciones pequeñas, la escasez de datos (#emph[data sparsity]) provoca que términos poco frecuentes generen cocientes $P(w|Q)/P(w|C)$ artificialmente elevados, introduciendo ruido estadístico que degrada la capacidad discriminativa del predictor.
+- En *TREC-COVID*, el 24% de los términos con baja probabilidad de colección aportan el 52,6% de la divergencia. A diferencia de Cranfield, estos términos corresponden a tecnicismos médicos legítimos (e.g., "sarscov", "merscov", "trial") que efectivamente señalan especificidad temática.
+
+Esta distinción se valida al inspeccionar los ratios de contribución de términos individuales en *TREC-COVID*: palabras altamente informativas como "social" (ratio 23,30) o "drug" (17,84) generan una fuerte señal de claridad, mientras que términos generales de la literatura científica como "result" (2,21) o "studi" (2,29) son correctamente suprimidos por el modelo de fondo.
+
+Como consecuencia, los puntajes de Clarity en *TREC-COVID* exhiben un rango superior (Media: 5,612; Coeficiente de Variación: 0,143) en comparación con la compresión observada en *Cranfield* (Media: 2,387; CV: 0,104). Este mayor rango permite al predictor discriminar con mayor eficacia entre consultas fáciles y difíciles, mientras que en colecciones pequeñas la métrica tiende a saturarse por la escasez de datos (#emph[data sparsity]).
 
 \
 #{
@@ -597,25 +577,32 @@ El cociente promedio $P(w|Q) \/ P_"coll"(w)$ para los términos más importantes
   set align(center)
   [#figure(
     table(
-      columns: 5,
-      inset: (x: 8pt, y: 6pt),
-      row-gutter: (2pt, auto),
-      align: center + horizon,
-      table.header[*Término*][*Consultas*][*$P(w|Q)$*][*$P_"coll"(w)$*][*Cociente*],
-      [covid19], [48], [0,0335], [0,0001], [552,18],
-      [coronavirus], [50], [0,0306], [0,0001], [504,15],
-      [patient], [43], [0,0280], [0,0001], [462,08],
-      [disea], [49], [0,0192], [0,0001], [316,52],
-      [virus], [43], [0,0159], [0,0001], [261,52],
+      columns: 3,
+      inset: (x: 10pt, y: 8pt),
+      align: (left, center, center),
+      table.header[*Métrica*][*Cranfield*][*TREC-COVID*],
+      
+      // Collection statistics
+      [Documentos], [1,400], [171,332],
+      [Tokens totales], [121,253], [15,681,547],
+      [Vocabulario], [6,054], [251,601],
+      [Long. promedio doc], [86.6], [91.5],
+      [Términos raros (cf $<=5$)], [70.6%], [78.1%],
+      [Terminos unicos (cf = 1)], [43.1%], [46.5%],
+      
+      // Clarity statistics
+      table.hline(),
+      [Consultas evaluadas], [225], [50],
+      [Términos únicos (queries)], [612], [817],
+      [Términos con $P_"coll" approx 0$], [5.7% (contrib. 25.1%)], [24.0% (contrib. 52.6%)],
+      [Clarity (media $plus.minus$ std)], [2.387 $plus.minus$ 0.249], [5.612 $plus.minus$ 0.801],
     ),
-    caption: [Estadísticas de términos frecuentes en TREC-COVID.]
-  ) <tabla_homogeneidad_trec>]
+    caption: [Comparación de estadísticas de colección y Clarity entre Cranfield y TREC-COVID.]
+  ) <tabla_comparacion_colecciones>]
 }
 \
 
-La diferencia es significativa, en _Cranfield_ el término más distintivo ("buckl") alcanza un cociente de apenas *2,54*, mientras que en _TREC-COVID_ términos como "covid19" o "coronavirus" superan los *500*. Esta asimetría de casi *200 veces* explica directamente por qué _Clarity_ lidera en _TREC-COVID_ (τ = 0,320) pero fracasa en _Cranfield_ (τ = -0,069).
-
-Esta evidencia confirma que los problemas de rendimiento de _Clarity_ en colecciones de dominio cerrado no representan un fallo algorítmico, sino una *limitación estructural* inherente a la metodología de divergencia KL cuando el corpus ya es temáticamente homogéneo.
+En conclusión, la evidencia sugiere que Clarity es altamente sensible a la escala del corpus. En colecciones pequeñas, el ruido estadístico domina la divergencia, limitando la utilidad del método; en cambio, en colecciones grandes y temáticamente especializadas, la métrica gana robustez y capacidad predictiva. Para mitigar este sesgo en corpus reducidos, la literatura sugiere normalizaciones sobre el parámetro $mu$ o el filtrado agresivo de términos raros durante el preprocesamiento.
 
 Por otra parte, las limitaciones estructurales observadas, tanto la brecha semántica en _CAR_ como la dependencia de dominio de _Clarity_, sugieren que el futuro inmediato de la predicción del rendimiento de consultas no reside en refinar métricas estadísticas, sino en la integración de Inteligencia Artificial y Modelos de Lenguaje Grandes (_LLMs_), debido a que la capacidad de estos modelos para "entender" el contenido abre nuevas vías para superar las limitaciones observadas:
 
