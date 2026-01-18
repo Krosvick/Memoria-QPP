@@ -546,8 +546,78 @@ Los resultados consistentemente bajos en el conjunto de datos _CAR_ (τ < 0,13) 
 Esto sugiere que los métodos actuales, que operan bajo supuestos léxicos como _IDF_ y _SCQ_ o estadísticos como _NQC_ y _Clarity_ han alcanzado un "techo técnico", ya que asumen que la dificultad se manifiesta en la rareza de los términos o en la divergencia de distribuciones, pero son "ciegos" a la brecha semántica, por lo que en tareas complejas de recuperación donde la revelancia no es literal sino conceptual como en _CAR_, los métodos estadísticos no logran distinguir claramente entre una respuesta diversa pero relevante y una respuesta ruidosa e irrelevante.
 
 Es fundamental también reconocer las limitaciones inherentes al estándar de referencia (_Ground Truth_) utilizado para validar estas predicciones, ya que métricas de recuperación como _nDCG_ dependen enteramente de la completitud y calidad de los juicios de relevancia humanos, por lo que, en _datasets_ con escada profundidad de juicio (_sparse judgments_) o sesgos de anotación, lo que los métodos QPP intentan predecir no es necesariamente la satisfacción real del usuario, sino la coincidencia con un conjunto de etiquetas estáticas, lo que puede ser particularmente crítico en casos como _CAR_, donde la baja correlación podría estar reflejando no solo la incapacidad de los predictores, sino también la desconexión entre la definición teórica de relevancia del _dataset_ y la utilidad real percibida que los métodos estadísticos intentan inferir.
+#v(10pt)
+=== Impacto del dominio en Clarity
+\
 
-Por otra parte, esta barrera semántica detectada sugiere que el futuro inmediato de la predicción del rendimiento de consultas no reside en refinar métricas estadísticas, sino en la integración de Inteligencia Artificial y Modelos de Lenguaje Grandes (_LLMs_), debido a que la capacidad de estos modelos para "entender" el contenido abre nuevas vías para superar las limitaciones observadas:
+El comportamiento de _Clarity_, donde exhibe correlaciones negativas en _Cranfield_ pero lidera en otros dominios como _TREC-COVID_, requiere un análisis más profundo para entender las limitaciones del método.
+
+Como se describió en el Capítulo de trabajos relacionados, _Clarity_ calcula la divergencia de Kullback-Leibler entre el modelo de lenguaje de la consulta $P(w|Q)$ y el modelo de la colección $P_"coll"(w)$. La intuición fundamental del método es que una consulta "clara" debería generar un modelo de lenguaje que difiera sustancialmente del modelo general de la colección: términos específicos y poco ambiguos tendrán una probabilidad $P(w|Q)$ mucho mayor que su probabilidad en el fondo $P_"coll"(w)$, maximizando la divergencia.
+
+Sin embargo, esta lógica tiene como supuesto que existe una *asimetría significativa* entre ambas distribuciones. En colecciones de *dominio abierto* (datasets más ruidosos con  índices web o repositorios de noticias), los términos técnicos de una consulta son raros en el vocabulario general, por lo que el cociente $P(w|Q) \/ P_"coll"(w)$ es alto y la divergencia KL captura efectivamente la especificidad de la consulta.
+
+En cambio, en colecciones de *dominio cerrado* (como _Cranfield_, especializada en aerodinámica), el vocabulario técnico está uniformemente distribuido en toda la colección. Los términos que caracterizan una consulta también son frecuentes en el "ruido de fondo", colapsando el cociente $P(w|Q) \/ P_"coll"(w)$ hacia valores cercanos a 1 y, consecuentemente, anulando la señal de _Clarity_.
+
+La @tbl:tabla_homogeneidad_cranfield presenta un análisis de los términos frecuentes en _Cranfield_, donde se observa que incluso los términos más distintivos (como "buckl" o "shell") alcanzan cocientes de apenas 2,5, mientras que términos genéricos del dominio ("compar", "relat") tienen cocientes inferiores a 1, indicando que son *menos* frecuentes en los documentos recuperados que en la colección general.
+
+\
+#{
+  show table.cell.where(y: 0): set text(style: "normal", weight: "bold")
+  set table(stroke: (x: none))
+  set align(center)
+  [#figure(
+    table(
+      columns: 5,
+      inset: (x: 8pt, y: 6pt),
+      row-gutter: (2pt, auto),
+      align: center + horizon,
+      table.header[*Término*][*Consultas*][*$P(w|Q)$*][*$P_"coll"(w)$*][*Cociente*],
+      [buckl], [91], [0,0265], [0,0104], [2,54],
+      [shell], [84], [0,0250], [0,0101], [2,48],
+      [stress], [93], [0,0178], [0,0103], [1,72],
+      [panel], [53], [0,0156], [0,0093], [1,69],
+      [cylindr], [56], [0,0150], [0,0091], [1,66],
+      [appli], [82], [0,0056], [0,0096], [0,58],
+      [relat], [122], [0,0059], [0,0101], [0,58],
+      [compar], [132], [0,0058], [0,0100], [0,57],
+      [paramet], [84], [0,0055], [0,0096], [0,57],
+      [show], [60], [0,0055], [0,0097], [0,57],
+    ),
+    caption: [Estadísticas de términos frecuentes en Cranfield.]
+  ) <tabla_homogeneidad_cranfield>]
+}
+\
+
+El cociente promedio $P(w|Q) \/ P_"coll"(w)$ para los términos más importantes en _Cranfield_ es de apenas *2,58*. En contraste, la @tbl:tabla_homogeneidad_trec presenta el mismo análisis para _TREC-COVID_, donde los cocientes son dramáticamente superiores.
+
+\
+#{
+  show table.cell.where(y: 0): set text(style: "normal", weight: "bold")
+  set table(stroke: (x: none))
+  set align(center)
+  [#figure(
+    table(
+      columns: 5,
+      inset: (x: 8pt, y: 6pt),
+      row-gutter: (2pt, auto),
+      align: center + horizon,
+      table.header[*Término*][*Consultas*][*$P(w|Q)$*][*$P_"coll"(w)$*][*Cociente*],
+      [covid19], [48], [0,0335], [0,0001], [552,18],
+      [coronavirus], [50], [0,0306], [0,0001], [504,15],
+      [patient], [43], [0,0280], [0,0001], [462,08],
+      [disea], [49], [0,0192], [0,0001], [316,52],
+      [virus], [43], [0,0159], [0,0001], [261,52],
+    ),
+    caption: [Estadísticas de términos frecuentes en TREC-COVID.]
+  ) <tabla_homogeneidad_trec>]
+}
+\
+
+La diferencia es significativa, en _Cranfield_ el término más distintivo ("buckl") alcanza un cociente de apenas *2,54*, mientras que en _TREC-COVID_ términos como "covid19" o "coronavirus" superan los *500*. Esta asimetría de casi *200 veces* explica directamente por qué _Clarity_ lidera en _TREC-COVID_ (τ = 0,320) pero fracasa en _Cranfield_ (τ = -0,069).
+
+Esta evidencia confirma que los problemas de rendimiento de _Clarity_ en colecciones de dominio cerrado no representan un fallo algorítmico, sino una *limitación estructural* inherente a la metodología de divergencia KL cuando el corpus ya es temáticamente homogéneo.
+
+Por otra parte, las limitaciones estructurales observadas, tanto la brecha semántica en _CAR_ como la dependencia de dominio de _Clarity_, sugieren que el futuro inmediato de la predicción del rendimiento de consultas no reside en refinar métricas estadísticas, sino en la integración de Inteligencia Artificial y Modelos de Lenguaje Grandes (_LLMs_), debido a que la capacidad de estos modelos para "entender" el contenido abre nuevas vías para superar las limitaciones observadas:
 
 - *Evaluación de Coherencia Semántica*: En lugar de medir la ambigüedad mediante modelos de lenguaje simples, como _Clarity_, un modelo neuronal podría evaluar directamente la coherencia lógica entre la consulta y los documentos recuperados.
 
