@@ -94,7 +94,7 @@ Por otra parte, el modelo vectorial introdujo una representación algebraica tan
 ) <vectorial-diagrama>
 \
 
-Por último, el modelo probabilístico se basa en estimar la probabilidad de relevancia de un documento a través de una consulta, en donde su versión más consolidada, el BM25 (abreviatura de "Best Match 25", refiriéndose a la iteración número 25 de la función de ranking), calcula dicha probabilidad a partir de la frecuencia de los términos en el documento y su frecuencia inversa en el corpus, normalizando además por la longitud del texto, como se puede ver en la @bm25-final. En este aspecto, BM25 ofrece equilibrio entre simplicidad, interpretabilidad y desempeño, razón por la cual es el modelo base en la mayoría de los experimentos y benchmarks actuales de IR @zendel2024qpptk.
+Por último, el modelo probabilístico se basa en estimar la probabilidad de relevancia de un documento a través de una consulta, en donde su versión más consolidada, el BM25 (abreviatura de "Best Match 25", refiriéndose a la iteración número 25 de la función de ranking), calcula dicha probabilidad a partir de la frecuencia de los términos en el documento y su frecuencia inversa en el corpus, normalizando además por la longitud del texto, como se puede ver en la @fig:bm25-final. En este aspecto, BM25 ofrece equilibrio entre simplicidad, interpretabilidad y desempeño, razón por la cual es el modelo base en la mayoría de los experimentos y benchmarks actuales de IR @zendel2024qpptk.
 
 \
 // Importaciones y Definiciones (SOLO UNA VEZ)

@@ -418,7 +418,7 @@ La implementación de la evaluación de los métodos QPP se realiza mediante un 
 === Cálculo de correlaciones
 \
 
-El análisis se basa principalmente en el cálculo de coeficientes de correlación entre los puntajes QPP y las métricas de recuperación (nDCG y AP). Se implementaron tres tipos de correlaciones: *Pearson*, que mide la relación lineal entre las variables; *Spearman*, que evalúa la relación monótona entre variables usando rangos; y *Kendall (τ)*, que mide la ordinalidad entre pares de observaciones. Para el cálculo, se utilizan las funciones especializadas la libreria Scipy, las cuales retornan tanto el coeficiente de correlación como los valores p asociados a la prueba de hipótesis.
+El análisis se basa principalmente en el cálculo de coeficientes de correlación entre los puntajes QPP y las métricas de recuperación (nDCG y AP). Se implementaron tres tipos de correlaciones: *Pearson*, que mide la relación lineal entre las variables; *Spearman*, que evalúa la relación monótona entre variables usando rangos; y *Kendall (τ)*, que mide la ordinalidad entre pares de observaciones. Para el cálculo, se utilizan las funciones especializadas de la libreria Scipy, las cuales retornan tanto el coeficiente de correlación como los valores p asociados a la prueba de hipótesis.
 
 Un aspecto crítico de la implementación es el *alineamiento de identificadores de consulta (QIDs)* entre los puntajes QPP y las métricas de recuperación. Dado que no todas las consultas pueden tener resultados válidos en ambos conjuntos (por ejemplo, consultas sin documentos relevantes en los _qrels_ o con puntajes QPP indefinidos), el sistema calcula la intersección de QIDs comunes antes de proceder con el análisis. Adicionalmente, se aplica un filtro de *número mínimo de consultas* ($n >= 5$) para garantizar que las correlaciones calculadas tengan suficiente respaldo estadístico, descartando comparaciones que podrían resultar espurias debido a tamaños de muestra insuficientes.
 
@@ -432,7 +432,7 @@ Para facilitar la interpretación de los hallazgos experimentales, se implement�
 
 En primera instancia, para el ánalisis de correlación QPP, se generaron mapas de calor (_heatmaps_) que despliegan la matriz de correlaciones entre los métodos predictivos y las métricas de evaluación. Para ello, se utilizó una escala de colores divergente (_coolwarm_) centrada en cero, lo que permite identificar rápidamente la fuerza y dirección de las asociaciones, además de una variante específica para visualizar la significancia estadística, categorizando los valores _p_ en cuatro niveles jerárquicos (desde no significativo $>=0,05$ hasta altamente significativo $<0,001$).
 
-De forma complementaria, se construyeron diagramas de dispersión con líneas de regresión para examinar la linealidad de las predicciones y diagramas de caja (_boxplots_) ordenados por mediana, los cuales incluyen puntos individuales con _jitter_ para revelar la dispersión real de los datos y facilitar la comparación del comportamiento distributivo de cada método.
+De forma complementaria, se construyeron diagramas de dispersión con líneas de regresión para examinar la linealidad de las predicciones y facilitar la comparación del comportamiento distributivo de cada método.
 
 Por otro lado, la segunda categoría de visualizaciones se orientó a la caracterización de los juicios de relevancia y la dificulta de las consultas. Se graficó la distribución de niveles de relevancia presente en los qrels, proporcionando contexto sobre la granularidad de cada dataset. Asimismo, se implementaron gráficos para la clasificación de la dificultad, segmentando las consultas en categorías (fáciles, intermedias y difíciles) según percentiles de efectividad establecidos en la literatura.
 
@@ -727,7 +727,7 @@ La ejecución completa del framework de pruebas, que comprende 58 casos distribu
 ) <tabla-resultados-pruebas>
 \
 
-Todos los casos de prueba finalizaron exitosamente, alcanzando una tasa de éxito del 100%. El tiempo total de ejecución de aproximadamente 8,4 segundos resulta adecuado dado el tamaño reducido del dataset de validación, permitiendo obtener resultados rápidos y interpretables.
+Todos los casos de prueba finalizaron exitosamente, alcanzando una tasa de éxito del 100%. El tiempo total de ejecución de aproximadamente 8,4 segundos resulta adecuado dado el tamaño reducido del dataset de validación, permitiendo obtener resultados rápidos e interpretables.
 
 El analizador de correlaciones concentra la mayor parte del tiempo de ejecución debido a la generación de múltiples visualizaciones en formatos gráficos. Los predictores QPP muestran tiempos de ejecución mínimos gracias a la reutilización del índice y las estadísticas pre-calculadas, lo cual valida las estrategias de optimización mencionadas en secciones anteriores.
 

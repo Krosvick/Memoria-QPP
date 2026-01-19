@@ -181,7 +181,7 @@ La @fig:dificultad_antique y @fig:dificultad_car ilustran visualmente el contras
 ) <dificultad_cranfield>
 \
 
-Por su parte, #emph[Cranfield] (@fig:dificultad_cranfield) exhibe una distribución prácticamente idéntica a Antique/Test: 45 consultas difíciles (20%), 131 intermedias (59%) y 45 fáciles (20%). Esta simetría, junto con su alta proporción de documentos relevantes (80,8%), confirma su clasificación como dataset favorable para la tarea de predicción. A pesar de su reducido tamaño de corpus (~1.400 documentos), la variedad equilibrada de consultas proporciona un escenario adecuado para evaluar la capacidad predictiva de los métodos QPP.
+Por su parte, #emph[Cranfield] (@fig:dificultad_cranfield) exhibe una distribución prácticamente idéntica a Antique/Test: 45 consultas difíciles (20%), 131 intermedias (59%) y 45 fáciles (20%). Esta simetría, junto con su alta proporción de documentos relevantes (80,8%), confirma su clasificación como dataset favorable para la tarea de predicción. A pesar de su reducido tamaño de corpus (\~1.400 documentos), la variedad equilibrada de consultas proporciona un escenario adecuado para evaluar la capacidad predictiva de los métodos QPP.
 
 #v(10pt)
 == Comparación de métodos QPP
@@ -211,7 +211,9 @@ Para garantizar una correcta lectura de los resultados gráficos, se detalla a c
 
   El ancho de las bandas refleja fielmente la incertidumbre inherente. Bandas amplias surgen cuando el tamaño muestral es reducido (p. ej., 50 consultas en _TREC-COVID_), cuando los puntos exhiben alta dispersión respecto a la línea de tendencia (residuos grandes) o hacia los extremos del eje horizontal, donde pequeños cambios en la pendiente amplifican las diferencias de predicción. Por el contrario, bandas estrechas indican que la tendencia observada es robusta y que diferentes submuestras conducen a conclusiones consistentes sobre la relación entre predicción QPP y rendimiento real.
 
-Bajo estos criterios, un método QPP ideal debería mostrar una nube de puntos compacta y elongada diagonalmente hacia la derecha. Por el contrario, una nube dispersa verticalmente o con una línea de tendencia plana indica una capacidad predictiva pobre, donde el método no logra distinguir eficazmente entre consultas díficles y fáciles.
+4.  *Coeficiente de Referencia ($τ$)*: Finalmente, cada diagrama incorpora el valor de correlación de _Kendall_ (τ) calculado para ese par específico de variables. La inclusión de esta métrica permite contrastar la percepción visual de la dispersión con la medida estadística formal de asociación ordinal, lo que es fundamental para contextualizar la línea de regresión, ya que mientras la línea muestra la tendencia lineal general, el valor τ cuantifica la calidad del ranking.
+
+Bajo estos criterios, un método QPP ideal debería mostrar una nube de puntos compacta y elongada diagonalmente hacia la derecha, acompañada de un τ alto y positivo. Por el contrario, una nube dispersa verticalmente o con una línea de tendencia plana indica una capacidad predictiva pobre, donde el método no logra distinguir eficazmente entre consultas díficles y fáciles.
 
 A continuación se presentan los diagramas de dispersión organizados por _dataset_, incluyendo los métodos QPP evaluados para su contraste directo.
 
@@ -257,7 +259,7 @@ En #emph[TREC-COVID] (@fig:dispersion_covid) emerge un patrón distintivo que in
 
 Por el contrario, los métodos basados en divergencia de puntajes (NQC, WIG), habitualmente dominantes en otros conjuntos de datos, colapsan en líneas de tendencia casi horizontales. Esta inversión se atribuye a la naturaleza técnica y homogénea del _corpus_:
 
-1.  *Ventaja de Clarity*: Al basarse en modelos de lenguaje, Clarity explota eficazmente la especificidad del vocabulario médico, por lo que la divergencia entre el modelo de la consulta (términos técnicos precisos) y la olección general es una señal muy limpia en este dominio.
+1.  *Ventaja de Clarity*: Al basarse en modelos de lenguaje, Clarity explota eficazmente la especificidad del vocabulario médico, por lo que la divergencia entre el modelo de la consulta (términos técnicos precisos) y la colección general es una señal muy limpia en este dominio.
 
 2.  *Fallo de NQC/WIG*: La alta densidad de términos relevantes en la colección provoca una "saturación de puntajes" en BM25, ya que al existir muchos documentos con puntuaciones de recuperación similares, la varianza de los _scores_ se comprime, privando a NQC y WIG de la señal de dispersión necesaria para discriminar la dificultad de la consulta.
 
@@ -324,7 +326,7 @@ Este fenómeno se explica por la relación matemática entre tamaño muestral y 
 
 El análisis de los cinco datasets revela consistencias importantes:
 
-- #emph[IDF nunca alcanza significancia estadística] en ningún dataset, confirmando su inutilidad práctica como predictor QPP con el sistema BM25 evaluado.
+- #emph[IDF nunca alcanza significancia estadística] en ningún dataset, confirmando su ineficacia práctica como predictor QPP con el sistema BM25 evaluado.
 
 - #emph[NQC y UEF-NQC] son altamente significativos (p < 0,001) en cuatro de cinco datasets, con la única excepción de TREC-COVID.
 
@@ -346,7 +348,7 @@ Una vez caracterizado el comportamiento visual de los predictores y las propieda
 
 Este análisis cuantitativo resulta indispensable para validar estadísticamente las tendencias observadas y determinar qué métodos ofrecen no solo una relación lineal (_Pearson_) o monótona (_Spearman_), sino un ordenamiento correcto de las consultas según su dificultad (_Kendall_), aspecto crítico para la aplicabilidad real de los sistemas de rendimiento de consultas (QPP).
 
-La @tbl:Resultados_qpp_ndcg10_multidataset_tabla presenta la consolidación de los coeficientes obtenidos entre las puntuaciones de cada predictor y la métrica de efectividad nDCG\@10. Esta tabla constituye la evidencia central del estudio, permitiendo contrastar transversalmente el desempeño de los métodos en escenarios de recuperación con características estructural y semánticas muy diversas.
+La @tbl:Resultados_qpp_ndcg10_multidataset_tabla presenta la consolidación de los coeficientes obtenidos entre las puntuaciones de cada predictor y la métrica de efectividad nDCG\@10. Esta tabla constituye la evidencia central de este trabajo, permitiendo contrastar transversalmente el desempeño de los métodos en escenarios de recuperación con características estructural y semánticas muy diversas.
 
 Al respecto, un aspecto técnico relevante que se desprende de la comparación entre los tres coeficientes calculados es la consistencia direccional entre las métricas de correlación, ya que se observa que, en la mayoría casos, los métodos que obtienen un alto τ de _Kendall_ también mantienen valores elevados de ρ de _Spearman_ y _Pearson_.
 
@@ -481,7 +483,7 @@ Esta alineación sugiere que la relación entre la predicción y el rendimiento 
     ) <Resultados_qpp_ndcg10_multidataset_tabla>]
 }
 
-La primera observación crítica que podemos obtener de la @tbl:Resultados_qpp_ndcg10_multidataset_tabla es la significativa heterogeneidad en los "techos de rendimiento" alcanzables. Se evidencia que la dificultad de la tarea de predicción no es uniforme: 
+La primera observación que podemos obtener de la @tbl:Resultados_qpp_ndcg10_multidataset_tabla es la significativa heterogeneidad en los "techos de rendimiento" alcanzables. Se evidencia que la dificultad de la tarea de predicción no es uniforme: 
 
 - En colecciones favorables como _Antique_ y _MS MARCO_, los mejores métodos logran correlaciones de _Kendall_ robustas (*τ > 0,40*).
 
@@ -499,7 +501,7 @@ Este hallazgo sugiere que la estadística de coherencia de la consulta, que es �
 
 Así mismo, esta degradación del rendimiento de _SCQ_ en índices masivos puede atribuirse al fenómeno de saturación del espacio semántico. En colecciones pequeñas como _Cranfield_, la ocurrencia de un término es un evento informativo fuerte, sin embargo, en índices del tamaño de _MS MARCO_ con millones de pasajes, la probabilidad de que exista co-ocurrencia accidental de términos aumenta exponencialmente, lo que provoca que la métrica de "coherencia" de _SCQ_ se vuelva ruidosa, ya que el método no puede distinguir entre una repetición de términos que aporta significado y una que es meramente estadística debido al volumen del _corpus_.
 
-En contraste, los métodos *_post-retrieval_* dominan el espectro de resultados. *_NQC_* se consolida como el predictor base más robusto del estudio, superando en la mayoría de los escenarios a *_WIG_* en la mayoría de los escenarios. Esta consistencia de _NQC_ a través de los distintos _datasets_ valida la hipótesis de que la desviación estándar de las puntuaciones de los documentos recuperados es una señal más fiable de la "certeza" del sistema que la simple acumulación de aportes léxicos utilizada por _WIG_.
+En contraste, los métodos *_post-retrieval_* dominan el espectro de resultados. *_NQC_* se consolida como el predictor base más robusto de este trabajo, superando en la mayoría de los escenarios a *_WIG_* en la mayoría de los escenarios. Esta consistencia de _NQC_ a través de los distintos _datasets_ valida la hipótesis de que la desviación estándar de las puntuaciones de los documentos recuperados es una señal más fiable de la "certeza" del sistema que la simple acumulación de aportes léxicos utilizada por _WIG_.
 
 Otro caso de estudio excepcional es el del método *_Clarity_*, en el que los datos numéricos confirman una dependencia extrema del dominio:
 
@@ -523,13 +525,15 @@ El análisis exhasutivo anteriormente evidenciado sobre los cinco conjunto de da
 
 Los resultados confirman que la predicción del rendimiento de consultas es una tarea dependiente de varios factores (multifactorial), cuya dificultad depende tanto de las propiedades estadísticas de la colección como de la naturaleza semántica de la necesidad de información.
 
+En este contexto, si bien los coeficientes de _Pearson_ y _Spearman_ entregan referencias sobre la linealidad y monotonía general respectivamente, la discusión de los resultados se centra principalmente en el coeficiente τ de _Kendall_ respondiendo a la evidencia numérica presentada en la @tbl:Resultados_qpp_ndcg10_multidataset_tabla, donde se observan ciertas discrepancias, como por ejemplo, para el método Clarity en Antique, tanto _Pearson_ (0,452) como _Spearman_ (0,430) sugieren una correlación moderada que se desinfla significativamente al evaluar el ordenamiento estricto mediante _Kendall_ (0,272), confirmando que incluso las métricas basadas en rangos como _Spearman_ pueden ser optimistas, mientras que _Kendall_ emerge como un indicador más robusto para interpretar la capacidad real de los predictores en este escenario experimental.
+
 #v(10pt)
 === Contextualización y validación de la línea base
 \
 
 Uno de los principales aportes de este trabajo de título es la identificación empírica de una configuración de referencia robusta, en la que los datos demuestran que los métodos _post-retrieval_ basados en la dispersión de puntuaciones, específicamente _NQC_ y su variante _UEF-NQC_, ofrecen el equilibrio más consistente entre rendimiento y estabilidad.
 
-Aunque los valores de correlación obtenidos (con límites superiores cercanos a τ ≈ 0,43) podrían parecer modestos fuera del contexto de la recuperación de información, es crucial interpretarlos bajo los estándares del dominio. Como señala @how-much-correlation-is-good, correlaciones incluso tan bajas como _0,1_ poseen valor práctico en escenarios de predicción de dificultad, y valores en el rango obtenido en este estudio son considerados significativos. De hecho, resultados como los de _Antique_ se alinean e incluso superan ligeramente los reportados por @zendel2024qpptk, validando la calidad de la implementación.
+Aunque los valores de correlación obtenidos (con límites superiores cercanos a τ ≈ 0,43) podrían parecer modestos fuera del contexto de la recuperación de información, es crucial interpretarlos bajo los estándares del dominio. Como señala @how-much-correlation-is-good, correlaciones incluso tan bajas como _0,1_ poseen valor práctico en escenarios de predicción de dificultad, y valores en el rango obtenido en este trabajo son considerados significativos. De hecho, resultados como los de _Antique_ se alinean e incluso superan ligeramente los reportados por @zendel2024qpptk, validando la calidad de la implementación.
 
 En consecuencia, se establece que métodos como _UEF-NQC_ constituyen un _baseline_ experimental idóneo para futuras investigaciones, debiendo preferise sobre métodos más débiles como _IDF_, siempre que el costo computacional de la expansión de consultas sea admisible.
 
@@ -598,17 +602,18 @@ Para ilustrar concretamente la naturaleza de esta barrera semántica, la @tbl:ej
 Estas consultas ilustran el problema central: las estructuras jerárquicas como "Invasive species/Effects/Economic/Economic opportunities/Benefits" describen un concepto semántico específico (_beneficios económicos de especies invasoras_), pero los párrafos relevantes en el corpus probablemente discuten el tema sin utilizar exactamente esos términos. El modelo BM25, al operar sobre coincidencias léxicas exactas, no puede recuperar documentos relevantes cuando no existe solapamiento de vocabulario, independientemente de la coherencia conceptual.
 
 Es fundamental también reconocer las limitaciones inherentes al estándar de referencia (_Ground Truth_) utilizado para validar estas predicciones, ya que métricas de recuperación como _nDCG_ dependen enteramente de la completitud y calidad de los juicios de relevancia humanos, por lo que, en _datasets_ con escada profundidad de juicio (_sparse judgments_) o sesgos de anotación, lo que los métodos QPP intentan predecir no es necesariamente la satisfacción real del usuario, sino la coincidencia con un conjunto de etiquetas estáticas, lo que puede ser particularmente crítico en casos como _CAR_, donde la baja correlación podría estar reflejando no solo la incapacidad de los predictores, sino también la desconexión entre la definición teórica de relevancia del _dataset_ y la utilidad real percibida que los métodos estadísticos intentan inferir.
+
 #v(10pt)
 === Análisis de la sensibilidad de Clarity
 \
 
 La disparidad observada en el rendimiento del método Clarity entre las colecciones de *Cranfield* y *TREC-COVID* no es accidental, sino que responde a diferencias estructurales profundas en cuanto a escala, riqueza de vocabulario y distribución de frecuencias. Formalmente, Clarity estima la coherencia de los resultados recuperados mediante la divergencia Kullback-Leibler (KL) entre el modelo de lenguaje de la consulta ($P(w|Q)$) y el modelo de lenguaje de la colección ($P(w|C)$), tal como se define en la @eqt:clarity-definition:
 
-
+\
 $ "Clarity" = sum_{w in V} P(w|Q) log_2 (P(w|Q) / P(w|C)) $ <clarity-definition>
+\
 
-
-Donde $P(w|Q)$ es la probabilidad del término $w$ en el modelo de pseudo-relevancia, y $P(w|C) = "cf"_w / N$ su probabilidad en la colección (con $N$ el total de tokens). Dado que $N$ es 129 veces mayor en TREC-COVID (15.7M vs 121K), un término con igual frecuencia de colección tendrá $P(w|C)$ ~129 veces menor, inflando el cociente $P(w|Q)/P(w|C)$ y generando puntajes de Clarity sistemáticamente más altos en colecciones grandes.
+Donde $P(w|Q)$ es la probabilidad del término $w$ en el modelo de pseudo-relevancia, y $P(w|C) = "cf"_w / N$ su probabilidad en la colección (con $N$ el total de tokens). Dado que $N$ es 129 veces mayor en TREC-COVID (15.7M vs 121K), un término con igual frecuencia de colección tendrá $P(w|C)$ \~129 veces menor, inflando el cociente $P(w|Q)/P(w|C)$ y generando puntajes de Clarity sistemáticamente más altos en colecciones grandes.
 
 \
 #{
@@ -642,14 +647,15 @@ Donde $P(w|Q)$ es la probabilidad del término $w$ en el modelo de pseudo-releva
 }
 \
 
-La @tbl:tabla_comparacion_colecciones muestra que ambas colecciones tienen proporciones similares de términos raros (~70-78%). Dado que la divergencia KL es una suma de contribuciones individuales por término ($"contrib"_w = P(w|Q) dot log_2(P(w|Q) / P(w|C))$), podemos analizar qué fracción del puntaje total proviene de términos con $P(w|C)$ muy bajo. La diferencia en rendimiento predictivo radica en la *naturaleza* de estos términos:
+La @tbl:tabla_comparacion_colecciones muestra que ambas colecciones tienen proporciones similares de términos raros (\~70-78%). Dado que la divergencia KL es una suma de contribuciones individuales por término ($"contrib"_w = P(w|Q) dot log_2(P(w|Q) / P(w|C))$), podemos analizar qué fracción del puntaje total proviene de términos con $P(w|C)$ muy bajo. La diferencia en rendimiento predictivo radica en la *naturaleza* de estos términos:
 
 - En *Cranfield*, el 25,1% de la divergencia proviene de un 5,7% de términos con $P(w|C) approx 0$. Estos corresponden principalmente a ruido estadístico propio de colecciones pequeñas, donde cualquier término poco frecuente genera cocientes $P(w|Q)/P(w|C)$ artificialmente altos sin aportar señal semántica útil.
 
 - En *TREC-COVID*, el 52,6% de la divergencia proviene de tecnicismos médicos legítimos (e.g., "sarscov", "merscov", "trial", "drug"). Estos términos son genuinamente discriminativos: indican que la consulta tiene un enfoque temático específico y, por tanto, su alta contribución es informativa.
 
-En resumen, cuando la divergencia está dominada por términos semánticamente relevantes, Clarity predice bien; cuando está dominada por ruido de baja frecuencia, la predicción se degrada. La @tbl:tabla_terminos_covid ejemplifica esta distinción en TREC-COVID: términos específicos como "social" o "drug" generan cocientes altos (>17), mientras que términos genéricos de la literatura científica como "result" o "studi" son correctamente atenuados (~2.2).
+En resumen, cuando la divergencia está dominada por términos semánticamente relevantes, Clarity predice bien; cuando está dominada por ruido de baja frecuencia, la predicción se degrada. La @tbl:tabla_terminos_covid ejemplifica esta distinción en TREC-COVID: términos específicos como "social" o "drug" generan cocientes altos (>17), mientras que términos genéricos de la literatura científica como "result" o "studi" son correctamente atenuados (\~2.2).
 
+\
 #{
   show table.cell.where(y: 0): set text(style: "normal", weight: "bold")
   set table(stroke: (x: none))
@@ -692,6 +698,7 @@ En resumen, cuando la divergencia está dominada por términos semánticamente r
     ) <tabla_terminos_covid>],
   )
 }
+\
 
 En conclusión, la evidencia sugiere que Clarity es altamente sensible a la escala del corpus. En colecciones pequeñas, el ruido estadístico domina la divergencia, limitando la utilidad del método; en cambio, en colecciones grandes y temáticamente especializadas, la métrica gana robustez y capacidad predictiva. Para mitigar este sesgo en corpus reducidos, la literatura sugiere normalizaciones sobre el parámetro $mu$ o el filtrado agresivo de términos raros durante el preprocesamiento.
 
@@ -703,5 +710,5 @@ Por otra parte, las limitaciones estructurales observadas, tanto la brecha semá
 
 - *Decisión Híbrida*: Dado que la eficiencia es clave @microsoft-preretrieval, se propone investigar arquitecturas en cascada donde métodos ligeros como _SCQ_ filtren consultas obviamente fáciles, para así reservar el costo computacional de los métodos neuronales solo para aquellas consultas clasificadas como ambiguas o difíciles.
 
-En conclusión, los resultados obtenidos en este estudio, establecen una línea base sólida con _UEF-NQC_, por ejemplo, pero también evidencia que el objetivo próximo de la investigación QPP exige la evolución de paradigmas que permitan transitar desde la medición estadística hacia la comprensión semántica profunda.
+En conclusión, los resultados obtenidos en este trabajo, establecen una línea base sólida con _UEF-NQC_, por ejemplo, pero también evidencia que el objetivo próximo de la investigación QPP exige la evolución de paradigmas que permitan transitar desde la medición estadística hacia la comprensión semántica profunda.
 
