@@ -18,7 +18,7 @@
 = ANÁLISIS DE RESULTADOS
 \
 
-A traves de la literatura se ha establecido de manera casi unánime el análisis del rendimiento de los métodos QPP mediante el uso de métricas de correlación. Entre los primeros trabajos se puede encontrar el de E.M Voorhees en la conferencia TREC-6, donde se presenta el primer análisis de la capacidad de expertos en predecir el rendimiento de las consultas, donde se pudo observar que la mayor correlación lineal entre los resultados de los expertos fue de solo 0,26 @trec-6.
+A través de la literatura se ha establecido de manera casi unánime el análisis del rendimiento de los métodos QPP mediante el uso de métricas de correlación. Entre los primeros trabajos se puede encontrar el de E.M Voorhees en la conferencia TREC-6, donde se presenta el primer análisis de la capacidad de expertos en predecir el rendimiento de las consultas, donde se pudo observar que la mayor correlación lineal entre los resultados de los expertos fue de solo 0,26 @trec-6.
 
 El campo de la predicción del rendimiento de consultas se ha desarrollado a lo largo de los años, y se ha establecido el uso de juicios de relevancia y métricas como el Tau de Kendall o el Coeficiente de correlación de Spearman para la evaluación de los predictores. En este sentido, se encuentran dos puntos de interés, por un lado la evaluación del *sistema de recuperación subyacente*, y por otro la *evaluación de los predictores* utilizando como pre-requisito la evaluación del sistema de recuperación.
 
@@ -213,7 +213,7 @@ Para garantizar una correcta lectura de los resultados gráficos, se detalla a c
 
 4.  *Coeficiente de Referencia ($τ$)*: Finalmente, cada diagrama incorpora el valor de correlación de _Kendall_ (τ) calculado para ese par específico de variables. La inclusión de esta métrica permite contrastar la percepción visual de la dispersión con la medida estadística formal de asociación ordinal, lo que es fundamental para contextualizar la línea de regresión, ya que mientras la línea muestra la tendencia lineal general, el valor τ cuantifica la calidad del ranking.
 
-Bajo estos criterios, un método QPP ideal debería mostrar una nube de puntos compacta y elongada diagonalmente hacia la derecha, acompañada de un τ alto y positivo. Por el contrario, una nube dispersa verticalmente o con una línea de tendencia plana indica una capacidad predictiva pobre, donde el método no logra distinguir eficazmente entre consultas díficles y fáciles.
+Bajo estos criterios, un método QPP ideal debería mostrar una nube de puntos compacta y elongada diagonalmente hacia la derecha, acompañada de un τ alto y positivo. Por el contrario, una nube dispersa verticalmente o con una línea de tendencia plana indica una capacidad predictiva pobre, donde el método no logra distinguir eficazmente entre consultas difíciles y fáciles.
 
 A continuación se presentan los diagramas de dispersión organizados por _dataset_, incluyendo los métodos QPP evaluados para su contraste directo.
 
@@ -513,7 +513,7 @@ Esto indica que los modelos de lenguaje, base para _Clarity_, son altamente efec
 
 Respecto a la aplicación del marco *_UEF_* (_Utility Estimation Framework_), los resultados muestran matices que son importantes, si bien el método logra potenciar el rendimiento en _Antique_ y _Cranfield_ (elevando la correlación de NQC de 0,382 a 0,427), se observa un fenómeno de *"saturación"* en _MS MARCO_. 
 
-En este _dataset_, las correlaciones de *NQC* y *UEF-NQC* son idénticas (*τ = 0,408*), lo que sugiere que en _corpus_ de gran escala y diversidad temática, la expansión de consultas, que es el mecanismo central de _UEF_, podría no estar aportando información nueva relevante o, peor aún, podría estar introdución ruido que neutraliza las ganancias de la re-estimación.
+En este _dataset_, las correlaciones de *NQC* y *UEF-NQC* son idénticas (*τ = 0,408*), lo que sugiere que en _corpus_ de gran escala y diversidad temática, la expansión de consultas, que es el mecanismo central de _UEF_, podría no estar aportando información nueva relevante o, peor aún, podría estar introducción ruido que neutraliza las ganancias de la re-estimación.
 
 Finalmente, el análisis del conjunto de datos *_CAR_* ratifica la dificultad extrema de las tareas de _Complex Answer Retrieval_ para los paradigmas actuales, ya que con una correlación máxima de *τ ≈ 0,126* transversal a todos los métodos probados, se evidencia una barrera estructural, en donde la desconexión semántica entre las consultas (títulos de Wikipedia, en este caso) y los pasajes relevantes, sumada a una escala de relevancia compleja, genera un escenario "ciego" para las señales léxicas y estadísticas tradicionales.
 
@@ -521,7 +521,7 @@ Finalmente, el análisis del conjunto de datos *_CAR_* ratifica la dificultad ex
 == Discusión de los resultados
 \
 
-El análisis exhasutivo anteriormente evidenciado sobre los cinco conjunto de datos heterogéneos nos permite no solo evaluar la efectividad puntual de los métodos QPP, sino también establecer principios generales que guíen la investigación futura.
+El análisis exhaustivo anteriormente evidenciado sobre los cinco conjunto de datos heterogéneos nos permite no solo evaluar la efectividad puntual de los métodos QPP, sino también establecer principios generales que guíen la investigación futura.
 
 Los resultados confirman que la predicción del rendimiento de consultas es una tarea dependiente de varios factores (multifactorial), cuya dificultad depende tanto de las propiedades estadísticas de la colección como de la naturaleza semántica de la necesidad de información.
 
@@ -545,9 +545,9 @@ Por lo tanto, en escenarios de alta demanda o tiempo real, este costo podría se
 === La complejidad inherente y el límite estadístico
 \
 
-Los resultados consistentemente bajos en el conjunto de datos _CAR_ (τ < 0,13) exponen no solo una limitación de los métodos evaluados, sino la complejidad intrínsica de la tarea. Estudios previos con expertos humanos como @humans-cant-predict y @user-ratings-vs-system-predictions han demostrado que incluso profesionales con conocimiento del dominio tienen dificultades para predecir el fracaso de una consulta basándose solo en su formulación.
+Los resultados consistentemente bajos en el conjunto de datos _CAR_ (τ < 0,13) exponen no solo una limitación de los métodos evaluados, sino la complejidad intrínseca de la tarea. Estudios previos con expertos humanos como @humans-cant-predict y @user-ratings-vs-system-predictions han demostrado que incluso profesionales con conocimiento del dominio tienen dificultades para predecir el fracaso de una consulta basándose solo en su formulación.
 
-Esto sugiere que los métodos actuales, que operan bajo supuestos léxicos como _IDF_ y _SCQ_ o estadísticos como _NQC_ y _Clarity_ han alcanzado un "techo técnico", ya que asumen que la dificultad se manifiesta en la rareza de los términos o en la divergencia de distribuciones, pero son "ciegos" a la brecha semántica, por lo que en tareas complejas de recuperación donde la revelancia no es literal sino conceptual como en _CAR_, los métodos estadísticos no logran distinguir claramente entre una respuesta diversa pero relevante y una respuesta ruidosa e irrelevante.
+Esto sugiere que los métodos actuales, que operan bajo supuestos léxicos como _IDF_ y _SCQ_ o estadísticos como _NQC_ y _Clarity_ han alcanzado un "techo técnico", ya que asumen que la dificultad se manifiesta en la rareza de los términos o en la divergencia de distribuciones, pero son "ciegos" a la brecha semántica, por lo que en tareas complejas de recuperación donde la relevancia no es literal sino conceptual como en _CAR_, los métodos estadísticos no logran distinguir claramente entre una respuesta diversa pero relevante y una respuesta ruidosa e irrelevante.
 
 Para cuantificar la magnitud del efecto suelo (_floor effect_), la @tbl:tabla_floor_effect presenta una comparación transversal del porcentaje de consultas con rendimiento nulo o muy bajo en cada colección evaluada.
 
@@ -601,7 +601,7 @@ Para ilustrar concretamente la naturaleza de esta barrera semántica, la @tbl:ej
 
 Estas consultas ilustran el problema central: las estructuras jerárquicas como "Invasive species/Effects/Economic/Economic opportunities/Benefits" describen un concepto semántico específico (_beneficios económicos de especies invasoras_), pero los párrafos relevantes en el corpus probablemente discuten el tema sin utilizar exactamente esos términos. El modelo BM25, al operar sobre coincidencias léxicas exactas, no puede recuperar documentos relevantes cuando no existe solapamiento de vocabulario, independientemente de la coherencia conceptual.
 
-Es fundamental también reconocer las limitaciones inherentes al estándar de referencia (_Ground Truth_) utilizado para validar estas predicciones, ya que métricas de recuperación como _nDCG_ dependen enteramente de la completitud y calidad de los juicios de relevancia humanos, por lo que, en _datasets_ con escada profundidad de juicio (_sparse judgments_) o sesgos de anotación, lo que los métodos QPP intentan predecir no es necesariamente la satisfacción real del usuario, sino la coincidencia con un conjunto de etiquetas estáticas, lo que puede ser particularmente crítico en casos como _CAR_, donde la baja correlación podría estar reflejando no solo la incapacidad de los predictores, sino también la desconexión entre la definición teórica de relevancia del _dataset_ y la utilidad real percibida que los métodos estadísticos intentan inferir.
+Es fundamental también reconocer las limitaciones inherentes al estándar de referencia (_Ground Truth_) utilizado para validar estas predicciones, ya que métricas de recuperación como _nDCG_ dependen enteramente de la completitud y calidad de los juicios de relevancia humanos, por lo que, en _datasets_ con escasa profundidad de juicio (_sparse judgments_) o sesgos de anotación, lo que los métodos QPP intentan predecir no es necesariamente la satisfacción real del usuario, sino la coincidencia con un conjunto de etiquetas estáticas, lo que puede ser particularmente crítico en casos como _CAR_, donde la baja correlación podría estar reflejando no solo la incapacidad de los predictores, sino también la desconexión entre la definición teórica de relevancia del _dataset_ y la utilidad real percibida que los métodos estadísticos intentan inferir.
 
 #v(10pt)
 === Análisis de la sensibilidad de Clarity

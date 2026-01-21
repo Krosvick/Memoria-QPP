@@ -75,7 +75,7 @@ A continuación, se detallan los aspectos específicos de la implementación, co
 #v(10pt)
 == Configuración del entorno experimental
 \
-El entorno experimental se encuentra configurado para ser ejecutado en un variedad de entornos debido a la utilización de Docker, el cual permite la ejecución de entornos virtuales en diferentes sistemas operativos. De manera general y para preservar la reproducibilidad de los resultados, se ha configurado el entorno experimental para ser ejecutado en un sistema operativo Linux, utilizando Python 3.9.21 y PyTerrier 0.13.0.
+El entorno experimental se encuentra configurado para ser ejecutado en una variedad de entornos debido a la utilización de Docker, el cual permite la ejecución de entornos virtuales en diferentes sistemas operativos. De manera general y para preservar la reproducibilidad de los resultados, se ha configurado el entorno experimental para ser ejecutado en un sistema operativo Linux, utilizando Python 3.9.21 y PyTerrier 0.13.0.
 
 \
 #figure(
@@ -430,7 +430,7 @@ El manejo de *valores nulos y no numéricos* es otro aspecto relevante: los valo
 \
 Para facilitar la interpretación de los hallazgos experimentales, se implementó un conjunto de visualizaciones organizadas en dos categorías principales: análisis de correlación y análisis de juicios de relevancia. Esta estrategia de representación gráfica sigue los lineamientos metodológicos de evaluaciones recientes en el área @zendel2024qpptk @correlation-depends-on-quality-of-dataset @enhanced-evaluation.
 
-En primera instancia, para el ánalisis de correlación QPP, se generaron mapas de calor (_heatmaps_) que despliegan la matriz de correlaciones entre los métodos predictivos y las métricas de evaluación. Para ello, se utilizó una escala de colores divergente (_coolwarm_) centrada en cero, lo que permite identificar rápidamente la fuerza y dirección de las asociaciones, además de una variante específica para visualizar la significancia estadística, categorizando los valores _p_ en cuatro niveles jerárquicos (desde no significativo $>=0,05$ hasta altamente significativo $<0,001$).
+En primera instancia, para el análisis de correlación QPP, se generaron mapas de calor (_heatmaps_) que despliegan la matriz de correlaciones entre los métodos predictivos y las métricas de evaluación. Para ello, se utilizó una escala de colores divergente (_coolwarm_) centrada en cero, lo que permite identificar rápidamente la fuerza y dirección de las asociaciones, además de una variante específica para visualizar la significancia estadística, categorizando los valores _p_ en cuatro niveles jerárquicos (desde no significativo $>=0,05$ hasta altamente significativo $<0,001$).
 
 De forma complementaria, se construyeron diagramas de dispersión con líneas de regresión para examinar la linealidad de las predicciones y facilitar la comparación del comportamiento distributivo de cada método.
 

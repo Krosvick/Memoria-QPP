@@ -83,7 +83,7 @@ $ phi^* = arg max_phi "Corr"(arrow(m)_S, arrow(phi)) $ <optimizacion>
 \
 
 #pad(left:15pt)[
-Una alta correlación positiva indica que el predictor es capaz de ordenar las consultas de manera similar a su rendimiento real, permitiendo distinguir fiablemente entre consultas "difíciles" y "fáciles" par el sistema $S$ @query-drift.
+Una alta correlación positiva indica que el predictor es capaz de ordenar las consultas de manera similar a su rendimiento real, permitiendo distinguir fiablemente entre consultas "difíciles" y "fáciles" para el sistema $S$ @query-drift.
 ]
 
 #v(10pt)
@@ -189,7 +189,7 @@ A continuación se detallan los componentes fundamentales de la configuración t
 
 \
 #pad(left:17pt)[
-Otros estudios han propuesto la utilización de otros parámetros para BM25, como el parámetro k1, el cual controla la saturación de términos en los documentos, sobretodo al utilizar métodos de _clustering_, tales experimentos han demostrado que un valor de k1 mayor a 1.2 puede mejorar el rendimiento de la recuperación. Sin embargo, en este estudio se mantendrán los parámetros por defecto de PyTerrier, ya que se ha demostrado que estos proporcionan un rendimiento adecuado para la mayoría de las tareas de recuperación de información, pero se puede realizar un estudio futuro sobre la utilización de estos parámetros en la evaluación de métodos QPP @bm25.
+Otros estudios han propuesto la utilización de otros parámetros para BM25, como el parámetro k1, el cual controla la saturación de términos en los documentos, sobre todo al utilizar métodos de _clustering_, tales experimentos han demostrado que un valor de k1 mayor a 1.2 puede mejorar el rendimiento de la recuperación. Sin embargo, en este estudio se mantendrán los parámetros por defecto de PyTerrier, ya que se ha demostrado que estos proporcionan un rendimiento adecuado para la mayoría de las tareas de recuperación de información, pero se puede realizar un estudio futuro sobre la utilización de estos parámetros en la evaluación de métodos QPP @bm25.
 ]
 
 #pad(left:-15pt)[
