@@ -9,7 +9,7 @@
 = INTRODUCCIÓN
 
 #v(10pt)
-== Contexto del proyecto
+== Contexto del trabajo de título
 \
 La predicción del rendimiento de consultas (QPP) ha emergido como una herramienta prometedora en los sistemas de recuperación de información (IR). La capacidad de predecir la calidad de los resultados de búsqueda antes de la ejecución de la consulta permite tanto optimizar los recursos como al mismo tiempo mejorar la experiencia de los usuarios. No obstante, la eficacia de los métodos QPP varía significativamente según el dominio, el tipo de consulta, e incluso los modelos de recuperación utilizados, algo que se evidencia especialmente en búsquedas ad-hoc. Esta variabilidad subraya la necesidad de evaluaciones robustas y reproducibles, que permitan comparar y contrastar diferentes enfoques de tal forma que se pueda establecer una línea base clara para futuras investigaciones.
 
@@ -40,9 +40,9 @@ Evaluar comparativamente métodos de Query Performance Prediction (QPP) para bú
 \
 El presente trabajo de título se compone de los siguientes siete capítulos:
 
-*Capítulo I: Introducción.* Presenta el contexto y motivación del proyecto, junto con los objetivos general y específicos planteados para su realización. Se describe la importancia de la predicción del rendimiento de consultas (QPP) en sistemas de recuperación de información y la necesidad de una evaluación comparativa robusta.
+*Capítulo I: Introducción.* Presenta el contexto y motivación del trabajo de título, junto con los objetivos general y específicos planteados para su realización. Se describe la importancia de la predicción del rendimiento de consultas (QPP) en sistemas de recuperación de información y la necesidad de una evaluación comparativa robusta.
 
-*Capítulo II: Marco Teórico.* Proporciona el marco teórico necesario para comprender el trabajo, incluyendo conceptos fundamentales sobre sistemas de recuperación de información, predicción del rendimiento de consultas, métricas de evaluación y las herramientas utilizadas en el proyecto.
+*Capítulo II: Marco Teórico.* Proporciona el marco teórico necesario para comprender el trabajo, incluyendo conceptos fundamentales sobre sistemas de recuperación de información, predicción del rendimiento de consultas, métricas de evaluación y las herramientas utilizadas en el trabajo.
 
 *Capítulo III: Trabajos Relacionados.* Revisa y analiza los principales métodos QPP desarrollados en la literatura, enfocándose en aquellos no basados en inteligencia artificial. Se examinan sus características, fortalezas y limitaciones, estableciendo el estado del arte en el campo.
 
@@ -52,4 +52,4 @@ El presente trabajo de título se compone de los siguientes siete capítulos:
 
 *Capítulo VI: Análisis de Resultados.* Presenta y analiza los resultados obtenidos en la evaluación comparativa, examinando el rendimiento de cada método QPP en diferentes escenarios y datasets. Se discuten las implicaciones de los hallazgos y se comparan con resultados previos de la literatura.
 
-*Capítulo VII: Conclusiones y Trabajo Futuro.* Resume los principales hallazgos y contribuciones del proyecto, estableciendo la línea base para futuras investigaciones en QPP. Se identifican limitaciones del estudio y se proponen direcciones para investigaciones futuras.
+*Capítulo VII: Conclusiones y Trabajo Futuro.* Resume los principales hallazgos y contribuciones del trabajo de título, estableciendo la línea base para futuras investigaciones en QPP. Se identifican limitaciones del estudio y se proponen direcciones para investigaciones futuras.

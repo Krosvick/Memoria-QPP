@@ -575,31 +575,9 @@ Para cuantificar la magnitud del efecto suelo (_floor effect_), la @tbl:tabla_fl
 
 Los datos revelan que #emph[CAR] concentra el 28,3% de sus consultas con nDCG\@10 = 0, proporción significativamente mayor que en los demás datasets (Antique: 4,4%, TREC-COVID: 14%). Más aún, el 41,9% de las consultas CAR obtienen un rendimiento igual o inferior a 0,1, evidenciando que el problema no es marginal sino estructural.
 
-Para ilustrar concretamente la naturaleza de esta barrera semántica, la @tbl:ejemplos_brecha_semantica presenta ejemplos representativos de consultas con rendimiento nulo:
+Para ilustrar correctamente la naturaleza de la barrera semántica, basta con examinar casos representativos que obtuvieron un rendimiento nulo (nDCG\@10 = 0). Consultas con estructuras jerárquicas profundas, tales como "_Invasive species/Effects/Economic/.../Benefits_", "_Beach nourishment/Nourishment projects/Hawaii/Waikiki_" o "_Drinking water/Health aspects/Well contamination..._" ilustran el problema central al describir un concepto semántico específico (ej., _beneficios económicos de especies invasoras_), pero utilizan una cadena de términos que raramente aparece contigua o literal en los párrafos relevantes.
 
-\
-#{
-  show table.cell.where(y: 0): set text(style: "normal", weight: "bold")
-  set table(stroke: (x: none))
-  set align(center)
-  [#figure(
-    table(
-      columns: 2,
-      inset: (x: 8pt, y: 6pt),
-      row-gutter: (2pt, auto),
-      align: (left, center),
-      table.header[*Consulta (estructura jerárquica)*][*nDCG\@10*],
-      [Invasive species/Effects/Economic/.../Benefits], [0,000],
-      [Beach nourishment/Nourishment projects/Hawaii/Waikiki], [0,000],
-      [Brain damage/Signs and symptoms/Moderate/severe...], [0,000],
-      [Drinking water/Health aspects/Well contamination...], [0,000],
-    ),
-    caption: [Ejemplos de consultas CAR con brecha semántica. Los encabezados jerárquicos de Wikipedia no comparten vocabulario léxico con los párrafos relevantes.]
-  ) <ejemplos_brecha_semantica>]
-}
-\
-
-Estas consultas ilustran el problema central: las estructuras jerárquicas como "Invasive species/Effects/Economic/Economic opportunities/Benefits" describen un concepto semántico específico (_beneficios económicos de especies invasoras_), pero los párrafos relevantes en el corpus probablemente discuten el tema sin utilizar exactamente esos términos. El modelo BM25, al operar sobre coincidencias léxicas exactas, no puede recuperar documentos relevantes cuando no existe solapamiento de vocabulario, independientemente de la coherencia conceptual.
+En estos casos, el modelo BM25, al operar sobre coincidencias léxicas exactas, es incapaz de recuperar documentos pertinentes cuando no existe un solapamiento directo de vocabulario entre la jerarquía de la consulta y el contenido del documento, independientemente de la coherencia conceptual entre ambos.
 
 Es fundamental también reconocer las limitaciones inherentes al estándar de referencia (_Ground Truth_) utilizado para validar estas predicciones, ya que métricas de recuperación como _nDCG_ dependen enteramente de la completitud y calidad de los juicios de relevancia humanos, por lo que, en _datasets_ con escasa profundidad de juicio (_sparse judgments_) o sesgos de anotación, lo que los métodos QPP intentan predecir no es necesariamente la satisfacción real del usuario, sino la coincidencia con un conjunto de etiquetas estáticas, lo que puede ser particularmente crítico en casos como _CAR_, donde la baja correlación podría estar reflejando no solo la incapacidad de los predictores, sino también la desconexión entre la definición teórica de relevancia del _dataset_ y la utilidad real percibida que los métodos estadísticos intentan inferir.
 

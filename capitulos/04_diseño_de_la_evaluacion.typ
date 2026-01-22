@@ -260,7 +260,7 @@ Además, investigaciones como @query-drift han validado sus metodologías utiliz
 #v(10pt)
 === Criterios de inclusión
 \
-La @tbl:tabla-criterios-datasets presentan los criterios aplicados en la selección de _datasets_, detallando su importancia en el contexto del proyecto.
+La @tbl:tabla-criterios-datasets presenta los criterios aplicados en la selección de _datasets_, detallando su importancia en el contexto del trabajo.
 
 \
 #show figure: set block(breakable: true)
@@ -272,7 +272,7 @@ La @tbl:tabla-criterios-datasets presentan los criterios aplicados en la selecci
   row-gutter: (2.2pt, auto),
   align: left + horizon,
   table.header(
-    [*Criterio*], [*Descripción*], [*Importancia para el proyecto*],
+    [*Criterio*], [*Descripción*], [*Importancia para el trabajo*],
   ),
   [Disponibilidad pública],
   [Datasets de acceso abierto y bien documentados, sin restricciones para su uso.],
@@ -298,17 +298,17 @@ La @tbl:tabla-criterios-datasets presentan los criterios aplicados en la selecci
 
 -	*Disponibilidad pública *: Es fundamental seleccionar _datasets_ de acceso abierto que estén bien documentados, ya que esto garantiza la transparencia y la reproducibilidad de los experimentos, la disponibilidad pública también asegura que los resultados puedan ser validados por otros investigadores, fomentando la colaboración y el avance en el campo del QPP.
 -	*Diversidad de escenarios*: Incluir _datasets_ con diferentes tipos de consultas es crucial para evaluar cómo se desempeñan los métodos QPP en escenarios reales, por ejemplo de consultas informacionales: preguntas abiertas donde el usuario busca adquirir conocimiento general; consultas navegacionales: consultas donde el objetivo es encontrar una página específica; y consultas transaccionales: consultas orientadas a completar una acción. Esta diversidad asegura que los métodos sean efectivos en una variedad de tareas de recuperación, desde búsquedas generales hasta necesidades específicas.
--	*Uso en el estado del arte*: Seleccionar _datasets_ ampliamente utilizados en investigaciones previas permite que los resultados del proyecto sean comparables con estudios existentes, lo que refuerza la validez del análisis comparativo y asegura que las metodologías empleadas cumplan con estándares científicos.
+-	*Uso en el estado del arte*: Seleccionar _datasets_ ampliamente utilizados en investigaciones previas permite que los resultados del trabajo sean comparables con estudios existentes, lo que refuerza la validez del análisis comparativo y asegura que las metodologías empleadas cumplan con estándares científicos.
 -	*Tamaño adecuado*: La inclusión de _datasets_ de diferentes tamaños permite evaluar el comportamiento de los métodos en escenarios con distintos volúmenes de datos, en donde los _datasets_ pequeños son ideales para pruebas controladas y rápidas, mientras que los grandes, son útiles para analizar la escalabilidad y robustez de los métodos. Este enfoque asegura que los métodos QPP seleccionados sean evaluados en condiciones que reflejen tanto la simplicidad como la complejidad de los sistemas de recuperación de información modernos.
 -	*Relevancias conocidas (_qrels_)*: Los juicios de relevancia son esenciales para evaluar el desempeño de los métodos de manera objetiva, al incluir _datasets_ con _qrels_ bien establecidos, se garantiza que los resultados estén basados en un marco estandarizado, facilitando su interpretación y comparación
 
-Es así como la aplicación de estos criterios garantiza que los _datasets_ seleccionados sean adecuados para el análisis comparativo de los métodos QPP, de igual forma, al priorizar la diversidad, relevancia y representatividad, este proyecto establece una base sólida para evaluar el desempeño de los métodos en diferentes contextos y escalas, contribuyendo al avance del estado del arte en predicción del rendimiento de consultas.
+Es así como la aplicación de estos criterios garantiza que los _datasets_ seleccionados sean adecuados para el análisis comparativo de los métodos QPP, de igual forma, al priorizar la diversidad, relevancia y representatividad, este trabajo de título establece una base sólida para evaluar el desempeño de los métodos en diferentes contextos y escalas, contribuyendo al avance del estado del arte en predicción del rendimiento de consultas.
 
 #v(10pt)
 === Justificación de los conjuntos de datos seleccionados
 
 \
-Como se ha mencionado, los datasets seleccionados para el proyecto fueron escogidos cuidadosamente para garantizar que cubran una amplia gama de escenarios y dominios representativos, por lo que se alinean con los criterios de inclusión previamente establecidos, aportando características únicas que permiten evaluar el rendimiento de QPP en contextos diversos, asegurando resultados generalizables y relevantes para investigaciones futuras, además de contribuir al avance del estado del arte.
+Como se ha mencionado, los datasets seleccionados para el trabajo fueron escogidos cuidadosamente para garantizar que cubran una amplia gama de escenarios y dominios representativos, por lo que se alinean con los criterios de inclusión previamente establecidos, aportando características únicas que permiten evaluar el rendimiento de QPP en contextos diversos, asegurando resultados generalizables y relevantes para investigaciones futuras, además de contribuir al avance del estado del arte.
 
 Un criterio fundamental en la selección fue la preferencia por datasets con juicios de relevancia multi-nivel (_graded relevance judgments_). Esta decisión se fundamenta en las siguientes ventajas:
 
@@ -327,7 +327,7 @@ La @tbl:tabla-datasets especifica los datasets seleccionados, seguida de la @tbl
     row-gutter: (2.2pt, auto),
     align: left + horizon,
     table.header(
-      [*Dataset*], [*Descripción*], [*Contribución al proyecto*],[*Razón de inclusión*]
+      [*Dataset*], [*Descripción*], [*Contribución al trabajo*],[*Razón de inclusión*]
     ),
     [Cranfield Collection],
     [Dataset clásico con resúmenes científicos y consultas predeterminadas de tamaño reducido.],
@@ -427,9 +427,9 @@ La @tbl:tabla-datasets especifica los datasets seleccionados, seguida de la @tbl
   - Nivel 1: Podría mencionarse (3.094 juicios)
   - Nivel 2: Debería mencionarse (1.970 juicios)
   - Nivel 3: Debe mencionarse (2.461 juicios)
-- *Diferencia con qrels automáticos*: TREC CAR también ofrece qrels automáticos derivados de la estructura de Wikipedia, pero para este proyecto se utiliza exclusivamente la versión con juicios manuales por su mayor fiabilidad y la inclusión de juicios negativos explícitos.
+- *Diferencia con qrels automáticos*: TREC CAR también ofrece qrels automáticos derivados de la estructura de Wikipedia, pero para este trabajo se utiliza exclusivamente la versión con juicios manuales por su mayor fiabilidad y la inclusión de juicios negativos explícitos.
 
-Además, todos los datasets utilizados son de acceso abierto en repositorios públicos y están bien documentados debido a que son ampliamente reconocidos en la comunidad de recuperación de información, lo que asegura que cualquier investigador pueda acceder a ellos sin restricciones para replicar los experimentos. Todos los datasets son accesibles a través de la librería *_ir\_datasets_*, garantizando un proceso estandarizado de carga y preprocesamiento. Es así que, la utilización de datasets de acceso abierto garantiza que los resultados del proyecto sean reproducibles y accesibles para futuras investigaciones, fomentando el entorno colaborativo y transparente, evitando problemas legales o éticos relacionados con el uso de datos restringidos o privados.
+Además, todos los datasets utilizados son de acceso abierto en repositorios públicos y están bien documentados debido a que son ampliamente reconocidos en la comunidad de recuperación de información, lo que asegura que cualquier investigador pueda acceder a ellos sin restricciones para replicar los experimentos. Todos los datasets son accesibles a través de la librería *_ir\_datasets_*, garantizando un proceso estandarizado de carga y preprocesamiento. Es así que, la utilización de datasets de acceso abierto garantiza que los resultados del trabajo de título sean reproducibles y accesibles para futuras investigaciones, fomentando el entorno colaborativo y transparente, evitando problemas legales o éticos relacionados con el uso de datos restringidos o privados.
 
 De esta forma, la selección de datasets con características bien definidas asegura una evaluación diversa y representativa de los métodos QPP seleccionados, ya que este enfoque cubre dominios especializados, tareas cotidianas y casos complejos, estableciendo una base sólida para validar la efectividad y aplicabilidad de los métodos en diferentes contextos de recuperación de información.
 
@@ -509,7 +509,7 @@ En la @tbl:tabla-metricas-datasets se detalla la configuración específica de r
 #v(10pt)
 == Selección de métodos de QPP
 \
-La selección de métodos QPP resulta crucial en el diseño de este proyecto, ya que determina la relevancia y la validez del análisis comparativo.
+La selección de métodos QPP resulta crucial en el diseño de este trabajo de título, ya que determina la relevancia y la validez del análisis comparativo.
 
 Para garantizar que los enfoques evaluados sean representativos y estén alineados con los objetivos del estudio, se establecieron criterios rigurosos basados en la literatura científica revisada, los cuales priorizan la inclusión de métodos reconocidos en el estado del arte, con fundamentos estadísticos sólidos y un alto grado de reproducibilidad.
 
@@ -518,7 +518,7 @@ A continuación, se describen los criterios aplicados en el proceso de selecció
 #v(10pt)
 === Criterios de selección
 \
-Como se ha mencionado, la selección de métodos de _Query Performance Prediction_ (QPP) es un proceso fundamental para garantizar que los métodos evaluados sean representativos, robustos y relevantes en el contexto de los sistemas de recuperación de información. Con este propósito, se definieron criterios específicos que permiten abordar el problema desde una perspectiva teórica sólida y práctica aplicable, los que aseguran la validez de la evaluación comparativa y su alineación con los objetivos del proyecto.
+Como se ha mencionado, la selección de métodos de _Query Performance Prediction_ (QPP) es un proceso fundamental para garantizar que los métodos evaluados sean representativos, robustos y relevantes en el contexto de los sistemas de recuperación de información. Con este propósito, se definieron criterios específicos que permiten abordar el problema desde una perspectiva teórica sólida y práctica aplicable, los que aseguran la validez de la evaluación comparativa y su alineación con los objetivos del trabajo.
 
 \
 #figure(
@@ -529,7 +529,7 @@ Como se ha mencionado, la selección de métodos de _Query Performance Predictio
     row-gutter: (2.2pt, auto),
     align: left + horizon,
     table.header(
-      [*Criterio*], [*Descripción*], [*Importancia para el proyecto*],
+      [*Criterio*], [*Descripción*], [*Importancia para el trabajo*],
     ),
     [Base estadística y simplicidad],
     [Métodos con fundamentos sólidos y fácilmente comprensibles.],
@@ -554,7 +554,7 @@ Como se ha mencionado, la selección de métodos de _Query Performance Predictio
 La @tbl:tabla-criterios resume los criterios definidos para la selección de los métodos de QPP, en donde cada criterio cumple un rol específico para garantizar que los métodos seleccionados no solo sean estadísticamente sólidos, sino también relevantes y diversificados en su enfoque, asegurando que el análisis comparativo resultante sea exhaustivo y útil para evaluar las fortalezas y limitaciones de los métodos elegidos.
 
 - *Base estadística y simplicidad*: Se seleccionan métodos que se basan en conceptos matemáticos fundamentales, como la frecuencia de términos en el _corpus_ y su relación con la consulta, ya que estos métodos son ampliamente reconocidos por su sencillez y su capacidad para ser implementados y replicados sin necesidad de recursos computacionales avanzados. Este criterio asegura que los métodos elegidos puedan ser utilizados como referencia en investigaciones futuras, promoviendo la reproducibilidad de los experimentos y el entendimiento teórico de los predictores.
-- *Uso en estudios previos*: Se buscan métodos que han sido recurrentemente evaluados en trabajos recientes que analizan sistemas de recuperación de información, ya que no solo garantiza que los resultados del proyecto sean comparables con investigaciones previas, sino que también asegura que los métodos seleccionados representan soluciones probadas y bien documentadas.
+- *Uso en estudios previos*: Se buscan métodos que han sido recurrentemente evaluados en trabajos recientes que analizan sistemas de recuperación de información, ya que no solo garantiza que los resultados del trabajo de título sean comparables con investigaciones previas, sino que también asegura que los métodos seleccionados representan soluciones probadas y bien documentadas.
 - *Diversidad de enfoques*: Se seleccionan métodos tanto _pre-retrieval_ como _post-retrieval_ para capturar diferentes aspectos del problema, mientras que unos se enfocan en estimar la calidad de una consulta basándose únicamente en estadísticas del corpus, los otros evalúan la calidad considerando los documentos recuperados. Este enfoque integral permite analizar el rendimiento de consultas desde múltiples perspectivas, proporcionando una visión más completa de sus fortalezas y debilidades.
 - *Relevancia en el estado del arte*: Se priorizan métodos no basados en inteligencia artificial, ya que estos garantizan un análisis más transparente y menos sesgado en comparación con tecnologías supervisadas, además, de esta forma, los métodos seleccionados han sido ampliamente reconocidos en la literatura por su aplicabilidad en sistemas de recuperación de información y su capacidad para ser implementados sin depender de datasets de entrenamiento o modelos complejos.
 
