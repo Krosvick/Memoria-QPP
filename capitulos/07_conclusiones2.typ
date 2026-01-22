@@ -16,6 +16,8 @@ Así mismo, un hallazgo crítico es la dependencia del dominio y la existencia d
 
 Adicionalmente, se observó que el preprocesado de datos (mediante algoritmos de _stemming_ y eliminación de _stopwords_) juega un rol no trivial en la estabilidad de los predictores, por lo que su correcta implementación resultó fundamental para reducir el ruido en métodos sensibles a la frecuencia de términos como _SCQ_, aunque su impacto fue marginal en métodos basados en divergencia, lo que sugiere que la limpieza de datos debe ajustarse según la naturaleza algorítmica del predictor seleccionado.
 
+Es importante notar que estos hallazgos se enmarcan dentro de un alcance específico: el estudio se centró exclusivamente en métodos de predicción no supervisados sin arquitecturas de Inteligencia Artificial moderna, utilizando _BM25_ como único modelo de recuperación base. Asimismo, la evaluación se limitó a documentos en idioma inglés y a tareas de recuperación de pasajes sobre cinco conjuntos de datos representativos, delimitaciones que fueron necesarias para garantizar la viabilidad computacional dada la complejidad inherente a la implementación de métodos _post-retrieval_.
+
 Finalmente, la evidencia experimental demuestra que los métodos QPP clásicos presentan una capacidad predictiva significativa pero acotada en el contexto de búsquedas Ad-hoc. Los resultados obtenidos (con techos de τ ≈ 0,42) se alinean con los criterios establecidos en @how-much-correlation-is-good, quienes postulan que correlaciones medias (τ >= 0,4) poseen utilidad práctica para aplicaciones de recuperación, aunque aún distan del umbral ideal de τ >= 0,7 necesario para una confiabilidad total. Esto valida la calidad de la implementación al replicar exitosamente los resultados de referencia de estudios recientes, confirmando que las herramientas evaluadas ofrecen una capacidad real para estimar la dificultad de las consultas, aunque sujetas a las limitaciones inherentes de los enfoques no neuronales.
 
 #v(10pt)
@@ -44,14 +46,6 @@ Con respecto al objetivo general del trabajo de título, este se considera cumpl
 *e) Analizar y documentar el rendimiento de los métodos QPP implementados para establecer una línea base para futuras comparaciones con nuevos enfoques*: Los resultados fueron documentados detalladamente en el _Capítulo VI_, estableciendo a _UEF-NQC_ como la configuración de referencia, por lo que esta documentación proporciona un punto de comparación robusto para futuras investigaciones que deseen contrastar nuevos enfoques, incluidos aquellos basados en inteligencia artificial.
 ]
 
-
-#v(10pt)
-== Alcance del trabajo de título
-\
-
-Es importante delimitar que el presente estudio se centró exclusivamente en métodos de predicción no supervisados y que no utilizan arquitecturas de Inteligencia Artificial moderna. La evaluación se realizó utilizando BM25 como único modelo de recuperación base, por lo que los resultados están condicionados a las características de este modelo léxico.
-
-Asimismo, aunque se utilizaron cinco conjuntos de datos representativos, el análisis se limitó a documentos en idioma inglés y a tareas de recuperación de pasajes, excluyendo otros tipos de tareas como búsqueda de entidades o sistemas de recomendación. Estas delimitaciones fueron necesarias para garantizar la viabilidad computacional, dado que la complejidad inherente a la implementación de métodos _post-retrieval_ demandó una profundidad de análisis y recursos de procesamiento que acotaron el alcance experimental.
 
 #v(10pt)
 == Trabajo futuro
