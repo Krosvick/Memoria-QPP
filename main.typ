@@ -18,7 +18,7 @@
   autor: "José Emmanuel Raúl Sandoval Vega.
   Luis Emersson Brain Fredes.",
   profesor_guia: "Dr. Mauricio Andrés Oyarzún Silva.",
-  fecha: "2025",
+  fecha: "2026",
   tipo_ingeniero: "INGENIERO CIVIL EN COMPUTACIÓN E INFORMÁTICA"
 )
 

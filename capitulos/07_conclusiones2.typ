@@ -4,9 +4,6 @@
   it
 }
 = CONCLUSIONES Y TRABAJO FUTURO
-
-#v(10pt)
-== Principales conclusiones
 \
 
 El desarrollo de este trabajo de título ha permitido evaluar el desempeño de diversos métodos de Predicción del Rendimiento de Consultas (QPP) en escenarios de recuperación Ad-hoc, abarcando desde enfoques estadísticos básicos hasta estrategias de estimación de utilidad. La evidencia experimental, obtenida a través de cinco conjuntos de datos heterogéneos, permite establecer conclusiones fundamentales sobre la aplicabilidad de estas técnicas.
@@ -47,15 +44,6 @@ Con respecto al objetivo general del trabajo de título, este se considera cumpl
 *e) Analizar y documentar el rendimiento de los métodos QPP implementados para establecer una línea base para futuras comparaciones con nuevos enfoques*: Los resultados fueron documentados detalladamente en el _Capítulo VI_, estableciendo a _UEF-NQC_ como la configuración de referencia, por lo que esta documentación proporciona un punto de comparación robusto para futuras investigaciones que deseen contrastar nuevos enfoques, incluidos aquellos basados en inteligencia artificial.
 ]
 
-#v(10pt)
-== Síntesis de hallazgos
-\
-
-Del análisis comparativo se desprenden tres principales hallazgos que sintetizan el comportamiento de los predictores evaluados frente a la variabilidad de los datos:
-
-- *Degradación de métodos pre-retrieval en índices masivos*: Se observó que los predictores basados en estadísticas globales como _SCQ_, aunque eficaces en colecciones acotadas, reducen drásticamente su rendimiento en índices de gran escala como _MS MARCO_. Esto sugiere que las métricas _pre-retrieval_ pierden capacidad discriminativa al saturarse el espacio semántico, aumentando la probabilidad de colisiones de términos no informativos.
-- *Riesgo de ruido en la expansión post-retrieval (UEF)*: Aunque el marco _UEF_ potenció el rendimiento en la mayoría de los escenarios, en _MS MARCO_ no aportó ganancia sobre su base _NQC_, lo que indica que, en colecciones altamente heterogéneas o cuando la recuperación inicial es imprecisa, la expansión ciega de consultas propia de ciertos métodos _post-retrieval_ puede introducir ruido documental (_query drift_), neutralizando los beneficios teóricos de la re-estimación de utilidad.
-- *Limitación semántica estructural*: El rendimiento uniformemente bajo en el _dataset CAR_ evidencia una "barrera semántica", en donde los resultados confirman que tanto los métodos _pre-retrieval_ como _post-retrieval_ clásicos presentan dificultades inherentes para capturar la relevancia conceptual profunda requerida en tareas de respuestas complejas, donde la pertinencia no depende exclusivamente de la recurrencia léxica, sino de relaciones semánticas que estos predictores no logran modelar.
 
 #v(10pt)
 == Alcance del trabajo de título

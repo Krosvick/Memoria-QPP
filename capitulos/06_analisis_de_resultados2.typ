@@ -525,7 +525,7 @@ El análisis exhaustivo anteriormente evidenciado sobre los cinco conjunto de da
 
 Los resultados confirman que la predicción del rendimiento de consultas es una tarea dependiente de varios factores (multifactorial), cuya dificultad depende tanto de las propiedades estadísticas de la colección como de la naturaleza semántica de la necesidad de información.
 
-En este contexto, si bien los coeficientes de _Pearson_ y _Spearman_ entregan referencias sobre la linealidad y monotonía general respectivamente, la discusión de los resultados se centra principalmente en el coeficiente τ de _Kendall_ respondiendo a la evidencia numérica presentada en la @tbl:Resultados_qpp_ndcg10_multidataset_tabla, donde se observan ciertas discrepancias, como por ejemplo, para el método Clarity en Antique, tanto _Pearson_ (0,452) como _Spearman_ (0,430) sugieren una correlación moderada que se desinfla significativamente al evaluar el ordenamiento estricto mediante _Kendall_ (0,272), confirmando que incluso las métricas basadas en rangos como _Spearman_ pueden ser optimistas, mientras que _Kendall_ emerge como un indicador más robusto para interpretar la capacidad real de los predictores en este escenario experimental.
+En este contexto, si bien los coeficientes de _Pearson_ y _Spearman_ entregan referencias sobre la linealidad y monotonía general respectivamente, la discusión de los resultados se centra principalmente en el coeficiente τ de _Kendall_ respondiendo a la evidencia numérica presentada en la @tbl:Resultados_qpp_ndcg10_multidataset_tabla, donde se observan ciertas discrepancias, como por ejemplo, para el método Clarity en Antique, tanto _Pearson_ (0,452) como _Spearman_ (0,430) sugieren una correlación moderada que disminuye significativamente al evaluar el ordenamiento estricto mediante _Kendall_ (0,272), confirmando que incluso las métricas basadas en rangos como _Spearman_ pueden ser optimistas, mientras que _Kendall_ emerge como un indicador más robusto para interpretar la capacidad real de los predictores en este escenario experimental.
 
 #v(10pt)
 === Contextualización y validación de la línea base
@@ -653,7 +653,7 @@ La @tbl:tabla_comparacion_colecciones muestra que ambas colecciones tienen propo
 
 - En *TREC-COVID*, el 52,6% de la divergencia proviene de tecnicismos médicos legítimos (e.g., "sarscov", "merscov", "trial", "drug"). Estos términos son genuinamente discriminativos: indican que la consulta tiene un enfoque temático específico y, por tanto, su alta contribución es informativa.
 
-En resumen, cuando la divergencia está dominada por términos semánticamente relevantes, Clarity predice bien; cuando está dominada por ruido de baja frecuencia, la predicción se degrada. La @tbl:tabla_terminos_covid ejemplifica esta distinción en TREC-COVID: términos específicos como "social" o "drug" generan cocientes altos (>17), mientras que términos genéricos de la literatura científica como "result" o "studi" son correctamente atenuados (\~2.2).
+Cuando la divergencia está dominada por términos semánticamente relevantes, Clarity predice bien; cuando está dominada por ruido de baja frecuencia, la predicción se degrada. La @tbl:tabla_terminos_covid ejemplifica esta distinción en TREC-COVID: términos específicos como "social" o "drug" generan cocientes altos (>17), mientras que términos genéricos de la literatura científica como "result" o "studi" son correctamente atenuados (\~2.2).
 
 \
 #{
@@ -700,7 +700,7 @@ En resumen, cuando la divergencia está dominada por términos semánticamente r
 }
 \
 
-En conclusión, la evidencia sugiere que Clarity es altamente sensible a la escala del corpus. En colecciones pequeñas, el ruido estadístico domina la divergencia, limitando la utilidad del método; en cambio, en colecciones grandes y temáticamente especializadas, la métrica gana robustez y capacidad predictiva. Para mitigar este sesgo en corpus reducidos, la literatura sugiere normalizaciones sobre el parámetro $mu$ o el filtrado agresivo de términos raros durante el preprocesamiento.
+La evidencia sugiere que Clarity es altamente sensible a la escala del corpus. En colecciones pequeñas, el ruido estadístico domina la divergencia, limitando la utilidad del método; en cambio, en colecciones grandes y temáticamente especializadas, la métrica gana robustez y capacidad predictiva. Para mitigar este sesgo en corpus reducidos, la literatura sugiere normalizaciones sobre el parámetro $mu$ o el filtrado agresivo de términos raros durante el preprocesamiento.
 
 Por otra parte, las limitaciones estructurales observadas, tanto la brecha semántica en _CAR_ como la dependencia de dominio de _Clarity_, sugieren que el futuro inmediato de la predicción del rendimiento de consultas no reside en refinar métricas estadísticas, sino en la integración de Inteligencia Artificial y Modelos de Lenguaje Grandes (_LLMs_), debido a que la capacidad de estos modelos para "entender" el contenido abre nuevas vías para superar las limitaciones observadas:
 
@@ -710,5 +710,16 @@ Por otra parte, las limitaciones estructurales observadas, tanto la brecha semá
 
 - *Decisión Híbrida*: Dado que la eficiencia es clave @microsoft-preretrieval, se propone investigar arquitecturas en cascada donde métodos ligeros como _SCQ_ filtren consultas obviamente fáciles, para así reservar el costo computacional de los métodos neuronales solo para aquellas consultas clasificadas como ambiguas o difíciles.
 
-En conclusión, los resultados obtenidos en este trabajo, establecen una línea base sólida con _UEF-NQC_, por ejemplo, pero también evidencia que el objetivo próximo de la investigación QPP exige la evolución de paradigmas que permitan transitar desde la medición estadística hacia la comprensión semántica profunda.
+Estos resultados no solo establecen una línea base sólida con métodos como _UEF-NQC_, sino que evidencian la necesidad de evolucionar los paradigmas actuales, en donde, el objetivo próximo de la investigación en QPP exige la evolución de paradigmas que permitan transitar desde la medición estadística hacia la comprensión semántica profunda, capaz de superar las barreras léxicas detectadas.
 
+#v(10pt)
+== Síntesis de hallazgos
+\
+
+Del análisis comparativo se desprenden tres principales hallazgos que sintetizan el comportamiento de los predictores evaluados frente a la variabilidad de los datos:
+
+- *Degradación de métodos pre-retrieval en índices masivos*: Se observó que los predictores basados en estadísticas globales como _SCQ_, aunque eficaces en colecciones acotadas, reducen drásticamente su rendimiento en índices de gran escala como _MS MARCO_. Esto sugiere que las métricas _pre-retrieval_ pierden capacidad discriminativa al saturarse el espacio semántico, aumentando la probabilidad de colisiones de términos no informativos.
+- *Riesgo de ruido en la expansión post-retrieval (UEF)*: Aunque el marco _UEF_ potenció el rendimiento en la mayoría de los escenarios, en _MS MARCO_ no aportó ganancia sobre su base _NQC_, lo que indica que, en colecciones altamente heterogéneas o cuando la recuperación inicial es imprecisa, la expansión ciega de consultas propia de ciertos métodos _post-retrieval_ puede introducir ruido documental (_query drift_), neutralizando los beneficios teóricos de la re-estimación de utilidad.
+- *Limitación semántica estructural*: El rendimiento uniformemente bajo en el _dataset CAR_ evidencia una "barrera semántica", en donde los resultados confirman que tanto los métodos _pre-retrieval_ como _post-retrieval_ clásicos presentan dificultades inherentes para capturar la relevancia conceptual profunda requerida en tareas de respuestas complejas, donde la pertinencia no depende exclusivamente de la recurrencia léxica, sino de relaciones semánticas que estos predictores no logran modelar.
+
+Finalmente, la evidencia experimental confirma que no existe un predictor universalmente superior, ya que la eficacia de cada método está intrínsecamente ligada a las proppiedades estructurales de la colección y la naturaleza de la tarea de recuperación. Mientras que la aproximación estadística de _UEF_ sigue siendo el estándar más robusto para tareas léxicas tradicionales, la brecha de rendimiento en escenarios semánticos complejos subraya la urgencia de integrar mecanismos neuronales que trasciendan la coincidencia de términos.
