@@ -97,7 +97,7 @@ El entorno experimental se encuentra configurado para ser ejecutado en una varie
 ) <configuracion>
 \
 
-Como se puede apreciar en la @tbl:configuracion, se ha optado por implementar el entorno experimental en componentes de software con versiones especificas y estables, esperando lograr la mayor reproducibilidad posible de los resultados. La ejecución también es posible en sistemas operativos Windows y MacOS, pero estas cuentan con procesos de instalación y configuración mas complejos.
+Como se puede apreciar en la @tbl:configuracion, se ha optado por implementar el entorno experimental en componentes de software con versiones específicas y estables, esperando lograr la mayor reproducibilidad posible de los resultados. La ejecución también es posible en sistemas operativos Windows y MacOS, pero estas cuentan con procesos de instalación y configuración más complejos.
 
 #v(10pt)
 === Docker y dependencias
@@ -149,7 +149,7 @@ La @fig:dockerfile muestra el archivo Docker utilizado para la configuración de
     
     [*Imagen base*], [Python 3.9 slim-buster - Versión ligera de Debian optimizada para Python],
     
-    [*Configuración UTF-8*], [Establece codificación UTF-8 para el manejo correcto de caracteres especiales y términos en diferentes idiomas presentes en los datasets, esto en la practica es necesario para evitar errores de procesamiento de tokens.],
+    [*Configuración UTF-8*], [Establece codificación UTF-8 para el manejo correcto de caracteres especiales y términos en diferentes idiomas presentes en los datasets, esto en la práctica es necesario para evitar errores de procesamiento de tokens.],
     
     [*JDK 11*], [Java Development Kit necesario para PyTerrier, ya que este utiliza componentes Java para el procesamiento e indexación de documentos],
     
@@ -168,7 +168,7 @@ La @tbl:tabla_docker muestra los componentes esenciales para la configuración y
 
 Como se explicó anteriormente, los conjuntos de datos utilizados en este trabajo se encuentran disponibles en la librería IR-datasets, la cual cuenta con una amplia gama de conjuntos de datos tanto clásicos como modernos de recuperación de información junto a sus consultas y respectivos juicios de relevancia.
 
-Cada dataset cuenta con una cantidad de documentos y consultas disponibles para realizar la evaluación, por otro lado los juicios de relevancia suponen un desafío extra para la implementación de la evaluación, puesto que cada dataset cuenta con distintos niveles de relevancia para las consultas, si estos no se manejan adecuadamente puede alterar drásticamente los resultados de la correlación.
+Cada dataset cuenta con una cantidad de documentos y consultas disponibles para realizar la evaluación, por otro lado, los juicios de relevancia suponen un desafío extra para la implementación de la evaluación, puesto que cada dataset cuenta con distintos niveles de relevancia para las consultas, si estos no se manejan adecuadamente puede alterar drásticamente los resultados de la correlación.
 
 Esto es así puesto a que la evaluación clásica de métodos IR se basa en el cálculo de métricas como nDCG, AP, etc, las cuales dependen de los juicios de relevancia actuando como _ground truth_ para su cálculo.
 
@@ -267,7 +267,7 @@ Adicionalmente, para optimizar el rendimiento de los predictores _pre-retrieval_
 == Implementación de métodos QPP
 
 \
-La implementación de los métodos QPP difiere en las dos categorías en la que se dividen los ‟métodos‟, pre-retrieval y post-retrieval, el primer caso solo cuenta con una dependencia para su implementación, la cual es el índice invertido generado a partir de un corpus de documentos. Mientras que en el segundo caso, cuenta con dos, el índice invertido generado a partir de un corpus de documentos y los resultados de un sistema de recuperación de información en respuesta a una consulta.
+La implementación de los métodos QPP difiere en las dos categorías en la que se dividen los ‟métodos‟, pre-retrieval y post-retrieval, el primer caso solo cuenta con una dependencia para su implementación, la cual es el índice invertido generado a partir de un corpus de documentos. Mientras que, en el segundo caso, cuenta con dos, el índice invertido generado a partir de un corpus de documentos y los resultados de un sistema de recuperación de información en respuesta a una consulta.
 
 \
 #figure(
@@ -525,7 +525,7 @@ Como se observa en la @tbl:tabla-iquique-queries, las consultas presentan difere
 === Componentes del módulo de pruebas
 \
 
-Las pruebas unitarias se organizaron en una estructura jerárquica que refleja la arquitectura del sistema. Se crearon módulos de testing para cada capa importante de la evaluación: un módulo para las pruebas del analizador de correlaciones y el evaluador de métricas, y módulos separados para cada uno de los predictores QPP, distinguiendo entre métodos _pre-retrieval_ y _post-retrieval_ según la taxonomía establecida en el marco teórico.
+Las pruebas unitarias se organizaron en una estructura jerárquica que refleja la arquitectura del sistema. Se crearon módulos de pruebas para cada capa importante de la evaluación: un módulo para las pruebas del analizador de correlaciones y el evaluador de métricas, y módulos separados para cada uno de los predictores QPP, distinguiendo entre métodos _pre-retrieval_ y _post-retrieval_ según la taxonomía establecida en el marco teórico.
 
 \
 #figure(
