@@ -296,7 +296,7 @@ La @tbl:tabla-criterios-datasets presenta los criterios aplicados en la selecci�
 ) <tabla-criterios-datasets>
 \
 
--	*Disponibilidad pública *: Es fundamental seleccionar datasets de acceso abierto que estén bien documentados, ya que esto garantiza la transparencia y la reproducibilidad de los experimentos, la disponibilidad pública también asegura que los resultados puedan ser validados por otros investigadores, fomentando la colaboración y el avance en el campo del QPP.
+-	*Disponibilidad pública*: Es fundamental seleccionar datasets de acceso abierto que estén bien documentados, ya que esto garantiza la transparencia y la reproducibilidad de los experimentos, la disponibilidad pública también asegura que los resultados puedan ser validados por otros investigadores, fomentando la colaboración y el avance en el campo del QPP.
 -	*Diversidad de escenarios*: Incluir datasets con diferentes tipos de consultas es crucial para evaluar cómo se desempeñan los métodos QPP en escenarios reales, por ejemplo, de consultas informacionales: preguntas abiertas donde el usuario busca adquirir conocimiento general; consultas navegacionales: consultas donde el objetivo es encontrar una página específica; y consultas transaccionales: consultas orientadas a completar una acción. Esta diversidad asegura que los métodos sean efectivos en una variedad de tareas de recuperación, desde búsquedas generales hasta necesidades específicas.
 -	*Uso en el estado del arte*: Seleccionar datasets ampliamente utilizados en investigaciones previas permite que los resultados del trabajo sean comparables con estudios existentes, lo que refuerza la validez del análisis comparativo y asegura que las metodologías empleadas cumplan con estándares científicos.
 -	*Tamaño adecuado*: La inclusión de datasets de diferentes tamaños permite evaluar el comportamiento de los métodos en escenarios con distintos volúmenes de datos, en donde los datasets pequeños son ideales para pruebas controladas y rápidas, mientras que los grandes, son útiles para analizar la escalabilidad y robustez de los métodos. Este enfoque asegura que los métodos QPP seleccionados sean evaluados en condiciones que reflejen tanto la simplicidad como la complejidad de los sistemas de recuperación de información modernos.
@@ -586,7 +586,7 @@ Siguiendo los criterios establecidos en la sección anterior y tras un análisis
   [
     Mide la rareza de los términos en un _corpus_ mediante la frecuencia inversa de documentos.
   ],
-  [2. SCQ (_Similarity between a Query and a Collection_],
+  [2. SCQ (_Similarity between a Query and a Collection_)],
   [_Pre-retrieval_],
   [Calcula la similitud entre los términos de la consulta y la colección basándose en frecuencias y pesos.],
   [3. NQC (_Normalized Query Commitment_)],
@@ -609,7 +609,7 @@ Siguiendo los criterios establecidos en la sección anterior y tras un análisis
 En cuanto al análisis de las fortalezas y debilidades de cada método seleccionado en la @tbl:tabla-metodos:
 
 -	*IDF (_Inverse Document Frequency_) :* Es un método simple, eficiente y ampliamente utilizado, su capacidad para medir la especificidad de los términos lo convierte en una herramienta básica para estimar la calidad de las consultas. Por otra parte, depende exclusivamente de estadísticas del corpus, lo que limita su precisión en escenarios donde la calidad de los documentos recuperados influye de forma significativa.
--	*SCQ (_Similarity between a Query and a Collection_):* Proporciona una evaluación más detallada al considerar la similitud entre la consulta y la colección en su conjunto, lo que resulta útil en contextos con consultas de longitud variada. Por otra lado, puede ser menos efectivo en colecciones con alta heterogeneidad temática debido a su dependencia de estadísticas globales.
+-	*SCQ (_Similarity between a Query and a Collection_):* Proporciona una evaluación más detallada al considerar la similitud entre la consulta y la colección en su conjunto, lo que resulta útil en contextos con consultas de longitud variada. Por otro lado, puede ser menos efectivo en colecciones con alta heterogeneidad temática debido a su dependencia de estadísticas globales.
 -	*NQC (_Normalized Query Commitment_):* Evalúa la consistencia de los puntajes de relevancia en los documentos recuperados, lo que lo hace efectivo para identificar consultas problemáticas, pero requiere ejecutar consultas y recuperar documentos, lo que implica un costo computacional más alto en comparación con métodos pre-retrieval.
 -	*_Clarity Score_ (CS):* Mide la coherencia del lenguaje de los documentos recuperados, lo que lo hace efectivo en consultas específicas con temas bien definidos, pero es sensible a consultas cortas o ambiguas, donde la divergencia entre el modelo de lenguaje y el corpus puede ser menos clara.
 -	*WIG (_Weighted Information Gain_):* Integra múltiples características de los documentos recuperados, como términos y proximidad, proporcionando una evaluación integral, aunque puede ser afectado por colecciones con sesgos en los documentos más relevantes, disminuyendo su precisión en escenarios específicos.

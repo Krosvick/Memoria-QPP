@@ -22,7 +22,7 @@ A través de la literatura se ha establecido de manera casi unánime el análisi
 
 El campo de la predicción del rendimiento de consultas se ha desarrollado a lo largo de los años, y se ha establecido el uso de juicios de relevancia y métricas como el Tau de Kendall o el Coeficiente de correlación de Spearman para la evaluación de los predictores. En este sentido, se encuentran dos puntos de interés, por un lado, la evaluación del sistema de recuperación subyacente, y por otro la evaluación de los predictores utilizando como prerrequisito la evaluación del sistema de recuperación.
 
-En esta sección se presentan los resultados obtenidos al evaluar los métodos QPP sobre cinco conjuntos de datos ampliamente utilizados en la comunidad de recuperación de información: Antique/Test, Cranfield, BEIR-TREC-COVID, MS MARCO (Passage) y CAR. Todos ellos se acceden a través del catálogo _ir_datasets_, lo que garantiza reproducibilidad y un tratamiento consistente de documentos, consultas y juicios de relevancia. En el caso de MS MARCO (Passage) y CAR se utilizaron específicamente las variantes con juicios multinivel, lo que permite analizar el comportamiento de los predictores en escenarios con información de relevancia más rica.
+En esta sección se presentan los resultados obtenidos al evaluar los métodos QPP sobre cinco conjuntos de datos ampliamente utilizados en la comunidad de recuperación de información: Antique/Test, Cranfield, BEIR-TREC-COVID, MS MARCO (Passage) y CAR. A todos ellos se accede a través del catálogo _ir_datasets_, lo que garantiza reproducibilidad y un tratamiento consistente de documentos, consultas y juicios de relevancia. En el caso de MS MARCO (Passage) y CAR se utilizaron específicamente las variantes con juicios multinivel, lo que permite analizar el comportamiento de los predictores en escenarios con información de relevancia más rica.
 
 El rendimiento del sistema de recuperación subyacente (BM25) se midió principalmente con las métricas nDCG\@10 y MAP. A partir de estas métricas se computaron coeficientes de correlación de Pearson, Spearman y Tau de Kendall entre las puntuaciones de los métodos QPP y los valores de nDCG\@10 y MAP, lo que permite estudiar tanto relaciones lineales como monótonas entre predictores y rendimiento real.
 
@@ -483,7 +483,7 @@ Esta alineación sugiere que la relación entre la predicción y el rendimiento 
     ) <Resultados_qpp_ndcg10_multidataset_tabla>]
 }
 
-La primera observación que podemos obtener de la @tbl:Resultados_qpp_ndcg10_multidataset_tabla es la significativa heterogeneidad en los "techos de rendimiento" alcanzables. Se evidencia que la dificultad de la tarea de predicción no es uniforme: 
+La primera observación que se puede obtener de la @tbl:Resultados_qpp_ndcg10_multidataset_tabla es la significativa heterogeneidad en los "techos de rendimiento" alcanzables. Se evidencia que la dificultad de la tarea de predicción no es uniforme: 
 
 - En colecciones favorables como _Antique_ y _MS MARCO_, los mejores métodos logran correlaciones de Kendall robustas (τ > 0,40).
 
@@ -525,7 +525,7 @@ El análisis exhaustivo anteriormente evidenciado sobre los cinco conjunto de da
 
 Los resultados confirman que la predicción del rendimiento de consultas es una tarea dependiente de varios factores (multifactorial), cuya dificultad depende tanto de las propiedades estadísticas de la colección como de la naturaleza semántica de la necesidad de información.
 
-En este contexto, si bien los coeficientes de Pearson y Spearman entregan referencias sobre la linealidad y monotonía general respectivamente, la discusión de los resultados se centra principalmente en el coeficiente τ de Kendall respondiendo a la evidencia numérica presentada en la @tbl:Resultados_qpp_ndcg10_multidataset_tabla, donde se observan ciertas discrepancias, como por ejemplo, para el método Clarity en Antique, tanto Pearson (0,452) como Spearman (0,430) sugieren una correlación moderada que disminuye significativamente al evaluar el ordenamiento estricto mediante Kendall (0,272), confirmando que incluso las métricas basadas en rangos como Spearman pueden ser optimistas, mientras que Kendall emerge como un indicador más robusto para interpretar la capacidad real de los predictores en este escenario experimental.
+En este contexto, si bien los coeficientes de Pearson y Spearman entregan referencias sobre la linealidad y monotonía general respectivamente, la discusión de los resultados se centra principalmente en el coeficiente τ de Kendall respondiendo a la evidencia numérica presentada en la @tbl:Resultados_qpp_ndcg10_multidataset_tabla, donde se observan ciertas discrepancias, como, por ejemplo, para el método Clarity en Antique, tanto Pearson (0,452) como Spearman (0,430) sugieren una correlación moderada que disminuye significativamente al evaluar el ordenamiento estricto mediante Kendall (0,272), confirmando que incluso las métricas basadas en rangos como Spearman pueden ser optimistas, mientras que Kendall emerge como un indicador más robusto para interpretar la capacidad real de los predictores en este escenario experimental.
 
 #v(10pt)
 === Contextualización y validación de la línea base

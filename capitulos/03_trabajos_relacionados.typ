@@ -34,7 +34,7 @@ En el artículo @idf-understanding, el autor señala que el IDF asigna pesos má
 
 De esta forma, el IDF ha sido ampliamente utilizado debido a su robustez y simplicidad. En el artículo @idf-understanding, el autor argumenta que el IDF equilibra de forma eficaz la especificidad y la relevancia, permitiendo su aplicación en diferentes contextos, tales como recuperación de textos, análisis de lenguaje natural e incluso en recuperación de medios no textuales.
 
-En cuanto a su relevancia para el presente trabajo de título de evaluación de métodos de QPP, el IDF resulta relevante, ya que su capacidad para capturar la especificidad de los términos yace de manera tacita en otros predictores QPP, además, como se menciona en el artículo @predicting-performance, su integración en distintas métricas proporciona una línea base confiable para la comparación con métodos más avanzados, validando su referencia tanto de forma heurística como de herramienta teórica sólida y bien fundamentada.
+En cuanto a su relevancia para el presente trabajo de título de evaluación de métodos de QPP, el IDF resulta relevante, ya que su capacidad para capturar la especificidad de los términos yace de manera tácita en otros predictores QPP, además, como se menciona en el artículo @predicting-performance, su integración en distintas métricas proporciona una línea base confiable para la comparación con métodos más avanzados, validando su referencia tanto de forma heurística como de herramienta teórica sólida y bien fundamentada.
 
 #v(10pt)
 === SCQ (Similitud entre consulta y colección)

@@ -170,7 +170,7 @@ Como se explicó anteriormente, los conjuntos de datos utilizados en este trabaj
 
 Cada dataset cuenta con una cantidad de documentos y consultas disponibles para realizar la evaluación, por otro lado, los juicios de relevancia suponen un desafío extra para la implementación de la evaluación, puesto que cada dataset cuenta con distintos niveles de relevancia para las consultas, si estos no se manejan adecuadamente puede alterar drásticamente los resultados de la correlación.
 
-Esto es así puesto a que la evaluación clásica de métodos IR se basa en el cálculo de métricas como nDCG, AP, etc, las cuales dependen de los juicios de relevancia actuando como _ground truth_ para su cálculo.
+Esto es así puesto que la evaluación clásica de métodos IR se basa en el cálculo de métricas como nDCG, AP, etc, las cuales dependen de los juicios de relevancia actuando como _ground truth_ para su cálculo.
 
 \
 #figure(
@@ -259,7 +259,7 @@ El análisis revela un overlap de vocabulario del 79.4% entre ambos tokenizadore
 ) <tabla-cobertura-queries>
 \
 
-La diferencia en cobertura de terminos en las consultas fue determinante para la elección del pipeline: NLTK/Snowball alcanza una cobertura del 98.98% de los términos presentes en las consultas, PyTerrier solo cubre el 88.44%. Esta brecha de 10.54 puntos porcentuales significa que, utilizando el tokenizador por defecto de Terrier, un 11.56% de los términos de las consultas no encontrarían correspondencia en el índice, generando valores OOV (_out of vocabulary_) que distorsionan los cálculos de los predictores. En el caso de IDF y SCQ, se identificaron 6 de las 200 queries afectadas por términos problemáticos, incluyendo errores ortográficos ("inspeciton"), nombres propios ("murrieta") y concatenaciones accidentales ("june3"). Estos hallazgos fundamentan la decisión de adoptar un pipeline de preprocesamiento unificado basado en Snowball, garantizando así la coherencia del vocabulario entre el índice y las consultas.
+La diferencia en cobertura de términos en las consultas fue determinante para la elección del pipeline: NLTK/Snowball alcanza una cobertura del 98.98% de los términos presentes en las consultas, PyTerrier solo cubre el 88.44%. Esta brecha de 10.54 puntos porcentuales significa que, utilizando el tokenizador por defecto de Terrier, un 11.56% de los términos de las consultas no encontrarían correspondencia en el índice, generando valores OOV (_out of vocabulary_) que distorsionan los cálculos de los predictores. En el caso de IDF y SCQ, se identificaron 6 de las 200 queries afectadas por términos problemáticos, incluyendo errores ortográficos ("inspeciton"), nombres propios ("murrieta") y concatenaciones accidentales ("june3"). Estos hallazgos fundamentan la decisión de adoptar un pipeline de preprocesamiento unificado basado en Snowball, garantizando así la coherencia del vocabulario entre el índice y las consultas.
 
 Adicionalmente, para optimizar el rendimiento de los predictores pre-retrieval, se implementó mecanismos de caché estadísticos, el cual pre-calcula y almacena en un archivo JSON las estadísticas globales más consultadas, como la frecuencia de colección (_Collection Frequency_, CF) y la frecuencia de documentos (_Document Frequency_, DF) para cada término. Esta estrategia evita la sobrecarga computacional que implicaría realizar múltiples consultas JNI (_Java Native Interface_) al índice de Terrier o escaneos completos del índice para obtener estadísticas básicas repetitivas, reduciendo significativamente el tiempo de ejecución de los experimentos, especialmente en datasets grandes como MS MARCO.
 
@@ -307,7 +307,7 @@ La implementación de los métodos QPP difiere en las dos categorías en la que 
 )<diagrama-capa-qpp>
 \
 
-Para cumplir con los requisitos de los métodos QPP, se ha implementado un factory, el cual se encarga de la creación y computo de los puntajes de los métodos QPP. Este factory se encarga de tomar las dependencias necesarias y entregarlas a los métodos QPP, para que estos puedan ser computados.
+Para cumplir con los requisitos de los métodos QPP, se ha implementado un factory, el cual se encarga de la creación y cómputo de los puntajes de los métodos QPP. Este factory se encarga de tomar las dependencias necesarias y entregarlas a los métodos QPP, para que estos puedan ser computados.
 
 Para la implementación de los métodos QPP, se ha utilizado como base código abierto pero con mejoras y modificaciones propias para satisfacer las necesidades de la evaluación a realizar. Todo el código externo utilizado se encuentra disponible en el repositorio de _GitHub_ de _QPP-EnhancedEval_. #footnote[https://github.com/Zendelo/QPP-EnhancedEval/tree/qpptk-dev]
 
@@ -405,8 +405,8 @@ Finalmente, para NQC (_Normalized Query Commitment_) y WIG, se incorporaron meca
 ) <codigo_wig>
 \
 
-La @fig:codigo_wig muestra la implementación del método post-retrieval WIG, en este podemos identificar tanto el uso del indice invertido (_scores_vec_) como el resultado de el puntaje del modelo de recuperación de información frente a toda la colección (_corpus_score_) como se puede apreciar en la @eqt:wig-equation. 
-Adicionalmente se puede observar parámetros como el tamaño de la lista de documentos a considerar, el cual fue definido como 5 para WIG y en 200 para NQC bajo la recomendación de la literatura y nuestros propios experimentos @web-search-qpp @wig-nqc-scored-configuration @query-drift. Para finalizar, también cabe mencionar que todas los puntajes fueron considerando el puntaje promedio de los 1.000 primeros documentos de la lista de resultados.
+La @fig:codigo_wig muestra la implementación del método post-retrieval WIG, en este podemos identificar tanto el uso del índice invertido (_scores_vec_) como el resultado del puntaje del modelo de recuperación de información frente a toda la colección (_corpus_score_) como se puede apreciar en la @eqt:wig-equation. 
+Adicionalmente se puede observar parámetros como el tamaño de la lista de documentos a considerar, el cual fue definido como 5 para WIG y en 200 para NQC bajo la recomendación de la literatura y nuestros propios experimentos @web-search-qpp @wig-nqc-scored-configuration @query-drift. Para finalizar, también cabe mencionar que todos los puntajes fueron considerando el puntaje promedio de los 1.000 primeros documentos de la lista de resultados.
 
 #v(10pt)
 == Implementación de la evaluación
@@ -418,7 +418,7 @@ La implementación de la evaluación de los métodos QPP se realiza mediante un 
 === Cálculo de correlaciones
 \
 
-El análisis se basa principalmente en el cálculo de coeficientes de correlación entre los puntajes QPP y las métricas de recuperación (nDCG y AP). Se implementaron tres tipos de correlaciones: Pearson, que mide la relación lineal entre las variables; Spearman, que evalúa la relación monótona entre variables usando rangos; y Kendall (τ), que mide la ordinalidad entre pares de observaciones. Para el cálculo, se utilizan las funciones especializadas de la libreria Scipy, las cuales retornan tanto el coeficiente de correlación como los valores p asociados a la prueba de hipótesis.
+El análisis se basa principalmente en el cálculo de coeficientes de correlación entre los puntajes QPP y las métricas de recuperación (nDCG y AP). Se implementaron tres tipos de correlaciones: Pearson, que mide la relación lineal entre las variables; Spearman, que evalúa la relación monótona entre variables usando rangos; y Kendall (τ), que mide la ordinalidad entre pares de observaciones. Para el cálculo, se utilizan las funciones especializadas de la librería Scipy, las cuales retornan tanto el coeficiente de correlación como los valores p asociados a la prueba de hipótesis.
 
 Un aspecto crítico de la implementación es el alineamiento de identificadores de consulta (QIDs) entre los puntajes QPP y las métricas de recuperación. Dado que no todas las consultas pueden tener resultados válidos en ambos conjuntos (por ejemplo, consultas sin documentos relevantes en los qrels o con puntajes QPP indefinidos), el sistema calcula la intersección de QIDs comunes antes de proceder con el análisis. Adicionalmente, se aplica un filtro de número mínimo de consultas ($n >= 5$) para garantizar que las correlaciones calculadas tengan suficiente respaldo estadístico, descartando comparaciones que podrían resultar espurias debido a tamaños de muestra insuficientes.
 
@@ -434,7 +434,7 @@ En primera instancia, para el análisis de correlación QPP, se generaron mapas 
 
 De forma complementaria, se construyeron diagramas de dispersión con líneas de regresión para examinar la linealidad de las predicciones y facilitar la comparación del comportamiento distributivo de cada método.
 
-Por otro lado, la segunda categoría de visualizaciones se orientó a la caracterización de los juicios de relevancia y la dificulta de las consultas. Se graficó la distribución de niveles de relevancia presente en los qrels, proporcionando contexto sobre la granularidad de cada dataset. Asimismo, se implementaron gráficos para la clasificación de la dificultad, segmentando las consultas en categorías (fáciles, intermedias y difíciles) según percentiles de efectividad establecidos en la literatura.
+Por otro lado, la segunda categoría de visualizaciones se orientó a la caracterización de los juicios de relevancia y la dificultad de las consultas. Se graficó la distribución de niveles de relevancia presente en los qrels, proporcionando contexto sobre la granularidad de cada dataset. Asimismo, se implementaron gráficos para la clasificación de la dificultad, segmentando las consultas en categorías (fáciles, intermedias y difíciles) según percentiles de efectividad establecidos en la literatura.
 
 Finalmente, se generaron histogramas y diagramas de caja para analizar la distribución de las métricas de recuperación (como nDCG y AP), lo que resulta fundamental para detectar patrones de rendimiento del sistema base y la presencia de valores atípicos (_outliers_) que pudiesen influir en la predicción.
 
@@ -447,7 +447,7 @@ La validación de la evaluación constituye una etapa del desarrollo necesaria p
 Para garantizar la fiabilidad del entorno de evaluación implementado, se desarrolló un conjunto de pruebas unitarias utilizando el framework _unittest_ de Python. Las pruebas unitarias constituyen la base de la pirámide de testeo en ingeniería de software, verificando el comportamiento de unidades individuales de código (funciones, métodos o clases) de forma aislada y reproducible. A diferencia de las pruebas de integración o de sistema, las pruebas unitarias permiten identificar con precisión la fuente de un fallo y facilitan la regresión automática ante cambios en el código.
 
 #v(10pt)
-=== Datos para las prueba
+=== Datos para las pruebas
 \
 
 Para ejecutar las pruebas unitarias se requiere un corpus de documentos con sus respectivas consultas y juicios de relevancia. Sin embargo, utilizar datasets completos como Antique o MS MARCO para pruebas unitarias presenta inconvenientes prácticos: tiempos de indexación prolongados, mayor consumo de memoria y dificultad para verificar manualmente los resultados esperados.

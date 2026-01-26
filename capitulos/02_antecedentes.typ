@@ -172,7 +172,7 @@ Además de los modelos clásicos, se han desarrollado extensiones que buscan opt
     [Equilibrio entre desempeño y simplicidad; estándar en benchmarks.],
     [Requiere calibración de parámetros; asume independencia de términos.],
     [Extensiones (BM25F, RM3, Neural IR)],
-    [Incorporan la estructura del documento, retroalimentación o lasrepresentaciones distribuidas.],
+    [Incorporan la estructura del documento, retroalimentación o las representaciones distribuidas.],
     [Mejoran recuperación en dominios complejos o semánticos.],
     [Mayor costo computacional; suelen usarse como capa superior o en escenarios específicos.],
   ),
@@ -354,7 +354,7 @@ La generalidad de la dificultad de una consulta es un aspecto clave a considerar
   show "\\": h(-2pt)
   it
 }
-Recientemente la literatura ha propuesto varias estrategias formales para definir la dificultad de una consulta $q$ en particular. Todas parten del valor $m_S_i \\ (q)$; la puntuación que entrega una métrica de efectividad $M$ (p. ej., $n D C G$, $A P$) cuando se evalúa la lista recuperada para $q$ por un sistema de recuperación $S_i$. Este valor sintetiza el rendimiento del sistema en esa consulta (cuanto menor es $m_S_i (q)$, más difícil resultó $q$ para $S_i$). y es la variable base con la que se etiquetan las clases de dificultad. Estas estrategias se resumen en la @tbl:definiciones-dificultad:
+Recientemente la literatura ha propuesto varias estrategias formales para definir la dificultad de una consulta $q$ en particular. Todas parten del valor $m_S_i \\ (q)$; la puntuación que entrega una métrica de efectividad $M$ (p. ej., $n D C G$, $A P$) cuando se evalúa la lista recuperada para $q$ por un sistema de recuperación $S_i$. Este valor sintetiza el rendimiento del sistema en esa consulta (cuanto menor es $m_S_i (q)$, más difícil resultó $q$ para $S_i$), y es la variable base con la que se etiquetan las clases de dificultad. Estas estrategias se resumen en la @tbl:definiciones-dificultad:
 
 1. *Percentiles:* Particiona la distribución de la métrica $M$ por consulta mediante percentiles. En el caso binario, como se muestra en la @eqt:dificultad-percentil-binaria, una consulta $q$ se considera difícil para un sistema $S_i$ si su valor $m_S_i (q)$ es menor o igual que un percentil $p_x$, es decir, si aproximadamente $x\%$ de las consultas tienen un valor inferior. En el caso de desear una dificultad graduada, se utilizan $N-1$ percentiles para definir $N$ clases ordenadas de dificultad, donde la primera clase agrupa las consultas más difíciles y la última las más fáciles.
 \
@@ -376,7 +376,7 @@ $<dificultad-percentil-graduada>
 \
 
 #pad(left:15pt)[
-  En el caso graduado @eqt:dificultad-percentil-graduada, los símbolos $D_1, ..., D_N$ representa clases ordenadas de dificultad (por ejemplo, muy difícil, difícil, fácil, muy fácil), mientras que $P_1, ..., P_{N-1}$ son percentiles crecientes que dividen la distribución de $M$ en $N$ segmentos. Cada consulta $q$ se asigna a una clase $D_k$ en función del intervalo en el que cae su valor $m_{S_i}(q)$ con respecto a estos cortes percentilares.    
+  En el caso graduado @eqt:dificultad-percentil-graduada, los símbolos $D_1, ..., D_N$ representan clases ordenadas de dificultad (por ejemplo, muy difícil, difícil, fácil, muy fácil), mientras que $P_1, ..., P_{N-1}$ son percentiles crecientes que dividen la distribución de $M$ en $N$ segmentos. Cada consulta $q$ se asigna a una clase $D_k$ en función del intervalo en el que cae su valor $m_{S_i}(q)$ con respecto a estos cortes percentilares.    
 ]
 2. *Umbrales:* Fija cortes absolutos sobre la métrica para definir clases de dificultad. En el caso binario, como se expresa en la @eqt:dificultad-umbrales, una consulta $q$ es difícil para $S_i$ si $m_S_i (q)$ es menor o igual que un umbral $T$ (por ejemplo, consultas con $P@10 <= 0.1$). Para el caso graduado, se emplea un conjunto de umbrales $T_1, ..., T_(N-1)$ que inducen $N$ clases de dificultad ordenadas. 
 
@@ -508,7 +508,7 @@ Este enfoque ancla las respuestas del LLM en información verificable, reduciend
 
 A pesar de su efectividad, estas soluciones avanzadas (desde la expansión de consultas hasta _pipelines_ LLM + RAG) suelen tener un costo computacional elevado. No es eficiente ni necesario aplicarlas a todas las consultas, especialmente a aquellas que son simples y pueden ser respondidas adecuadamente por un sistema de recuperación estándar.
 
-Por otro, lado la predicción del rendimiento de consultas busca destacar especialmente en esta área. Los predictores funcionan como una herramienta de diagnóstico que estima de antemano la efectividad esperada de un sistema para una consulta dada, sin necesidad de utilizar juicios de relevancia humanos. Al predecir si una consulta será "fácil" o "difícil", un sistema de IR puede tomar decisiones proactivas y selectivas. Para una consulta predicha como "fácil", se puede utilizar un método de recuperación rápido y eficiente. En cambio, si una consulta se predice como "difícil", el sistema puede activar mecanismos más eficaces y costosos, como la expansión de consultas, el uso de modelos de relevancia o la activación de un pipeline de _RAG_ para garantizar una respuesta de alta calidad. Por ende, QPP permite a los sistemas de recuperación gestionar estratégicamente sus recursos, mejorando la robustez y la eficiencia general al tiempo que se mitigan los fallos en las consultas más desafiantes @query-difficulty-book.
+Por otro lado, la predicción del rendimiento de consultas busca destacar especialmente en esta área. Los predictores funcionan como una herramienta de diagnóstico que estima de antemano la efectividad esperada de un sistema para una consulta dada, sin necesidad de utilizar juicios de relevancia humanos. Al predecir si una consulta será "fácil" o "difícil", un sistema de IR puede tomar decisiones proactivas y selectivas. Para una consulta predicha como "fácil", se puede utilizar un método de recuperación rápido y eficiente. En cambio, si una consulta se predice como "difícil", el sistema puede activar mecanismos más eficaces y costosos, como la expansión de consultas, el uso de modelos de relevancia o la activación de un pipeline de _RAG_ para garantizar una respuesta de alta calidad. Por ende, QPP permite a los sistemas de recuperación gestionar estratégicamente sus recursos, mejorando la robustez y la eficiencia general al tiempo que se mitigan los fallos en las consultas más desafiantes @query-difficulty-book.
 
 #v(10pt)
 === Taxonomías en QPP
@@ -587,7 +587,7 @@ La validez de las evaluaciones también está modulada por las características 
 #v(10pt)
 == Métricas de evaluación de rendimiento y correlación
 \
-Las métricas de evaluación cuantifican la calidad de un ranking y permiten contrastar, de forma objetiva, lo que un sistema recupera con lo que se espera encontrar. En el contexto de QPP, operan como punto de comparación para juzgar si las predicciones se alinean con el rendimiento observado a nivel de consulta y de colección. La base de todo cualquier métrica de evaluación son los juicios de relevancia, que fijan qué documentos del corpus se consideran relevantes para una consulta dada.
+Las métricas de evaluación cuantifican la calidad de un ranking y permiten contrastar, de forma objetiva, lo que un sistema recupera con lo que se espera encontrar. En el contexto de QPP, operan como punto de comparación para juzgar si las predicciones se alinean con el rendimiento observado a nivel de consulta y de colección. La base de cualquier métrica de evaluación son los juicios de relevancia, que fijan qué documentos del corpus se consideran relevantes para una consulta dada.
 
 Sobre esa referencia se calculan medidas ampliamente utilizadas como _Precision_, AP, MAP y nDCG. Estas métricas capturan distintos aspectos del rendimiento: exactitud en los tope del ranking, cobertura de documentos relevantes, calidad promedio a lo largo de la lista y sensibilidad a las relevancias graduadas. Su valor depende del orden de los resultados y de parámetros como la profundidad de corte (_k_), por lo que deben interpretarse en función del escenario de uso.
 
