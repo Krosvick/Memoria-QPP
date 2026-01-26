@@ -25,17 +25,6 @@
 // Empezamos con numeración romana para las secciones pretextuales
 #set-numbering("i")
 
-#include "capitulos/dedicatoria.typ"
-
-
-#pagebreak()
-
-// Agradecimientos (opcional)
-#pretextual-heading("AGRADECIMIENTOS", is_center: true)
-#include "capitulos/agradecimientos.typ"
-
-#pagebreak()
-
 
 // Índices
 #pretextual-heading("ÍNDICE DE MATERIAS", is_center: true)
