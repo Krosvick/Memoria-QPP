@@ -15,17 +15,17 @@ La predicción del rendimiento de consultas (QPP) ha emergido como una herramien
 
 La complejidad del problema de QPP se magnifica por la diversidad de escenarios de aplicación y la heterogeneidad de los datos en diferentes dominios. Los sistemas de recuperación de información modernos deben manejar consultas que varían desde preguntas simples hasta construcciones complejas en lenguaje natural, cada una con sus propios desafíos de predicción de rendimiento. Además, la calidad de los resultados puede verse afectada por factores como la ambigüedad del lenguaje, la especificidad de la consulta, y la cobertura del tema en la colección de documentos.
 
-La motivación sobre el campo de Query Performance Prediction (QPP) ha aumentado en los últimos años debido a los avances en el campo de la inteligencia artificial, específicamente en el área del procesado de lenguaje natural (NLP), donde nuevos modelos de lenguaje como BERT, GPT entre otros han demostrado ser muy efectivos en tareas de recuperación de información mediante el uso de técnicas especializadas como RAG (Retrieval augmented generation). Bajo esta premisa se abre un nuevo paradigma de métodos QPP basados en consultas conversacionales, donde la interacción entre el usuario y el sistema de recuperación de información se da de forma más natural.
+La motivación sobre el campo de Query Performance Prediction (QPP) ha aumentado en los últimos años debido a los avances en el campo de la inteligencia artificial, específicamente en el área del procesado de lenguaje natural (NLP), donde nuevos modelos de lenguaje como BERT y GPT, entre otros, han demostrado ser muy efectivos en tareas de recuperación de información mediante el uso de técnicas especializadas como RAG (_retrieval-augmented generation_). Bajo esta premisa se abre un nuevo paradigma de métodos QPP basados en consultas conversacionales, donde la interacción entre el usuario y el sistema de recuperación de información se da de forma más natural.
 
 Este trabajo busca establecer una línea base sobre los enfoques tradicionales para asegurar un avance en las futuras investigaciones de métodos QPP, mediante la implementación de un benchmark abierto y reproducible, disponible en GitHub. #footnote[https://github.com/emerssn/QPP-Benchmark]
 
 #v(10pt)
-== Objetivo General
+== Objetivo general
 \
-Evaluar comparativamente métodos de Query Performance Prediction (QPP) para búsquedas Ad-hoc utilizando métricas de correlación.
+Evaluar comparativamente métodos de Query Performance Prediction (QPP) para búsquedas ad-hoc utilizando métricas de correlación.
 
 #v(10pt)
-== Objetivos Específicos
+== Objetivos específicos
 \
 #pad(left:15pt)[
 1. Revisar la literatura sobre métodos de QPP en búsquedas ad-hoc sin el uso de inteligencia artificial.
@@ -40,7 +40,7 @@ Evaluar comparativamente métodos de Query Performance Prediction (QPP) para bú
 \
 El presente trabajo de título se compone de los siguientes siete capítulos:
 
-*Capítulo I: Introducción.* Presenta el contexto y motivación del trabajo de título, junto con los objetivos general y específicos planteados para su realización. Se describe la importancia de la predicción del rendimiento de consultas (QPP) en sistemas de recuperación de información y la necesidad de una evaluación comparativa robusta.
+*Capítulo I: Introducción.* Presenta el contexto y motivación del trabajo de título, junto con el objetivos general y los específicos planteados para su realización. Se describe la importancia de la predicción del rendimiento de consultas (QPP) en sistemas de recuperación de información y la necesidad de una evaluación comparativa robusta.
 
 *Capítulo II: Marco Teórico.* Proporciona el marco teórico necesario para comprender el trabajo, incluyendo conceptos fundamentales sobre sistemas de recuperación de información, predicción del rendimiento de consultas, métricas de evaluación y las herramientas utilizadas en el trabajo.
 

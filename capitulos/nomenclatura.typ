@@ -60,12 +60,10 @@
 
 *Wrapper*: Capa de software que envuelve una herramienta o biblioteca para proporcionar una interfaz simplificada o compatible con otro sistema.
 
-#v(12pt)
+*$rho$*: Coeficiente de correlación de Pearson.
 
-$rho$: Coeficiente de correlación de Pearson.
+*$tau$*: Coeficiente de correlación de Kendall.
 
-$tau$: Coeficiente de correlación de Kendall.
+*$P(w|C)$*: Probabilidad de aparición del término $w$ en la colección de documentos.
 
-$P(w|C)$: Probabilidad de aparición del término $w$ en la colección de documentos.
-
-$P(w|Q)$: Probabilidad de aparición del término $w$ en el modelo de lenguaje de la consulta.
+*$P(w|Q)$*: Probabilidad de aparición del término $w$ en el modelo de lenguaje de la consulta.

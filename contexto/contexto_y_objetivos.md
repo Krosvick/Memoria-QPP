@@ -1,20 +1,20 @@
 ## Objetivos específicos
 
-- [x] Revisar la literatura sobre métodos de QPP en búsquedas Ad-hoc sin el uso de inteligencia artificial
+- [x] Revisar la literatura sobre métodos de QPP en búsquedas ad-hoc sin el uso de inteligencia artificial
      - [x] Identificar y describir los principales métodos QPP utilizados en la actualidad
      - [x] Selección de 5 métodos QPP según relevancia: NQC, IDF, Clarity, WIG y UEF
 - [x] Identificar y analizar los procesos estándar de evaluación aplicados a los métodos de QPP
      - [x] Explorar los procesos estándar de evaluación: ir_datasets, ir_measures y PyTerrier
      - [x] Determinar los datasets a utilizar (ir_datasets): BEIR, Cranfield, MS MARCO, Antique y CAR
      - [x] Configurar el entorno experimental
-- [x] Implementar métodos QPP en búsquedas Ad-hoc sin inteligencia artificial para su evaluación utilizando métricas estandarizadas
+- [x] Implementar métodos QPP en búsquedas ad-hoc sin inteligencia artificial para su evaluación utilizando métricas estandarizadas
      - [x] Implementación de método pre-retrieval: IDF
      - [x] Implementación de métodos post-retrieval: Clarity, WIG, NQC y UEF.
 - [ ] Evaluar los resultados obtenidos de los métodos QPP implementados, determinando su efectividad en función a los resultados descritos en el estado del arte
 - [ ] Analizar y documentar el rendimiento de los métodos QPP implementados para establecer una línea base para futuras comparaciones con nuevos enfoques
 
 ## Objetivo 
-Evaluar comparativamente métodos de Query Performance Prediction (QPP) para búsquedas Ad-hoc utilizando métricas de correlación.
+Evaluar comparativamente métodos de Query Performance Prediction (QPP) para búsquedas ad-hoc utilizando métricas de correlación.
 
 ## Contexto
 En la actualidad, los métodos de Query Performance Prediction (QPP) son fundamentales en sistemas de recuperación de información (IR) para predecir la calidad de los resultados y optimizar búsquedas. Sin embargo, su eficacia varía según dominios y tipos de consultas, especialmente en búsquedas ad-hoc, derivando en respuestas subóptimas y tiempo desperdiciado en búsquedas poco eficaces. Es así, que se resalta la necesidad de una evaluación robusta y benchmarking a los métodos QPP más utilizados, para asegurar su fiabilidad en diversos entornos a la vez que se establece una base sólida para facilitar el desarrollo de nuevos enfoques.

@@ -9,7 +9,7 @@
 == Principales conclusiones
 \
 
-El presente trabajo ha abordado la evaluación comparativa de diversos métodos de Predicción del Rendimiento de Consultas (QPP) en el contexto de búsquedas Ad-hoc. A través de la implementación y análisis de métodos tanto pre-retrieval como post-retrieval, se ha logrado establecer una línea base robusta que facilita la comprensión de la efectividad y limitaciones de cada enfoque en diferentes escenarios de recuperación de información.
+El presente trabajo ha abordado la evaluación comparativa de diversos métodos de Predicción del Rendimiento de Consultas (QPP) en el contexto de búsquedas ad-hoc. A través de la implementación y análisis de métodos tanto pre-retrieval como post-retrieval, se ha logrado establecer una línea base robusta que facilita la comprensión de la efectividad y limitaciones de cada enfoque en diferentes escenarios de recuperación de información.
 
 Los resultados obtenidos en el análisis de resultados revelan que los métodos post-retrieval, especialmente aquellos que incorporan el marco de Utility Estimation Framework (UEF) como UEF-NQC, muestran una correlación significativamente mayor con las métricas de rendimiento (nDCG\@10 y AP) en comparación con métodos pre-retrieval tradicionales como IDF. Esto subraya la importancia de utilizar información adicional obtenida después de la recuperación para mejorar la precisión de las predicciones de rendimiento de consultas.
 
@@ -17,7 +17,7 @@ Asimismo, el método Normalized Query Commitment (NQC) demostró una capacidad p
 
 El preprocesado mediante algoritmos de stemming y stopwords, así como la implementación de métodos de normalización de los datos, resultaron ser herramientas con un impacto significativo en la precisión de los métodos QPP. Su implementación en el entorno dio lugar a resultados mixtos, con algunas mejoras significativas (SCQ, NQC, UEF-NQC) y otras que vieron mermada su efectividad (IDF, Clarity).
 
-Finalmente, la evidencia experimental demuestra que los métodos QPP clásicos presentan una capacidad predictiva limitada en el contexto de búsquedas Ad-hoc. Los resultados se alinean con investigaciones previas como la de Hauff et al. (2010) @how-much-correlation-is-good, que establece que correlaciones bajas ($τ < 0.1$) pueden ser útiles en Meta-búsquedas, correlaciones medias ($τ >= 0.4$) pueden ser útiles en búsquedas Ad-hoc tomando ciertas suposiciones, mientras que correlaciones más altas ($τ >= 0.7$) son necesarias para obtener resultados generalizables y confiables en todos los casos.
+Finalmente, la evidencia experimental demuestra que los métodos QPP clásicos presentan una capacidad predictiva limitada en el contexto de búsquedas ad-hoc. Los resultados se alinean con investigaciones previas como la de Hauff et al. (2010) @how-much-correlation-is-good, que establece que correlaciones bajas ($τ < 0.1$) pueden ser útiles en Meta-búsquedas, correlaciones medias ($τ >= 0.4$) pueden ser útiles en búsquedas ad-hoc tomando ciertas suposiciones, mientras que correlaciones más altas ($τ >= 0.7$) son necesarias para obtener resultados generalizables y confiables en todos los casos.
 
 
 #v(10pt)
@@ -30,7 +30,7 @@ El diseño experimental anteriormente expuesto se encuentra directamente alinead
 === Relación con el objetivo general
 
 \
-Como se ha mencionado en capítulos anteriores, el objetivo general del proyecto consiste en evaluar comparativamente métodos de _Query Performance Prediction_ (QPP) para búsquedas _Ad-hoc_ utilizando métricas de correlación. En alineación con este objetivo, el diseño se ha organizado en las siguientes etapas:
+Como se ha mencionado en capítulos anteriores, el objetivo general del proyecto consiste en evaluar comparativamente métodos de _Query Performance Prediction_ (QPP) para búsquedas _ad-hoc_ utilizando métricas de correlación. En alineación con este objetivo, el diseño se ha organizado en las siguientes etapas:
 
 - *Selección de Métodos QPP*: Se han seleccionado seis métodos QPP no basados en inteligencia artificial (IDF, SCQ, NQC, Clarity Score, WIG y UEF) que son ampliamente reconocidos en la literatura y representan enfoques tanto _pre-retrieval_ como _post-retrieval_.
 - *Selección de Datasets*: Se han elegido cinco _datasets_ (Cranfield Collection, ANTIQUE, TREC-COVID, MS MARCO Passage (TREC DL 2020) y TREC CAR) que cubren una amplia gama de dominios y tipos de consultas con juicios de relevancia multi-nivel, asegurando que los resultados sean generalizables.
@@ -50,7 +50,7 @@ La @tbl:tabla-relacion-objetivos resume la relación entre el diseño experiment
     row-gutter: (2.2pt, auto),
     align: left + horizon,
     [*Etapa del diseño experimental*], [*Contribución al objetivo general*],
-    [*Selección de Métodos QPP*], [Garantiza que los métodos evaluados sean representativos y relevantes para búsquedas Ad-hoc.],
+    [*Selección de Métodos QPP*], [Garantiza que los métodos evaluados sean representativos y relevantes para búsquedas ad-hoc.],
     [*Selección de Datasets*], [Permite evaluar los métodos en diferentes contextos y dominios, asegurando la generalización de los resultados.],
     [*Implementación y Evaluación*], [Proporciona una evaluación comparativa robusta utilizando métricas de correlación estandarizadas.],
     [*Análisis de Resultados*], [Establece una línea base para futuras comparaciones con nuevos enfoques.],
@@ -65,9 +65,9 @@ La @tbl:tabla-relacion-objetivos resume la relación entre el diseño experiment
 
 A continuación, se describe cómo cada objetivo específico se relaciona con el diseño experimental:
 
-*a) Revisar la literatura sobre métodos de QPP en búsquedas Ad-hoc sin el uso de inteligencia artificial.*
+*a) Revisar la literatura sobre métodos de QPP en búsquedas ad-hoc sin el uso de inteligencia artificial.*
 #pad(left: 1.5em)[
-  Este objetivo se aborda mediante una revisión exhaustiva de trabajos y artículos académicos y experimentales relevantes, priorizando métodos no basados en IA que han sido ampliamente estudiados y documentados, lo que asegura que los métodos seleccionados sean representativos y relevantes para el contexto de búsquedas Ad-hoc.
+  Este objetivo se aborda mediante una revisión exhaustiva de trabajos y artículos académicos y experimentales relevantes, priorizando métodos no basados en IA que han sido ampliamente estudiados y documentados, lo que asegura que los métodos seleccionados sean representativos y relevantes para el contexto de búsquedas ad-hoc.
 ]
 
 *b) Comparar los resultados de los métodos QPP con estudios previos.*
@@ -75,7 +75,7 @@ A continuación, se describe cómo cada objetivo específico se relaciona con el
   Se utilizan métricas de correlación estandarizadas y juicios de relevancia para evaluar el rendimiento de los métodos QPP. Estas métricas son ampliamente aceptadas en la literatura y permiten una comparación directa con estudios previos.
 ]
 
-*c) Implementar métodos QPP en búsquedas Ad-hoc sin inteligencia artificial para su evaluación utilizando métricas estandarizadas.*
+*c) Implementar métodos QPP en búsquedas ad-hoc sin inteligencia artificial para su evaluación utilizando métricas estandarizadas.*
 #pad(left: 1.5em)[
   La implementación de los métodos se realiza en un entorno experimental controlado utilizando contenedores Docker, que aseguran la replicabilidad y la consistencia en la ejecución de los experimentos con ayuda de scripts en Python, lo que permite una evaluación precisa y reproducible.
 ]
@@ -141,4 +141,4 @@ De cara al futuro, se identifican varias líneas de investigación que podrían 
 6. *Estudios de Caso en Dominios Específicos:* Aplicar y evaluar los métodos QPP en dominios especializados como medicina, derecho o e-commerce, donde las características particulares de las consultas y documentos podrían influir de manera distinta en el rendimiento de los predictores.
 
 
-Este trabajo establece una base sólida para la evaluación comparativa de métodos QPP en búsquedas Ad-hoc, al tiempo que abre múltiples avenidas para investigaciones futuras que pueden profundizar y ampliar los conocimientos en este campo dinámico y en constante evolución. 
+Este trabajo establece una base sólida para la evaluación comparativa de métodos QPP en búsquedas ad-hoc, al tiempo que abre múltiples avenidas para investigaciones futuras que pueden profundizar y ampliar los conocimientos en este campo dinámico y en constante evolución. 
