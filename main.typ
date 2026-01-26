@@ -25,19 +25,15 @@
 // Empezamos con numeración romana para las secciones pretextuales
 #set-numbering("i")
 
-#align(right + bottom)[
-  #set text(style: "italic")
-  [Dedicatoria...]
-]
+#include "capitulos/dedicatoria.typ"
+
 
 #pagebreak()
 
 // Agradecimientos (opcional)
 #pretextual-heading("AGRADECIMIENTOS", is_center: true)
-#v(2em)
-#align(center)[
-  [Agradezco...]
-]
+#include "capitulos/agradecimientos.typ"
+
 #pagebreak()
 
 
