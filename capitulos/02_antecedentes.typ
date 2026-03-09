@@ -9,17 +9,17 @@
 \
 El campo de la recuperación de información (IR) se centra en el estudio de métodos y sistemas que permiten localizar, dentro de grandes colecciones de documentos, aquellos que respondan de mejor forma a una necesidad informativa expresada por el usuario a través de una consulta o #emph[query]. Este proceso implica identificar, clasificar y ordenar documentos según su grado de relevancia, apoyándose en modelos matemáticos y estadísticos que describen la relación entre las palabras de la consulta y el contenido del _corpus_. En la práctica, los sistemas de recuperación de información sustentan desde buscadores web hasta repositorios científicos y bases de datos digitales @Query-difficulty-definition.
 
-Cabe mencionar que, en el contexto de IR se entiende por documento cualquier unidad de información almacenada en el sistema, como puede ser un artículo científico, una página web o un informe técnico. 
+Cabe mencionar que, en el contexto de IR se entiende por documento cualquier unidad de información almacenada en el sistema, como puede ser un artículo científico, una página web o un informe técnico @laplacian-smoothing. 
 
-El conjunto completo de documentos disponibles para ser buscados se denomina corpus o colección. Por otra parte, la consulta corresponde a la expresión, generalmente breve, con la que el usuario comunica su necesidad de información, esta puede estar compuesta por palabras clave, frases o descripciones más amplias.
+El conjunto completo de documentos disponibles para ser buscados se denomina corpus o colección. Por otra parte, la consulta corresponde a la expresión, generalmente breve, con la que el usuario comunica su necesidad de información, esta puede estar compuesta por palabras clave, frases o descripciones más amplias @laplacian-smoothing.
 
-En los sistemas de evaluación, estas consultas se agrupan junto con sus documentos y juicios de relevancia en lo que se conoce como colecciones de referencia o #emph[query logs], las cuales permiten medir objetivamente el rendimiento de distintos modelos de recuperación.
+En los sistemas de evaluación, estas consultas se agrupan junto con sus documentos y juicios de relevancia en lo que se conoce como colecciones de referencia, las cuales permiten medir objetivamente el rendimiento de distintos modelos de recuperación @laplacian-smoothing.
 
 Así mismo, en este trabajo la relevancia se entenderá como el grado en que un documento satisface la necesidad informativa planteada en la consulta. De forma complementaria, se denomina ruido a los documentos que, aun siendo recuperados, no aportan información útil respecto al tema consultado. Por lo tanto, un sistema de recuperación efectivo es aquel que maximiza los documentos relevantes y minimiza el ruido, priorizando la calidad de los resultados.
 
 El propósito fundamental de un sistema IR consiste en maximizar la relevancia de los resultados y minimizar el ruido, es decir, la cantidad de documentos menos pertinentes dentro del conjunto de datos recuperado. Esta función se ha vuelto crítica frente al crecimiento exponencial de la información que disponemos en formato digital, donde la eficiencia en las búsquedas y la organización del conocimiento determinan la calidad de la experiencia informativa. Además, como se menciona en @microsoft-preretrieval, la efectividad de un sistema IR no depende únicamente del modelo de recuperación utilizado, sino también de la formulación de la consulta y de la naturaleza del corpus.
 
-El desarrollo de la Recuperación de Información se remonta a mediados del siglo XX, con los primeros sistemas booleanos aplicados en bibliotecas digitales. Con el avance de la informática y el Internet, el volumen de datos textuales creció de forma exponencial, impulsando el surgimiento de modelos estadísticos y probabilísticos capaces de manejar grandes colecciones de documentos.
+El desarrollo de la Recuperación de Información se remonta a mediados del siglo XX, con los primeros sistemas booleanos aplicados en bibliotecas digitales. Con el avance de la informática y el Internet, el volumen de datos textuales creció de forma exponencial, impulsando el surgimiento de modelos estadísticos y probabilísticos capaces de manejar grandes colecciones de documentos @laplacian-smoothing.
 
 Actualmente, el campo ha evolucionado hacia el uso de modelos híbridos, que integran principios clásicos de IR con técnicas de aprendizaje automático y modelos de lenguaje, permitiendo una comprensión más profunda de la intención del usuario @RAG.
 
@@ -30,9 +30,9 @@ En este sentido, la Recuperación de Información no solo constituye la base de 
 
 === Modelos de recuperación de información
 \
-Los modelos de recuperación de información constituyen el núcleo de un sistema IR, ya que estos definen cómo se mide la relevancia entre una consulta y los documentos del corpus. Estos modelos, además de definir formalmente la manera en que los términos de una consulta se comparan con las representaciones internas de los documentos, permiten calcular una puntuación o ranking de relevancia. Es así que, a lo largo de los años, se han desarrollado tres enfoques principales: el modelo booleano, el modelo vectorial y el modelo probabilístico, cada uno con sus propias ventajas y limitaciones @microsoft-preretrieval @zendel2024qpptk.
+Los modelos de recuperación de información constituyen el núcleo de un sistema IR, ya que estos definen cómo se mide la relevancia entre una consulta y los documentos del corpus. Estos modelos, además de definir formalmente la manera en que los términos de una consulta se comparan con las representaciones internas de los documentos, permiten calcular una puntuación o ranking de relevancia @laplacian-smoothing. Es así que, a lo largo de los años, se han desarrollado tres enfoques principales: el modelo booleano, el modelo vectorial y el modelo probabilístico, cada uno con sus propias ventajas y limitaciones @microsoft-preretrieval @zendel2024qpptk.
 
-El modelo booleano fue el primero en ser implementado y se basa en la lógica clásica de operadores como AND, OR y NOT. En este enfoque, un documento es recuperado únicamente si cumple con las condiciones lógicas impuestas por la consulta realizada, sin establecer grados intermedios de relevancia. Si bien, este modelo es eficiente en contextos cerrados debido a su simplicidad, carece de una capacidad para ordenar los resultados, lo que limita su utilidad en escenarios de búsquedas más complejos @Query-difficulty-definition.
+El modelo booleano fue el primero en ser implementado y se basa en la lógica clásica de operadores como AND, OR y NOT. En este enfoque, un documento es recuperado únicamente si cumple con las condiciones lógicas impuestas por la consulta realizada, sin establecer grados intermedios de relevancia. Este comportamiento se ilustra en la @fig:fig-venn, donde la intersección de los conjuntos representa la operación lógica AND. Si bien, este modelo es eficiente en contextos cerrados debido a su simplicidad, carece de una capacidad para ordenar los resultados, lo que limita su utilidad en escenarios de búsquedas más complejos @Query-difficulty-definition.
 
 \
 #import "@preview/cetz:0.3.1" as cetz
@@ -54,10 +54,10 @@ El modelo booleano fue el primero en ser implementado y se basa en la lógica cl
     content((d + 0.5, 0), [Término B])
   }),
   caption: "Diagrama de Venn del Modelo Booleano.",
-)
+)<fig-venn>
 \
 
-Por otra parte, el modelo vectorial introdujo una representación algebraica tanto para los documentos como para las consultas, tratándolos como vectores en un espacio multidimensional, en el que cada dimensión corresponde a un término y los pesos asignados reflejan su importancia relativa. La similitud entre consulta y documento se mide, por lo general, mediante el coseno entre los vectores. Este particular enfoque permitió establecer rankings de relevancia y representó un avance significativo en la precisión de los sistemas IR @zendel2024qpptk.
+Por otra parte, el modelo vectorial introdujo una representación algebraica tanto para los documentos como para las consultas, tratándolos como vectores en un espacio multidimensional, en el que cada dimensión corresponde a un término y los pesos asignados reflejan su importancia relativa. La similitud entre consulta y documento se mide, por lo general, mediante el coseno entre los vectores; como se observa en la @fig:vectorial-diagrama, esta medida depende directamente del ángulo $theta$ formado entre ambos vectores en el espacio vectorial.  Este particular enfoque permitió establecer rankings de relevancia y representó un avance significativo en la precisión de los sistemas IR @zendel2024qpptk.
 
 \
 #import "@preview/cetz:0.3.1" as cetz
@@ -145,7 +145,7 @@ Por último, el modelo probabilístico se basa en estimar la probabilidad de rel
 ) <bm25-final>
 \
 
-Además de los modelos clásicos, se han desarrollado extensiones que buscan optimizar la precisión y la capacidad de generalización. Entre ellas, el BM25F incorpora información estructural de los documentos, el RM3 introduce retroalimentación mediante expansión de consultas, y los modelos neuronales de recuperación (Neural IR) utilizan representaciones distribuidas del texto para capturar relaciones semánticas más complejas @RAG. Estas variantes reflejan la evolución del campo hacia un paradigma híbrido, en el que los modelos tradicionales siguen siendo la base para experimentos controlados y reproducibles.
+Además de los modelos clásicos, se han desarrollado extensiones que buscan optimizar la precisión y la capacidad de generalización. Entre ellas, el BM25F incorpora información estructural de los documentos, el RM3 introduce retroalimentación mediante expansión de consultas, y los modelos neuronales de recuperación (Neural IR) utilizan representaciones distribuidas del texto para capturar relaciones semánticas más complejas @RAG. Estas variantes reflejan la evolución del campo hacia un paradigma híbrido, donde la caracterización de principios y limitaciones sintetizada en la @tbl:modelos-ir fundamenta por qué los modelos tradicionales siguen siendo la base para experimentos controlados y reproducibles.
 
 \
 #show figure: set block(breakable: true)
@@ -189,7 +189,7 @@ En este trabajo se adopta principalmente el escenario de recuperación clásica,
 \
 Para que la búsqueda sea eficiente en colecciones grandes, los sistemas IR no recorren todos los documentos cada vez que se hace una consulta, sino que utilizan estructuras de datos especializadas, siendo la más común el índice invertido, que almacena, para cada término, la lista de documentos en los que aparece. De esta forma, el sistema puede ir directamente a los documentos candidatos sin revisar toda la colección.
 
-Es así que un sistema de recuperación de información se compone de diversas etapas que trabajan de forma conjunta para transformar documentos sin estructura en resultados relevantes para el usuario. En términos generales, estas etapas son la indexación, la representación de los documentos y consultas, el modelo de recuperación y la evaluación del sistema @query-difficulty-book @predicting-performance.
+Es así que un sistema de recuperación de información se compone de diversas etapas que trabajan de forma conjunta para transformar documentos sin estructura en resultados relevantes para el usuario. En términos generales, estas etapas son la indexación, la representación de los documentos y consultas, el modelo de recuperación y la evaluación del sistema, las cuales configuran la arquitectura operativa detallada en la @fig:ir-components-diagram @query-difficulty-book @predicting-performance.
 
 La indexación constituye el proceso inicial, encargado de convertir los documentos en representaciones internas que se puedan manipular. Para ello, se aplican distintas técnicas de preprocesamiento, como la #emph[tokenización], que consiste en dividir el texto en unidades mínimas llamadas #emph[tokens;] la eliminación de palabras vacías o #emph[stopwords], es decir, términos muy frecuentes que aportan poca información; y el #emph[stemming] o lematización, que reduce las palabras a su forma canónica con el objetivo de unificar variantes morfológicas. El resultado es una estructura conocida como índice invertido, que permite localizar rápidamente qué documentos contienen un término específico y con qué frecuencia. Este componente es esencial para la eficiencia del sistema, ya que permite búsquedas rápidas en grandes volúmenes de información.
 
@@ -261,7 +261,7 @@ El cálculo de estos pesos sigue criterios estadísticos, en donde la técnica e
 
 Posteriormente, el modelo de recuperación se encarga de comparar las representaciones de las consultas con las de los documentos, generando así una puntuación de similitud o probabilidad de relevancia. Es a partir de estas puntuaciones que el sistema construye un ranking de resultados, donde los documentos se ordenan de mayor a menor relevancia, siendo este ranking la salida final que recibe el usuario @zendel2024qpptk.
 
-Por último, la evaluación del sistema mide el desempeño del proceso de recuperación. En esta etapa, se utilizan juicios de relevancia (#emph[qrels]) para determinar si los documentos recuperados son pertinentes o no. Los qrels son listas que asocian cada consulta con los identificadores de los documentos que fueron marcados como relevantes por evaluadores humanos, funcionando como estándar de comparación para medir la efectividad de un modelo.
+Por último, la evaluación del sistema mide el desempeño del proceso de recuperación. En esta etapa, se utilizan juicios de relevancia (#emph[qrels]) para determinar si los documentos recuperados son pertinentes o no. Los qrels son listas que asocian cada consulta con los identificadores de los documentos que fueron marcados como relevantes por evaluadores humanos, funcionando como el estándar de comparación necesario para el cálculo de las métricas de efectividad y asociación sistematizadas en la @tbl:metricas-ir.
 
 \
 #show figure: set block(breakable: true)
@@ -532,7 +532,7 @@ Los predictores _post-retrieval_ se estiman una vez disponible la lista recupera
 + La estabilidad del ranking ante perturbaciones controladas (robustez).
 + El consenso con variantes del sistema o de la consulta. 
 ]
-Estas familias de señales buscan captar indicios de dificultad a partir de la respuesta del sistema para la consulta concreta.
+Estas familias de señales buscan captar indicios de dificultad a partir de la respuesta del sistema para la consulta concreta, bajo la caracterización de factores y señales sintetizada en la @tbl:tabla-factores-postretrieval.
 
 \
 #figure(
