@@ -187,7 +187,7 @@ En este trabajo se adopta principalmente el escenario de recuperación clásica,
 #v(10pt)
 === Componentes de un sistema de recuperación de información
 \
-Para que la búsqueda sea eficiente en colecciones grandes, los sistemas IR no recorren todos los documentos cada vez que se hace una consulta, sino que utilizan estructuras de datos especializadas, siendo la más común el índice invertido, que almacena, para cada término, la lista de documentos en los que aparece. De esta forma, el sistema puede ir directamente a los documentos candidatos sin revisar toda la colección.
+Para que la búsqueda sea eficiente en colecciones grandes, los sistemas IR no recorren todos los documentos cada vez que se hace una consulta, sino que utilizan estructuras de datos especializadas, siendo la más común el índice invertido, que almacena, para cada término, la lista de documentos en los que aparece. De esta forma, el sistema puede ir directamente a los documentos candidatos sin revisar toda la colección @laplacian-smoothing.
 
 Es así que un sistema de recuperación de información se compone de diversas etapas que trabajan de forma conjunta para transformar documentos sin estructura en resultados relevantes para el usuario. En términos generales, estas etapas son la indexación, la representación de los documentos y consultas, el modelo de recuperación y la evaluación del sistema, las cuales configuran la arquitectura operativa detallada en la @fig:ir-components-diagram @query-difficulty-book @predicting-performance.
 
