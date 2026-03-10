@@ -170,7 +170,7 @@ Como se explicó anteriormente, los conjuntos de datos utilizados en este trabaj
 
 Cada dataset cuenta con una cantidad de documentos y consultas disponibles para realizar la evaluación, por otro lado, los juicios de relevancia suponen un desafío extra para la implementación de la evaluación, puesto que cada dataset cuenta con distintos niveles de relevancia para las consultas, si estos no se manejan adecuadamente puede alterar drásticamente los resultados de la correlación.
 
-Esto es así puesto que la evaluación clásica de métodos IR se basa en el cálculo de métricas como nDCG, AP, etc, las cuales dependen de los juicios de relevancia actuando como _ground truth_ para su cálculo.
+Esto es así puesto que la evaluación clásica de métodos IR se basa en el cálculo de métricas como nDCG, AP, etc, las cuales dependen de los juicios de relevancia actuando como verdad fundamental para su cálculo.
 
 \
 #figure(

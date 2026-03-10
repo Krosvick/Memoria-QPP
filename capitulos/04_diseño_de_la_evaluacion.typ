@@ -45,7 +45,7 @@ El paradigma de evaluación se modela a partir de los siguientes componentes fun
     $ L_i = S(q_i, cal(C)) $ <contexto-recuperacion>
 \
 
-2.  *_Ground Truth_ (Efectividad Real)*: Para cada consulta $q_i$, existe un conjunto de juicios de relevancia $R_i$ (_qrels_). Como se define en la @eqt:ground-truth, la efectividad real del sistema para dicha consulta, denotada como $m_S (q_i)$, se obtiene aplicando una métrica de evaluación $cal(M)$ (como AP o nDCG) sobre la lista recuperada:
+2.  *_Ground Truth_ (Verdad Fundamental)*: Para cada consulta $q_i$, existe un conjunto de juicios de relevancia $R_i$ (_qrels_). Como se define en la @eqt:ground-truth, la efectividad real del sistema para dicha consulta, denotada como $m_S (q_i)$, se obtiene aplicando una métrica de evaluación $cal(M)$ (como AP o nDCG) sobre la lista recuperada:
 
 \
     $ m_S (q_i) = cal(M)(L_i, R_i) $ <ground-truth>
@@ -146,8 +146,8 @@ El flujo incluye los siguientes pasos principales:
 -	*Configuración de Modelos de Recuperación:* Configuración de modelos de recuperación como estándar como BM25 en PyTerrier con parámetros predefinidos, asegurando una base consistente para la evaluación de los métodos _QPP_.
 -	*Implementación de los métodos _QPP_:* Los métodos seleccionados, como, por ejemplo, IDF, SCQ o NQC, se implementan mediante scripts en Python dentro del contenedor Docker, todos estos utilizan una interfaz similar dentro del sistema, permitiendo una ejecución estandarizada de los métodos.
 -	*Ejecución de los métodos de predicción:* Los experimentos se realizan mediante un script principal que realiza múltiples iteraciones por método y dataset, asegurando estabilidad y fiabilidad de los resultados.
--	*Evaluación utilizando juicios de relevancia (_Qrels_):* Se realiza una evaluación del rendimiento de las consultas utilizando la librería de _ir_measures_ sobre el sistema de recuperación implementado, esto es el ‟ground truth” del rendimiento de la consulta en el sistema de recuperación implementado. Posteriormente los resultados se almacenan en formato estructurado para su posterior análisis.
--	*Evaluación utilizando métricas de correlación:* Se realiza una evaluación de la correlación entre los puntajes de los predictores y las métricas IR, utilizando la biblioteca de código abierto en Python, _Scipy_, especializada en computación científica y análisis estadístico, para obtener una medida de la efectividad de los predictores QPP con relación al ‟ground truth”.
+-	*Evaluación utilizando juicios de relevancia (_Qrels_):* Se realiza una evaluación del rendimiento de las consultas utilizando la librería de _ir_measures_ sobre el sistema de recuperación implementado, esto es el ‟_ground truth_” o "verdad fundamental" del rendimiento de la consulta en el sistema de recuperación implementado. Posteriormente los resultados se almacenan en formato estructurado para su posterior análisis.
+-	*Evaluación utilizando métricas de correlación:* Se realiza una evaluación de la correlación entre los puntajes de los predictores y las métricas IR, utilizando la biblioteca de código abierto en Python, _Scipy_, especializada en computación científica y análisis estadístico, para obtener una medida de la efectividad de los predictores QPP con relación a la "verdad fundamental".
 -	*Documentación y Almacenamiento:* Los resultados, configuraciones y scripts de ejecución se almacenan en directorios organizados dentro del contenedor Docker, garantizando su fácil acceso y análisis.
 
 Entre los componentes de la @fig:diagrama_general, se puede discernir la capa de datos, de indexación y recuperación. Estos componentes funcionan completamente dentro de la librería Pyterrier, el cual funciona como un _wrapper_ para la librería Terrier, la cual es ampliamente utilizada en la literatura de recuperación de información para la realización de experimentos similares @pyterrier.

@@ -12,7 +12,7 @@
 
 *DF (Document Frequency)*: Número de documentos en una colección que contienen un término específico.
 
-*Ground Truth*: Conjunto de datos de referencia (como los Qrels) utilizado como estándar de oro para evaluar la efectividad de un sistema.
+*Ground Truth*: Conjunto de datos de referencia (como los Qrels) utilizado como verdad fundamental para evaluar la efectividad de un sistema.
 
 *IA (Inteligencia Artificial)*: Rama de la computación que busca desarrollar sistemas capaces de realizar tareas que requieren inteligencia humana.
 
