@@ -42,14 +42,12 @@ El presente trabajo de título se compone de los siguientes siete capítulos:
 
 *Capítulo I: Introducción.* Presenta el contexto y motivación del trabajo de título, junto con el objetivo general y los específicos planteados para su realización. Se describe la importancia de la predicción del rendimiento de consultas (QPP) en sistemas de recuperación de información y la necesidad de una evaluación comparativa robusta.
 
-*Capítulo II: Marco Teórico.* Proporciona el marco teórico necesario para comprender el trabajo, incluyendo conceptos fundamentales sobre sistemas de recuperación de información, predicción del rendimiento de consultas, métricas de evaluación y las herramientas utilizadas en el trabajo.
+*Capítulo II: Marco Teórico.* Proporciona el marco teórico necesario para comprender el trabajo, incluyendo conceptos fundamentales sobre sistemas de recuperación de información, predicción del rendimiento de consultas, métricas de evaluación, herramientas y el análisis de los principales métodos QPP no basados en inteligencia de artificial que establecen el estado del arte en el campo.
 
-*Capítulo III: Trabajos Relacionados.* Revisa y analiza los principales métodos QPP desarrollados en la literatura, enfocándose en aquellos no basados en inteligencia artificial. Se examinan sus características, fortalezas y limitaciones, estableciendo el estado del arte en el campo.
+*Capítulo III: Diseño de la Evaluación Comparativa.* Define la metodología experimental, incluyendo la selección de métodos QPP, datasets, métricas de evaluación y el entorno experimental. Se detalla la configuración técnica y los procedimientos para garantizar la reproducibilidad de los experimentos.
 
-*Capítulo IV: Diseño de la Evaluación Comparativa.* Define la metodología experimental, incluyendo la selección de métodos QPP, datasets, métricas de evaluación y el entorno experimental. Se detalla la configuración técnica y los procedimientos para garantizar la reproducibilidad de los experimentos.
+*Capítulo IV: Implementación.* Describe en detalle la implementación del sistema, la configuración del entorno experimental y los procesos de validación. Se incluyen aspectos técnicos sobre la integración de herramientas y la ejecución de experimentos.
 
-*Capítulo V: Implementación.* Describe en detalle la implementación del sistema, la configuración del entorno experimental y los procesos de validación. Se incluyen aspectos técnicos sobre la integración de herramientas y la ejecución de experimentos.
+*Capítulo V: Análisis de Resultados.* Presenta y analiza los resultados obtenidos en la evaluación comparativa, examinando el rendimiento de cada método QPP en diferentes escenarios y datasets. Se discuten las implicaciones de los hallazgos y se comparan con resultados previos de la literatura.
 
-*Capítulo VI: Análisis de Resultados.* Presenta y analiza los resultados obtenidos en la evaluación comparativa, examinando el rendimiento de cada método QPP en diferentes escenarios y datasets. Se discuten las implicaciones de los hallazgos y se comparan con resultados previos de la literatura.
-
-*Capítulo VII: Conclusiones y Trabajo Futuro.* Resume los principales hallazgos y contribuciones del trabajo de título, estableciendo la línea base para futuras investigaciones en QPP. Se identifican limitaciones del estudio y se proponen direcciones para investigaciones futuras.
+*Capítulo VI: Conclusiones y Trabajo Futuro.* Resume los principales hallazgos y contribuciones del trabajo de título, estableciendo la línea base para futuras investigaciones en QPP. Se identifican limitaciones del estudio y se proponen direcciones para investigaciones futuras.
