@@ -78,9 +78,9 @@
 
 #pagebreak()
 
-#include "capitulos/03_trabajos_relacionados.typ"
+//#include "capitulos/03_trabajos_relacionados.typ"
 
-#pagebreak()
+//#pagebreak()
 
 #include "capitulos/04_diseño_de_la_evaluacion.typ"
 
