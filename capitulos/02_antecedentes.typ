@@ -300,7 +300,7 @@ Por último, la evaluación del sistema mide el desempeño del proceso de recupe
 ) <metricas-ir>
 \
 
-En la evaluación de sistemas IR suele asumirse que los juicios de relevancia son correctos y completos, sin embargo, distintos estudios demuestran que la calidad de estos juicios depende en gran medida de la experticia del evaluador y del dominio temático de la colección @evaluator-domain-expertise. Cuando los evaluadores no son especialistas en el área o cuando la tarea es muy abierta, pueden aparecer discrepancias entre jueces, lo que introduce ruido en las métricas obtenidas y, por extensión, en la evaluación de los métodos de predicción de rendimiento @correlation-depends-on-quality-of-dataset.
+En la evaluación de sistemas IR suele asumirse que los juicios de relevancia son correctos y completos, sin embargo, distintos estudios demuestran que la calidad de estos juicios depende en gran medida de la experticia del evaluador y del dominio temático de la colección @judges-quality@effect-assessor-error @evaluator-domain-expertise. Cuando los evaluadores no son especialistas en el área o cuando la tarea es muy abierta, pueden aparecer discrepancias entre jueces, lo que introduce ruido en las métricas obtenidas y, por extensión, en la evaluación de los métodos de predicción de rendimiento @correlation-depends-on-quality-of-dataset.
 
 Esta situación es particularmente relevante para trabajos como el presente, donde el objetivo es correlacionar el valor entregado por un predictor con la efectividad real de la consulta, por ende, si los juicios de relevancia son incompletos o poco consistentes, la correlación observada puede reflejar las limitaciones de la colección más que las del método evaluado.
 
